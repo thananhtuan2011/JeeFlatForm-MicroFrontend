@@ -1,0 +1,162 @@
+<div *ngIf="data">
+    <!-- begin avatar -->
+    <!-- end avatar -->
+       <!-- <div>
+        <div style="    padding-bottom: 40px;">
+            <span style="    font-weight: bold;
+            font-size: 25px;">
+                Nhập thảo luận
+            </span>
+            <button (click)="goBack()" style="float: right;" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                <mat-icon>close</mat-icon>
+              </button>
+        </div>
+    </div> -->
+    <div style="    background: white;
+    margin-right: 15px;
+    margin-left: 15px;" >
+      <div  style="overflow: scroll;" 
+   
+      class="scrollVirtual"  >
+
+  
+      <div class="body" >
+
+
+    <mat-card class="example-card" style="border-bottom: 1px solid #acaeb07a;"> 
+    
+        <mat-card-header class="header">
+       
+
+          <mat-card-title style=" margin-top: -5px;font-size: 16px;display: flex;align-items: center;">
+            <div class="avatar" *ngFor="let user of data.UserTopic" >
+              <ngx-avatar [size]="35" src="{{ user.avatar }}" *ngIf="user.avatar"></ngx-avatar>
+              <ngx-avatar [size]="35" [name]="reverseString(user.Fullname).slice(0, 1)"  bgColor="{{ user.BgColor }}" *ngIf="!user.avatar"></ngx-avatar>
+             </div>
+             <div style="display: flex;flex-direction: column; padding-left:6px;">
+                <span> {{data.FullName}}</span>
+                <div >
+
+                    <span style="color: #acaeb0;
+                    font-size: 13px;
+                   ">{{ data.CreatedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                
+                  </div>
+
+             </div>
+            
+      
+          
+
+          </mat-card-title>
+          <div style="float: right;">
+            <button (click)="goBack()" style="float: right;margin-top: -18px" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                <mat-icon>close</mat-icon>
+              </button>
+         </div>
+         
+          <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        </mat-card-header>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content  style="max-width: 99%;background: #F7F8FA;border-radius:4px">
+            <div style="padding: 20px;">
+                <span   *ngIf="data.showMore"  [innerHTML]="data.NoiDung.slice(0,450)">
+
+                </span>
+                <span   *ngIf="!data.showMore"  [innerHTML]="data.NoiDung">
+
+                </span>
+                <a
+                style="font-weight: bold"
+                    href="javascript:;"
+                    *ngIf="data.showMore === true && data.NoiDung.length > 450"
+                    (click)="ShowMode(data.Id_Topic)"
+                >Xem thêm</a
+              >
+            </div>
+        </mat-card-content>
+        <div>
+            <!-- <a href="javascript:;" (click)="LoadComment(item.Id_Topic,item,item.UserTopic[0].Username,'')" style="cursor: pointer;">{{item.lengthComment}} phản hồi</a> -->
+            
+            <!-- <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button> -->
+            <div style="display: flex; align-items: center;">
+              <span  class="reation "  style="margin-right: 5px;">
+                <ng-container class="reationshow
+                  "   >
+                  <img *ngIf="data.Like" style="cursor: pointer;width: 20px;"  [popover]="myPopover" [popoverOnHover]="true"
+                  [popoverCloseOnMouseOutside]="true"  src="{{data.Like.icon}}">
+              <img *ngIf="!data.Like"   [popover]="myPopover" [popoverOnHover]="true"
+              [popoverCloseOnMouseOutside]="true" style=" width: 22px ;cursor: pointer;height: 22px;" src="assets/media/custom/face-add.png">
+                </ng-container>
+              </span>
+                <span *ngFor="let rc of data.Like_Topic" >
+  
+                  <span  style="display:flex;align-items: center;" >
+                    <img style="cursor: pointer;width: 20px;height: 20px;" src="{{rc.icon}}"  placement="bottom" [ngbTooltip]="tipContent" (mouseenter)="toggleWithGreeting(data.Id_Topic,rc.IdReaction)" >
+                    <label style="margin: 6px 8px 0 0;" >{{rc.tong}}</label>
+                  </span>
+  
+              </span>
+         
+              <popover-content #myPopover class="reaction-box-container" [closeOnClickOutside]="true" [closeOnMouseOutside]="true">
+                <div class="reaction-box">
+                
+                </div>
+              </popover-content>
+              <ng-template #tipContent>
+  
+                <div *ngFor="let rc of  listreaction ">
+                    <div  *ngFor="let dt  of rc.user">
+                      <span *ngIf="dt.Username===userCurrent">Bạn</span>
+                        <span *ngIf="dt.Username!==userCurrent">{{dt.Fullname}}</span>
+                    </div>
+                </div>
+              </ng-template>
+              <!-- <img  class="action" *ngIf="!item.ReactionUser"style="cursor: pointer;"  [popover]="myPopover" [popoverOnHover]="true"
+              [popoverCloseOnMouseOutside]="true"  src="../../../../../../assets//media/icon/iconlike.png">        -->
+              <!-- <img *ngIf="item.ReactionUser" style="cursor: pointer;"  [popover]="myPopover" [popoverOnHover]="true"
+              [popoverCloseOnMouseOutside]="true"  src="{{item.ReactionUser.icon}}"> -->
+              <div style="color: #B5B5C2;">
+
+              <img style="cursor: pointer;" src="https://cdn.jee.vn/jee-team/Icon/iconcomment.png">
+              <span *ngIf="data.lengthComment!=0">
+                  {{data.lengthComment}} phản hồi
+              </span>
+            </div>
+
+            </div>
+  
+        
+          </div>
+      </mat-card>
+    </div> 
+    <!-- <div *ngIf="content!=''" >
+      <button (click)="Submit()"  style="margin-right: 10px;" type="button" class="btn btn-success">Đăng Topic</button>
+      <button (click)="DeleteText()" type="button" class="btn btn-secondary">Delete</button>
+  
+    </div>
+      <div style="height: 150px;">
+     
+        <quill-editor placeholder="Nhập nội dung" id="quillCustomForCreateTeam"   [modules]="quillConfig" [styles]="editorStyles1" [(ngModel)]="content">
+        </quill-editor>
+      </div> -->
+  </div>
+
+  <!-- <div style="margin-top: 10px; display: flex;flex-direction: column;">
+   
+   
+
+  </div> -->
+
+    </div>
+    <div>
+     
+      <!-- <div [innerHTML]="content"></div> -->
+
+    
+    </div>
+     
+</div>
+
+<app-jee-comment [appCode]="appCode" [IdTopic]="data.Id_Topic" [showCommentDefault]="true" [objectID]="data.objectid"> </app-jee-comment>

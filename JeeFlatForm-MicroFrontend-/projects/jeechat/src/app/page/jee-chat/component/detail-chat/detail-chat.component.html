@@ -1,0 +1,2214 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+    height: 82vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+  }
+
+ 
+
+  .name {
+    margin: 0px;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .hidenmess {
+    display: inline-block !important;
+    color: gray !important;
+    background-color: #E5EFFF !important;
+  }
+
+  .leave {
+    display: flex;
+    padding: 10px;
+    background: rgb(0 0 0 / 8%);
+    display: flex;
+    border-radius: 10px;
+  }
+
+  .insert {
+    /* margin-left: -40px; */
+    display: flex;
+    padding: 10px;
+    background: rgb(0 0 0 / 8%);
+    display: flex;
+    border-radius: 10px;
+  }
+
+  .btn-class {
+    margin-left: 10px;
+    border-radius: 10px;
+    background: #0829711f;
+  }
+
+  .example-container {
+    /* width: 400px; */
+    height: 100vh;
+    /* margin: 10px;
+  border: 1px solid #555; */
+  }
+
+  .back {
+    border-bottom: 1px solid #d1d6dc;
+    cursor: pointer;
+
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+  }
+</style>
+<mat-drawer-container class="example-container">
+  <mat-drawer-content>
+    <!-- <div>
+      <img style="position: absolute; width:100%; height:100vh ;" src="https://mdbootstrap.com/img/Photos/Others/images/76.jpg">
+    </div> -->
+    <div appDnd (fileDropped)="onFileDropped($event)" (hoverfile)="HoverFile($event)" (closefile)="CloseFile($event)"
+      *ngIf="showbodyfile" class="showbodyfile" s>
+      <div style="    align-items: center;
+  height: 100%;
+  flex-direction: column;
+  background: #f0f8ff9e;
+  justify-content: center;
+  display: flex;">
+        <img  style="width:200px ;" src="../../../../../../assets/media/mime/uploadfile.png">
+        <span style="color: dodgerblue;
+    font-size: 20px;">
+          Thả file vào đây để gửi !
+
+        </span>
+
+      </div>
+
+      <!-- <div>
+  <button>Tải  file</button>
+</div> -->
+
+    </div>
+
+
+    <div class="content" style="padding: 0px !important;" appDnd (fileDropped)="onFileDropped($event)"
+      (hoverfile)="HoverFile($event)">
+
+      <div class="contact-profile" *ngFor="let user of listInfor">
+        <div *ngIf=!user.isGroup>
+          <div class="row">
+            <div class="headerchat">
+
+
+              <div style="margin: 6px;">
+                <div [matMenuTriggerFor]="menu2" style="cursor: pointer;">
+                  <ngx-avatar [size]="45" src="{{user.Avatar}}" *ngIf="user.Avatar"></ngx-avatar>
+                  <ngx-avatar [size]="45" [name]="user.Name.slice(0, 1)" bgColor="{{ user.BgColor }}"
+                    *ngIf="!user.Avatar&&user.Name"></ngx-avatar>
+                </div>
+                <mat-menu #menu2="matMenu">
+                  <div>
+                    <div style="display: flex;">
+
+                      <ngx-avatar *ngIf="!user.Avatar" [size]="50" [name]="user.Name.slice(0, 1)"
+                        bgColor="{{user.BgColor }}"></ngx-avatar>
+                      <ngx-avatar *ngIf="user.Avatar" [size]="50" src="{{user.Avatar}}"></ngx-avatar>
+
+                      <div style="padding-left: 10px;">
+                        <div style="font-size: 17px;">
+
+                          {{user.FullName}}</div>
+                        <div style=" padding-top: 5px;">
+                          <!-- <span>{{user.InfoGroupUser[0].Jobtitle}}</span>
+                      -
+                      <span>{{user.InfoGroupUser[0].Department}}</span> -->
+
+
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </mat-menu>
+              </div>
+              <div style="    width: 100%;">
+                <div style="display: inline-table;">
+
+
+                  <span *ngIf="user.Active" class="online"></span>
+
+                  <p class="name">
+                    <span *ngIf="user.IsEnCode">
+                      <mat-icon style="    width: 15px !important;
+                        font-size: 14px !important;">lock</mat-icon>
+                    </span>
+                    {{user.FullName}}
+                  </p>
+                  <br>
+                  <span *ngIf="user.Active" style="font-size: 12px;display: inline-flex;
+        ">Đang hoạt động</span>
+                  <div style="display:inline-flex ;">
+
+
+                    <span *ngIf="!user.Active&&user.TimeAgo.length>0" style="font-size: 12px;">
+                      {{user.TimeAgo[0].Time | date : 'yyyy/M/dd h:mm'| timeAgo}}
+
+                    </span>
+                    <div style="padding-left: 10px;">
+                      <i (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapsechoosebg" style="cursor:pointer ;" class="flaticon2-image-file"></i>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="social-media">
+                <mat-icon matTooltip="Tìm kiếm tin nhắn" (click)="OpenSearch()" style="    margin-top: 10px;
+            margin-right: -10px;cursor: pointer;">search</mat-icon>
+                <i matTooltip="Call" (click)="CallVideoDialog('call',user.FullName,user.Avatar,'')"
+                  class="fa fa-phone iconsocial" aria-hidden="true"></i>
+                <i matTooltip="Call Video" (click)="CallVideoDialog('video',user.FullName,user.Avatar,'')"
+                  class=" fa fa-video-camera iconsocial" aria-hidden="true"></i>
+                <img matTooltip="Tạo cuộc họp" (click)="TaoCuocHop()" class="metting"
+                  src="https://cdn.jee.vn/jee-account/images/icons/JeeMeeting.png">
+                <mat-icon matTooltip="Media" class="iconsocial" (click)="toogleNav(sideNav)"
+                  [ngStyle]="{color: getColor()}" style="cursor: pointer;margin-left: 10px
+          ;
+              margin-right: 5px
+
+          ;">devices</mat-icon>
+              </div>
+
+            </div>
+            <div *ngIf="listGhim" class="Ghim morereply"  >
+              <div (click)="LoadDataReply(listGhim.IdChat)" style="display: flex; margin-left: 5px;width: auto;max-width: 90%;">
+
+         
+              <i style="    width: 30px;
+              font-size: 20px;" class="flaticon2-chat-2 text-primary"></i>
+              <div>
+                <div>
+                    <span style="font-weight: bold;">Tin nhắn</span>
+                </div>
+                <div style="   display: flex;width: auto;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                ">
+                 
+                   <label style="margin-right: 7px;cursor: pointer;">{{listGhim.FullName}} : </label>  <label  class="ghimchatcss" [innerHTML]="listGhim.Content_mess"></label> 
+               
+                </div>
+              </div>
+            </div>
+              <mat-icon class="action" [matMenuTriggerFor]="menureply" style="font-size: 20px;cursor: pointer;margin-left: 30px;
+              margin-top: 12px;">more_horiz</mat-icon>
+              <mat-menu #menureply="matMenu">
+              
+          
+                <button (click)="removeGhim()" mat-menu-item>
+                  <mat-icon>highlight_off</mat-icon>
+                  <span>Hủy ghim</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+
+        </div>
+        <div *ngIf=user.isGroup>
+          <div class="row">
+            <div class="headerchatgroup">
+
+
+              <div>
+                <div class="avatar-group">
+                  <div *ngFor="let mb of user.ListMember | slice:0:4;let i=index">
+
+                    <div>
+                      <div *ngIf="i>=0&&i<3">
+                        <div [style.margin-top]="i==2&&user.ListMember.length==3 ? '-5px': '0px'">
+                          <ngx-avatar [size]="25" [name]="mb.Name.slice(0, 1)" bgColor="{{ mb.BgColor }}"
+                            *ngIf="!mb.Avatar"></ngx-avatar>
+                          <ngx-avatar [size]="25" src="{{ mb.Avatar }}" *ngIf="mb.Avatar"></ngx-avatar>
+
+                        </div>
+                      </div>
+                      <ngx-avatar *ngIf="i==3&&user.ListMember.length>=4" [size]="25" value="{{thanhviennhomn-3}}"
+                        bgColor="#ad3838"></ngx-avatar>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;width: 100%;">
+                <div style="width: 100%;">
+
+
+                  <div style=" margin-left: 15px;">
+                    <span style="width: 100%;
+               display: flex;">
+                      <p style="   font-size: 17px;  margin: 0px;
+                padding-top: 5px; font-weight: bold">
+                        <span *ngIf="user.IsEnCode">
+                          <mat-icon style="    width: 15px !important;
+                  font-size: 14px !important;">lock</mat-icon>
+                        </span>
+                        {{user.GroupName}}
+
+                      </p>
+                      <div class="more" style="margin: 0;height: 0px;">
+                        <div class="more-string">
+                          <div>
+                            <ng-container>
+                              <button (click)="EditNameGroup(user)" style="bottom: 5px;" matTooltip="Đổi tên nhóm"
+                                mat-icon-button aria-label="Example icon-button with a menu">
+                                <mat-icon class="action" style="font-size: 22px;">edit</mat-icon>
+                              </button>
+
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+
+                    </span>
+
+                    <span style="display: flex;">
+                      <button style="    bottom: 10px;
+                text-align: start;" matTooltip="Thêm thành viên" (click)="InsertThanhVienGroup()" mat-icon-button
+                        aria-label="Example icon-button with a heart icon">
+                        <mat-icon>person_add</mat-icon>
+
+                      </button>
+
+
+
+                      <a href="javascript:void(0)" class="thanhvien" (click)="OpenThanhVien()">Thành
+                        viên:{{thanhviennhomn}}</a>
+                      <div (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapsechoosebg" style="padding-left: 10px;">
+                        <i style="cursor:pointer ;" class="flaticon2-image-file"></i>
+                      </div>
+
+                    </span>
+
+
+
+                  </div>
+
+                </div>
+                <div class="iconcall" style="    display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        padding-right: 15px;
+    ">
+                  <mat-icon matTooltip="Tìm kiếm tin nhắn" (click)="OpenSearch()" style="    margin-top: 10px;
+      margin-right: -10px;cursor: pointer;">search</mat-icon>
+
+                  <img matTooltip="Tạo cuộc họp" (click)="TaoCuocHop()" class="metting"
+                    src="https://cdn.jee.vn/jee-account/images/icons/JeeMeeting.png">
+
+                  <mat-icon matTooltip="Media" class="iconsocial" (click)="toogleNav(sideNav)"
+                    [ngStyle]="{color: getColor()}" style="cursor: pointer;margin-left: 10px
+          ;
+              margin-right: 5px
+
+          ;">devices</mat-icon>
+                </div>
+              </div>
+           
+
+            </div>
+            <div *ngIf="listGhim" class="Ghim morereply"  >
+              <div (click)="LoadDataReply(listGhim.IdChat)" style="display: flex;margin-left: 5px;width: auto;">
+
+         
+              <i style="    width: 30px;
+              font-size: 20px;" class="flaticon2-chat-2 text-primary"></i>
+              <div>
+                <div>
+                    <span style="font-weight: bold;">Tin nhắn</span>
+                </div>
+                <div style="  display: flex;width: auto;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                display: flex;">
+                 
+                   <label style="margin-right: 7px;cursor: pointer;">{{listGhim.FullName}} : </label>  <label style="margin-bottom: 0px; cursor: pointer;" [innerHTML]="listGhim.Content_mess">...</label> 
+                 
+               
+                </div>
+              </div>
+            </div>
+              <mat-icon class="action" [matMenuTriggerFor]="menureply" style="font-size: 20px;cursor: pointer;margin-left: 30px;
+              margin-top: 12px;">more_horiz</mat-icon>
+              <mat-menu #menureply="matMenu">
+              
+          
+                <button (click)="removeGhim()" mat-menu-item>
+                  <mat-icon>highlight_off</mat-icon>
+                  <span>Hủy ghim</span>
+                </button>
+              </mat-menu>
+            </div>
+            <!-- <virtual-scroller   #scroll
+        [enableUnequalChildrenSizes]="true"
+        [items]="list_topic" class="scrollVirtual"  >
+        <div class="body" *ngFor="let item of scroll.viewPortItems; let vi = index"> -->
+
+          </div>
+
+
+        </div>
+        <div *ngIf="opensearch">
+          <form class="bodysearchchat">
+            <span style="    display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 12px;
+            margin-left: 10px;">
+              <mat-icon class="iconsearchchat">search</mat-icon>
+            </span>
+            <input id="idsearchchat" class="inputsearch" (ngModelChange)="saverangesearch($event)"
+              [(ngModel)]="searchText" type="text" name="search" placeholder="Tìm kiếm hội thoại chia sẻ...">
+            <button (click)="OpenSearch()" mat-button style="    margin-left: 20px;">Đóng</button>
+
+          </form>
+        </div>
+        <div style="position: absolute;" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" id="collapsechoosebg">
+
+          <div style="
+          display: flex;
+          flex-wrap: wrap;
+          width: 380px;">
+            <div style="z-index: 9999; background: white;  display: flex;
+flex-wrap: wrap;
+width: 380px;flex-direction:column ;">
+
+
+              <div>
+                <span *ngIf="bgurl">
+
+
+                  <button (click)="SaveBgUrl()" style="margin:10px" type="button"
+                    class="btn btn-primary btn-sm">Lưu</button>
+                  <button style="padding-right:10px" (click)="CloseChooseBG()" type="button"
+                    class="btn btn-secondary btn-sm">Đóng</button>
+                </span>
+                <button (click)="fileInput.click()" mat-icon-button color="primary"
+                  aria-label="Example icon button with a home icon">
+                  <mat-icon>cloud_upload</mat-icon>
+                </button>
+                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)"
+                  style="display: none;" />
+                <button (click)="defaulBG()" style="margin:10px" type="button" class="btn btn-success btn-sm">Mặc
+                  định</button>
+
+              </div>
+              <div style="display: flex;
+flex-wrap: wrap;">
+
+
+                <div *ngFor="let itemchoose of listbgimg;let k=index">
+                  <img  loading="lazy" (click)="Changebg(itemchoose)" class="zoom"
+                    style="border-radius:0px !important ;width: 190px; cursor: pointer;padding: 6px;"
+                    [src]="itemchoose">
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- aaaaa -->
+          <div>
+
+          </div>
+        </div>
+
+        <div *ngIf="bgurl">
+          <img style="position: absolute; width:100%; height:100vh ;border-radius: 0px !important;" [src]="bgurl">
+        </div>
+        <!--  nên màu cho đoạn chat -->
+        <div *ngIf="user.BgImage.length>0">
+
+
+          <div *ngIf="user.BgImage[0].BackgroundURL&&!bgurl">
+            <img style="position: absolute; width:100%; height:100vh ;border-radius: 0px !important;"
+              [src]="user.BgImage[0].BackgroundURL">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="ischeckconnect" style="text-align: center;
+    background: lightgray;
+">
+        <span>
+          <div class="spinner-border spinner-border-sm" role="status">
+          </div>
+
+          <span>Đang kết nối !...</span>
+        </span>
+      </div>
+      <app-content-loading-chat *ngIf=loadingchat></app-content-loading-chat>
+      <!-- loading chat -->
+
+      <div class="messages">
+        <div *ngIf="isloading" style="text-align: center;">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </div>
+        <div>
+
+        </div>
+        <cdk-virtual-scroll-viewport itemSize="50" class="scrollVirtual" [minBufferPx]="min" [maxBufferPx]="max"
+          ngx-auto-scroll lock-y-offset="10" observe-attributes>
+
+          <ul *cdkVirtualFor="let item of listMess;let vi=index ; ">
+            <li style="text-align: center;" *ngIf="item.disPlaytimeGroup">
+              <div class="hr-sect">
+                <span class="displaytimethem" [innerHTML]="DisplayTime(item.disPlaytimeGroup)"></span>
+              </div>
+
+
+            </li>
+            <li *ngIf="listMess.length>0"
+              [ngClass]="getClass(item.UserName,item.IsDelAll,item.isInsertMember,item.isVote)">
+
+              <!-- isGroup -->
+              <div>
+                <div (click)="LoadInforUser(item.UserName)" [matMenuTriggerFor]="menu" style="cursor: pointer;">
+                  <ngx-avatar [size]="30" [name]="item.Name.slice(0, 1)" bgColor="{{ item.BgColor }}"
+                    *ngIf="!item.Avatar&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote&&item.UserName!==userCurrent&&!item.isHidenTime&&isGroup&&!item.isSticker&&item.Name"></ngx-avatar>
+                  <ngx-avatar [size]="30" src="{{item.Avatar}}"
+                    *ngIf="item.Avatar&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote&&item.UserName!==userCurrent&&!item.isHidenTime&&isGroup&&!item.isSticker"></ngx-avatar>
+                </div>
+                <mat-menu #menu="matMenu">
+                  <div *ngFor="let ifuser of ListInforUser  ">
+                    <div class="row">
+                      <div class="md-4">
+                        <ngx-avatar [size]="50" [name]="ifuser.Name.slice(0, 1)" bgColor="{{ ifuser.BgColor }}"
+                          *ngIf="!ifuser.Avatar"></ngx-avatar>
+                        <ngx-avatar [size]="50" src="{{ifuser.Avatar}}" *ngIf="ifuser.Avatar"></ngx-avatar>
+                      </div>
+                      <div class="md-8">
+                        <div style="padding-left: 10px;">
+                          <div style="font-size: 17px;">{{ifuser.Fullname}}</div>
+                          <div style=" padding-top: 5px;">
+                            <span>{{ifuser.Jobtitle}}</span>
+                            -
+                            <span>{{ifuser.Department}}</span>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+
+                    </div>
+                    <hr>
+                    <div style="display:flex ;">
+                      <button (click)="CreateConverSation(ifuser)" mat-button style="width:100% ;">
+                        <mat-icon style="margin-right: 10px;"> chat_bubble</mat-icon> Chat
+                      </button>
+                    </div>
+
+                  </div>
+
+                </mat-menu>
+              </div>
+              <ngx-avatar [size]="30" [name]="item.Name.slice(0, 1)" bgColor="{{ item.BgColor }}"
+                *ngIf="!item.Avatar&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote&&item.UserName!==userCurrent&&!item.isHidenTime&&!isGroup&&!item.isSticker&&item.Name"></ngx-avatar>
+              <ngx-avatar [size]="30" src="{{item.Avatar}}"
+                *ngIf="item.Avatar&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote&&item.UserName!==userCurrent&&!item.isHidenTime&&!isGroup&&!item.isSticker"></ngx-avatar>
+
+              <div
+                [ngClass]="getClassUser(item.UserName,item.Attachment,item.Attachment_File,item.Videos,item.Content_mess,item.isHidenTime)">
+
+
+
+                <p [ngClass]="getClassHiden(item.UserName,item.isHidenTime)" *ngIf="item.IsHidenAll">Đã thu hồi </p>
+                <!-- nơi hiển thị mess thông thường -->
+
+                <div
+                  [ngStyle]="{'width.px':item.Attachment.length==1? '550' : '550','float':userCurrent==item.UserName?'right':'none' }"
+                  *ngIf="item.Attachment.length>0&&!item.IsHidenAll">
+                  <div>
+
+                    <img *ngFor="let img of item.Attachment" (click)="loadlightbox(item.IdChat)"
+                    loading="lazy"
+                      style=" padding-right: 5px;width: 100%;height: 100%;border-radius: inherit;cursor: pointer;"
+                      src="{{img.hinhanh}}">
+                  </div>
+
+                </div>
+
+                <div [ngClass]="getClassfile(item.UserName,item.isHidenTime)"
+                  *ngIf="item.Attachment_File.length>0&&!item.IsHidenAll">
+                  <label  (click)="LoadDataReply(item.IdChatReplay)" style="cursor: pointer;" [ngClass]="getClassReply(item.UserName)" *ngIf="item.Note!==''&&item.Note&&!item.isCall">
+                    <mat-icon style="    font-size: 20px;">reply</mat-icon>
+                    <label style="cursor: pointer;" [innerHTML]="item.Note"></label>
+                  </label>
+                  <div *ngFor="let file of item.Attachment_File let vifile=index">
+
+                    <div style="display:flex ;flex-direction:column ;">
+
+
+                      <div style="display: flex;cursor: pointer;align-items: center;">
+                        <div style="display: flex;align-items:center ;" (click)="RouterLink(file.Link)">
+
+
+                          <div>
+                            <img style="width:25px !important ;height:25px !important ;" src=" {{ file.icon }}" />
+                            <div>
+                              <img style="    float: right;
+                          width: 10px;
+                          height: 10px;
+                          margin-top: -5px;
+                        " src="../../../../../../assets/media/mime/icontick.png">
+                            </div>
+
+                          </div>
+                          <span style="    font-weight: bold;
+                      padding-left: 5px;">{{ file.filename }}
+                            <br>
+                            <span style="float: right;
+                  font-weight: normal !important;
+                  font-size: 11px;"> {{ formatBytes(file.size) }}
+
+                            </span>
+                          </span>
+
+                        </div>
+                        <!-- <i  (click)="TaiXuong(file)" class="fas fa-download dow"></i> -->
+                        <i [ngClass]="getClassDownload(file.isDownload)"
+                          (click)="saveOrOpenBlob(file.Link,file.filename,file.disabled,vi,vifile,item.IdGroup,item.IdChat,file.id_att)"
+                          class="fas fa-download dow"></i>
+                      </div>
+
+                      <div style="padding-left: 10px;">
+
+                        <div id="downloadfile{{vi}}{{vifile}}">
+                          <div id="progress{{vi}}{{vifile}}">
+
+                            <span id="progress-text{{vi}}{{vifile}}"></span>
+                          </div>
+
+                        </div>
+
+
+                        <span id="kbdownload{{vi}}{{vifile}}"></span>
+
+
+
+                      </div>
+                      <div *ngIf="file.disabled==true">
+                        <div>
+                          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                        </div>
+                        <div class="progress" *ngIf="progress&&id_chat_notify==item.IdChat">
+                          <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+                          <br>
+
+                        </div>
+                        <!-- <div id="uploadfile{{vi}}" >
+                      <div id="progressupload{{vi}}"  >
+                        <span id="progress-textupload{{vi}}"></span>
+                      </div>
+                      
+                    </div>  -->
+
+                      </div>
+                    </div>
+
+                    <!-- <span>{{download.progress}}</span> -->
+                  </div>
+                </div>
+                <div *ngIf="item.Videos.length>0&&!item.IsHidenAll"
+                  [ngStyle]="{'float':userCurrent==item.UserName?'right':'none' }">
+                  <div *ngFor="let video of item.Videos">
+                    <video [src]="video.path" width="400" height="200" controls></video>
+
+                  </div>
+                </div>
+                <br *ngIf="item.Attachment_File.length>0||item.Attachment.length>0||item.Videos.length>0">
+                <div *ngIf="item.isSticker">
+                  <img style="    width: 150px !important;
+                  height: 150px !important;" src="{{item.UrlSticker}}">
+                </div>
+                <div [ngClass]="getShowMoreChatLeft(item.UserName)" *ngIf="!item.isSticker">
+
+                  <!-- style="padding-bottom: 10px;" -->
+                  <p [ngClass]="getClassHidenTime(item.isHidenTime,item.IdChat)"
+                    *ngIf="!item.isSticker&&!item.IsHidenAll&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote&&item.Content_mess">
+                    <span>
+                      <label  (click)="LoadDataReply(item.IdChatReplay)" style="cursor: pointer;" [ngClass]="getClassReply(item.UserName)" *ngIf="item.Note!==''&&item.Note&&!item.isCall">
+                        <mat-icon style="    font-size: 20px;">reply</mat-icon>
+                        <label style="cursor: pointer;" [innerHTML]="item.Note"></label>
+                      </label>
+
+                      <!-- <br *ngIf="item.Note!==''&&item.Note&&!item.isCall">
+                  <br *ngIf="item.Note!==''&&item.Note&&!item.isCall"> -->
+
+
+
+                      <span style="display: flex;
+                  align-items: center;"
+                        *ngIf="item.isCall&&(item.Content_mess=='Video call'||item.Content_mess=='Đã lỡ video call')">
+
+                        <button class="iconvideoandcall" mat-mini-fab disabled
+                          aria-label="Example icon button with a home icon">
+                          <mat-icon>videocam</mat-icon>
+                        </button>
+                        <label style="display: flex;
+                      align-items: center;" [innerHTML]="item.Note"></label>
+
+                      </span>
+
+                      <span>
+                        <span style="display: flex;
+                  align-items: center;"
+                          *ngIf="item.isCall&&(item.Content_mess=='Cuộc gọi thoại'||item.Content_mess=='Đã lỡ cuộc gọi')">
+
+                          <button class="iconvideoandcall" mat-mini-fab disabled
+                            aria-label="Example icon button with a home icon">
+                            <mat-icon>call</mat-icon>
+                          </button>
+                          <label [innerHTML]="item.Note"></label>
+                        </span>
+                        <span>
+
+                          <div *ngIf="item.IdMeeting"
+                            style="text-align: center;border-bottom: 1px solid #d3d3d3e0;height: 40px;">
+                            <div style="display: flex;flex-wrap:wrap ;">
+
+
+                              <img style="width:30px !important ;height:30px !important ;margin: 0 !important;"
+                                src="assets/media/gif/imgmeeting.png">
+                              <span style="font-weight: bold;margin-left: 10px">
+                                Meeting:{{TenGroup}}
+
+                              </span>
+                            </div>
+                          </div>
+                          <span [innerHTML]="urlify(item.Content_mess,item.isEncode)">
+
+                          </span>
+                          <div *ngIf="item.IdMeeting"
+                            style="height: 35px;border-top: 1px solid #d3d3d3e0;margin-top: 10px; display: flex;justify-content: center;align-items: center;">
+                            <div style="margin-top: 7px;
+                    color: #1ba4dc;
+                    cursor: pointer;
+                    font-size: 15px;" (click)="RouterMeeting(item.IdMeeting)">
+                              CHI TIẾT
+                            </div>
+                          </div>
+                          <span *ngIf="item.isError" style="    font-size: 14px;
+                 padding-left: 10px;
+                 color: red;">Thất bại</span>
+                          <!-- <br> -->
+                          <span style="display:flex;">
+                            <label *ngIf="item.isError&&!isloadingError" (click)="ResendMess(item)" class="errormes">
+                              Gửi lại
+                            </label>
+                            <label *ngIf="item.isError&&isloadingError" class="errormes">
+                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              Đang gửi...
+                            </label>
+                            <span *ngFor="let rc of item.ReactionChat">
+
+                              <span>
+                                <img style="cursor: pointer;" src="{{rc.icon}}" placement="bottom"
+                                  [ngbTooltip]="tipContent" (mouseenter)="toggleWithGreeting(item.IdChat,rc.ID_like)">
+                                <label style="margin: 6px 8px 0 0;">{{rc.tong}}</label>
+
+                              </span>
+
+                            </span>
+                            <i (click)="RouterCV(item.TaskID)" *ngIf="item.TaskID" class="flaticon-list job"></i>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </p>
+
+                  <ng-template #tipContent>
+
+                    <div *ngFor="let rc of  listreaction ">
+                      <div *ngFor="let dt  of rc.user">
+                        <span *ngIf="dt.Username===userCurrent">Bạn</span>
+                        <span *ngIf="dt.Username!==userCurrent">{{dt.Fullname}}</span>
+                      </div>
+                    </div>
+                  </ng-template>
+
+
+                  <!-- begin nơi hiển thị mes xóa thành viên  -->
+                  <div *ngIf="item.IsDelAll&&!item.isInsertMember" class="leave">
+                    <ngx-avatar [size]="20" [name]="item.Name.slice(0, 1)" bgColor="{{ item.BgColor }}"
+                      *ngIf="!item.Avatar&&item.Name"></ngx-avatar>
+                    <ngx-avatar [size]="20" src="{{item.Avatar}}" *ngIf="item.Avatar"></ngx-avatar>
+                    <span *ngIf="item.UserName===userCurrent"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">Bạn</span>
+                    <span *ngIf="item.UserName!==userCurrent"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">{{item.FullName}}</span>
+                    {{item.Content_mess}}
+                    <span style="font-weight: bold;padding-left:3px;padding-right: 3px;">{{item.Note}}</span> khỏi nhóm
+                  </div>
+                  <div *ngIf="item.isVote" class="votechat">
+                    <span style="    width: 500px;
+              text-align: center;
+              font-size: 15pt;
+              
+              padding-bottom: 10px;">
+                      {{item.Content_mess}}
+                    </span>
+                    <div style="text-align: center;margin-bottom: 5px;">
+                      <span (click)="LoadVote(item)"
+                        style="color: #3292ee; display: flex;justify-content: center;align-items: center;cursor: pointer;"
+                        *ngIf="item.SlVote">
+                        Đã có {{item.SlVote.slvote}} người bình chọn
+                        <mat-icon style="font-size: 20px;">play_arrow</mat-icon>
+                      </span>
+                    </div>
+                    <!-- nơi hiển thị vote -->
+                    <div style="width: 100%;">
+                      <div *ngIf="item.Vote.length>0" style=" max-height: 40vh;position: relative; overflow-x: hidden;
+                overflow-y: auto;">
+                        <div *ngFor="let product of item.Vote; let vivote=index"
+                          style=" padding-bottom: 20px;display: flex;">
+                          <div style="display: flex;width: 500px;;margin-left: 10px;">
+                            <input (change)="updatePrice(product,$event)" style="
+                      width: 22px;
+                      height: 22px;
+                      cursor: pointer;
+                      outline: none;
+                      margin-top: 6px !important;" [checked]="product.check" type="checkbox" name="vehicle1">
+
+                            <div style="    border-radius: 5px;
+                   width: 100%;
+                   background: rgb(240 243 246);
+              
+                   margin-right: 20px;
+                   padding: 5px;
+                   height: 35px;
+                   margin-left: 20px;">
+                              <div class="ndvote">
+                                <span>{{product.noidung}}</span>
+
+                              </div>
+                              <div style="    width: 440px;
+                   position: absolute;">
+
+
+                                <div [ngClass]="getClassvote(product)" id="progress{{vi}}{{vivote}}">
+
+                                  <span style="font-size: 15px;
+                      display: flex;
+                      margin-left: 5px;
+                      margin-top: 4px;" id="progress-text{{vi}}{{vivote}}"></span>
+                                </div>
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <div>
+                            <div class="avatar-group">
+                              <div *ngFor="let vote of product.UserVote| slice:0:3;let i=index">
+
+
+                                <div>
+                                  <div>
+                                    <div *ngIf="i>=0&&i<1">
+                                      <ngx-avatar [size]="25" src="{{ vote.avatar }}" *ngIf="vote.avatar"></ngx-avatar>
+                                    </div>
+                                    <ngx-avatar *ngIf="i==1&&product.UserVote.length>=1" [size]="25"
+                                      name="{{product.UserVote.length-1}}" bgColor="#ad3838"></ngx-avatar>
+
+                                  </div>
+                                  <!-- <ngx-avatar *ngIf="product.UserVote" [size]="25" name="{{product.UserVote.length}}" bgColor="#ad3838" ></ngx-avatar> -->
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div style="text-align:center ;">
+                        <button (click)="LoadVote(item)" style="width: 400px;
+                  border: 1px solid lightgrey;cursor: pointer;" type="button" class="btn btn-outline-secondary">
+                          <span style="font-weight:bold ;">
+                            Xem chọn lựa
+                          </span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end nơi hiển thị mes xóa thành viên  -->
+
+                  <!-- begin nơi hiển thị mes insert thành viên  -->
+                  <div *ngIf="item.isInsertMember" class="insert">
+                    <ngx-avatar [size]="20" [name]="item.Name.slice(0, 1)" bgColor="{{ item.BgColor }}"
+                      *ngIf="!item.Avatar&&item.Name"></ngx-avatar>
+                    <ngx-avatar [size]="20" src="{{item.Avatar}}" *ngIf="item.Avatar"></ngx-avatar>
+                    <span *ngIf="item.UserName===userCurrent"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">Bạn</span>
+                    <span *ngIf="item.UserName!==userCurrent"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">{{item.FullName}}</span>
+                    {{item.Content_mess}}
+                    <span *ngIf="item.Note.length<30"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">{{item.Note}}</span>
+                    <span *ngIf="item.Note.length>30"
+                      style="font-weight: bold;padding-left: 5px; padding-right:5px;">{{item.Note|slice:0:30}}...</span>
+
+                    vào nhóm
+                  </div>
+                  <!-- end nơi hiển thị mes insert thành viên  -->
+                  <div class="chat actionbg"
+                    *ngIf="!item.isSticker&&!item.IsHidenAll&&!item.isVote&&!item.isInsertMember&&!item.IsDelAll">
+
+
+                    <span [ngClass]="getShowMoreChat(item.UserName)">
+                      <button (click)="CreatedJob(item)" *ngIf="item.UserName==userCurrent" style="float: right;"
+                        mat-icon-button aria-label="Example icon-button with a menu">
+                        <i class="flaticon-list action"
+                          style="color:#78787b ;width: 28px;height: 28px;margin-top: -7px;"></i>
+                      </button>
+                      <button *ngIf="item.UserName==userCurrent" style="float: right;" (click)="ReplyMess(item)"
+                        mat-icon-button>
+                        <mat-icon class="action" style="color:#78787b ;margin-top: -10px;">reply</mat-icon>
+                      </button>
+                      <ng-container class="chatshow"
+                        *ngIf="!item.isSticker&&!item.IsDelAll&&!item.isInsertMember&&!item.IsHidenAll&&!item.isVote">
+                        <button style="float: right;" mat-icon-button [matMenuTriggerFor]="menuright"
+                          aria-label="Example icon-button with a menu">
+                          <mat-icon class="action"
+                            style="font-size: 22px; color:#78787b;margin-top: -10px;">more_horiz</mat-icon>
+                        </button>
+
+
+                        <mat-menu #menuright="matMenu">
+
+                          <button *ngIf="item.UserName==userCurrent" mat-menu-item
+                            (click)="HidenMess(item.IdChat,item.IdGroup)" matTooltip="Thu hồi tin nhắn">
+                            <mat-icon>cached</mat-icon>
+                            <span>Thu hồi</span>
+                          </button>
+                          <button (click)="ChuyenTiepMess(item)" *ngIf="item.UserName!==userCurrent" mat-menu-item
+                            matTooltip="Chuyển tiếp tin nhắn">
+                            <mat-icon data-visualcompletion="css-img" id="icon-share"
+                              class="item-align-middle"></mat-icon>
+                            <span>Chuyển tiếp</span>
+                          </button>
+                          <button (click)="AddGhim(item)"  mat-menu-item
+                          matTooltip="Ghim">
+                          <mat-icon> navigation</mat-icon>
+                          <span>Ghim</span>
+                        </button>
+
+                          <!-- <button (click)="ReplyMess(item)" *ngIf="item.UserName!==userCurrent" mat-menu-item
+                    matTooltip="Phản hồi">
+                    <mat-icon >delete</mat-icon>
+                    <span>Trả lời tin nhắn</span>
+                  </button> -->
+                        </mat-menu>
+
+                      </ng-container>
+
+                    </span>
+
+
+                    <!--  begin show reaction -->
+                    <popover-content #myPopover class="reaction-box-container" [closeOnClickOutside]="true"
+                      [closeOnMouseOutside]="true">
+                      <div class="reaction-box">
+                        <div class="reaction-icon" *ngFor="let icon of list_reaction"
+                          (click)="InsertRectionChat(item.IdChat,icon.Id_Reaction,icon.IsNotify,item.Content_mess,item.UserName)">
+                          <label>{{icon.Title}}</label>
+                          <div class="reaction-img">
+                            <img src="{{icon.LinkIcon}}">
+                          </div>
+                        </div>
+                      </div>
+                    </popover-content>
+                    <!--  begin show reaction -->
+                    <span class="reation like"
+                      *ngIf="!item.isSticker&&item.UserName!==userCurrent&&!item.IsHidenAll&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote">
+                      <ng-container class="reationshow
+                  ">
+
+                        <img class="action" *ngIf="!item.ReactionUser" style="cursor: pointer;" [popover]="myPopover"
+                          [popoverOnHover]="true" [popoverCloseOnMouseOutside]="true"
+                          src="assets/media/icon/iconlike.png">
+                        <img *ngIf="item.ReactionUser" style="cursor: pointer;" [popover]="myPopover"
+                          [popoverOnHover]="true" [popoverCloseOnMouseOutside]="true" src="{{item.ReactionUser.icon}}">
+
+                      </ng-container>
+                    </span>
+                    <span
+                      *ngIf="!item.isSticker&&item.UserName!==userCurrent&&!item.IsHidenAll&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote">
+                      <ng-container>
+
+                        <button (click)="CreatedJob(item)" style="margin-left: 40px;" mat-icon-button
+                          aria-label="Example icon-button with a menu">
+                          <i class="flaticon-list action"
+                            style="color:#78787b ;width: 28px;height: 28px;margin-top: -10px;"></i>
+                        </button>
+
+                      </ng-container>
+                    </span>
+                    <span
+                      *ngIf="!item.isSticker&&item.UserName!==userCurrent&&!item.IsHidenAll&&!item.IsDelAll&&!item.isInsertMember&&!item.isVote">
+                      <ng-container>
+
+                        <button (click)="ReplyMess(item)" mat-icon-button>
+                          <mat-icon class="action" style="color:#78787b;margin-top: -10px;">reply</mat-icon>
+                        </button>
+
+                      </ng-container>
+                    </span>
+
+
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+
+            <br *ngIf="item.UserName!==userCurrent">
+            <span *ngIf="!item.IsDelAll&&!item.isInsertMember&&!item.isHidenTime&&!item.isVote"
+              [ngClass]="getClassTime(item.UserName)">
+
+              {{ item.CreatedDate | dateTimeFormat: 'HH:mm:ss' }}
+
+              <span *ngIf="!isGroup">
+
+
+                <span *ngIf="item.Seen.length>0">
+
+
+
+                  <span *ngIf="item.Seen[0].username!=userCurrent&&vi==listMess.length-1" style="font-size: 12px;">Đã
+                    xem </span>
+
+                  <!-- <span *ngIf="item.UserName==userCurrent&&vi==listMess.length-1" style="font-size: 12px;" >Đã nhận </span> -->
+                </span>
+                <span *ngIf="item.Seen.length==0&&vi==listMess.length-1&&item.UserName==userCurrent"
+                  style="font-size: 12px;">Đã nhận </span>
+              
+              </span>
+              <div *ngIf="isGroup">
+                <div *ngIf="item.Seen.length>0">
+
+
+
+                  <div *ngIf="vi==listMess.length-1" style="font-size: 12px;display: flex;">
+
+                    <div *ngFor="let see of item.Seen| slice:0:6;let i=index">
+
+                      <div *ngIf="i>=0&&i<5">
+
+                        <ngx-avatar size="12" [name]="getNameUser(see.Fullname)"
+                          bgColor="{{getColorNameUser(see.Fullname)}}" *ngIf="!see.Avatar">
+                        </ngx-avatar>
+                        <ngx-avatar [size]="12" src="{{see.Avatar}}" *ngIf="see.Avatar"></ngx-avatar>
+                      </div>
+                      <div style="margin-top: 5px;" *ngIf="i==5&&item.Seen.length>=6">
+                        <ngx-avatar [size]="12" value="{{item.Seen.length-5}}" bgColor="#ad3838"></ngx-avatar>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+
+                  <!-- <span *ngIf="item.UserName==userCurrent&&vi==listMess.length-1" style="font-size: 12px;" >Đã nhận </span> -->
+                </div>
+              </div>
+
+            </span>
+
+
+            <div [ngClass]=" cssfileuser ? 'userfile' : ''" *ngIf="vi==listMess.length-1&&loading_file">
+              <div *ngFor="let itimg of list_loading_image">
+
+
+                <li class="animated-background facebook">
+                  <div class="fileloading">
+                    Loading file
+                    <div style="text-align: center;">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </div>
+                  </div>
+
+
+                </li>
+              </div>
+              <div *ngFor="let itimg of list_loading_video">
+
+
+                <li class="animated-background facebook">
+                  <div style="    height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;">
+                    Loading file
+                    <div style="text-align: center;">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </div>
+                  </div>
+
+
+                </li>
+              </div>
+              <div *ngFor="let itimg of list_loading_file">
+
+
+                <li style="height: 50px !important;" class="animated-background facebook">
+                  <div style="    height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;">
+                    Loading file
+                    <div style="text-align: center;">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </div>
+                  </div>
+
+
+                </li>
+              </div>
+            </div>
+
+          </ul>
+
+        </cdk-virtual-scroll-viewport>
+        <button (click)="DownUp()" *ngIf="isshowdouwn" style="margin-top: -40px;
+    position: absolute;
+    right: 0;
+    background: #3699ff  !important;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;" mat-mini-fab>
+          <mat-icon style="margin-top: -5px;">keyboard_arrow_down</mat-icon>
+        </button>
+        <button *ngIf="id_Chat" (click)="GoBack()"  style="margin-top: -40px;
+        position: absolute;
+        right: 0;
+        background-color: lightblue;
+        height: 40px;
+        margin-right: 10px;"  mat-flat-button>
+        	<mat-icon>reply_all</mat-icon>
+        Thoát</button>
+      </div>
+
+      <div>
+
+        <!-- <button (click)="Test()">TTTT</button> -->
+
+        <span *ngIf="composing" class="composing">{{this.composingname}} đang soạn tin...</span>
+
+
+        <!-- <div >
+
+        aaa
+
+    </div> -->
+        <div class="message-input">
+          <div class="wrap">
+            <div>
+              <div *ngIf="myFilesVideo.length">
+                <div *ngFor="let video of myFilesVideo;let indexvd=index">
+
+
+                  <div style="width: 20px;">
+                 
+                  </div>
+                  <video [src]="video" height="200" controls></video>
+
+                </div>
+              </div>
+              <!--  begin image -->
+              <div style="    height: 150px;
+    display: flex;
+   padding-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;" *ngIf="list_image.length>0">
+
+                <div style="display: -webkit-inline-box;">
+
+
+                  <div style="display: flex;" *ngFor="let img of list_image;let viimg=index">
+                    <div style="width: 20px;">
+                      <button (click)="RemoveChoseImage(viimg)" class="closebtn" mat-button mat-icon-button>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                    <img   loading="lazy" [src]="img" style="width: 100%;
+                        height: 100%;;margin: 10px;">
+                  </div>
+                  <button style="height: 100%;
+                margin:auto;
+                border-radius: 10% !important;" (click)="hiddenfileinput_image.click()" matTooltip="Hỉnh ảnh"
+                    mat-icon-button aria-label="Example icon button with a home icon">
+                    <mat-icon class="sizeiconreaction">add_photo_alternate</mat-icon>
+                  </button>
+                  <input type='file' accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .heic, .heif, .tiff|image/*"
+                    id="PDFInpdd" #hiddenfileinput_image (onChange)="onSelectFile_PDF($event)"
+                    (click)="$event.target.value=null" multiple style="display: none;">
+
+                </div>
+              </div>
+
+              <!-- end image -->
+              <!-- begin file  -->
+              <div class="bodyfile" *ngIf="listFileChat.length>0">
+
+                <div style="display: flex;flex-wrap: wrap;">
+
+
+                  <div class="file" *ngFor="let file of listFileChat;let vifile=index">
+                    <div>
+
+                      <i style="cursor:pointer ;" (click)="RemoveChoseFile(vifile)" class="fa fa-times"
+                        aria-hidden="true"></i>
+                    </div>
+                    <div class="attchamentfile">
+                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58"
+                        style="enable-background:new 0 0 58 58; width: 40px;" xml:space="preserve">
+                        <polygon style="fill:#EDEADA;" points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 " />
+                        <g>
+                          <path style="fill:#CEC9AE;"
+                            d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z" />
+                        </g>
+                        <polygon style="fill:#CEC9AE;" points="37.5,0 37.5,14 51.5,14 " />
+                      </svg>
+                      <div style="    display: flex;
+                    flex-direction: column;">
+                        <span>{{file.filename}}</span>
+                        <span>{{formatBytesInsert(file.size)}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <button style="
+
+                  border-radius: 10% !important;" (click)="hiddenfileinput.click()" matTooltip="File" mat-icon-button
+                  aria-label="Example icon button with a home icon">
+                  <mat-icon class="sizeiconreaction">add_to_photos</mat-icon>
+                </button>
+                <input type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+                  style="display: none;">
+              </div>
+              <!-- end file  -->
+
+
+
+              <div *ngFor="let itrp of  listReply " class="listreply">
+
+                <span> <mat-icon class="iconreply">reply</mat-icon>Trả lời {{itrp.FullName}}
+
+                  <button matTooltip="Đóng" (click)="DeleteReply()" mat-icon-button color="primary">
+                    <mat-icon style="font-size: 15px;">close</mat-icon>
+                  </button>
+                </span>
+                <br>
+                <div *ngIf="itrp.Attachment.length>0">
+                  <span *ngFor="let imgrep of itrp.Attachment ">
+                    <img style="width: 50px;height: 50px;" [src]="imgrep.hinhanh">
+                  </span>
+                  <span *ngIf="itrp.Content_mess==''" style="padding-left: 10px;">
+                    Tệp đính kèm
+
+                  </span>
+                </div>
+                <div *ngIf="itrp.Attachment_File.length>0">
+                  <div *ngFor="let file of itrp.Attachment_File " style="display: flex;cursor: pointer;">
+                    <img style="width:50px ;height:50px ;" src=" {{ file.icon }}" />
+                    <span style="    font-weight: bold;
+                    padding-left: 5px;">{{ file.filename }}</span>
+
+                  </div>
+                  <!-- <span *ngIf="itrp.Content_mess==''" style="padding-left: 10px;">
+                   Tệp đính kèm
+
+                  </span> -->
+                </div>
+                <span *ngIf="itrp.Content_mess!==''" style="padding-left: 10px;">
+                  <label [innerHTML]="decryRep(itrp.Content_mess,itrp.isEncode)"></label>
+                  <!-- {{itrp.Content_mess}} -->
+
+                </span>
+
+
+              </div>
+
+
+              <!--  phần  sticker -->
+              <div style="width:350px ;" id="collapseBasic" #collapsesticker="ngbCollapse"
+                [(ngbCollapse)]="isCollapsedsticker">
+                <div>
+                  <!-- begin store sticker -->
+                  <div *ngIf="showstoresticker">
+
+
+
+                    <mat-tab-group class="chattapgr" [selectedIndex]="selectedTabstore"
+                      (selectedTabChange)="onTabChanged($event)">
+                      <mat-tab>
+
+                        <ng-template mat-tab-label>
+                          <mat-icon>keyboard_arrow_left</mat-icon>
+                        </ng-template>
+
+                      </mat-tab>
+                      <mat-tab label="STORE SICKER">
+
+                        <mat-card style="height: 430px;padding: 0px;">
+                          <div style="
+                          height: 380px;
+                      ">
+                            <mat-card-content style="    margin-left: 10px;">
+
+                              <img *ngIf="listStoreSticker.length==0" style="    width: 350px;"
+                                src="../../../../../../assets/media/custom/rong.png">
+                              <div *ngFor="let sticker of listStoreSticker">
+                                <div>
+                                  <div style="display: flex;">
+
+
+                                    <div style="display: flex;
+                              flex-direction: column;    width: 280px;">
+                                      <span style="font-weight: bold;">
+                                        {{sticker.Title}}
+                                      </span>
+
+                                      <span style="font-size: 12px;">
+                                        {{sticker.Slsticker}} sticker
+                                      </span>
+                                    </div>
+                                    <div *ngIf="!sticker.check" (click)="downloadSticker(sticker.GrSticker,'insert')"
+                                      class="stickerdownload">
+                                      <span style="    padding: 5px;
+                                font-size: 12px;"> Tải về</span>
+                                    </div>
+                                    <div *ngIf="sticker.check">
+                                      <img style="border-radius: 50%;
+                                      height: 20px;" src="../../../../../../assets/media/custom/completesticker.png">
+                                    </div>
+
+                                  </div>
+
+                                  <img style="    height: 70px;" src="{{sticker.URLSticker}}">
+                                </div>
+
+                              </div>
+
+
+
+                            </mat-card-content>
+                          </div>
+
+                        </mat-card>
+                        <!-- <div style="height: 430px;">
+                            sticker
+                        </div> -->
+                      </mat-tab>
+                      <mat-tab label="QUẢN LÝ STICKER">
+                        <mat-card style="height: 430px;padding: 0px;">
+                          <div style="
+                          height: 380px;
+                      ">
+                            <mat-card-content>
+                              <div *ngFor="let qlsticker of listQLStoreSticker">
+                                <div>
+                                  <div style="display: flex;">
+
+
+                                    <div style="display: flex;
+                                  flex-direction: column;    width: 280px;">
+                                      <span style="font-weight: bold;">
+                                        {{qlsticker.Title}}
+                                      </span>
+
+                                      <span style="font-size: 12px;">
+                                        {{qlsticker.Slsticker}} sticker
+                                      </span>
+                                    </div>
+
+
+
+                                  </div>
+                                  <div style="display: flex;align-items: center;">
+                                    <img style="width: 250px;   height: 70px;" src="{{qlsticker.URLSticker}}">
+                                    <div style="margin-left: 40px;"
+                                      (click)="downloadSticker(qlsticker.GrSticker,'remove')">
+                                      <mat-icon
+                                        style="font-size:23px !important ;cursor: pointer;">delete_forever</mat-icon>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <img *ngIf="listQLStoreSticker.length==0" style="    width: 350px;"
+                                src="../../../../../../assets/media/custom/rong.png">
+                              <!-- No Sticker -->
+
+
+
+                            </mat-card-content>
+                          </div>
+                        </mat-card>
+                      </mat-tab>
+
+                    </mat-tab-group>
+                  </div>
+
+                  <!--  end store sticker -->
+                  <!-- begin hiển thị sticker -->
+                  <mat-tab-group *ngIf="!showstoresticker" class="chattapgr" [selectedIndex]="selectedTab">
+                    <mat-tab label="SICKER">
+
+                      <mat-card style="height: 430px;padding: 0px;">
+                        <div style="
+                        height: 380px;
+                    ">
+                          <mat-card-content>
+                            <perfect-scrollbar *ngIf="listStickerTime.length>0" style="height: 380px;">
+                              <div style="flex-wrap: wrap;
+                                      display: flex;">
+                                <div *ngFor="let  itemstickertime of listStickerTime">
+                                  <img
+                                    (click)="sendMessageSticker(itemstickertime.UrlSticker,itemstickertime.GrSticker,itemstickertime.IdSticker)"
+                                    style=" cursor: pointer;width:80px ;height: 80px;"
+                                    src="{{itemstickertime.UrlSticker}}">
+                                </div>
+
+                              </div>
+
+                            </perfect-scrollbar>
+                            <!--  time -->
+                            <img *ngIf="listSticker.length==0&&listStickerTime.length==0" style="    width: 350px;"
+                              src="../../../../../../assets/media/custom/rong.png">
+                            <perfect-scrollbar *ngIf="listSticker.length>0" style="height: 380px;">
+
+
+                              <div *ngFor="let  itemstick of listSticker">
+                                <div>
+                                  <span style="padding: 10px;
+                                    font-weight: bold;">
+                                    {{itemstick.Title}}
+                                  </span>
+                                  <div style="flex-wrap: wrap;
+                                    display: flex;">
+                                    <div *ngFor="let  itemsticker of itemstick.Sticker">
+
+
+                                      <img
+                                        (click)="sendMessageSticker(itemsticker.UrlSticker,itemstick.GrSticker,itemsticker.IdSticker)"
+                                        style=" cursor: pointer;width:80px ;height: 80px;"
+                                        src="{{itemsticker.UrlSticker}}">
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                              </div>
+                            </perfect-scrollbar>
+
+
+                          </mat-card-content>
+                        </div>
+                        <div style="height: 50px;  border-top: 1px solid #e7eef1;">
+                          <div class="row">
+                            <div class="col-md-10" style="display: flex;">
+                              <mat-icon (click)="ShowTimeSticker()" [style.color]="conditiontime ? 'blue' : ''" style="    margin-top: 10px;
+                                font-size: 27px !important;cursor: pointer;">access_time</mat-icon>
+                              <div *ngFor=" let ministic of listStickermini ">
+                                <div (click)="ShowSticker(ministic.GrSticker)" style="    padding: 0px 10px 0px 10px;">
+                                  <img style="width: 50px; height: 50px;cursor: pointer;"
+                                    src="{{ministic.URLMiniSticker}}">
+                                </div>
+                              </div>
+                            </div>
+                            <div style="display: flex;
+                              justify-content: center;
+                              cursor: pointer;
+                              align-items: center;height: 50px;" class="col-md-2">
+                              <mat-icon style="font-size: 25px !important;"
+                                (click)="StoreSticker()">add_to_photos</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card>
+                      <!-- <div style="height: 430px;">
+                          sticker
+                      </div> -->
+                    </mat-tab>
+                    <mat-tab label="EMOJI">
+
+
+                      <span (click)="$event.stopPropagation(); false;">
+                        <emoji-mart class="emoji-mart" set="{{set}}" (emojiSelect)="addEmoji($event)"
+                          title="Pick your emoji…"></emoji-mart>
+                      </span></mat-tab>
+
+                  </mat-tab-group>
+                  <!-- end hiển thị sticker -->
+                </div>
+              </div>
+              <!-- phần  sticker -->
+              <div class="inpuchat">
+
+                <form style="width: 100%; max-height: 200px;" #messageForm="ngForm" autocomplete="off">
+
+                  <quill-editor [formats]="formats" (onEditorCreated)="setFocus($event)" class="colortextchat"
+                    placeholder="Nhập @ gửi tin nhắn tới..." name="messageContent" [(ngModel)]="txttam"
+                    [modules]="modules" (onSelectionChanged)="focusFunction($event)" (ngModelChange)="saverange($event)"
+                    name="messageContent" (paste)="onPaste($event)">
+
+
+
+                  </quill-editor>
+
+
+                </form>
+
+
+                <div style="display: flex;">
+
+
+
+
+
+                  <button *ngIf="isGroup" mat-icon-button [matMenuTriggerFor]="menu2"
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon style="font-size: 25px !important;color:#78787b ;">more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu2="matMenu">
+                    <button (click)="CreatedVote()" mat-menu-item>
+                      <mat-icon>signal_cellular_alt</mat-icon>
+                      <span>Tạo bình chọn</span>
+                    </button>
+
+
+                  </mat-menu>
+                  <button matTooltip="Icon" mat-icon-button type="button" (click)="Collapsedsticker()"
+                    [attr.aria-expanded]="!isCollapsedsticker" aria-controls="collapseBasic">
+                    <mat-icon style="font-size: 25px !important;color:#78787b ;">tag_faces</mat-icon>
+                  </button>
+
+                  <button style="color:#78787b !important;" (click)="hiddenfileinput_image.click()"
+                    matTooltip="Hỉnh ảnh" mat-icon-button aria-label="Example icon button with a home icon">
+                    <i style="font-size: 22px;color:#78787b" class="fa fa-file-image-o" aria-hidden="true"></i>
+                  </button>
+                  <button style="color:#78787b !important;" (click)="hiddenfileinput.click()" matTooltip="File"
+                    mat-icon-button aria-label="Example icon button with a home icon">
+                    <i style="font-size: 22px;color:#78787b" class="fa fa-paperclip" aria-hidden="true"></i>
+                  </button>
+                  <!-- videos -->
+                  <button style="color:#78787b !important ;" (click)="hiddenfileinput_video.click()" matTooltip="Videos"
+                    mat-icon-button aria-label="Example icon button with a home icon">
+                    <i style="font-size: 22px;color:#78787b" class="fa fa-file-video-o" aria-hidden="true"></i>
+                  </button>
+                  <input type='file' accept="video/mp4,video/x-m4v,video/*" id="PDFInpdd" #hiddenfileinput_video
+                    (change)="onSelectVideo($event)" style="display: none;">
+
+                  <input type='file' accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .heic, .heif, .tiff|image/*"
+                    id="PDFInpdd" #hiddenfileinput_image (change)="onSelectFile_PDF($event)" multiple
+                    style="display: none;">
+
+                  <input
+                    accept="application/vnd.ms-excel, application/vnd.ms-powerpoint,
+              text/plain, application/pdf,application/msword,.pdf, .xls, .xlsx, application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.zip,.rar,.7zip"
+                    type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+                    style="display: none;">
+
+                </div>
+                <!--  begin phần icon -->
+                <!-- <button [matMenuTriggerFor]="menu1"  matTooltip="Icon" (click)="showPT()" mat-icon-button
+    aria-label="Example icon button with a home icon">
+    <mat-icon style="font-size: 25px !important;color:#78787b ;">tag_faces</mat-icon>
+    </button>
+
+      <mat-menu  #menu1="matMenu">
+        <span (click)="$event.stopPropagation(); false;">
+            <emoji-mart class="emoji-mart" set="{{set}}" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+        </span>
+      </mat-menu> -->
+
+                <!--  begin phần icon -->
+
+                <button (click)="sendMessage()" style="color:#78787b ;" matTooltip="Gửi tin nhắn" mat-icon-button
+                  aria-label="Example icon button with a home icon">
+                  <mat-icon>send</mat-icon>
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </mat-drawer-content>
+  <mat-drawer class="drawertheme" #sideNav mode="side" opened="false" position="end">
+    <div *ngIf="opensearch">
+      <div *ngIf="listSearch.length==0" style="padding:10px ;">
+
+
+
+        <h4>
+          Kết quả tìm kiếm không phù hợp
+        </h4>
+        <span>
+          Vui lòng nhập nội dung cần tìm kiếm
+        </span>
+        <div style="margin-top: 150px;
+    display: flex;
+    justify-content: center;">
+          <img style="    width: 300px;" *ngIf="!themdark" src="../../../../../../assets/media/gif/searchgif.gif"
+            alt="Random first slide">
+          <img style="    width: 300px;" *ngIf="themdark" src="../../../../../../assets/media/gif/searchgifdark.gif"
+            alt="Random first slide">
+        </div>
+      </div>
+      <div style="padding:10px ;" *ngIf=" listSearch.length>0">
+        <h4>
+          Kết quả tìm kiếm
+        </h4>
+        <span>
+          Đang hiển thị {{listSearch.length}} kết quả phù hợp trong hội thoại
+
+          <span *ngIf="!isGroup">
+            {{listInfor[0].FullName}}
+          </span>
+          <span *ngIf="isGroup">
+            {{TenGroup}}
+          </span>
+        </span>
+        <br>
+        <h6>Tin nhắn</h6>
+        <br>
+        <div *ngFor="let se of listSearch">
+          <div class="list home-links">
+            <div (click)="OpenS()" class="li" [routerLink]="['/Chat/','Messages',se.IdGroup,se.IdChat]">
+              <ngx-avatar [size]="45" [name]="se.InfoUser[0].Fullname.slice(0, 1)"
+                bgColor="{{ se.InfoUser[0].BgColor }}" *ngIf="!se.InfoUser[0].Avatar"></ngx-avatar>
+              <ngx-avatar [size]="45" src="{{se.InfoUser[0].Avatar}}" *ngIf="se.InfoUser[0].Avatar"></ngx-avatar>
+              <div style="padding-left: 10px;">
+                <span>{{se.InfoUser[0].Fullname}}</span>
+                <p [innerHTML]="urlify(se.Content_mess,se.isEncode) | highlight: searchText"></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div *ngIf="!opensearch">
+      <div *ngIf="!allfile">
+
+        <div class="titledraw">
+          <h4>Thông Tin Hội Thoại</h4>
+        </div>
+
+
+        <div class="contact-profile" *ngFor="let user of listInfor">
+          <div *ngIf=!user.isGroup>
+            <div class="row">
+              <div style="display: flex;  flex-direction: column;align-items: center;  width: 100%;">
+
+
+                <div style="margin: 6px;">
+                  <ngx-avatar [size]="45" src="{{user.Avatar}}" *ngIf="user.Avatar"></ngx-avatar>
+                  <ngx-avatar [size]="45" [name]="user.Name.slice(0, 1)" bgColor="{{ user.BgColor }}"
+                    *ngIf="!user.Avatar&&user.Name"></ngx-avatar>
+                </div>
+                <div style="    width: 100%;    text-align: center;">
+
+
+                  <p class="name">{{user.FullName}}</p>
+                  <br>
+
+
+
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+          <div *ngIf=user.isGroup>
+            <div class="row">
+              <div style="height: 80px;display: flex;flex-direction: column;width: 100%;">
+
+
+                <div style="justify-content: center;
+          display: flex;">
+                  <div class="avatar-group">
+                    <div *ngFor="let mb of user.ListMember | slice:0:4;let i=index">
+
+                      <div>
+                        <div *ngIf="i>=0&&i<3">
+                          <div [style.margin-top]="i==2&&user.ListMember.length==3 ? '-7px': '0px'">
+                            <ngx-avatar [size]="25" [name]="mb.Name.slice(0, 1)" bgColor="{{ mb.BgColor }}"
+                              *ngIf="!mb.Avatar&&mb.Name"></ngx-avatar>
+                            <ngx-avatar [size]="25" src="{{ mb.Avatar }}" *ngIf="mb.Avatar"></ngx-avatar>
+
+                          </div>
+                        </div>
+                        <ngx-avatar *ngIf="i==3&&user.ListMember.length>=4" [size]="25" value="{{thanhviennhomn-3}}"
+                          bgColor="#ad3838"></ngx-avatar>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;width: 100%;">
+                  <div style="width: 100%;">
+
+
+                    <div style=" margin-left: 15px;">
+                      <span style="width: 100%;
+               display: flex;justify-content: center;">
+                        <p style="   margin: 0px;
+                padding-top: 5px; font-weight: bold">{{user.GroupName}}
+
+                        </p>
+
+                      </span>
+
+
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat">account_circle</mat-icon> Thành Viên Nhóm
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+            <div (click)="OpenThanhVien()" style="    align-items: center;
+          display: flex; cursor: pointer;
+          margin-left: 17px;
+      ">
+              <mat-icon class="iconmat">group</mat-icon> {{thanhviennhomn}} Thành Viên
+            </div>
+
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="!isGroup">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat">cloud_done</mat-icon> Sao lưu và phục hồi
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+
+
+            <div>
+
+              <button (click)="RecoveryMess()" style="width: 100%;" mat-button>
+                <mat-icon style="    padding-right: 10px;
+            padding-top: 3px; font-size: 20px;">replay</mat-icon>Khôi phục tin nhắn</button>
+
+            </div>
+
+
+
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat">lock_open</mat-icon> Mã hóa đầu cuối
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+
+
+            <div>
+
+              <button (click)="EnCode()" style="width: 100%;" mat-button>
+                <mat-icon style="    padding-right: 10px;
+            padding-top: 3px; font-size: 20px;">lock_open</mat-icon>Mã hóa tin nhắn </button>
+
+            </div>
+
+
+
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat">image</mat-icon> Hình ảnh
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+            <!-- <div *ngFor="let item of LstImagePanel">
+
+        </div> -->
+
+            <div>
+
+
+              <div>
+                <p class="cards">
+                  <img  loading="lazy" style="cursor: pointer;" (click)="Previewall_Img(img)"
+                    *ngFor="let img of LstImagePanelTop9;let vi=index" [src]="img.hinhanh">
+                </p>
+              </div>
+
+
+
+            </div>
+
+
+            <button (click)="selectTab(0)" mat-button class="displayfileall">{{'jeechat.xemall' | translate}}</button>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat"> insert_drive_file</mat-icon> File
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <div *ngFor="let item of LstFilePanelTop4;let vifiledown=index">
+
+
+
+
+              <div style="display: flex;
+          border-bottom: 1px
+       solid #d1d6dc;
+       padding-left: 15px;
+          padding-bottom: 10px ;">
+                <div>
+                  <img style="    height: 25px;
+                  width: 25px;" src=" {{item.icon}}">
+                </div>
+
+                <div style="display: flex;flex-direction: column;">
+                  <div style="display:flex ;">
+
+
+                    <a style="    font-size: 13px;
+                 padding-left: 10px
+             ;" href="{{item.path}}" target="_blank">
+                      {{ item.filename | slice:0:30 }}
+                      <span *ngIf="item.filename.length>30">...</span>
+                    </a>
+                    <div style="padding-left:7px ;">
+                      <i [ngClass]="getClassDownload(item.isDownload)"
+                        (click)="saveOrOpenBlobFile(item.path,item.filename,vifiledown,item.id_chat,item.id_att)"
+                        matTooltip="download" style="cursor: pointer;padding-left: 3px;" class="fas fa-download "></i>
+
+                    </div>
+
+                  </div>
+                  <div style="display: flex;align-items: center;">
+                    <span style="    font-size: 13px;
+                  margin-left: 13px;">
+                      {{item.createdDate | date:'dd/MM'}}
+                    </span>
+                    <span style="    display: inline-block;
+                 background-color: #323248a1;
+                 width: 5px;
+                 height: 5px;
+                 margin-left: 10px;
+                 border-radius: 50%;">
+
+                    </span>
+                    <span style="    font-size: 12px;
+                  padding-left: 10px;">{{ formatBytesInsert(item.size) }}</span>
+
+                  </div>
+                  <div style="padding-left: 10px;">
+
+                    <div id="downloadfileleft{{vifiledown}}">
+                      <div id="progressleft{{vifiledown}}">
+
+                        <span id="progress-textleft{{vifiledown}}"></span>
+                      </div>
+
+                    </div>
+
+
+                    <span style="font-size: 10px;" id="kbdownloadleft{{vifiledown}}"></span>
+
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+            <button (click)="selectTab(1)" mat-button class="displayfileall">{{'jeechat.xemall'|translate}}</button>
+
+
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="iconmat">link</mat-icon>Link
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+            <div *ngFor="let item of LstPanelLink">
+
+              <div style="display: flex;
+          border-bottom: 1px
+       solid #d1d6dc;
+          padding-bottom: 10px ;">
+                <div style="display: flex;
+              align-items: center;">
+                  <mat-icon>link</mat-icon>
+                </div>
+
+                <div style="display: flex;flex-direction: column;">
+                  <div style="display:flex ;">
+
+
+                    <a style="    font-size: 13px;
+                 padding-left: 10px
+             ;" href="{{item.urllink}}" target="_blank">
+
+                      <span style="height: 22px;
+                   margin-top: 10px;
+                   display: flex;
+                   width: 250px;
+                   overflow: hidden;
+                   white-space: nowrap;
+                   text-overflow: ellipsis;">{{item.urllink}}</span>
+                    </a>
+
+
+                  </div>
+                  <div style="display: flex;align-items: center;">
+                    <span style="    font-size: 13px;
+                  margin-left: 13px;">
+                      {{item.createdDate | date:'dd/MM'}}
+                    </span>
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+            </div>
+
+
+            <button (click)="selectTab(2)" mat-button class="displayfileall">{{'jeechat.xemall' | translate}}</button>
+
+          </mat-expansion-panel>
+          <!--  begin  phần danh sách công việc -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="flaticon-list timecv iconmat"></i> Công việc đã giao
+                ({{parentCount}})
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <app-cong-viec-theo-du-an-list-chat [IdGroup]="id_Group"  (GetLength)='displayCounter($event)'
+        (GetIsGov)="displayIsGov($event)"></app-cong-viec-theo-du-an-list-chat>
+
+          </mat-expansion-panel>
+          <!--  end  phần danh sách công việc -->
+        </mat-accordion>
+      </div>
+      <div *ngIf="allfile">
+        <div>
+
+          <div class="back">
+            <button (click)="Back()" mat-icon-button aria-label="Example icon button with a home icon">
+              <mat-icon class="iconmat">keyboard_arrow_left</mat-icon>
+            </button>
+          </div>
+
+          <tabset #staticTabs>
+            <tab heading="Ảnh">
+              <perfect-scrollbar style=" max-height:90vh;">
+                <div>
+                  <div>
+                    <p class="all">
+                      <img  loading="lazy" style="cursor: pointer;" (click)="Previewall_Img(img)"
+                        *ngFor="let img of LstImagePanel let vi=index" [src]="img.hinhanh">
+                    </p>
+                  </div>
+                </div>
+              </perfect-scrollbar>
+
+
+            </tab>
+            <tab heading="File/video">
+
+              <div style="margin-top: 2%;">
+                <mat-card style="width: 100%;">
+
+                  <div style="display: flex;" class="title">
+
+
+                    <span style="font-size:25px; font-weight: bold;padding-right: 15PX;">File </span>
+
+                    <div class="input" style="padding-bottom: 15px;">
+                      <form>
+                        <input style="width:100%" id="stuff_group" [formControl]="searchControl"
+                          placeholder="Tìm kiếm file... " type="text">
+                        <label for="stuff_group" class="flaticon-search-magnifier-interface-symbol input-icon"></label>
+                      </form>
+                    </div>
+
+                  </div>
+
+
+
+                  <div *ngFor="let item of filteredFile |async;let vifiledown=index">
+
+
+
+
+                    <div style="display: flex;
+          border-bottom: 1px
+       solid #d1d6dc;
+          padding-bottom: 10px ;">
+                      <div>
+                        <img style="    height: 25px;
+                  width: 25px;" src=" {{item.icon}}">
+                      </div>
+
+                      <div>
+                        <div style="display: flex;">
+
+
+                          <a style="    font-size: 13px;
+                 padding-left: 10px
+             ;" href="{{item.path}}" target="_blank">
+                            {{ item.filename | slice:0:35 }}
+                            <span *ngIf="item.filename.length>30">...</span>
+                          </a>
+
+                          <div style="    padding-left: 10px;">
+                            <i [ngClass]="getClassDownload(item.isDownload)"
+                              (click)="saveOrOpenBlobFileAll(item.path,item.filename,vifiledown,item.id_chat,item.id_att)"
+                              matTooltip="download" style="cursor: pointer;padding-left: 3px;"
+                              class="fas fa-download "></i>
+
+                          </div>
+                        </div>
+                        <div style="display: flex;align-items: center;padding-left: 10px;">
+
+
+                          <span style="    font-size: 13px;
+                 padding-left: 10
+             px
+             ;">
+                            {{item.createdDate | date:'dd/MM'}}
+                          </span>
+                          <span style="    display: inline-block;
+                 background-color: #323248a1;
+                 width: 5px;
+                 height: 5px;
+                 margin-left: 10px;
+                 border-radius: 50%;">
+
+                          </span>
+                          <span style="    font-size: 12px;
+                  padding-left: 10px;">{{ formatBytesInsert(item.size) }}</span>
+                        </div>
+                        <div style="padding-left: 10px;">
+
+                          <div id="downloadfileleft{{vifiledown}}">
+                            <div id="progressleft{{vifiledown}}">
+
+                              <span id="progress-textleft{{vifiledown}}"></span>
+                            </div>
+
+                          </div>
+
+
+                          <span style="font-size: 10px;" id="kbdownloadleft{{vifiledown}}"></span>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                </mat-card>
+
+              </div>
+
+            </tab>
+            <tab heading="Link">
+              <perfect-scrollbar style=" max-height:90vh;">
+                <div>
+                  <div *ngFor="let item of LstAllPanelLink">
+
+                    <div style="display: flex;
+            border-bottom: 1px
+         solid #d1d6dc;
+            padding-bottom: 10px ;">
+                      <div style="display: flex;
+                align-items: center;">
+                        <mat-icon>link</mat-icon>
+                      </div>
+
+                      <div style="display: flex;flex-direction: column;">
+                        <div style="display:flex ;">
+
+
+                          <a style="    font-size: 13px;
+                   padding-left: 10px
+               ;" href="{{item.urllink}}" target="_blank">
+
+                            <span style="height: 22px;
+                     margin-top: 10px;
+                     display: flex;
+                     width: 250px;
+                     overflow: hidden;
+                     white-space: nowrap;
+                     text-overflow: ellipsis;">{{item.urllink}}</span>
+                          </a>
+
+
+                        </div>
+                        <div style="display: flex;align-items: center;">
+                          <span style="    font-size: 13px;
+                    margin-left: 13px;">
+                            {{item.createdDate | date:'dd/MM'}}
+                          </span>
+
+
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </perfect-scrollbar>
+
+
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>
+<!-- <ng-container
+
+[ngTemplateOutlet]="menuItemSectionTemplate"
+[ngTemplateOutletContext]="{ item: data }"
+></ng-container> -->
+<!-- <ng-template #itemTemplateimg let-index="index" let-currIndex="currIndex"  let-type="type" let-data="data" >
+    <ng-container  >
+    
+          <div class="left-image-control ">  
+            <button style="background-color:white;" (click)="downloadimage(data.src)" mat-mini-fab  aria-label="Example icon button with a filter list icon">
+            <i style="color:black;" class="fas fa-download"></i>
+            </button>             
+             
+      </div>
+      <ng-container *ngIf="type === 'imageViewer' && index === currIndex">
+     <angular-image-viewer    style="height:100%;width: 90%;"  [config]="config"[src]="data.data2" ></angular-image-viewer>
+    </ng-container>
+    </ng-container>
+  </ng-template> -->
+<!-- <ng-template #itemTemplate let-index="index" let-currIndex="currIndex"  let-type="type" let-data="data" >
+    <ng-container  >
+    
+          <div class="left-image-control ">  
+            <button style="background-color:white;" (click)="downloadimage(data.src)" mat-mini-fab  aria-label="Example icon button with a filter list icon">
+            <i style="color:black;" class="fas fa-download"></i>
+            </button>             
+             
+      </div>
+      <ng-container *ngIf="type === 'imageViewer' && index === currIndex">
+     <angular-image-viewer    style="height:100%;width: 90%;"  [config]="config"[src]="data.data2" ></angular-image-viewer>
+    </ng-container>
+    </ng-container>
+  </ng-template> -->
+<!-- 
+  
+  <ng-template #itemTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
+   <ng-container  >
+    
+          <div class="left-image-control ">  
+            <button style="background-color:#ebedf3cf;" (click)="downloadimage(data.src)" mat-mini-fab  aria-label="Example icon button with a filter list icon">
+            <i style="color:black;" class="fas fa-download"></i>
+            </button>             
+             
+      </div>
+      <ng-container *ngIf="type === 'imageViewer' && index === currIndex">
+      <angular-image-viewer  style="height:100%;width: 90%;" [config]="config" [src]="data.data2" ></angular-image-viewer>
+    </ng-container>
+    </ng-container>
+  </ng-template> -->

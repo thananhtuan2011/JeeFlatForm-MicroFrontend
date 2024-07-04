@@ -1,0 +1,348 @@
+.kt-portlet__head-label {
+  width: 100%;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+.example-viewport {
+  height: 900px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.example-item {
+  height: 50px;
+}
+
+::ng-deep .mat-drawer-content {
+  overflow: hidden !important;
+}
+
+.point {
+  height: 12px;
+  width: 12px;
+}
+
+.cu-task-row-status1 {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+}
+
+.title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-size: 13px;
+
+  height: 60px;
+  width: 80%;
+  float: right;
+  margin-right: 5px;
+  padding-top: 15px;
+}
+.users-container {
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 99;
+
+  .user-item {
+    display: flex;
+    padding: 5px 10px;
+    //cursor: pointer;
+
+    &:hover {
+      // background-color: #eee;
+      border-radius: 18px;
+
+      label {
+        visibility: visible;
+      }
+    }
+
+    img {
+      height: 35px;
+      width: 35px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+}
+
+td {
+  height: 40px !important;
+  padding: 5px !important;
+}
+
+.dis option {
+  padding: 5px 0;
+
+}
+
+.hover-show-action {
+  &:hover {
+    .action-inline {
+      display: inline-block;
+
+      i,
+      svg {
+        &:hover {
+          color: white;
+          fill: white;
+        }
+      }
+    }
+  }
+}
+
+.action-inline {
+  margin-left: 5px;
+  display: none;
+
+  i {
+    font-size: 8pt;
+    padding: 5px;
+  }
+
+  svg {
+    padding: 3px;
+  }
+
+}
+
+.hide1 {
+  display: none;
+}
+
+.show:hover+.hide1 {
+  display: block;
+}
+
+.cu-task-row__main {
+  display: flex;
+  align-items: center;
+  min-width: 349px;
+  flex-shrink: 1;
+  flex-grow: 1;
+  left: 0;
+  margin: -1px 0;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  z-index: 10;
+  padding-right: 5px;
+  transform: translateZ(0);
+  background: hsla(0, 0%, 100%, .9);
+
+  // chấm nhỏ task
+  .cu-task-row-status_dot {
+    align-self: stretch;
+  }
+
+  .cu-task-row-status_dot .cu-dropdown {
+    display: flex;
+    align-items: center;
+  }
+
+  .cu-task-row-status_dot .cu-task-row-status__item {
+    position: relative;
+    margin: 0 11px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: .1s;
+    //cursor: pointer;
+    color: transparent;
+  }
+
+  // title 
+  .cu-task-row-main {
+    flex-grow: 1;
+    width: 0;
+    height: 100%;
+    display: inline-flex;
+    flex-direction: column;
+
+    .cu-task-row-main__link {
+      font-size: 0;
+      //cursor: pointer;
+      flex-grow: 1;
+      min-width: 100px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 4px 0;
+
+      .cu-task-row-main__link-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        position: relative;
+      }
+
+      .cu-task-row-main__link-text {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        display: inline-block;
+
+        .cu-task-row-main__link-text-inner {
+          transition: color .2s cubic-bezier(.785, .135, .15, .86) 0s;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-family: Gotham Pro, Proxima Nova, arial, serif;
+          font-weight: 400;
+          font-size: 13.5px;
+          line-height: 1.5;
+          padding-right: 11px;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.popup {
+  overflow: auto;
+}
+
+.height-list {
+  height: 95%;
+}
+
+.height_home {
+  height: 64% !important;
+}
+
+tr.mat-header-row {
+  // display: none !important;
+}
+
+.height_list_home {
+  height: 70% !important;
+}
+
+// ::ng-deep .mat-menu-panel
+//   {
+//     min-height: fit-content !important;
+//   }
+
+//==========Start Thiên Code============
+.eye-view {
+  padding-top: 10px;
+  float: left;
+  margin-right: 10px;
+}
+
+.hide {
+  display: none;
+}
+
+.myDIV:hover+.hide {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  color: black;
+  background-color: #87CEFA;
+  border-radius: 10px;
+  padding: 0 5px 0 5px;
+  z-index: 1000;
+}
+
+.priority_view {
+  padding-top: 8px;
+  float: left;
+}
+
+.icon-new-finish {
+  width: 23px;
+  height: 23px;
+  border: 1px solid red;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  text-align: center;
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+::ng-deep .mat-menu-content {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.find-tag {
+  border: 1px solid gray
+}
+
+.find-tag:focus-visible {
+  border: 1px solid gray
+}
+
+.buttonchoosethemmoi {
+  align-items: center;
+  border: none;
+  height: 28px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  background: #1bc4bd;
+  border-radius: 5px;
+  display: flex;
+}
+
+.title-count {
+  position: relative;
+  bottom: 10px;
+  background: red;
+  border-radius: 55%;
+  color: white;
+  width: 21px;
+  height: 21px;
+  justify-content: center;
+  font-size: 1.2vh;
+  display: flex;
+}
+
+.info-nhiemvu {
+  padding-top: 5px;
+  padding-left: 1.5vw;
+}
+
+.span-chitiet {
+  font-size: 11px;
+  font-style: italic;
+  color: #3E97FF;
+  text-decoration: underline;
+  //cursor: pointer;
+}
+
+.span-click {
+  padding: 0 5px;
+  //cursor: pointer;
+}
+
+.span-socongviec {
+  font-size: 11px;
+  color: #3E97FF;
+  text-decoration: underline;
+  //cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.span-tiendo {
+  //cursor: pointer;
+  white-space: normal;
+  text-align: justify;
+}
+
+//==========End Thiên Code==============

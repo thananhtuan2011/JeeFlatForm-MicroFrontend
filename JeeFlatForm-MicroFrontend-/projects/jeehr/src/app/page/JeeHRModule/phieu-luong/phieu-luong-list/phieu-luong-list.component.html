@@ -1,0 +1,218 @@
+<style>
+  .btn-phieuluong {
+    color: #62a4ff;
+    background: #f3f6f9;
+    line-height: 1 !important;
+  }
+</style>
+<div class="bang-luong">
+  <div class="bang-luong-top">
+    <div style="padding: 12px 12px; display: flex;">
+      <div>
+        <div ngbDropdown class="d-inline-block" style="padding-right: 100px;">
+          <button class="btn btn-phieuluong" mat-button ngbDropdownToggle>
+            {{ loaibangluong }}
+            <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down </mat-icon>
+          </button>
+          <div ngbDropdownMenu>
+            <button (click)="LoadBangLuong(filter)" *ngFor="let filter of listBangLuong" class="dropdown-item">
+              {{ filter.Title }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="btn btn-thangnam" *ngFor="let lst of listThangNam" (click)="ThangNamChange(lst)"
+          [ngClass]="{'thangnam-active' : filterThang === lst.Thang && filterNam === lst.Nam}"
+          style="color: #858585; padding: 2px 15px; font-size: 14px;">{{lst.Title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin: 0;">
+    <div class="col-lg-9 m--margin-bottom-20-mobile" [ngStyle]="{'height': getHeight()}" style="overflow-y: auto;">
+      <div style="justify-content: center; display: flex; width: 100%; padding-top: 20px;" class="row" #TABLE>
+        <label [innerHtml]="lstItem | safeHtml" style="width: 500px; line-height: 1.5;"></label>
+      </div>
+    </div>
+    <div class="col-lg-3 m--margin-bottom-20-mobile bang-cong-right" [ngStyle]="{'height': getHeight()}"
+      style="overflow-y: auto;">
+      <div class="row" style="margin: 0; padding: 12px;">
+        <div class="col-lg-12 m--margin-bottom-20-mobile" style="padding-bottom: 20px;">
+          <div
+            class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+            <div class="m-widget29">
+              <div class="m-widget_content">
+                <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                    style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                    translate="timesheets.nghiphep"></span></h5>
+                <hr>
+                <div class="m-widget1" *ngFor="let nghiphep of list_thongtinnghiphep; let vi = index">
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                ">{{ nghiphep.Title }}</span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span style="font-size: 14px; font-family: Roboto, Helvetica Neue, sans-serif"
+                          [class]="nghiphep.Style">{{
+                          nghiphep.SoNgayNghi
+                          }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 m--margin-bottom-20-mobile" style="padding-bottom: 20px;">
+          <div
+            class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+            <div class="m-widget29">
+              <div class="m-widget_content">
+                <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                    style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                    translate="timesheets.tangca"></span></h5>
+                <hr>
+                <div class="m-widget1">
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.tangcangaythuong"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="luong">{{ tangcangaythuong }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.tangcangaynghi"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="luong">{{ tangcangaynghi }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.tangcangayle"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="luong">{{ tangcangayle }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.tonggiotangca"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="luong">{{ TongGioTangCa }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 m--margin-bottom-20-mobile" style="padding-bottom: 20px;">
+          <div
+            class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+            <div class="m-widget29">
+              <div class="m-widget_content">
+                <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                    style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                    translate="timesheets.tonghoptrongthang"></span>
+                </h5>
+                <hr>
+                <div class="m-widget1">
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.songaydilam"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="salary">{{ songaydilam }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.songaytrocapcadem"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="salary">{{ songaytrocapcadem }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.songayle"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="salary">{{ songayle }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item" style="padding: 2px">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col-lg-10 m--align-left">
+                        <span class="m-widget_content-title" style="
+                                  font-weight: normal;
+                                  font-size: 14px;
+                                  font-family: Roboto, Helvetica Neue, sans-serif;
+                                " translate="timesheets.tongconglam"></span>
+                      </div>
+                      <div class="col-lg-2 m--align-right">
+                        <span class="salary">{{ tongconglam }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

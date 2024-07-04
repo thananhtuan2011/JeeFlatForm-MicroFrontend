@@ -1,0 +1,13 @@
+<div style="display: flex;justify-content: center;">
+    <ngx-avatar [size]="65"  src="{{AvatarSend}}" *ngIf="AvatarSend"></ngx-avatar>
+    <ngx-avatar [size]="65" [name]="NameCall.slice(0, 1)" bgColor="{{BgColorSend}}" *ngIf="!AvatarSend"></ngx-avatar>
+  </div>
+  <div class="namecall">{{NameCall}}</div>
+<p>đang có cuộc gọi khác</p>
+<div style="padding: 10px;
+text-align: center;">
+<button (click)="Close()" mat-mini-fab color="warn" matTooltip="Tắt"  aria-label="Example icon button with a filter list icon">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>
+

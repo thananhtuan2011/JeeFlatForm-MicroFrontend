@@ -1,0 +1,142 @@
+<style>
+
+    .fullname{
+      display: flex;
+      align-items: center;
+      padding-left: 5px;
+    }
+   
+  </style>
+  
+  
+  <div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="card-label cssdanhsach" style="font-size: 20px;font-weight: bold;">{{'JEETEAM.DSTAILIEU' | translate}}</span>
+       
+
+      </div>
+      <div class="card-toolbar">
+      
+        <div id="search_tailieu" style="display: flex;align-items: center;">
+          <div class="body_doc_group">
+  
+          <mat-icon class="icon_search_docs">search</mat-icon>
+             
+                <input  name="search"  (ngModelChange)="saverange($event)" [(ngModel)]="searchtext" type="text" placeholder="Tìm kiếm" />
+              </div>
+         
+           
+              </div>
+          <!-- <form style="padding-right: 10px;">
+          
+            <span style="    display: flex;
+            align-items: center;
+            position: absolute;
+            margin-top: 15px;
+            margin-left: 10px;">
+                <mat-icon>search</mat-icon>
+            </span>
+            <input    (ngModelChange)="saverange($event)"  [(ngModel)]="searchtext"  type="text" name="search" placeholder="Tìm kiếm ...">
+          </form> -->
+        </div>
+
+    </div>
+    <!-- body -->
+    <div class="card-body" style="height: 100vh;">
+      <div  [ngStyle]="{'height': getHeight()}">
+        <table class="table table-head-custom table-vertical-center overflow-hidden">
+          <thead>
+            <th >
+              <span class="title_file">File</span>
+             
+            </th>
+            <th>
+              <span  class="title_file">Người gửi</span>
+             
+            </th>
+          
+            <th >
+              <span  class="title_file">Ngày gửi</span>
+              
+            </th>
+            <th >
+              <span  class="title_file">Tháo tác</span>
+              
+            </th>
+          
+         
+            <!-- <th style="min-width: 100px; text-align: center">
+              <span>nhân viên</span>
+            </th> -->
+          </thead>
+          <tbody>
+            <!-- <tr *ngFor="let r of service.items$ | async">
+            <td>
+              <div>
+                <span>{{ r.Fullname }}</span>
+              </div>
+            </td>
+            </tr> -->
+          <tr *ngFor="let r of _team_services._itemsteam_loadfile$ | async">
+             
+              <td>
+                <div style="display: flex;" (click)="RouterLink(r.path)">
+
+                  
+                <div style="padding-right: 5px;">
+                    <img src="{{r.icon}}">
+                </div>
+                <div style="display: flex;flex-direction: column; cursor: pointer;">
+                  <span  class="title__name">{{ r.filename }}</span>
+                  <span  style="color: rgb(181, 177, 177);">
+                    {{ formatBytesInsert(r.size) }}
+                  </span>
+                </div>
+              </div>
+              </td>
+              <td>
+                <div style="display: flex;flex-direction: column;">
+                  <div style="display: flex;align-items: center;">
+                    <ngx-avatar [size]="35" src="{{ r.User.avatar }}" *ngIf="r.User.avatar"></ngx-avatar>
+                    <ngx-avatar [size]="35" [name]="reverseString(r.User.Fullname).slice(0, 1)"  bgColor="{{ r.User.BgColor }}" *ngIf="!r.User.avatar"></ngx-avatar>
+                    <div style="display: flex;flex-direction: column;">
+                      <span class="title__name">{{ r.User.Fullname  }} </span>
+                    <span  style="color: rgb(181, 177, 177);">#{{ r.User.Department}}</span>
+
+                    </div>
+                
+                  </div>
+                
+                </div>
+              </td>
+              <td>
+                <span class="title__name" >{{ r.CreatedDate  | date : 'dd/MM/yyyy h:mm'}} </span>
+              </td>
+              
+              <td  >
+                <mat-icon (click)="Delete(r.id_attchment)"   mat style="    margin-left: 20px;
+                cursor: pointer;
+                color: #c51b54;
+                font-size: 26px;" aria-hidden="false">
+                  delete</mat-icon
+                >
+              </td>
+            
+              
+            
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- end: Table -->
+      <app-paginator
+        class="d-flex justify-content-between align-items-center flex-wrap"
+        [paginator]="paginator"
+        [isLoading]="isLoading"
+        (paginate)="paginate($event)"
+      ></app-paginator>
+    </div>
+  </div>
+  
+  

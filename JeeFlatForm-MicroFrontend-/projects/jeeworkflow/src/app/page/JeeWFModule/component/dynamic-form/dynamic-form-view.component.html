@@ -1,0 +1,296 @@
+<style>
+    /* ::ng-deep>>>.m-portlet.m-portlet--full-height {
+		min-height: calc(100vh - 100px);
+	} */
+
+    .m-list-search__form-wrapper {
+        position: relative;
+        padding-left: 5px;
+        border: 1px solid #ebedf2;
+        border-radius: 10px;
+    }
+
+    .m-list-search__form-icon-show {
+        position: absolute;
+        right: calc(0% + 5px);
+        background-color: white;
+        height: 30px;
+    }
+
+    .area-search {
+        display: inline-block;
+        width: calc(100% - 5px);
+    }
+
+    .area-search>span:last-child {
+        cursor: pointer;
+    }
+
+    .m-form-filter-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+    }
+
+    .m-form-filter {
+        /* background-color: white; */
+        height: auto;
+        /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+    }
+
+    .m-form-filter form {
+        padding: 24px 0;
+    }
+
+    :host>>>.row {
+        display: flex;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .value-bold {
+        font-weight: bold;
+    }
+</style>
+<div class="m-list-search__form" *ngIf="TypeID == 1">
+    <div class="m-form-filter">
+        <div class="col-md-12 kt--margin-bottom-10-mobile" style="line-height: 20px;">
+            <div class="row" *ngFor="let item of controls; let i=index">
+                <label class="col-md-4 m--margin-top-30 font-chu" style="padding: 0;">{{item.Title}}</label>
+                <div class="col-md-8" *ngIf="item.ControlID==0">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==1">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==2">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==3">
+                    <span class="value-bold">{{getValueDynamic(item) | date:'dd/MM/yyyy'}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==4">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==5">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==6">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==7">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==8">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==9">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==10">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==12">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==13">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==14">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" *ngIf="item.ControlID==15">
+                    <span [innerHtml]="getValueDynamic(item) | safeHtmlWF"></span>
+                </div>
+                <div class="col-md-12" *ngIf="item.ControlID==16">
+                    <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+                        style="width: 100%;font-family: Arial, Helvetica, sans-serif;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;">
+                                    #
+                                </th>
+                                <th style="width: 120px; text-align: left;" *ngFor="let list of item.init;">
+                                    <span>{{list.Title}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of item.dataTable, let vi = index">
+                                <td style="width: 50px; text-align: center;">
+                                    <span>{{vi + 1}}</span>
+                                </td>
+                                <td style="width: 80px; text-align: left;" *ngFor="let list of item.init;">
+                                    {{getValue(row,list)}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-list-search__form" *ngIf="TypeID == 2">
+    <div class="m-form-filter">
+        <div class="col-md-12 kt--margin-bottom-10-mobile" style="line-height: 20px;">
+            <div class="row" *ngFor="let item of controls; let i=index">
+                <label *ngIf="item.IsFieldNode" class="col-md-3 m--margin-top-30 font-chu">{{item.Title}}</label>
+                <div class="col-md-9" *ngIf="item.ControlID==0 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==1 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==2 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==3 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item) | date:'dd/MM/yyyy'}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==4 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==5 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==6 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==7 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==8 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==9 && item.IsFieldNode">
+                    <span class="value-bold">{{getValueDynamic(item)}}</span>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==10 && item.IsFieldNode">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==12 && item.IsFieldNode">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==13 && item.IsFieldNode">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==14 && item.IsFieldNode">
+                    <div class="row" *ngFor="let it of item.Value">
+                        <div>
+                            <img src="{{it.icon}}" style="height: 20px;">
+                        </div>
+                        <div>
+                            <span style="padding: 0 20px;">{{it.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                                style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                                *ngIf="ShowXemTruoc(it)" (click)="XemTruoc(it)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download"
+                                style="cursor: pointer;" matTooltip="Tải xuống" (click)="TaiXuong(it)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.ControlID==15 && item.IsFieldNode">
+                    <span [innerHtml]="getValueDynamic(item) | safeHtmlWF"></span>
+                </div>
+                <div class="col-md-12" *ngIf="item.ControlID==16 && item.IsFieldNode">
+                    <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+                        style="width: 100%;font-family: Arial, Helvetica, sans-serif;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;">
+                                    #
+                                </th>
+                                <th style="width: 120px; text-align: left;" *ngFor="let list of item.init;">
+                                    <span>{{list.Title}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of item.dataTable, let vi = index">
+                                <td style="width: 50px; text-align: center;">
+                                    <span>{{vi + 1}}</span>
+                                </td>
+                                <td style="width: 80px; text-align: left;" *ngFor="let list of item.init;">
+                                    {{getValue(row,list)}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

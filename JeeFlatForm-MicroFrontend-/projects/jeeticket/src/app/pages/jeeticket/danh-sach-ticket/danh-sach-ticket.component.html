@@ -1,0 +1,594 @@
+<style>
+    :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+
+    :host>>>mat-row {
+        min-height: 35px;
+    }
+
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .hover-row:hover {
+        background-color: #F8F8F9;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    .active:hover {
+        background-color: #E6F4EF;
+        cursor: pointer;
+    }
+
+    .navigate-active {
+        color: #E6F4EF;
+    }
+
+    .paddingDiv:focus {
+        outline: 0;
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    :host>>>.card {
+        border-radius: 0 !important;
+    }
+
+    :host>>>.mat-tab-body-content {
+        padding-top: 0px !important;
+    }
+
+    :host>>>.card-body {
+        padding: 0px !important;
+    }
+
+    :host>>>.card-header {
+        padding: 8px !important;
+    }
+
+    .HienDauBaCham {
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+
+    }
+
+    .active {
+        background-color: #ffffff;
+    }
+
+    .active:hover {
+        background-color: #ffffff;
+    }
+
+    .anMenu {
+        display: none;
+    }
+
+    ::ng-deep .no-line .mat-form-field-underline {
+        display: none;
+    }
+
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        margin: 5px auto;
+    }
+
+    .border-item-ticket {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        margin-left: 40px;
+    }
+
+    
+</style>
+<div style="margin: 0; width: 100%;position: absolute;display: flex; ">
+    <div class="list-danhsach">
+        <div class="page-header">
+
+            <div class="mat-form-field-fluid" class="btn-dp" style="color: black;font-size:10pt;font-weight: bold;max-width: 180px;
+                padding-left: 5px;border: none;">
+                <mat-select (selectionChange)="ChangeStage_Phanloai($event.value)" placeholder="PHÂN LOẠI"
+                    #singleSelect>
+
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput name="search_yc" id="search_ycs"
+                            (ngModelChange)="this.userQuestionUpdate.next($event)" [(ngModel)]="search_yc"
+                            placeholder="{{ 'GeneralKey.nhapdetimkiem'| translate}}" autocomplete="off" />
+                        <mat-icon matPrefix> search</mat-icon>
+                    </mat-form-field>
+                    <mat-option [value]="0">
+                        Tất cả
+                    </mat-option>
+                    <!-- <mat-option *ngFor="let item of this.Category1" [value]="item.RowID">
+                        {{ item.Title }}
+                    </mat-option> -->
+                    <mat-option *ngFor="let item of this.Category2" [value]="item.RowID">
+                        {{ item.Title }}
+                    </mat-option>
+                </mat-select>
+            </div>
+
+            <div class="row" style="margin-top: 20px;">
+                <div style="padding-left: 5px; border: none; display: flex;width: 295px;margin-right: 3px;">
+                    <div class="input-icon" [formGroup]="searchGroup" style="width:295px; position: relative;">
+                        <input formControlName="searchTerm" class="form-control" style="position: absolute; top: 0px"
+                            placeholder="Tìm kiếm theo người gửi, tiêu đề" style="width:100%">
+                        <span style="padding-left: 0.69rem" class="svg-icon" style="position: absolute; top: 10px;
+                        left: 20px;" [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'"></span>
+                    </div>
+                </div>
+                <div style="align-self: center; padding: 0px;width: 43px;">
+                    <button class="btn-add-plus" mat-raised-button type="button" (click)="Create()"
+                        style="min-width: 37px;">
+                        <i class="fa fas fa-plus icon-add-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="justify-content: flex-end; padding-bottom: 8px;">
+            <div style=" position: absolute; padding-top: 7px; z-index: 100; margin-right:7px;width:0">
+                <mat-form-field class="no-line"
+                    style="float: right;width:60px;text-align: right;color: #404040;font-size:10pt;">
+                    <mat-select (selectionChange)="ChangeStage($event.value)" [value]="0" #singleSelect>
+                        <mat-option [value]="0">
+                            Tất cả
+                        </mat-option>
+                        <mat-option *ngFor="let item of this.stautsDTO" [value]="item.Title">
+                            {{ item.Title }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="align-items: center; margin-right: 0;">
+            <mat-tab-group #matTab [selectedIndex]="selectedTab" class="dl-tabs-yeu-cau" style="width:100% !important"
+                (selectedTabChange)="onTabClick($event)">
+                <mat-tab label="Tôi gửi">
+                    <ng-template mat-tab-label>
+                        <span class="mat-tab-agent">Tôi gửi</span>&nbsp;
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div  class="header-body overflow-auto scroller" [ngStyle]="{ height: getHeight() }"
+                            (scroll)="onScroll($event)">
+                            <div class="example-container mat-table__wrapper" style="overflow: hidden !important;">
+                                <ng-container *ngFor="let r of dataLazyLoad">
+                                    <div class="border-item-ticket"></div>
+                                    <div [ngClass]="{ 'item-selected': r.RowID == this.item_selected }"
+                                        (click)="changeRoute(r)" class="item-ticket">
+                                        <table class="table" style="margin: 15px 10px 15px 0;">
+                                            <thead style="visibility: collapse;">
+                                                <tr>
+                                                    <th style="width: 30px"></th>
+                                                    <th style="width: 235px"></th>
+                                                    <th style="width: 85px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td rowspan="3" style="padding-left: 5px !important;">
+                                                        <div class="tinhtrang"
+                                                            [ngStyle]="{'background-color':r.Status.Color}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="HienDauBaCham" matTooltip="Xem chi tiết"
+                                                            [ngStyle]="{'color':r.Status.Color}"
+                                                            style="font-size: 12pt;font-weight: 500;">{{r.Title}}
+                                                        </div>
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="item-right-show-content cu-task-row-assignee">
+                                                                    <ng-container>
+                                                                        <div class="user url"
+                                                                            style="justify-content: flex-end;">
+
+                                                                            <ng-container>
+                                                                                <ngx-avatar [size]="40"
+                                                                                    matTooltip="{{r.User.fullname}}"
+                                                                                    src="{{r.User.image}}"
+                                                                                    *ngIf="r.User.image;else bindText">
+                                                                                </ngx-avatar>
+                                                                                <ng-template #bindText>
+                                                                                    <ngx-avatar [textSizeRatio]="2.5"
+                                                                                        matTooltip="{{r.User.fullname}}"
+                                                                                        [size]="40"
+                                                                                        [name]="getName(r.User.fullname)"
+                                                                                        bgColor="{{getColorNameUser(r.User.fullname)}}">
+                                                                                    </ngx-avatar>
+                                                                                </ng-template>
+
+
+                                                                            </ng-container>
+                                                                        </div>
+                                                                        <div>
+                                                      
+                                                                        <img style="height: 18px;" [ngClass]="get_flag_color(r.Priority)" />
+                                                                    </div>
+                                                                    </ng-container>
+                                                                    <ng-template #chuagiao>
+                                                                        <div class="user bg-white mr-2"
+                                                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                                                            <i class="fas fa-user-plus ml-1 pd-0"
+                                                                                matTooltip="Chưa có người làm"
+                                                                                style="font-size: 13px; "></i>
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <ng-container *ngIf="r.Category1">
+                                                            <div class="ten-loai-yc">{{r.Category[0].Title}}
+                                                            </div>
+                                                        </ng-container>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="font-time">
+                                                            <div *ngIf="r.Rating != 0"
+                                                                style="float: left;margin-right: 5px;">
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color: #FFC107;font-size: 16px;"></span>
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(5-r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color:#E6E6FA;font-size: 16px;"></span>
+
+                                                            </div>
+                                                           
+                                                            <div style="float: left;">
+                                                                <i *ngIf="r.SumMessage" class="far fa-comment">
+                                                                    {{r.SumMessage[0].result}}</i>
+                                                            </div>
+
+
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div style="padding-top: 5px; text-align: center;">
+                                                            <span>{{(r.CreatedDate) | timeAgoCus}}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+
+
+                        </div>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Tôi xử lý">
+                    <ng-template mat-tab-label>
+                        <span class="mat-tab-agent">Tôi xử lý</span>&nbsp;
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="header-body overflow-auto" [ngStyle]="{ height: getHeight() }"
+                            (scroll)="onScroll($event)">
+                            <div class="example-container mat-table__wrapper" style="overflow: hidden !important;">
+                                <ng-container *ngFor="let r of dataLazyLoad">
+                                    <div class="border-item-ticket"></div>
+                                    <div [ngClass]="{ 'item-selected': r.RowID == this.item_selected }"
+                                        (click)="changeRoute(r)" class="item-ticket">
+                                        <table class="table" style="margin: 15px 10px 15px 0;">
+                                            <thead style="visibility: collapse;">
+                                                <tr>
+                                                    <th style="width: 30px"></th>
+                                                    <th style="width: 235px"></th>
+                                                    <th style="width: 85px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td rowspan="3" style="padding-left: 5px !important;">
+                                                        <div class="tinhtrang"
+                                                            [ngStyle]="{'background-color':r.Status.Color}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="HienDauBaCham" matTooltip="Xem chi tiết"
+                                                            [ngStyle]="{'color':r.Status.Color}"
+                                                            style="font-size: 12pt;font-weight: 500;">{{r.Title}}
+                                                        </div>
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="item-right-show-content cu-task-row-assignee">
+                                                                    <ng-container>
+                                                                        <div class="user url"
+                                                                            style="justify-content: flex-end;">
+
+                                                                            <ng-container>
+                                                                                <ngx-avatar [size]="40"
+                                                                                    matTooltip="{{r.User.fullname}}"
+                                                                                    src="{{r.User.image}}"
+                                                                                    *ngIf="r.User.image;else bindText">
+                                                                                </ngx-avatar>
+                                                                                <ng-template #bindText>
+                                                                                    <ngx-avatar [textSizeRatio]="2.5"
+                                                                                        matTooltip="{{r.User.fullname}}"
+                                                                                        [size]="40"
+                                                                                        [name]="getName(r.User.fullname)"
+                                                                                        bgColor="{{getColorNameUser(r.User.fullname)}}">
+                                                                                    </ngx-avatar>
+                                                                                </ng-template>
+
+
+                                                                            </ng-container>
+                                                                        </div>
+                                                                        <div>
+                                                                            <img style="height: 18px;" [ngClass]="get_flag_color(r.Priority)" />
+                                                                        </div>
+                                                                    </ng-container>
+                                                                    <ng-template #chuagiao>
+                                                                        <div class="user bg-white mr-2"
+                                                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                                                            <i class="fas fa-user-plus ml-1 pd-0"
+                                                                                matTooltip="Chưa có người làm"
+                                                                                style="font-size: 13px; "></i>
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <ng-container *ngIf="r.Category1">
+                                                            <div class="ten-loai-yc">{{r.Category[0].Title}}
+                                                            </div>
+                                                        </ng-container>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="font-time">
+                                                            <div *ngIf="r.Rating != 0"
+                                                                style="float: left;margin-right: 5px;">
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color: #FFC107;font-size: 16px;"></span>
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(5-r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color:#E6E6FA;font-size: 16px;"></span>
+
+                                                            </div>
+                                                            
+                                                            <div style="float: left;">
+                                                                <i *ngIf="r.SumMessage" class="far fa-comment">
+                                                                    {{r.SumMessage[0].result}}</i>
+                                                            </div>
+
+
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div style="padding-top: 5px; text-align: center;">
+                                                            <span>{{(r.CreatedDate) | timeAgoCus}}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+
+
+                        </div>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Tôi theo dõi">
+                    <ng-template mat-tab-label>
+                        <span class="mat-tab-agent">Tôi theo dõi</span>&nbsp;
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="header-body overflow-auto" [ngStyle]="{ height: getHeight() }"
+                            (scroll)="onScroll($event)">
+                            <div class="example-container mat-table__wrapper" style="overflow: hidden !important;">
+                                <ng-container *ngFor="let r of dataLazyLoad">
+                                    <div class="border-item-ticket"></div>
+                                    <div [ngClass]="{ 'item-selected': r.RowID == this.item_selected }"
+                                        (click)="changeRoute(r)" class="item-ticket">
+                                        <table class="table" style="margin: 15px 10px 15px 0;">
+                                            <thead style="visibility: collapse;">
+                                                <tr>
+                                                    <th style="width: 30px"></th>
+                                                    <th style="width: 235px"></th>
+                                                    <th style="width: 85px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td rowspan="3" style="padding-left: 5px !important;">
+                                                        <div class="tinhtrang"
+                                                            [ngStyle]="{'background-color':r.Status.Color}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="HienDauBaCham" matTooltip="Xem chi tiết"
+                                                            [ngStyle]="{'color':r.Status.Color}"
+                                                            style="font-size: 12pt;font-weight: 500;">{{r.Title}}
+                                                        </div>
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="item-right-show-content cu-task-row-assignee">
+                                                                    <ng-container>
+                                                                        <div class="user url"
+                                                                            style="justify-content: flex-end;">
+
+                                                                            <ng-container>
+                                                                                <ngx-avatar [size]="40"
+                                                                                    matTooltip="{{r.User.fullname}}"
+                                                                                    src="{{r.User.image}}"
+                                                                                    *ngIf="r.User.image;else bindText">
+                                                                                </ngx-avatar>
+                                                                                <ng-template #bindText>
+                                                                                    <ngx-avatar [textSizeRatio]="2.5"
+                                                                                        matTooltip="{{r.User.fullname}}"
+                                                                                        [size]="40"
+                                                                                        [name]="getName(r.User.fullname)"
+                                                                                        bgColor="{{getColorNameUser(r.User.fullname)}}">
+                                                                                    </ngx-avatar>
+                                                                                </ng-template>
+
+
+                                                                            </ng-container>
+                                                                        </div>
+                                                                        <div>
+                                                                            <img style="height: 18px;" [ngClass]="get_flag_color(r.Priority)" />
+                                                                    </div>
+                                                                    </ng-container>
+                                                                    <ng-template #chuagiao>
+                                                                        <div class="user bg-white mr-2"
+                                                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                                                            <i class="fas fa-user-plus ml-1 pd-0"
+                                                                                matTooltip="Chưa có người làm"
+                                                                                style="font-size: 13px; "></i>
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <ng-container *ngIf="r.Category1">
+                                                            <div class="ten-loai-yc">{{r.Category[0].Title}}
+                                                            </div>
+                                                        </ng-container>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="font-time">
+                                                            <div *ngIf="r.Rating != 0"
+                                                                style="float: left;margin-right: 5px;">
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color: #FFC107;font-size: 16px;"></span>
+                                                                <span
+                                                                    *ngFor="let item of [].constructor(5-r.Rating); let i = index"
+                                                                    class="fa fa-star"
+                                                                    style="color:#E6E6FA;font-size: 16px;"></span>
+
+                                                            </div>
+                                                            
+                                                            <div style="float: left;">
+                                                                <i *ngIf="r.SumMessage" class="far fa-comment">
+                                                                    {{r.SumMessage[0].result}}</i>
+                                                            </div>
+
+
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div style="padding-top: 5px; text-align: center;">
+                                                            <span>{{(r.CreatedDate) | timeAgoCus}}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+
+
+                        </div>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+
+
+
+    <div style="position: relative;" [ngStyle]="{'width': getWidth()}">
+        <router-outlet></router-outlet>
+    </div>
+</div>

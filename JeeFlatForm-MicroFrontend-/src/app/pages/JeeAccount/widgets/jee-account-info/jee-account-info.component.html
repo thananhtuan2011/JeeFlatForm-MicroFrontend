@@ -1,0 +1,287 @@
+<style>
+  .info-avatar {
+    display: flex;
+    justify-content: center;
+  }
+
+  .row {
+    margin-top: 0.8rem;
+  }
+
+  .icon-doimatkhau {
+    cursor: pointer;
+  }
+
+  .app:not(:last-child) {
+    border-bottom: 1px solid #ccc8c8;
+    margin-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .app .app-center-y {
+    align-self: center;
+  }
+
+  .app .title {
+    color: aqua;
+  }
+
+  .app .app-name {
+    color: rgb(12, 124, 186);
+    font-size: 16px;
+  }
+
+  .span {
+    font-size: 15px;
+  }
+
+  .chu-dam {
+    font-weight: 600;
+  }
+
+  .con-tro {
+    cursor: pointer;
+  }
+
+  :host {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+  }
+
+  .gutter-b {
+    margin-bottom: 25px;
+  }
+
+  .row {}
+
+  .flows-card-content {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .flows-app-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+
+    .app-title {
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      width: 100%;
+      max-width: 80%;
+    }
+
+    .app-description {
+      font-weight: 400;
+      font-size: 12px;
+      display: inline-block;
+      width: 100%;
+      max-width: 80%;
+    }
+  }
+
+  .flows-app-actions {
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-end;
+    width: 10%;
+  }
+</style>
+<div [ngStyle]="{ height: getHeightFull() }" style="overflow-y: auto; width: 100%">
+  <div class="card card-custom card-sticky gutter-b" style="width: 700px; height: 390px; margin: 25px auto">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dialog-title">{{
+          "JEEACCOUNT.INFO.THONGTINCANHAN" | translate
+          }}</span>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="personalInfo" style="padding: 0 2rem">
+      <div class="container">
+        <div class="row">
+          <div class="col" style="flex-direction: row-reverse; display: flex !important">
+            <ngx-avatar class="con-tro" (click)="hiddenfileinput.click()" [size]="80" [src]="personalInfo.Avatar"
+              *ngIf="personalInfo"></ngx-avatar>
+            <ngx-avatar (click)="hiddenfileinput.click()" [size]="80" [name]="personalInfo.Name"
+              bgColor="{{ personalInfo.BgColor }}" *ngIf="!personalInfo.Avatar"></ngx-avatar>
+            <input style="display: none" accept="image/jpg, image/jpeg, image/png" name="Image" id="file" type="file"
+              class="form-control" (change)="onFileChange($event, username)" #hiddenfileinput />
+          </div>
+          <div class="col" style="align-self: center">
+            <div class="row chu-dam" style="font-size: 1.2rem; text-transform: uppercase">
+              {{ personalInfo.Fullname }}
+            </div>
+            <div class="row" style="font-size: 1rem; margin-top: 0">
+              {{ personalInfo.Jobtitle }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><span>Email</span></div>
+          <div class="col-8">
+            <span class="chu-dam">{{ personalInfo.Email }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <span>{{ "JEEACCOUNT.INFO.SODIENTHOAI" | translate }}</span>
+          </div>
+          <div class="col-8">
+            <span class="chu-dam">{{ personalInfo.Phonenumber }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <span>{{ "JEEACCOUNT.INFO.PHONGBAN" | translate }}</span>
+          </div>
+          <div class="col-8">
+            <span class="chu-dam">{{ personalInfo.Departmemt }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <span>{{ "JEEACCOUNT.INFO.TENDANGNHAP" | translate }}</span>
+          </div>
+          <div class="col-8">
+            <span class="chu-dam">{{ username }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <span>{{ "JEEACCOUNT.INFO.MATKHAU" | translate }}</span>
+          </div>
+          <div class="col-8">
+            <span class="chu-dam"> {{ newpassword }} </span>
+            <mat-icon class="icon-doimatkhau" (click)="resetPassword()"
+              matTooltip="{{ 'JEEACCOUNT.INFO.DOIMATKHAU' | translate }}">sync</mat-icon>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4">
+            <span>Xác minh 2 lớp</span>
+          </div>
+          <div class="col-8">
+            <a *ngIf="!isEnabled2FA" class="btn btn-success active" (click)="enable2fa()">Bật xác minh 2 lớp</a>
+            <a *ngIf="isEnabled2FA" class="btn btn-danger active" (click)="enable2fa()">Tắt xác minh 2 lớp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-custom card-sticky gutter-b" style="width: 700px; margin: 25px auto">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dialog-title">Thông tin thiết bị đăng nhập</span>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="personalInfo" style="max-height: 385px; padding: 0 2rem; overflow-y: auto">
+      <div class="container" style="padding-top: 1rem !important">
+        <div *ngFor="let item of devices">
+          <mat-card>
+            <span class="chu-dam">{{
+              convertTimestampToFormattedDate(item.login_date)
+              }}</span>
+            <div class="flows-card-content">
+              <div class="flows-app-titles">
+                <div class="app-title">
+                  <span>{{ personalInfo.Fullname }} đã đăng nhập trên </span>
+                  <span *ngIf="item.platform_name">{{
+                    item.platform_name
+                    }}</span><span *ngIf="!item.platform_name">thiết bị không xác định</span>
+                </div>
+                <div class="app-description">
+                  <span *ngIf="item.browser_name"><b>Trình duyệt/thiết bị:</b> {{ item.browser_name }}</span>
+                  <br *ngIf="item.mobile_name && item.mobile_name != '?0'" />
+                  <span *ngIf="item.mobile_name && item.mobile_name != '?0'">
+                    <b>Thông tin chi tiết:</b> {{ item.mobile_name }}</span>
+                  <br *ngIf="item.ip_address" />
+                  <span *ngIf="item.ip_address">
+                    <b>Địa chỉ ip:</b> {{ item.ip_address }}</span>
+                </div>
+              </div>
+              <div class="flows-app-actions">
+                <mat-chip-list>
+                  <mat-chip style="
+                      background-color: #68c17b;
+                      color: white !important;
+                      width: 105px;
+                      font-size: 11px;
+                    " *ngIf="item.isActive">Đang đăng nhập</mat-chip>
+                  <mat-chip style="
+                      background-color: #975a5a;
+                      color: white !important;
+                      width: 90px;
+                      font-size: 11px;
+                    " *ngIf="!item.isActive">Đã đăng xuất</mat-chip>
+                </mat-chip-list>
+                <button *ngIf="uuid !== item.device_id" (click)="$event.stopPropagation()" mat-icon-button
+                  [matMenuTriggerFor]="menu2">
+                  <mat-icon color="primary">more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu2="matMenu">
+                  <button mat-menu-item color="warn" (click)="logoutDevice(item.device_id)" type="button"
+                    matTooltip="Xóa">
+                    <mat-icon color="warn">delete</mat-icon>Xóa
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </mat-card>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-custom card-sticky gutter-b" style="width: 700px; margin: 25px auto">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dialog-title">{{
+          "JEEACCOUNT.INFO.UNGDUNGCUATOI" | translate
+          }}</span>
+      </div>
+    </div>
+    <div class="card-body" [ngStyle]="{ height: getHeight() }" style="overflow-y: auto">
+      <div class="container">
+        <ng-container *ngFor="let app of listApp">
+          <div class="row app" *ngIf="app.IsShowApp && app.IsActive">
+            <div class="col-8" style="flex-direction: row; display: flex !important">
+              <div class="col-4">
+                <ngx-avatar class="con-tro" (click)="newTab(app.BackendURL)" [size]="80" src="{{ app.Icon }}">
+                </ngx-avatar>
+              </div>
+              <div class="col-8 app-center-y">
+                <div class="row">
+                  <span (click)="newTab(app.BackendURL)" style="cursor: pointer" class="chu-dam app-name">{{ app.AppName
+                    }}</span>
+                </div>
+                <div class="row">
+                  <span>{{ app.Description }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-4 app-center-y">
+              <div>
+                <span>{{ "JEEACCOUNT.INFO.THAMGIA" | translate }}: </span>&nbsp;<span class="chu-dam"> {{ app.StartDate
+                  }}</span>
+              </div>
+              <div>
+                <span>{{ "JEEACCOUNT.INFO.HETHAN" | translate }}: </span>&nbsp;<span class="chu-dam"> {{ app.EndDate
+                  }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

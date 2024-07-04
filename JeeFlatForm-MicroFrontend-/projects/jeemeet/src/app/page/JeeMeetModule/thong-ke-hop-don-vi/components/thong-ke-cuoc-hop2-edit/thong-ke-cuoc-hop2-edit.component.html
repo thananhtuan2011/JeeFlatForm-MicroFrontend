@@ -1,0 +1,224 @@
+<style>
+    .card-body {
+        height: 100%;
+    }
+
+    .card.card-custom {
+        height: 100%;
+    }
+
+    :host>>>.card-body {
+        padding: 10px 29.25px !important;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    ::ng-deep .nav-expansion-panel-donvi {
+        .mat-expansion-panel {
+            box-shadow: none !important;
+            border: none !important
+        }
+
+        .mat-expansion-panel-header {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            height: 55px !important;
+            border-radius: none !important;
+
+            .mat-expansion-panel-header-title {
+
+                .title,
+                mat-icon {
+                    font-size: 13px;
+                    font-weight: 500 !important;
+                    color: #141213 !important;
+                }
+
+                a {
+                    color: #03B3FF !important;
+                    font-size: 13px;
+                    font-weight: 500;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        .mat-expansion-panel-header:hover {
+            background-color: #E5F7FF !important;
+            border-radius: none !important;
+        }
+
+        .mat-expansion-panel-content {
+            .mat-expansion-panel-body {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+                padding-top: 10px !important;
+                margin-bottom: -30px !important;
+            }
+        }
+    }
+
+    .item-thanh-vien {
+        padding-bottom: 15px;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .thanh-phan {
+            display: flex;
+
+            .avatar-thanh-phan {
+                margin: auto 5px auto 0;
+            }
+
+            .thong-tin-thanh-phan {
+                display: block;
+
+                .value {
+                    color: #141213;
+                    font-size: 13px;
+                    font-weight: 500;
+
+                    a {
+                        color: #03B3FF !important;
+                        font-size: 13px;
+                        font-weight: 500;
+                    }
+                }
+
+                .chucvu {
+                    color: #B4BECB;
+                    font-size: 11px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .action-thanh-phan {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    .bg-active-donvi {
+        background-color: #E5F7FF !important;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="col-md-6" style="margin-top: 0.5cm;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Chi tiết thành phần tham dự
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" class="button-cancel" mat-raised-button (click)="close()" cdkFocusInitial
+                matTooltip="{{ 'COMMON.BACK' | translate }}">
+                {{'COMMON.BACK' | translate}}
+            </button>&nbsp;&nbsp;
+            <div>
+                <a href="javascript:void(0)" class="btn-add-plus btn"
+                    style="background-color: #E9F5EE !important;color: #219653 !important;"
+                    matTooltip="{{'GeneralKey.xuatexcel' | translate}}" (click)="xuatExcel()">
+
+                    <span>{{'GeneralKey.xuatexcel' | translate}}</span>
+                </a>
+                <a href="" id="downloadFile" style="display: none;"></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" style="    max-height: 70vh;
+    overflow: auto;">
+        <!-- <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th class=" text-center" style=" text-align: center">
+                            <span>STT</span>
+                        </th>
+                        <th style=" text-align: center">
+                            <span>Họ và tên</span>
+                        </th>
+                        <th style=" text-align: center">
+                            <span>Chức vụ</span>
+                        </th>
+                        <th style=" text-align: center">
+                            <span>Đơn vị</span>
+                        </th>
+                    </thead>
+                    <tbody *ngIf="thongKeCuocHop2Service.items$ | async">
+                        <tr *ngFor="let item of (thongKeCuocHop2Service.items$ | async); let i = index;">
+                            <td class="text-center">
+                                {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                            </td>
+                            <td style="text-align: center">
+                                <span>
+                                    {{item.FullName}}</span>
+                            </td>
+                            <td style="text-align: center">
+                                <span>
+                                    {{item.ChucVu}}</span>
+                            </td>
+                            <td style="text-align: center">
+                                <span>
+                                    {{item.TenPhuongXa}}</span>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message"
+                *ngIf="(thongKeCuocHop2Service.items$ | async).length === 0">
+                <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu
+            </div>
+
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+        <div class="nav-expansion-panel-donvi mr-t10">
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let panel of listGroupDept ; let i=index" #panelthanhphanxem
+                    [expanded]="i === 0" hideToggle>
+                    <mat-expansion-panel-header [ngClass]="{'bg-active-donvi': panelthanhphanxem.expanded}">
+                        <mat-panel-title>
+                            <span class="title">{{panel.DepartmentName}}</span>
+                            <a>({{panel.listUser.length}})</a>
+                        </mat-panel-title>
+                        <mat-icon *ngIf="panelthanhphanxem.expanded" class="icon-arrow">arrow_drop_down</mat-icon>
+                        <mat-icon *ngIf="!panelthanhphanxem.expanded" class="icon-arrow-90">arrow_drop_down</mat-icon>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let ob of panel.listUser" class="item-thanh-vien">
+                        <div class="thanh-phan">
+                            <div class="avatar-thanh-phan">
+                                <ngx-avatar size="32" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                    *ngIf="ob.Image;else bindText">
+                                </ngx-avatar>
+                                <ng-template #bindText>
+                                    <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="32"
+                                        [name]="thongKeCuocHop2Service.getNameUser(ob.HoTen)"
+                                        bgColor="{{thongKeCuocHop2Service.getColorNameUser(ob.HoTen)}}">
+                                    </ngx-avatar>
+                                </ng-template>
+                            </div>
+                            <div class="thong-tin-thanh-phan">
+                                <span class="value d-block">{{ob.HoTen}}&nbsp;<a *ngIf="ob.isHost">(Chủ
+                                        trì)</a></span>
+                                <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                    matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<style>
+  .app-checbox,
+  mat-checkbox {
+    padding: 6px 6px 0 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 0 0 20%;
+  }
+
+  :host>>>.dropdown-tree {
+    width: 410px;
+  }
+
+  .mat-form-field-fluid {
+    width: 100%
+  }
+</style>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <span class="dialog-title">
+        <span>Cập nhật thông tin</span>
+      </span>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body overflow-auto">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <div class="min-height: 404px; max-height: 70vh;">
+      <form [formGroup]="itemForm" class="form form-label-right">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-12">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-batbuoc mat-focused" formControlName="HoTen"
+                  placeholder="{{ 'COMMOM.HOTEN' | translate }}" matInput required />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select formControlName="GioiTinh" placeholder="{{ 'ACCOUNTMANAGEMENT.GIOITINH' | translate }}"
+                  #singleSelect>
+                  <mat-option value="0">Nam</mat-option>
+                  <mat-option value="1">Nữ</mat-option>
+                  <mat-option value="2">Khác</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-thuong mat-focused" formControlName="Email" placeholder="Email"
+                  matInput />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button  mat-raised-button
+        style="float: right; margin-right: 12px" class="ja_btn-addnew" (click)="onSubmit(true)">
+        {{ 'COMMOM.LUUDONG' | translate }}
+      </button>
+      <button mat-raised-button style="float: right; margin: 0; margin-right: 12px" class="ja_btn-goback"
+        (click)="goBack()">
+        {{ 'COMMOM.TROLAI' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

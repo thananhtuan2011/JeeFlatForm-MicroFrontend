@@ -1,0 +1,144 @@
+<style>
+	m-dynamic-search-form {
+		width: 500px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.text-menutext {
+		text-align: left;
+		padding: 0;
+	}
+
+	.text-menutext:hover {
+		text-align: left;
+		padding: 0;
+	}
+
+	.icon-menuxoa {
+		padding-right: 10px;
+		color: red;
+		padding-left: 8px;
+	}
+
+	.icon-menuxoa:hover {
+		text-align: left;
+		padding: 0;
+		background-color: rgba(10, 149, 98, 0.063);
+		color: red;
+	}
+
+	.icon-menulock {
+		padding-right: 10px;
+		color: #FFD000;
+		padding-left: 8px;
+	}
+
+	.icon-menulock:hover {
+		text-align: left;
+		padding: 0;
+		background-color: rgba(10, 149, 98, 0.063);
+		color: #FFD000;
+	}
+
+	.lock {
+		font-size: 10px;
+		font-weight: normal;
+		display: inline-block;
+		color: #fff;
+		text-transform: uppercase;
+		background: rgba(195, 67, 67, 0.7);
+		padding: 3px 6px;
+		border-radius: 3px;
+		vertical-align: 2px;
+		margin-right: 2px;
+	}
+
+	.row {
+		--bs-gutter-x: 0;
+	}
+</style>
+
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<div style="padding: 0 10px; display: flex; align-items: center;">
+				<span *ngIf="IsEdit" class="svg-icon svg-icon-primary svg-icon-2x" [matMenuTriggerFor]="menu">
+					<!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Other1.svg--><svg
+						xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+						height="24px" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="#000000" cx="12" cy="5" r="2" />
+							<circle fill="#000000" cx="12" cy="12" r="2" />
+							<circle fill="#000000" cx="12" cy="19" r="2" />
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>
+				<mat-menu #menu="matMenu">
+					<div class="row" (click)="$event.stopPropagation();" style="width: 250px;">
+						<button mat-menu-item class="text-menutext" (click)="QuanLyViTri()">
+							<span style="font-size: 9pt;" translate="workprocess.chinhsuavitrigiaidoan"></span>
+						</button>
+					</div>
+				</mat-menu>
+				<mat-select class="mat-form-field mat-form-field-fluid"
+					style="width: 400px; padding: 15px 0; text-transform: uppercase; font-weight: bold;"
+					[(ngModel)]="ID_QuyTrinh" (selectionChange)="changeDropDown($event.value)">
+					<mat-option value="{{list.rowid}}" *ngFor="let list of ListProcess;">
+						{{list.title}}
+					</mat-option>
+				</mat-select>
+			</div>
+		</div>
+		<div class="card-toolbar">
+			<m-dynamic-search-form [hidden]="!(selectedTab == 0 || selectedTab == 1)"></m-dynamic-search-form>&nbsp;
+			<button (click)="Add()" mat-raised-button matTooltip="{{ 'workprocess.taonhiemvu' | translate }}"
+				class="ja_btn-addnew"
+				[hidden]="!((selectedTab == 0 || selectedTab == 1) && (IsEdit || IsAdd) && !IsLock)" type="button">
+				<span translate="workprocess.taonhiemvu"></span>
+			</button>
+		</div>
+	</div>
+	<div class="card-body dl-content" style="padding: 0.5rem 0 0;">
+		<mat-tab-group class="dl-tabs-custom" [selectedIndex]="selectedTab" (selectedTabChange)="onLinkClick($event)">
+			<mat-tab label="{{'workprocess.manhinhkanban' | translate}}" id="id-table">
+				<ng-template matTabContent id="id-table">
+					<kt-kanban-list [ID_QuyTrinh]="ID_QuyTrinh" [TenQuyTrinh]="TenQuyTrinh" [WorkID]="WorkID"
+						[Values]="Values">
+					</kt-kanban-list>
+				</ng-template>
+			</mat-tab>
+
+			<mat-tab label="{{'workprocess.manhinhdanhsach' | translate}}">
+				<ng-template matTabContent>
+					<kt-task-list [ID_QuyTrinh]="ID_QuyTrinh" [TenQuyTrinh]="TenQuyTrinh" [WorkID]="WorkID"
+						[Values]="Values">
+					</kt-task-list>
+				</ng-template>
+			</mat-tab>
+
+			<mat-tab label="{{'workprocess.thanhvien' | translate}}">
+				<ng-template matTabContent>
+					<kt-thanh-vien-list [ID_QuyTrinh]="ID_QuyTrinh" [TenQuyTrinh]="TenQuyTrinh">
+					</kt-thanh-vien-list>
+				</ng-template>
+			</mat-tab>
+
+			<mat-tab label="{{'workprocess.baocao' | translate}}">
+				<ng-template matTabContent>
+					<kt-bao-cao-list [ID_QuyTrinh]="ID_QuyTrinh" [TenQuyTrinh]="TenQuyTrinh">
+					</kt-bao-cao-list>
+				</ng-template>
+			</mat-tab>
+
+			<mat-tab label="{{'workprocess.bieumau' | translate}}">
+				<ng-template matTabContent>
+					<kt-bieu-mau-list [ID_QuyTrinh]="ID_QuyTrinh" [TenQuyTrinh]="TenQuyTrinh">
+					</kt-bieu-mau-list>
+				</ng-template>
+			</mat-tab>
+
+		</mat-tab-group>
+	</div>
+</div>

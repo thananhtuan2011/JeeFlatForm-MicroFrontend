@@ -1,0 +1,106 @@
+<div [ngStyle]="{'height': getHeight()}">
+  <!-- <a href="" id="downloadFile" style="display: none;"></a>
+  <a href="javascript:void(0)" class="btn-export excel" mat-raised-button color="primary" matTooltip="Xuất Excel" 
+  style="background-color:#0071B7 !important;display: flex;float: right;margin: 5px 0 5px 0;"
+    (click)="Export()">
+    <img class="icon-btn-export"> Xuất Excel
+  </a>&nbsp;&nbsp;
+  <a href="" id="downloadFile" style="display: none;"></a> -->
+
+  <table style="width:100% !important" class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;height: 80px;">
+          Đơn vị thực hiện
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center">
+          Tổng số nhiệm vụ
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center">
+          Hoàn thành đúng hạn
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 200px; text-align: center">
+          Hoàn thành quá hạn
+        </th>
+        <th class="css-stickyheader-col2" style="min-width: 200px; text-align: center">
+          Còn hạn
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 200px; text-align: center">
+          Sắp tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center">
+          Tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center">
+          Quá hạn
+        </th>
+
+
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of listData">
+        <td class="css-sticky-col0" style=" height: 22px;">
+          {{data.title}}</td>
+        <td class="css-sticky-col1" style="text-align: center; height: 22px;">
+         <span  (click)="view(0,data)" matTooltip="Xem chi tiết"> {{data.num_work}}</span></td>
+        <td class="css-sticky-col2" style="text-align: center; height: 22px;">
+          <span  (click)="view(6,data)" matTooltip="Xem chi tiết" [ngStyle]="{'color': colorCrossbar[0]}">{{data.hoanthanh_dunghan}}</span></td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span  (click)="view(7,data)" matTooltip="Xem chi tiết" [ngStyle]="{'color': colorCrossbar[0]}">{{data.hoanthanh_quahan}}</span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span (click)="view(2,data)" matTooltip="Xem chi tiết" [ngStyle]="{'color': colorCrossbar[4]}">{{data.conhan}}</span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span (click)="view(3,data)" matTooltip="Xem chi tiết" [ngStyle]="{'color': colorCrossbar[1]}">{{data.saptoihan}}</span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span (click)="view(4,data)" matTooltip="Xem chi tiết"  [ngStyle]="{'color': colorCrossbar[2]}">{{data.toihan}}</span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span (click)="view(5,data)" matTooltip="Xem chi tiết" [ngStyle]="{'color': colorCrossbar[3]}">{{data.quahan}}</span>
+        </td>
+
+
+      </tr>
+      <tr *ngFor="let item of listData_Tong">
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text-title">
+            <span class="url -hover name-title" style="font-weight: bold !important; font-size: 13pt !important;">Tổng
+              cộng</span>
+          </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.s_num_work}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+            {{item.s_hoanthanh_dunghan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+            {{item.s_hoanthanh_quahan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[4]}">
+            {{item.s_conhan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+            {{item.s_saptoihan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[2]}">
+            {{item.s_toihan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[3]}">
+            {{item.s_quahan}} </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

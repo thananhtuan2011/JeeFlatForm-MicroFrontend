@@ -1,0 +1,850 @@
+<style>
+    .css-hanchot:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="dialog-title"><span>Chi tiết</span></h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" (click)="close()" class="ja_button ja_btn-goback" mat-raised-button><span
+                    translate="landingpagekey.trolai"></span></button>
+        </div>
+    </div>
+    <div class="card-body" id="body-details" style="padding: 0;">
+        <div class="row" style="margin: 0; position: absolute;">
+            <div [ngStyle]="{'width': getWidthDetailsLeft()}" *ngIf="!IsLKNhiemVu">
+                <ng-container *ngIf="StageID > 0">
+                    <div class="row" style="overflow: auto;">
+                        <div class="col-12 h-100 page-main" *ngIf="TypeID == 1"
+                            style="border-right: 1px solid #323248;">
+                            <div class="w-100">
+                                <ng-container *ngTemplateOutlet="pagethongtin"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-15" *ngIf="ShowBieuMau">
+                                <ng-container *ngTemplateOutlet="pagebieumau"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-15" *ngIf="itemGD && ShowTTD">
+                                <ng-container *ngTemplateOutlet="pagethongtindong"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-15">
+                                <ng-container *ngTemplateOutlet="pagecongviec"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-25"
+                                *ngIf="itemGD && itemGD.stage_typeid == 1 && itemGD.iscreate_list">
+                                <ng-container *ngTemplateOutlet="pagecongvieclienketgiaidoan"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-15">
+                                <ng-container *ngTemplateOutlet="pagebinhluan"></ng-container>
+                            </div>
+                        </div>
+                        <div class="col-12 h-100 page-main" *ngIf="TypeID == 3"
+                            style="border-right: 1px solid #323248;">
+                            <div class="w-100">
+                                <ng-container *ngTemplateOutlet="pagecongviecchitiet"></ng-container>
+                            </div>
+                            <div class="w-100 pdt-15">
+                                <ng-container *ngTemplateOutlet="pagebinhluan"></ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div style="width: 350px;" *ngIf="!IsLKNhiemVu" class="page-main-right">
+                <ng-container *ngIf="StageID > 0">
+                    <!-- Tài liệu -->
+                    <div class="card" style="margin: 5px 5px 0 0;" *ngIf="TypeID == 1">
+                        <div class="card-header" style="display: flex;">
+                            <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0"><span
+                                    style="text-transform: uppercase; color: #42b814; font-weight: bold;"
+                                    translate="workprocess.tailieu"></span>
+                            </div>
+                            <div class="card-toolbar" *ngIf="itemNV">
+                                <button type="button" mat-icon-button (click)="ThemTaiLieu()"
+                                    *ngIf="(itemNV.isCreate || itemNV.isquanly) && itemNV.CompleteDate == ''"
+                                    matTooltip="Thêm tài liệu">
+                                    <mat-icon style="border: 1px solid #bdb5b5; color: #bdb5b5; border-radius: 50%;">add
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ng-container *ngTemplateOutlet="tabtailieu"></ng-container>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 5px 5px 0 0;" *ngIf="TypeID == 3">
+                        <div class="card-header" style="display: flex;">
+                            <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0">
+                                <span style="text-transform: uppercase; color: #42b814; font-weight: bold;"
+                                    translate="workprocess.tailieu"></span>
+                            </div>
+                        </div>
+                        <div style="line-height: 25px; padding: 15px 15px;" *ngIf="itemCV">
+                            <ng-container *ngTemplateOutlet="tabtailieucv"></ng-container>
+                        </div>
+                    </div>
+                    <!-- Thông tin đầu vào -->
+                    <div class="card" style="margin: 5px 5px 0 0;"
+                        *ngIf="TypeID == 1 && (DatFieldView && DatFieldView.length > 0)">
+                        <div class="card-header">
+                            <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0">
+                                <span style="text-transform: uppercase; color: #42b814; font-weight: bold;"
+                                    translate="workprocess.thongtindauvao"></span>
+                            </div>
+                            <div class="col-md-6" style="text-align: right;">
+                                <button mat-icon-button color="primary" type="button" (click)="ChinhSua('1')"
+                                    *ngIf="itemNV.isCreate || itemNV.isquanly">
+                                    <mat-icon>create</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div style="padding: 15px 0;">
+                            <ng-container *ngTemplateOutlet="tabthongtindauvao"></ng-container>
+                        </div>
+                    </div>
+                    <!-- Thông tin liên quan -->
+                    <div class="card" style="margin: 5px 5px 0 0;" *ngIf="TypeID == 1 && ThongTinLienQuan">
+                        <div class="card-header">
+                            <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0">
+                                <span style="text-transform: uppercase; color: #42b814; font-weight: bold;"
+                                    translate="workprocess.thongtinlienquan"></span>
+                            </div>
+                        </div>
+                        <div style="padding: 15px 0;">
+                            <ng-container *ngTemplateOutlet="tabthongtinlienquan"></ng-container>
+                        </div>
+                    </div>
+                    <!-- Hoạt động  -->
+                    <div class="card" style="margin: 5px 5px 0 0;" *ngIf="TypeID == 1">
+                        <div class="card-header">
+                            <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0">
+                                <span style="text-transform: uppercase; color: #42b814; font-weight: bold;"
+                                    translate="workprocess.hoatdong"></span>
+                            </div>
+                        </div>
+                        <div style="padding: 15px 0;">
+                            <ng-container *ngTemplateOutlet="tabhoatdong"></ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div style="padding: 5px; height: 100vh; width: 100%;" *ngIf="IsLKNhiemVu">
+                <div class="w-100">
+                    <ng-container *ngTemplateOutlet="pagecongvieclienketnhiemvu"></ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--====================================== Phần code dành cho trang chi tiết ======================================-->
+<ng-template #pagethongtin>
+    <div class="item-detail-nhiemvu" *ngIf="itemNV">
+        <div class="row">
+            <div class="col-md-8 p-0" style="align-self: center;">
+                <span style="font-size: 1.25rem;">{{itemNV.ProcessName}}</span>&nbsp;<span
+                    style="font-size: 1.25rem;">/</span>&nbsp;<span class="title-giaidoan" *ngIf="itemGD">
+                    {{itemGD.CongViec}}
+                </span>
+            </div>
+            <div class="col-md-4 p-0" style="display: table; text-align: end;">
+                <button mat-button class="btn btn-light" style="color: #62a4ff" (click)="CongViecLienKetNhiemVu()"
+                    *ngIf="ShowCongViecLK && itemNV.iscreate_list">
+                    <span>Công việc liên kết của nhiệm vụ</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <span style="font-size: 1.6rem; font-weight: bold;">{{itemNV.TaskName}}</span>
+        </div>
+        <div class="row">
+            <span style="color: #bdb5b5;" translate="workprocess.duoctaoboi"></span>&nbsp;
+            <span><b>{{itemNV.NguoiTao}}</b></span>&nbsp;<span style="color: #bdb5b5;"
+                translate="workprocess.luc"></span>
+            &nbsp;<span><b>{{_FormatTimeService.f_date_thu(itemNV.NgayTao)}}</b></span>
+        </div>
+        <div class="row text-mota">
+            <span>{{itemNV.Description}}</span>
+        </div>
+        <div class="row text-thoi-gian" *ngIf="itemGD">
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Forward.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <path
+                                    d="M6.82866499,18.2771971 L13.5693679,12.3976203 C13.7774696,12.2161036 13.7990211,11.9002555 13.6175044,11.6921539 C13.6029128,11.6754252 13.5872233,11.6596867 13.5705402,11.6450431 L6.82983723,5.72838979 C6.62230202,5.54622572 6.30638833,5.56679309 6.12422426,5.7743283 C6.04415337,5.86555116 6,5.98278612 6,6.10416552 L6,17.9003957 C6,18.1765381 6.22385763,18.4003957 6.5,18.4003957 C6.62084305,18.4003957 6.73759731,18.3566309 6.82866499,18.2771971 Z"
+                                    fill="#000000" opacity="0.3" />
+                                <path
+                                    d="M12.828665,18.2771971 L19.5693679,12.3976203 C19.7774696,12.2161036 19.7990211,11.9002555 19.6175044,11.6921539 C19.6029128,11.6754252 19.5872233,11.6596867 19.5705402,11.6450431 L12.8298372,5.72838979 C12.622302,5.54622572 12.3063883,5.56679309 12.1242243,5.7743283 C12.0441534,5.86555116 12,5.98278612 12,6.10416552 L12,17.9003957 C12,18.1765381 12.2238576,18.4003957 12.5,18.4003957 C12.6208431,18.4003957 12.7375973,18.3566309 12.828665,18.2771971 Z"
+                                    fill="#000000" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.thoigiannhan"></span><span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">{{
+                        this._FormatTimeService.format_convertDate(itemGD.AssignDate,2,true)}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/DVD.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="9" />
+                                <path
+                                    d="M11.1582329,15.8732969 L15.1507272,12.3908445 C15.3588289,12.2093278 15.3803803,11.8934798 15.1988637,11.6853781 C15.1842721,11.6686494 15.1685826,11.652911 15.1518994,11.6382673 L11.1594051,8.13385466 C10.9518699,7.95169059 10.6359562,7.97225796 10.4537922,8.17979317 C10.3737213,8.27101604 10.3295679,8.388251 10.3295679,8.5096304 L10.3295679,15.4964955 C10.3295679,15.7726378 10.5534255,15.9964955 10.8295679,15.9964955 C10.950411,15.9964955 11.0671652,15.9527307 11.1582329,15.8732969 Z"
+                                    fill="#000000" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.batdauluc"></span><span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">
+                        {{
+                        this._FormatTimeService.format_convertDate(itemGD.NgayBatDau,2,true)}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <i class="flaticon-clock-1 css-icon"></i>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.dalam"></span>
+                    <span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">{{itemGD.TGLam | number : '1.2-2'}}h</span>
+                </div>
+            </div>
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <i class="flaticon-time css-icon"></i>&nbsp;<span style="color: #bdb5b5; padding-top: 3px"
+                        translate="workprocess.hoanthanh"></span>
+                    <span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">
+                        {{
+                        this._FormatTimeService.format_convertDate(itemGD.CompleteDate,2,true)}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row text-thao-tac" *ngIf="itemGD">
+            <div class="users" style="justify-content: flex-end; display: flex; padding: 0 10px;">
+                <div class="user url" *ngFor="let img of itemGD.NguoiThucHien,let vi = index">
+                    <kt-avatar-wf [image]="img.Image" [fullname]="img.HoTen" [name]="img.Ten"></kt-avatar-wf>
+                </div>
+            </div>
+            <div class="task-status" *ngIf="itemGD.AssignDate != '' && itemGD.IsEditStatus && itemGD.CompleteDate == ''"
+                [ngClass]="BgButton(itemGD.Status)">
+                <div class="cu-dropdown_pointer cu-dropdown" [matMenuTriggerFor]="menu">
+                    <div class="task-status__value">
+                        {{getItemStatusString(itemGD.Status)}}
+                    </div>
+                </div>
+            </div>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="CapNhatGiaiDoan(0)" *ngIf="itemGD.Status == 1">
+                    <mat-icon class="wf-color-tamdung" style="vertical-align: text-top;margin: 0;">pause_circle_outline
+                    </mat-icon>
+                    &nbsp;<span class="wf-color-tamdung" style="font-size: 9pt" translate="workprocess.tamdung"></span>
+                </button>
+                <button mat-menu-item (click)="CapNhatGiaiDoan(1)" *ngIf="itemGD.Status != 1">
+                    <mat-icon class="wf-color-thuchien" style="vertical-align: text-top;margin: 0;">alarm</mat-icon>
+                    &nbsp;<span class="wf-color-thuchien" style="font-size: 9pt"
+                        translate="workprocess.thuchien"></span>
+                </button>
+                <button mat-menu-item (click)="CapNhatGiaiDoan(2)"
+                    *ngIf="(itemGD.Status == 1 || itemGD.Status == null) && itemGD.stage_typeid != 2">
+                    <mat-icon class="wf-color-hoanthanh" style="vertical-align: text-top;margin: 0;">alarm_on</mat-icon>
+                    &nbsp;<span class="wf-color-hoanthanh" style="font-size: 9pt"
+                        translate="workprocess.hoanthanh"></span>
+                </button>
+            </mat-menu>
+            <div style="align-self: center;" *ngIf="itemGD.HanChot != ''">
+                <span style="color: red; font-size: 13pt;">Deadline:</span>&nbsp;
+                <span *ngIf="!itemGD.IsEditDeadline" class="{{getHanChot(itemGD)}} text-bold"
+                    matTooltip="{{ (itemGD.IsEditDeadline ? 'workprocess.capnhathanchot'   : '' ) | translate }}">{{itemGD.HanChot
+                    | date:'HH:mm dd/MM/yyyy'}}</span>
+                <span *ngIf="itemGD.IsEditDeadline" class="{{getHanChot(itemGD)}} text-bold"
+                    matTooltip="{{ (itemGD.IsEditDeadline ? 'workprocess.capnhathanchot'   : '' ) | translate }}"
+                    (click)="dt1.open()">{{itemGD.HanChot | date:'HH:mm dd/MM/yyyy'}}</span>
+                <input matInput readonly [(ngModel)]="date" (ngModelChange)="UpdateHanChot(itemGD)" style="opacity: 0;"
+                    class="date-picker" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+                <owl-date-time #dt1></owl-date-time>
+            </div>
+        </div>
+    </div>
+    <hr *ngIf="itemNV" />
+</ng-template>
+<ng-template #pagebieumau>
+    <div class="card card-custom">
+        <div class="row" style="justify-content: center;" *ngIf="itemGD.AssignDate != '' && itemGD.IsEditStatus">
+            <button type="button" style="margin-left: 5px; background-color: #3699ff;" mat-raised-button color="accent"
+                (click)="ChangeMauQuyetDinh(item.RowID)" *ngFor="let item of ListKetQua">
+                <span>{{item.Title}}</span>
+            </button>
+        </div>
+        <br />
+        <!-- <div class="row font-chu" style="justify-content: center;">
+            <label [innerHTML]="ContentStr | safeHtmlWF"></label>
+        </div> -->
+        <div style="padding: 0 10px;">
+            <label style="width: 100%;" [innerHTML]="ContentStr | safeHtmlWF"></label>
+        </div>
+    </div>
+</ng-template>
+<ng-template #pagethongtindong>
+    <div class="item-detail-dynamic">
+        <div class="row header-dynamic" *ngIf="itemGD">
+            <div class="col-md-9 p-0">
+                <span style="font-size: 1.4rem;font-weight: bold;" translate="workprocess.thongtincannhap"></span>
+            </div>
+            <div class="col-md-3" style="text-align: right;">
+                <span class="svg-icon svg-icon-primary svg-icon-2x" style="cursor: pointer;" (click)="ChinhSua('2')"
+                    *ngIf="itemGD.IsEditStatus && itemGD.CompleteDate == ''">
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Write.svg--><svg
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <path
+                                d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z"
+                                fill="#000000" fill-rule="nonzero"
+                                transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />
+                            <path
+                                d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z"
+                                fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+            </div>
+        </div>
+        <hr style="margin: 0px 10px 1rem 5px;" />
+        <m-dynamic-form-view [ViewData]="DatField" [TypeID]="2" style="width: 100%;">
+        </m-dynamic-form-view>
+    </div>
+</ng-template>
+<ng-template #pagecongviec>
+    <div class="item-detail-dynamic">
+        <div class="row header-dynamic">
+            <div class="col-md-9 p-0">
+                <span style="font-size: 1.4rem;font-weight: bold;" translate="workprocess.congviecchitiet"></span>
+            </div>
+            <div class="col-md-3" style="text-align: right;">
+
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="row info-congviec" *ngFor="let dt of CongViecChiTiet">
+                <div class="pie" style="margin-left: 10px;" [matMenuTriggerFor]="menu"
+                    [ngClass]="DrawPie_CVCT(dt) + ' ' + isEditStatus(dt)"></div>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="CapNhatCongViec(0,dt)" *ngIf="dt.Status == 1">
+                        <span class="wf-color-tamdung" style="font-size: 9pt" translate="workprocess.tamdung"></span>
+                    </button>
+                    <button mat-menu-item (click)="CapNhatCongViec(1,dt)" *ngIf="dt.Status != 1">
+                        <span class="wf-color-thuchien" style="font-size: 9pt" translate="workprocess.thuchien"></span>
+                    </button>
+                    <button mat-menu-item (click)="CapNhatCongViec(2,dt)" *ngIf="dt.Status == 1">
+                        <span class="wf-color-hoanthanh" style="font-size: 9pt"
+                            translate="workprocess.hoanthanh"></span>
+                    </button>
+                </mat-menu>
+                <div class="col-md-7">
+                    {{dt.TaskName}}
+                </div>
+                <div class="col-md-3" style="padding: 0;">
+                    <div class="users" style="justify-content: flex-end; display: flex;">
+                        <div class="user url" *ngFor="let img of dt.Data_Implementer,let vi = index">
+                            <kt-avatar-wf [image]="img.AvartarImgURL" [fullname]="img.ObjectName"
+                                [name]="img.FirstName"></kt-avatar-wf>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding: 0;">
+                    <button mat-icon-button (click)="Delete(dt)" color="warn" *ngIf="dt.IsEdit"
+                        matTooltip="{{ 'landingpagekey.xoa' | translate }}">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!ShowBieuMau && itemGD && itemGD.IsEditStatus && itemGD.CompleteDate == ''">
+            <ng-container>
+                <kt-add-task-wf [loai]="'subtask'" [roleprioritize]="false" [showIconclose]="false" [NodeID]="StageID"
+                    style="width: 100%;" (close)="loadCongViec()"></kt-add-task-wf>
+            </ng-container>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #pagecongvieclienketgiaidoan>
+    <div class="item-detail-dynamic" style="margin-bottom: 10px;">
+        <div class="row header-dynamic">
+            <div class="col-md-9 p-0">
+                <span style="font-size: 1.4rem;font-weight: bold;" translate="workprocess.congvieclienket"></span>
+            </div>
+            <div class="col-md-3" style="text-align: right;">
+
+            </div>
+        </div>
+        <div class="row" style="justify-content: center;" *ngIf="ID_Project_GD == 0 && itemGD.CompleteDate == ''">
+            <button mat-raised-button type="button" class="btn-congvieclk" (click)="TaoCongViecLienKet_GD()"
+                matTooltip="{{ShowCongViecLK ? '' : 'Bạn phải được cấp quyền sử dụng jeework mới có thể tạo công việc.'}}"
+                [ngStyle]="{'border': ShowCongViecLK ? '1px solid #3699ff' : '1px solid gray'}">
+                <span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}"
+                    style="font-weight: 500;">+</span>&nbsp;
+                <span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}" style="font-weight: 500;">Tạo danh sách
+                    công viêc</span>
+            </button>
+        </div>
+        <div class="card card-custom" *ngIf="ID_Project_GD > 0" id="width-ww-gd">
+            <div class="card-body" [ngStyle]="{'width': getWidthWW_GD()}" style="overflow: scroll; padding: 0;">
+                <kt-work-list-new [ID_Project]="ID_Project_GD" [isLuuCongViec]="itemGD.CompleteDate == ''">
+                </kt-work-list-new>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #pagebinhluan>
+    <div *ngIf="topicObjectID" class="card card-custom">
+        <!-- <app-jee-comment [showCommentDefault]="true" [objectID]="topicObjectID">
+        </app-jee-comment> -->
+    </div>
+</ng-template>
+<ng-template #tabtailieu>
+    <div class="row" *ngIf="itemNV">
+        <div class="col-md-12" style="display: flex; line-height: 2;" *ngFor="let tl of itemNV.filelist">
+            <div>
+                <img src="{{tl.icon}}">
+            </div>
+            <div>
+                <span style="padding: 0 20px;">{{tl.filename}}</span>&nbsp;&nbsp;&nbsp;<i style="cursor: pointer;"
+                    class="far fa-eye" matTooltip="Xem trước" *ngIf="ShowXemTruoc(tl)"
+                    (click)="XemTruoc(tl)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download" style="cursor: pointer;"
+                    matTooltip="Tải xuống" (click)="TaiXuong(tl)"></i>
+                &nbsp;&nbsp;&nbsp;<i class="flaticon2-cross"
+                    *ngIf="(itemNV.isCreate || itemNV.isquanly) && itemNV.CompleteDate == ''" style="cursor: pointer;"
+                    matTooltip="Xóa" (click)="XoaTaiLieu(tl)"></i>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #tabthongtindauvao>
+    <m-dynamic-form-view [ViewData]="DatFieldView" [TypeID]="1" style="width: 100%;">
+    </m-dynamic-form-view>
+</ng-template>
+<ng-template #tabthongtinlienquan>
+    <div class="card card-custom">
+        <div style="padding: 0 10px;">
+            <label style="width: 100%;" [innerHTML]="ThongTinLienQuan | safeHtmlWF"></label>
+        </div>
+    </div>
+</ng-template>
+<ng-template #tabhoatdong>
+    <div class="workflow-hoatdong">
+        <div class="hoatdong-child" *ngFor="let dt of ListData">
+            <div class="row hoatdong-body" style="font-size: 9pt;">
+                <div class="col-md-9" style="padding: 0;">
+                    <div class="row">
+                        <span>{{dt.user.FullName}}</span>&nbsp;
+                        <span style="cursor: pointer; color: #3699ff;" *ngIf="dt.action" [innerHTML]="dt.action"
+                            [matMenuTriggerFor]="userlist"></span>
+                        <mat-menu #userlist="matMenu">
+                            <div class="row" *ngFor="let img of dt.userlist"
+                                style="padding-bottom: 5px; align-items: center; margin: 0;">
+                                <div class="col-md-3">
+                                    <ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+                                        *ngIf="img.AvartarImgURL; else bindText">
+                                    </ngx-avatar>
+                                    <ng-template #bindText>
+                                        <ngx-avatar textSizeRatio="2.5" [size]="40" [name]="img.FirstName.slice(0, 1)"
+                                            bgColor="{{ processWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-9 font-chu">
+                                    <div class="col-md-12" style="font-weight: bold;">
+                                        <span>{{img.FullName}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-menu>
+
+                    </div>
+                    <div class="row" *ngIf="dt.old_value && dt.new_value">
+                        <ng-container *ngIf="dt.old_value">
+                            <div class="cu-notification-item__status cu-notification-item__status_before d-inline">
+                                <div class="status status_block" [ngClass]="dt.old_color">
+                                    {{dt.old_value}}
+                                </div>
+                            </div>
+                        </ng-container>&nbsp;
+                        <i class="fas fa-arrow-right"></i>&nbsp;
+                        <ng-container *ngIf="dt.new_value">
+                            <div class="cu-notification-item__status d-inline">
+                                <div class="status status_block" [ngClass]="dt.new_color">
+                                    {{dt.new_value}}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-md-3" style="padding: 0; text-align: center;">
+                    <span>{{dt.date | date:'HH:mm dd/MM/yyyy'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!-- Phần dành cho công việc chi tiết -->
+<ng-template #pagecongviecchitiet>
+    <div class="item-detail-congviec" *ngIf="itemCV">
+        <div class="row">
+            <div class="col-md-12 p-0">
+                <span style="font-size: 1.25rem;">{{TenQuyTrinh}}</span>&nbsp;<span
+                    style="font-size: 1.25rem;">/</span>&nbsp;<span class="title-giaidoan">
+                    {{TenGiaiDoan}}
+                </span>
+            </div>
+        </div>
+        <div class="row" style="display: block;">
+            <input style="font-weight: 600;font-size: 1.5rem;" id="txttitle{{StageID}}" [value]="itemCV.ToDo"
+                type="text" class="form-input-title row  w-100" [readonly]="!itemCV.IsEditStatus"
+                (focusout)="UpdateTodo()">
+            <span style="font-size: 1.2rem;">Tạo bởi</span>&nbsp;<span
+                style="font-size: 1.2rem; font-weight: bold;">{{itemCV.CreatedBy}}</span>
+        </div>
+        <div class="row text-thoi-gian" *ngIf="itemCV">
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Forward.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <path
+                                    d="M6.82866499,18.2771971 L13.5693679,12.3976203 C13.7774696,12.2161036 13.7990211,11.9002555 13.6175044,11.6921539 C13.6029128,11.6754252 13.5872233,11.6596867 13.5705402,11.6450431 L6.82983723,5.72838979 C6.62230202,5.54622572 6.30638833,5.56679309 6.12422426,5.7743283 C6.04415337,5.86555116 6,5.98278612 6,6.10416552 L6,17.9003957 C6,18.1765381 6.22385763,18.4003957 6.5,18.4003957 C6.62084305,18.4003957 6.73759731,18.3566309 6.82866499,18.2771971 Z"
+                                    fill="#000000" opacity="0.3" />
+                                <path
+                                    d="M12.828665,18.2771971 L19.5693679,12.3976203 C19.7774696,12.2161036 19.7990211,11.9002555 19.6175044,11.6921539 C19.6029128,11.6754252 19.5872233,11.6596867 19.5705402,11.6450431 L12.8298372,5.72838979 C12.622302,5.54622572 12.3063883,5.56679309 12.1242243,5.7743283 C12.0441534,5.86555116 12,5.98278612 12,6.10416552 L12,17.9003957 C12,18.1765381 12.2238576,18.4003957 12.5,18.4003957 C12.6208431,18.4003957 12.7375973,18.3566309 12.828665,18.2771971 Z"
+                                    fill="#000000" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.thoigiannhan"></span><span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">{{
+                        this._FormatTimeService.format_convertDate(itemCV.CreatedDate,2,true)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/DVD.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="9" />
+                                <path
+                                    d="M11.1582329,15.8732969 L15.1507272,12.3908445 C15.3588289,12.2093278 15.3803803,11.8934798 15.1988637,11.6853781 C15.1842721,11.6686494 15.1685826,11.652911 15.1518994,11.6382673 L11.1594051,8.13385466 C10.9518699,7.95169059 10.6359562,7.97225796 10.4537922,8.17979317 C10.3737213,8.27101604 10.3295679,8.388251 10.3295679,8.5096304 L10.3295679,15.4964955 C10.3295679,15.7726378 10.5534255,15.9964955 10.8295679,15.9964955 C10.950411,15.9964955 11.0671652,15.9527307 11.1582329,15.8732969 Z"
+                                    fill="#000000" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.batdauluc"></span><span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">
+                        {{
+                        this._FormatTimeService.format_convertDate(itemCV.NgayBatDau,2,true)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <i class="flaticon-clock-1 css-icon"></i>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;"
+                        translate="workprocess.dalam"></span>
+                    <span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">{{itemCV.TGLam | number : '1.2-2'}}h</span>
+                </div>
+            </div>
+
+            <div class="col-md-6 p-0">
+                <div class="row align-item-center">
+                    <i class="flaticon-time css-icon"></i>&nbsp;<span style="color: #bdb5b5; padding-top: 3px"
+                        translate="workprocess.hoanthanh"></span>
+                    <span style="padding-top:3px">:&nbsp;</span>
+                    <span class="text-bold">
+                        {{
+                        this._FormatTimeService.format_convertDate(itemCV.CompleteDate,2,true)}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-thao-tac" *ngIf="itemCV">
+            <div class="users" style="justify-content: flex-end; display: flex; padding: 0 10px;">
+                <div class="user url" *ngFor="let img of itemCV.Data_Implementer,let vi = index">
+                    <kt-avatar-wf [image]="img.Image" [fullname]="img.ObjectName" [name]="img.Ten"></kt-avatar-wf>
+                </div>
+            </div>
+            <div class="task-status" *ngIf="itemCV.CreatedDate != '' && itemCV.IsEditStatus"
+                [ngClass]="BgButton(itemCV.Status)">
+                <div class="cu-dropdown_pointer cu-dropdown" [matMenuTriggerFor]="menu">
+                    <div class="task-status__value">
+                        {{getItemStatusString(itemCV.Status)}}
+                    </div>
+                </div>
+            </div>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="CapNhatCongViec(0,itemCV)" *ngIf="itemCV.Status == 1">
+                    <mat-icon class="wf-color-tamdung" style="vertical-align: text-top;margin: 0;">pause_circle_outline
+                    </mat-icon>
+                    &nbsp;<span class="wf-color-tamdung" style="font-size: 9pt" translate="workprocess.tamdung"></span>
+                </button>
+                <button mat-menu-item (click)="CapNhatCongViec(1,itemCV)" *ngIf="itemCV.Status != 1">
+                    <mat-icon class="wf-color-thuchien" style="vertical-align: text-top;margin: 0;">alarm</mat-icon>
+                    &nbsp;<span class="wf-color-thuchien" style="font-size: 9pt"
+                        translate="workprocess.thuchien"></span>
+                </button>
+                <button mat-menu-item (click)="CapNhatCongViec(2,itemCV)"
+                    *ngIf="(itemCV.Status == 1 || itemCV.Status == null)">
+                    <mat-icon class="wf-color-hoanthanh" style="vertical-align: text-top;margin: 0;">alarm_on</mat-icon>
+                    &nbsp;<span class="wf-color-hoanthanh" style="font-size: 9pt"
+                        translate="workprocess.hoanthanh"></span>
+                </button>
+            </mat-menu>
+            <div>
+                <ng-container *ngTemplateOutlet="changepriority">
+                </ng-container>
+            </div>
+            <div style="align-self: center;" *ngIf="itemCV.HanChot != ''">
+                <span style="color: red; font-size: 13pt;">Deadline:</span>&nbsp;<span class="text-bold">
+                    {{
+                    this._FormatTimeService.format_convertDate(itemCV.HanChot,2,true)}}</span>
+            </div>
+        </div>
+
+        <div class="row text-thao-tac" *ngIf="itemCV">
+            <div class="col-md-12 p-0" style="display: flex; margin-top: 5px;">
+                <div style="align-self: center;">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Group.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <polygon points="0 0 24 0 24 24 0 24" />
+                                <path
+                                    d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+                                    fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                <path
+                                    d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+                                    fill="#000000" fill-rule="nonzero" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>&nbsp;<span style="color: #bdb5b5; padding-top: 3px;">Theo dõi</span><span
+                        style="padding-top:3px">:&nbsp;</span>
+                </div>
+                <div class="users" style="justify-content: flex-end; display: flex; padding-left: 10px;">
+                    <div class="user url" *ngFor="let img of itemCV.Data_Follower,let vi = index">
+                        <kt-avatar-wf [image]="img.Image" [fullname]="img.ObjectName" [name]="img.Ten"></kt-avatar-wf>
+                    </div>
+                </div>
+                <div class="icon-add" (click)="AddNguoiTheoDoi()" *ngIf="itemCV.IsEditStatus">
+                    <i class="fas fa-users pd-0" style="font-size: 13px;"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Gắn mô tả công việc -->
+        <div class="row" style="margin-bottom: 20px!important; width: 100%;">
+            <h4 class="title mt-7">Mô tả công việc</h4>
+            <div class="action float-right" style="flex-grow: 1; text-align: right; margin: 10px 0">
+                <button mat-raised-button class="btn btn-primary mr-2" style="border-radius: 20px;"
+                    *ngIf="itemCV.IsEditStatus" (click)="ChinhSuaMoTa()">
+                    {{ IsEditMoTa?'Lưu':'Chỉnh sửa'}}
+                </button>
+                <button type="button" mat-raised-button style="border-radius: 20px;"
+                    class="ja_button ja_btn-goback  mr-2" *ngIf="IsEditMoTa" (click)="goBackMoTa()">
+                    <span translate="landingpagekey.trolai"></span>
+                </button>
+            </div>
+            <div class="col-md-12 pd-0 m--margin-bottom-10-mobile" [hidden]="!IsEditMoTa">
+                <editor apiKey="lvp9xf6bvvm3nkaupm67ffzf50ve8femuaztgg7rkgkmsws3" [(ngModel)]="itemCV.Description"
+                    [init]="tinyMCE" style="margin-bottom: 15px;">
+                </editor>
+            </div>
+            <div class="col-md-12 pd-0 m--margin-bottom-10-mobile" *ngIf="!IsEditMoTa">
+                <ng-container *ngIf="itemCV.Description;else khongconoidung">
+                    <span [innerHTML]="itemCV.Description | safeHtmlWF"></span>
+                </ng-container>
+                <ng-template #khongconoidung>
+                    <span class="text-danger"> Chưa có mô tả</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <hr />
+</ng-template>
+<ng-template #tabtailieucv>
+    <div class="row">
+        <div class="col-md-6 p-0 tl-text-align-left">
+            <b translate="workprocess.tailieudinhkem"></b>
+        </div>
+        <div class="col-md-6 p-0 tl-text-align-right">
+            <span translate="workprocess.themtailieu" (click)="ThemTaiLieuCV(1)" *ngIf="itemCV.IsEditStatus"></span>
+        </div>
+    </div>
+    <div class="row" *ngIf="itemCV">
+        <div class="col-md-12" style="display: flex; line-height: 2;" *ngFor="let tl of itemCV.filelist">
+            <div>
+                <img src="{{tl.icon}}">
+            </div>
+            <div>
+                <span style="padding: 0 20px;">{{tl.filename}}</span>&nbsp;&nbsp;&nbsp;<i style="cursor: pointer;"
+                    class="far fa-eye" matTooltip="Xem trước" *ngIf="ShowXemTruocCV(tl)"
+                    (click)="XemTruocCV(tl)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download" style="cursor: pointer;"
+                    matTooltip="Tải xuống" (click)="TaiXuongCV(tl)"></i>
+                &nbsp;&nbsp;&nbsp;<i class="flaticon2-cross" *ngIf="itemCV.IsEditStatus" style="cursor: pointer;"
+                    matTooltip="Xóa" (click)="XoaTaiLieuCV(tl,1)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 p-0 tl-text-align-left">
+            <b translate="workprocess.ketquacongviec"></b>
+        </div>
+        <div class="col-md-6 p-0 tl-text-align-right">
+            <span translate="workprocess.themtailieu" (click)="ThemTaiLieuCV(2)" *ngIf="itemCV.IsEditStatus"></span>
+        </div>
+    </div>
+    <div class="row" *ngIf="itemCV">
+        <div class="col-md-12" style="display: flex; line-height: 2;" *ngFor="let tl of itemCV.filelistresult">
+            <div>
+                <img src="{{tl.icon}}">
+            </div>
+            <div>
+                <span style="padding: 0 20px;">{{tl.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+                    style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+                    (click)="XemTruocCV(tl)"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-download" style="cursor: pointer;"
+                    matTooltip="Tải xuống" (click)="TaiXuongCV(tl)"></i>
+                &nbsp;&nbsp;&nbsp;<i class="flaticon2-cross" *ngIf="itemCV.IsEditStatus" style="cursor: pointer;"
+                    matTooltip="Xóa" (click)="XoaTaiLieuCV(tl,2)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-0 tl-text-align-right">
+            <span *ngIf="itemCV.IsEditStatus" (click)="CapNhatKetQua()">
+                Cập nhật kết quả
+            </span>
+            <span style="color: black;" *ngIf="IsEditKetQua" (click)="goBackKetQua()"
+                translate="landingpagekey.trolai"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 pd-0 m--margin-bottom-10-mobile" [hidden]="!IsEditKetQua">
+            <editor apiKey="lvp9xf6bvvm3nkaupm67ffzf50ve8femuaztgg7rkgkmsws3" [(ngModel)]="itemCV.DescriptionResult"
+                [init]="tinyMCE" style="margin-bottom: 15px;">
+            </editor>
+        </div>
+        <div class="col-md-12 pd-0 m--margin-bottom-10-mobile" *ngIf="!IsEditKetQua">
+            <ng-container *ngIf="itemCV.DescriptionResult;else khongconoidung">
+                <span [innerHTML]="itemCV.DescriptionResult | safeHtmlWF"></span>
+            </ng-container>
+            <ng-template #khongconoidung>
+            </ng-template>
+        </div>
+    </div>
+    <div class="row" style="justify-content: flex-end;">
+        <button type="button" mat-raised-button style="border-radius: 20px;" class="ja_button ja_btn-goback  mr-2"
+            *ngIf="IsEditKetQua" (click)="goBackKetQua()">
+            <span translate="landingpagekey.trolai"></span>
+        </button>
+        <button *ngIf="IsEditKetQua" mat-raised-button class="btn btn-primary mr-2" style="border-radius: 20px;"
+            (click)="CapNhatKetQua()">
+            Lưu
+        </button>
+    </div>
+</ng-template>
+<ng-template #changepriority>
+    <div class="cu-task-row-assignee pd-r-10">
+        <div class="cu-user-group" *ngIf="itemCV.IsEditStatus;else viewpriority">
+            <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above">
+                <div
+                    class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                    <div class="cu-user-group__icon-mono">
+                        <button class="btn -hover text-muted" [matMenuTriggerFor]="priority"
+                            matTooltip="{{  'workprocess.gandouutien' | translate }}">
+                            <i class="{{getPriority(itemCV.Priority)}} pd-0" style="font-size: 13px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #viewpriority>
+            <div class="cu-user-group">
+                <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print">
+                    <div
+                        class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                        <div class="cu-user-group__icon-mono">
+                            <button class="btn -hover text-muted" matTooltip="{{getPriorityName(itemCV.Priority)}}">
+                                <i class="{{getPriority(itemCV.Priority)}} pd-0" style="font-size: 13px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <mat-menu #priority="matMenu">
+            <button mat-menu-item *ngFor="let prio of list_priority" (click)="updatePriority(prio.value)">
+                <i class="{{prio.icon}} pd-r-10"></i>
+                {{ 'priority.' + prio.name |
+                translate }}
+            </button>
+        </mat-menu>
+    </div>
+</ng-template>
+<!-- Phàn danh cho công việc liên kết nhiệm vụ -->
+<ng-template #pagecongvieclienketnhiemvu>
+    <div class="item-detail-cvlk-nhiemvu">
+        <div class="row">
+            <div class="col-md-10 p-0" style="align-self: center;">
+                <span style="font-size: 1.4rem; font-weight: bold; padding-left: 5px;">Công việc liên kết của nhiệm
+                    vụ</span>&nbsp;<span
+                    style="font-size: 1.4rem; font-weight: bold; color: #62a4ff">{{itemNV.TaskName}}</span>
+            </div>
+            <div class="col-md-2 p-0" style="display: table; text-align: end;">
+                <button type="button" mat-icon-button (click)="goBackNhiemVu()"
+                    matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+                    <mat-icon style="border: 1px solid red; color: red; border-radius: 50%;">close</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="row" style="justify-content: center; padding: 10px;"
+            *ngIf="ID_Project == 0 && itemGD.CompleteDate == ''">
+            <button mat-raised-button type="button" class="btn-congvieclk" (click)="TaoCongViecLienKet()"
+                style="border: 1px solid #3699ff;">
+                <span style="font-weight: 500; color: #3699ff">+</span>&nbsp;
+                <span style="font-weight: 500;color:#3699ff">Tạo danh sách
+                    công viêc</span>
+            </button>
+        </div>
+        <div class="row" *ngIf="ID_Project > 0" style="overflow: scroll; padding: 0;">
+            <kt-work-list-new [ID_Project]="ID_Project" [isLuuCongViec]="itemGD.CompleteDate == ''">
+            </kt-work-list-new>
+        </div>
+    </div>
+</ng-template>

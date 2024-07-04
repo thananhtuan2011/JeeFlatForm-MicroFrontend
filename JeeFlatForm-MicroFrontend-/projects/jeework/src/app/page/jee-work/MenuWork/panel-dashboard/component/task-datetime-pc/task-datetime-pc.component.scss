@@ -1,0 +1,31 @@
+.remove-date{  
+    bottom: 0%;
+    left: 0%; 
+}
+
+.remove-date {
+    position: absolute;
+    top: 30%;
+    display: none;
+}
+
+.item-datetime:hover .remove-date {
+    display: block;
+}
+
+.homnay{
+    color:rgb(233, 163, 14) !important;
+    font-weight: 500;
+}
+.trehan{
+    color:#ed4141  !important;
+    font-weight: 500;
+}
+
+.date-picker {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+}

@@ -1,0 +1,18 @@
+
+<div class="choose-users-box" >
+    <mat-form-field class="mat-form-field-fluid " *ngIf="options.showSearch" (click)="stopPropagation($event)">
+        <input (keyup.enter)="filterUsers()" matInput [(ngModel)]="keysearch" placeholder="{{ 'JeeWork.nhapvaenterdetimkiem' | translate}}"
+            autocomplete="off" />
+        <mat-icon matPrefix> search</mat-icon>
+    </mat-form-field>
+    <div class="users-container" (click)="stopPropagation($event)">
+        <div class="user-item" matTooltip="@{{user.username}}" (click)="select(user)"
+            *ngFor="let user of filteredUsers | async">
+
+            <div style="padding-left: 10px;">
+                <div>{{ user.hoten }} - {{ user.tenchucdanh }}</div>
+                <span>{{ user.Department }}</span>
+            </div>
+        </div>
+    </div>
+</div>

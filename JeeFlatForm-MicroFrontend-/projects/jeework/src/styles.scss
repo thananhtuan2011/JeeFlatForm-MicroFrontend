@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+.light-mode {
+  @import "../src/assets/style-css/nhiem-vu/light.scss";
+}
+
+.dark-mode {
+  @import "../src/assets/style-css/nhiem-vu/dark.scss";
+}
+
+.light-mode {
+  @import "../src/assets/style-css/comment/jee-comment-light.scss";
+}
+
+.dark-mode {
+  @import "../src/assets/style-css/comment/jee-comment-dark.scss";
+}
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import '~font-awesome/css/font-awesome.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");

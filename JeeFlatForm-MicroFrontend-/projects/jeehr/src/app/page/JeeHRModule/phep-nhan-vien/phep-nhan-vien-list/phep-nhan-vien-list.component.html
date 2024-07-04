@@ -1,0 +1,189 @@
+<div class="row" style="margin: 0; width: 100%; position: absolute;">
+  <div class="list-dontu" style="width: 350px; height: 100vh;">
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-md-12" id="search" style="padding-left: 5px; border: none; display: flex;">
+        <label>
+          <mat-icon style="color: #bdbbb9;">search</mat-icon>
+        </label>
+        <input style="--ck-color-engine-placeholder-text: #bdbbb9;" name="search" matInput [(ngModel)]="keyword"
+          type="text" placeholder="Tìm kiếm theo họ tên và chức vụ" (keydown.enter)="loadDataList()" />
+      </div>
+    </div>
+    <div style="width: 100%; display: flex; padding: 10px 10px 0 0;">
+      <div class="col-md-6">
+      </div>
+      <div class="col-md-6" style="align-self: center; text-align: right;">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn" mat-button ngbDropdownToggle>
+            {{labelNam}}
+            <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down </mat-icon>
+          </button>
+          <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+            <button class="dropdown-item" style="width: 100%;" *ngFor="let p of listYears" (click)="changeNam(p)">
+              {{p.Title}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div [ngStyle]="{'height': getHeight()}" style="width: 100%; overflow: auto; margin: 10px 0;">
+      <ng-container *ngFor="let item of dataLazyLoad">
+        <div class="row-item" (click)="GetDetails(item.ID_NV)">
+          <div class="item-detail" style="margin-right: 0; display: flex;">
+            <div class="item-detail-info" [ngClass]="{'item-active' : _ID_NV === item.ID_NV}">
+              <div class="item-left col-9 url pl-0">
+                <div style="display: flex;">
+                  <div class="image">
+                    <ngx-avatar [size]="40" src="{{item.Image}}" *ngIf="item.Image; else bindText">
+                    </ngx-avatar>
+                    <ng-template #bindText>
+                      <ngx-avatar textSizeRatio="2.5" [size]="40" [name]="item.Ten.slice(0, 1)"
+                        bgColor="{{ phepNhanVienServices.getColorNameUser(item.Ten.slice(0, 1)) }}">
+                      </ngx-avatar>
+                    </ng-template>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-name">
+                      <span style="font-size: 11pt;">{{item.HoTen}}</span>
+                    </div>
+                    <div class="item-job">
+                      <span style="color: #858585; font-size: 8pt;">{{item.ChucVu}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-right col-3 url pd-0">
+                <span>{{item.PhepNamConLai | number : '1.2-2'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div [ngStyle]="{'width': getWidthDetails()}" style="padding: 10px;" *ngIf="ShowInfoPhep">
+    <div class="main" style="overflow: auto;" [ngStyle]="{'height': getHeightCenter()}" >
+      <div class="header-main">
+        <h3><span translate="phepnhanvien.quatrinhnghiphepcongtac"></span></h3>
+      </div>
+
+      <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+        style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="sticky">
+              <span translate="phepnhanvien.ngaygui"></span>
+            </th>
+            <th class="sticky">
+              <span translate="phepnhanvien.ngayduyet"></span>
+            </th>
+            <th class="sticky">
+              <span translate="phepnhanvien.thoigian"></span>
+            </th>
+            <th class="sticky">
+              <span translate="phepnhanvien.songay"></span>
+            </th>
+            <th class="sticky">
+              <span translate="phepnhanvien.hinhthuc"></span>
+            </th>
+            <th class="sticky">
+              <span translate="phepnhanvien.tinhtrang"></span>
+            </th>
+            <th class="sticky">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let list of dataLazyLoadLeave,let vi = index" style="height: 60px;">
+            <td>
+              <span>{{list.NgayGui | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td>
+              <span>{{list.NgayDuyet | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td>
+              <span>{{list.ThoiGian}}</span>
+            </td>
+            <td>
+              <span>{{list.SoNgay}}</span>
+            </td>
+            <td>
+              <span>{{list.HinhThuc}}</span>
+            </td>
+            <td>
+              <span
+                [ngClass]="list.Valid == null ? 'status-choduyet' : list.Valid ? 'status-daduyet' : 'status-khongduyet'">
+                <span
+                  [ngClass]="list.Valid == null ? 'text-choduyet' : list.Valid ? 'text-daduyet' : 'text-khongduyet'">{{
+                  list.Valid == null ? 'Chờ duyệt' : list.Valid ? 'Đã duyệt' : 'Không
+                  duyệt'
+                  }}</span>
+              </span>
+            </td>
+            <td>
+              <i (click)="ChiTiet(list)" class="flaticon-exclamation-1" style="font-size: 20px;"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="padding: 50px;text-align: center;" class="mat-table__message" *ngIf="dataLazyLoadLeave.length == 0">
+        <span translate="landingpagekey.khongcodulieu"></span>
+      </div>
+    </div>
+  </div>
+  <div style="width: 350px; overflow: auto;" [ngStyle]="{'height': getHeightCenter()}" *ngIf="ShowInfoPhep">
+    <div class="card card-custom dontu-list-phep" *ngFor="let dt of listphep">
+      <div class="card-header" style="display: flex;">
+        <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0; align-self: center;"><span
+            style="text-transform: uppercase; font-weight: bold;">{{dt.LoaiPhep}}</span>
+        </div>
+        <div class="card-toolbar">
+          <span class="conlai">{{dt.Tong | number : '1.2-2'}}</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 1rem;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tonnamtruoc"></span><br /><span *ngIf="dt.NgayHetHan"
+              translate="phepcanhan.sudungden" style="color: #b3b3b3; font-size: 9pt;"></span><span
+              *ngIf="dt.NgayHetHan" style="color: #F86252; font-size: 9pt;">&nbsp;{{dt.NgayHetHan}}</span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepTon > 0">+
+              {{dt.PhepTon | number : '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tongduoccap"></span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;">{{ 'phepcanhan.pheptrongnam' | translate }}:&nbsp;</span>
+            <span *ngIf="dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{getPhepHuong(dt,
+              SoNgayPhepThamNien)}}/{{TongNgayPhepNam}}</span>
+            <span *ngIf="!dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{dt.PhepDuocHuong}}</span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;"
+              *ngIf="SoNgayPhepThamNien && dt.IsPhepNam && +SoNgayPhepThamNien > 0">{{
+              'phepcanhan.thamnien' | translate }}:&nbsp;</span><span *ngIf="dt.IsPhepNam && +SoNgayPhepThamNien > 0"
+              style="color: #007BFF; font-size: 9pt;">{{SoNgayPhepThamNien}}</span>
+          </div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepDuocHuong > 0">+
+              {{dt.PhepDuocHuong}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.tongdanghi"></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;">-
+              {{dt.TongNghiPhep | number :
+              '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.hethan"></span>&nbsp;<span><i
+                class="flaticon-questions-circular-button" style="padding-left: 10px;"></i></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;"
+              *ngIf="dt.HetHan && dt.HetHan > 0">- {{dt.HetHan | number : '1.2-2'}}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>

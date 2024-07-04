@@ -1,0 +1,64 @@
+<style>
+  .view {
+    padding-bottom: 15px;
+  }
+
+  .css-button-green {
+    background-color: green;
+    color: #fff;
+  }
+
+  .css-button-blue {
+    background-color: darkblue;
+    color: #fff;
+  }
+
+  .setting {
+    color: blue;
+  }
+
+  .setting:hover {
+    font-style: italic;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  :host>>>.card-body {
+    padding: 0px !important;
+  }
+</style>
+
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="dialog-title" translate="DASHBOARD.WIDGET.CAUHINHWIDGET"></h3>
+    </div>
+    <div class="card-toolbar">
+      <button (click)="goBack()" class="mat-button mat-icon-button">
+        <i class="flaticon2-cancel-music"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body" style="overflow-x: auto; max-height: 75vh;">
+    <table class="fancyTable fht-table fht-table-init" style="width: 100%;">
+      <thead>
+        <tr class="text-left">
+          <th class="pr-0" style="width: 500px"><span class="text-uppercase" translate="DASHBOARD.WIDGET.LOAI"></span>
+          </th>
+          <th style="min-width: 180px"><span class="text-uppercase" translate="DASHBOARD.WIDGET.ONOFF"></span></th>
+          <th class="pr-0" style="width: 500px"><span class="text-uppercase" translate="DASHBOARD.WIDGET.TITLE"></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of showWidgets">
+          <td><span translate="DASHBOARD.WIDGET.{{ item.Title }}"></span>&nbsp;</td>
+          <td>
+            <mat-slide-toggle [checked]="item.IsShow" (click)="ChangInfo(item)"> </mat-slide-toggle>
+          </td>
+          <td> <input [disabled]="!item.IsShow" style="width: 100%;" [(ngModel)]="item.Note" (focusout)="ChangTitle(item)" autocomplete="off"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

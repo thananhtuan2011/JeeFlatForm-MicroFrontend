@@ -1,0 +1,48 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>Thiết lập cho phân hệ quản lý bán hàng</h3>
+    </div>
+    <div class="card-toolbar">
+      <button (click)="ClickDataDefault()" mat-raised-button class="ja_button ja_btn-addnew" type="button">
+        <span>Sử dụng dữ liệu mặc định</span>
+      </button>
+    </div>
+  </div>
+  <div class="card-body" style="margin:20px;" [ngStyle]="{'height': getHeight()}">
+
+    <div class="row class-text-home" 
+      [innerHTML]="this._DanhMucChungService.textSale1">
+    </div>
+
+    <!-- <div class="row class-text-home">
+      <span class="pd-left">- Quản lý hồ sơ, lý lịch nhân viên</span><br />
+      <span class="pd-left">- Quản lý nghỉ phép, công tác, chấm công nhân viên: chấm công wifi, chấm công bằng máy vẫn tay/thẻ từ, chấm
+        công bằng camera Al</span><br />
+      <span class="pd-left">- Quản lý các quy trình phê duyệt phép, công tác, làm thêm giờ trên hệ thống</span><br />
+      <span class="pd-left">- Quản lý quá trình thay đổi lương</span><br />
+      <span class="pd-left">- ...</span>
+    </div>
+
+    <div class="row class-text-home">
+      <span>Chỉ mất vài phút để bạn thực hiện. Hãy chuẩn bị các dữ liệu sau để giúp quá trình thiết lập diễn ra nhanh
+        chóng:</span><br />
+      <span>1. Danh sách phòng ban, chức danh</span><br />
+      <span>2. Các quy định về nghỉ phép như: các hình thức nghỉ (phép năm, nghỉ hưởng bhxh, làm việc tại nhà,...), số
+        ngày phép có được</span><br />
+      <span>3. Quy trình duyệt các đơn từ: nghỉ phép/công tác, làm thêm giờ, giải trình chấm công</span><br />
+      <span>4. Danh sách nhân viên cần nhập lên hệ thống</span><br />
+      <span>5. Các thiết bị chấm công theo hình thức bạn áp dụng:</span><br />
+      <span class="pd-left">- Chấm công wifi: bật wifi cho phép nhân viên chấm công</span><br />
+      <span class="pd-left">- Chấm công bằng máy vân tay/thể từ: bắt máy và đảm bảo có kết nối từ máy vân tay/thẻ đến máy tính của
+        bạn</span><br />
+      <span class="pd-left">- chấm công bằng camera Al Hanet: Chuẩn bị sẵn camera, đăng nhập tài khoản Hanet của bạn trên điện
+        thoại.</span><br />
+    </div> -->
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

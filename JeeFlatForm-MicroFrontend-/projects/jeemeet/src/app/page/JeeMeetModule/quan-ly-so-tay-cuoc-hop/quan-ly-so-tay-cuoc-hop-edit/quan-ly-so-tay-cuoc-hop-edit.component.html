@@ -1,0 +1,64 @@
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{getTitle()}}
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+            <div class="row align-items-center">
+                <div class="col-md-12 m--margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                      <!-- <textarea matInput [readonly]="IsXem" formControlName="NoiDungGhiChu" type="text"></textarea>
+                      <mat-placeholder>{{'MENU_STCUOCHOP.SOTAYGHICHU_NoiDungGhiChu' | translate}} </mat-placeholder> -->
+                        <input matInput class="input-batbuoc mat-focused" placeholder="Nội dung ghi chú" formControlName="NoiDungGhiChu" required #focusInput>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-md-12 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <input
+                    matInput
+                    readonly
+                    formControlName="MeetingContent"
+                    type="text"/>
+                  <mat-placeholder>{{'MENU_STCUOCHOP.SOTAYGHICHU_MeetingContent' | translate}} </mat-placeholder>
+                </mat-form-field>
+              </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-md-12 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input
+                  matInput
+                  readonly
+                  formControlName="FromTime"
+                  type="text"/>
+                <mat-placeholder>{{'MENU_STCUOCHOP.SOTAYGHICHU_THOIGIAN' | translate}}</mat-placeholder>
+              </mat-form-field>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" *ngIf="!IsXem" type="button" class="mat-raised-button" (click)="close_ask()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+      {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+    <button class="jee_button jee_btn-goback" *ngIf="IsXem" type="button" class="mat-raised-button" (click)="close()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+      {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+
+
+
+    <button class="jee_button jee_btn-addcontinue" *ngIf="!IsXem" type="button" mat-raised-button (click)="onSubmit(true)" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+      {{'COMMON.LUU_DONG' | translate}}
+    </button> &nbsp;&nbsp;
+
+    <!-- <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit(false)" *ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_TIEPTUC' | translate }}">
+    {{'COMMON.LUU_TIEPTUC' | translate}}
+    </button> -->
+</div>

@@ -1,0 +1,93 @@
+.status-input {
+    display: flex;
+    margin: 3px 0 5px 0;
+}
+
+.status-input .box-color {
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    margin: auto;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.status-input input {
+    width: 100%;
+    border: none;
+}
+
+.status-input .input input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+}
+
+.status-input .input {
+    flex-grow: 1;
+}
+
+.status-input .action-input {
+    min-width: 20px;
+}
+
+.delete-tag {
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+.point {
+    width: 10px;
+    height: 10px;
+}
+
+.choose-group-task {
+    flex-grow: 1;
+    border: none;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+}
+.choose-group-task:hover{
+    background-color: #eee;
+}
+.choose-users-box .users-container .user-item:hover{
+    .choose-group-task{
+        background-color: #eee;
+    }
+}
+.choose-group-task{
+    flex-grow: 1;
+    border: none;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+}
+.choose-users-box .users-container .user-item {
+    display: flex;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.status-input{
+    display: flex;
+    margin: 3px 0 5px;
+}
+.form-control{
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #3f4254;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #E4E6EF;
+    appearance: none;
+    border-radius: 0.42rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.choose-users-box{
+    margin: 0 -15px -15px;
+    min-width: 260px;
+}

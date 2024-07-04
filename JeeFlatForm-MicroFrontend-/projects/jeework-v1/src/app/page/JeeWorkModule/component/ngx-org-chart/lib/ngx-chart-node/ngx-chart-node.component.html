@@ -1,0 +1,22 @@
+<div ngClass="ngx-org-connector-{{direction}}" class="ngx-org-border" *ngIf="hasParent"></div>
+<div [ngClass]="node?.cssClass" class="ngx-org-box ngx-org-border ngx-org-background" (click)="itemClick.emit(node)"
+  [ngStyle]="{'min-width':node.trangthai != -1 ? '327px' : '170px', 
+  'justify-content':node.trangthai != -1 ? '' : 'center'}">
+  <!-- <div *ngIf="node?.image" class="ngx-org-image ngx-org-border"
+    [ngStyle]="{ 'background-image': 'url(\''+ node?.image+'\')'}">
+  </div> -->
+  <div>
+    <div class="ngx-org-title" *ngIf="node.trangthai == -1">{{node?.title}}</div>
+    <div class="ngx-org-title" *ngIf="node.trangthai == -1">{{node?.name}}</div>
+    <div class="ngx-org-title" *ngIf="node.trangthai != -1">{{node?.project_name}}</div>
+    <div class="ngx-org-name" *ngIf="node.trangthai != -1"><span style="font-weight: bold;">{{node?.name}}</span>&nbsp;-
+      <span style="font-weight: normal;">{{node?.chucvu}}</span>
+    </div>
+    <div class="ngx-org-title" *ngIf="node.trangthai != -1">Số điện thoại:&nbsp;{{node?.PhoneNumber}}</div>
+    <div class="ngx-org-title" *ngIf="node.trangthai != -1">Nội dung nhiệm vụ:&nbsp;{{node?.title}}</div>
+    <div class="ngx-org-title" *ngIf="node.trangthai != -1">Thời hạn hoàn thành:&nbsp;{{node ?
+      this._FormatTimeService.f_date_thuso(node.deadline) : ''}}</div>
+    <div class="ngx-org-title" *ngIf="node.trangthai != -1">Trạng thái:&nbsp;{{node?.trangthaitext}}</div>
+  </div>
+</div>
+<div ngClass="ngx-org-connector-{{direction}}" class="ngx-org-border" *ngIf="node?.childs?.length"></div>

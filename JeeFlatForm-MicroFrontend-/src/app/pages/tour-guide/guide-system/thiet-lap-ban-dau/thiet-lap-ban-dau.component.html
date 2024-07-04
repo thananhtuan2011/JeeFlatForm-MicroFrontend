@@ -1,0 +1,45 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
+
+  .mat-expanded mat-panel-title {
+    display: none;
+  }
+</style>
+<div class="card card-custom" [ngStyle]="{ height: getHeightFull() }">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 style="font-weight:bold">Thiết lập ban đầu</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- <div class="row class-text-home" *ngIf="this._GuideSystemService.textStep1 == ''">
+      <span>Chào mừng bạn đến với hệ thống chuyển đổi số toàn</span><br />
+      <span>diện DP247. Hệ thống sẽ thực hiện các thiết lập phù</span><br />
+      <span>hợp với nhu cầu sử dụng của bạn. Vui lòng hoàn</span><br />
+      <span>thành một số ít các bước sau</span>
+    </div> -->
+    <div class="row class-text-home">
+      <span [innerHTML]="this._GuideSystemService.textStep1"></span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

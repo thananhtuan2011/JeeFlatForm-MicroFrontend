@@ -1,0 +1,356 @@
+
+
+<div>
+  <mat-nav-list class="side-navnar">
+    <ng-container *ngFor="let menu of menuConfig.items;let i=index">
+      <ng-container [ngTemplateOutlet]="menu.submenu ?  childMenu : parentMenu"
+        [ngTemplateOutletContext]="{menu:menu,index: i}">
+      </ng-container>
+    </ng-container>
+  </mat-nav-list>
+
+  <ng-template #parentMenu let-index="index" let-menu="menu">
+    <mat-list-item  (contextmenu)="open($event, menu); $event. preventDefault();"  style="padding-left: 8px;" [routerLink]="menu.routerLink" routerLinkActive="is-active"
+      [routerLinkActiveOptions]="{exact:
+      true}">
+      <span style="width: 20px;" inlineSVG="assets/media/svg/icons/Code/Compiling.svg" cacheSVG="true"
+        class="svg-icon menu-icon"></span> <span style="font-size: 15px;"> {{menu.title}}   </span>
+    </mat-list-item>
+  </ng-template>
+
+  <ng-template #childMenu let-menu="menu" let-index="index">
+    <div>
+
+
+      <mat-expansion-panel (contextmenu)="open($event, menu); $event. preventDefault();" [expanded]="step === index" (opened)="setStep(index)" [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header >
+
+
+          <span style="  width: 20px;" inlineSVG="assets/media/svg/icons/Code/Compiling.svg"
+            cacheSVG="true" class="svg-icon menu-icon"></span>{{menu.title}}
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+
+
+          <div *ngFor="let submenu of menu.submenu" style="display: flex;flex-direction: column;">
+
+
+
+            <div *ngIf="!submenu.submenu && !submenu.isPrivate">
+              <div >
+                <div class="list home-links more_jeeteam more-string ">
+
+                    <div style="    width: 100%;"  class="li url">
+
+                 
+
+                  <div  style="    width: 100%;
+                  padding: 15px 15px 15px 40px; "   [routerLink]="submenu.page" routerLinkActive="active">
+                     <span *ngIf="submenu.title.length<50"   class="text" style="
+                     text-align: start;
+                     width: 100%;
+                    ;
+                 ">{{submenu.title}}</span>
+                   <span *ngIf="submenu.title.length>50"   class="text" style="
+                   text-align: start;
+                   width: 100%;
+                  ;
+               ">{{submenu.title.slice(0,50)}} ...</span>
+                    
+                      
+                  </div>
+                  <div style="right: 0px;
+                  position: absolute;" >
+    
+                    <ng-container>
+
+                      <button style="float: right;" mat-icon-button [matMenuTriggerFor]="menu"
+                        aria-label="Example icon-button with a menu">
+                        <mat-icon class="action" style="font-size: 25px;">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+
+                       <button  mat-menu-item  class="bntaction" (click)="Editnamechanel(submenu.RowIdSub,submenu.title,submenu.RowIdSubChild)"
+>
+                      <mat-icon>edit</mat-icon>
+                      <span>Chỉnh sửa</span>
+                    </button>
+                    <button  mat-menu-item  class="bntaction" (click)="creaFormSubDelete(submenu.RowIdSub,submenu.RowIdSubChild,submenu.isPrivate)"
+                 >
+                      <mat-icon>close</mat-icon>
+                      <span>Xóa</span>
+                    </button>
+                    <button  mat-menu-item  class="bntaction" (click)="AddHidden(submenu)">
+                      <mat-icon>restore_from_trash</mat-icon>
+                      <span>Ẩn</span>
+                    </button>
+
+
+
+
+                      </mat-menu>
+
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+                <!-- <div style="display: flex;
+              align-items: center;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              max-width: 349px;" (contextmenu)="opensub($event, submenu); $event. preventDefault();" [routerLink]="submenu.page" routerLinkActive="active">
+               
+                  <div style="display: flex;align-items: center;">
+                    <span class="dot"></span> {{submenu.title}}  ccc
+                    <p>more</p>
+                  </div>
+                  <span *ngIf="submenu.isPrivateChanel" >
+                    <mat-icon style="margin-top: 5px;color: #ed143da8;">enhanced_encryption</mat-icon>
+                  </span>
+                </div> -->
+                <!-- <span *ngIf="submenu.AlowEdit" class="moreedit" cân>
+
+                  <button mat-icon-button [matMenuTriggerFor]="menusua" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menusua="matMenu">
+                    <button (click)="Editnamechanel(submenu.RowIdSub,submenu.title,submenu.RowIdSubChild)"
+                      mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Chỉnh sửa</span>
+                    </button>
+                    <button (click)="creaFormSubDelete(submenu.RowIdSub,submenu.RowIdSubChild,submenu.isPrivate)"
+                      mat-menu-item>
+                      <mat-icon>close</mat-icon>
+                      <span>Xóa</span>
+                    </button>
+                    <button (click)="AddHidden(submenu)" mat-menu-item>
+                      <mat-icon>restore_from_trash</mat-icon>
+                      <span>Ẩn</span>
+                    </button>
+
+                  </mat-menu>
+                </span> -->
+              </div>
+            </div>
+            <div *ngIf="submenu.submenu">
+
+              <div *ngIf="submenu.submenu.length>0">
+
+
+
+                <mat-accordion class="example-headers-align" multi="true">
+
+
+                  <mat-expansion-panel showToggle="true">
+
+
+                    <!-- use template to force lazy rendering -->
+                    <ng-template matExpansionPanelContent>
+                      <mat-accordion class="example-headers-align" multi="false">
+
+                        <!-- cdkVirtualFor -->
+                        <mat-expansion-panel style="box-shadow: none !important ;color: orange;">
+                          <mat-expansion-panel-header>
+                            <div style="    display: flex;
+                        align-items: center;">
+                              <mat-icon style="    margin-right: 0px;
+                          margin-left: 5px;">arrow_right</mat-icon>
+
+                              <span style="display: flex;align-items:center;">
+                                <label style="margin-right: 3px;">{{submenu.LengthChild}}</label>
+                                {{'JEETEAM.Kenhan' | translate}}
+                              </span>
+
+
+                            </div>
+                          </mat-expansion-panel-header>
+
+                          <ng-template matExpansionPanelContent>
+                            <div *ngFor="let submenuchild of submenu.submenu">
+
+
+                              <div>
+
+                                <div class="list home-links more_jeeteam more-string ">
+
+                                  <div style="    width: 100%;"  class="li url">
+              
+                               
+              
+                                <div  style="    width: 100%;
+                                padding: 15px;"   [routerLink]="submenuchild.page" routerLinkActive="active">
+                               
+                                   <span   class="text" style="padding-left: 15%;
+                                   text-align: start;
+                                   width: 100%;
+                               ">{{submenuchild.title}}</span>
+                                    
+                                </div>
+                                <div style="right: 0px;
+                                position: absolute;" >
+                  
+                                  <ng-container>
+              
+                                    <button style="float: right;" mat-icon-button [matMenuTriggerFor]="menu"
+                                      aria-label="Example icon-button with a menu">
+                                      <mat-icon class="action" style="font-size: 25px;">more_horiz</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+              
+                                 
+    <button class="bntaction" (click)="DeleteHidden(submenuchild)" mat-button>
+      <mat-icon>restore</mat-icon>
+      <span>Xóa ẩn</span>
+    </button>
+              
+              
+              
+                                    </mat-menu>
+              
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                                <!-- <mat-list-item (contextmenu)="opensubhiden($event, submenuchild); $event. preventDefault();" [routerLink]="submenuchild.page" routerLinkActive="active" style="    display: flex;
+                        align-items: center;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        max-width: 285px;
+                        margin-left: 25px;
+                    ">
+                                  <span class="dot"></span> {{submenuchild.title}} 
+                                </mat-list-item> -->
+                              
+                              </div>
+                            </div>
+                          </ng-template>
+                        </mat-expansion-panel>
+
+                      </mat-accordion>
+                    </ng-template>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+    </div>
+  </ng-template>
+</div>
+<div  style="align-items: center;
+justify-content: center;
+height: 100%;
+width: 100%;
+display: flex;" *ngIf="menuConfig.items.length==0">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div >
+
+
+  <!-- <ng-container *ngIf="Admin==1">
+    <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+      <span style="    padding: 12px;
+      align-items: center;
+      display: flex;" routerLink="/Group/phanquyen" routerLinkActive="active">
+       <mat-icon  style="    width: 17px;
+       font-size: 17px;
+       margin-left: 3px;
+       height: 17px;">settings</mat-icon>
+        <span>
+          <p style="width: 130px;margin: 0;font-size: 15px;padding-left: 5px;cursor: pointer;">
+
+            Phân quyền
+          </p>
+
+
+        </span>
+      </span>
+
+    </li>
+  </ng-container> -->
+  <!-- <li (click)="CreaterGroupMenu()" class="menu-section" style="    display: flex;
+align-items: center;cursor: pointer;margin-top: 10px;    margin-left: 14px;">
+    <mat-icon style="    width: 17px;
+    font-size: 17px;
+    height: 17px;">add_box</mat-icon>
+    <span style="font-size: 15px; padding-left: 5px;">
+      Thêm Nhóm
+    </span>
+  </li> -->
+</div>
+
+<ng-template #userSubMenu let-submenu>
+  <section  class="user-menu">
+    <button  class="bntaction" (click)="Editnamechanel(submenu.RowIdSub,submenu.title,submenu.RowIdSubChild)"
+    mat-button>
+                      <mat-icon>edit</mat-icon>
+                      <span>Chỉnh sửa</span>
+                    </button>
+                    <button  class="bntaction" (click)="creaFormSubDelete(submenu.RowIdSub,submenu.RowIdSubChild,submenu.isPrivate)"
+                    mat-button>
+                      <mat-icon>close</mat-icon>
+                      <span>Xóa</span>
+                    </button>
+                    <button  class="bntaction" (click)="AddHidden(submenu)"mat-button>
+                      <mat-icon>restore_from_trash</mat-icon>
+                      <span>Ẩn</span>
+                    </button>
+
+
+  </section>
+</ng-template>
+<ng-template #userMenu let-menu>
+  
+  <section *ngIf="menu.isMember" class="user-menu">
+   <button  class="bntaction" (click)="AddChannel(menu.RowId)" mat-button>
+        <mat-icon>add</mat-icon>
+        <span>Thêm kênh</span>
+      </button>
+  </section>
+  <section *ngIf="menu.isAdmin" class="user-menu">
+    <button class="bntaction" (click)="Editnameteam(menu.RowId,menu.title)" mat-button>
+      <mat-icon>edit</mat-icon>
+      <span>Chỉnh Sửa</span>
+    </button>
+    <button  class="bntaction" (click)="creaFormDelete(menu.RowId)" mat-button>
+      <mat-icon>close</mat-icon>
+      <span>Xóa</span>
+    </button>
+    <button  class="bntaction" (click)="AddChannel(menu.RowId)"mat-button>
+      <mat-icon>add</mat-icon>
+      <span>Thêm kênh</span>
+    </button>
+
+    <button  class="bntaction" (click)="AddMember(menu.RowId)" mat-button>
+      <mat-icon>person_add</mat-icon>
+      <span>Thêm thành viên</span>
+    </button>
+    <button  class="bntaction" (click)="QuanlyTeam(menu.RowId)" mat-button>
+      <mat-icon>toc</mat-icon>
+      <span>Quản lý</span>
+    </button>
+
+  </section>
+</ng-template>
+<ng-template #userSubMenuHiden let-submenuchild>
+  
+
+  <section  class="user-menu">
+  
+    <button class="bntaction" (click)="DeleteHidden(submenuchild)" mat-button>
+      <mat-icon>restore</mat-icon>
+      <span>Xóa ẩn</span>
+    </button>
+
+  </section>
+</ng-template>

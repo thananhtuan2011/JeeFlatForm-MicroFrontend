@@ -1,0 +1,47 @@
+.align-items-center {
+    align-items: center!important;
+}
+.w-stog{
+    min-width: 150px !important;
+}
+.kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-icon{
+    padding-right: 0.75rem;
+    font-size: 1.3rem;
+    color: #74788d;
+}
+.kt-portlet .kt-portlet__head .kt-portlet__head-label{
+    display: flex;
+    align-items: center;
+}
+.kt-portlet .kt-portlet__head{
+    z-index: 2;
+    transition: height .3s;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 25px;
+    border-bottom: 1px solid #ebedf2;
+    min-height: 60px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.kt-portlet .kt-portlet__head .kt-portlet__head-toolbar{
+    display: flex;
+    align-items: center;
+}
+.kt-mat-dialog-container__wrapper .mat-dialog-container .kt-portlet .kt-portlet__body{
+    overflow: auto;
+}
+.kt-portlet .kt-portlet__body.pd-0{
+    padding: 0!important;
+}
+.kt-portlet__body{
+    max-height: initial !important;
+    z-index: 1;
+}
+.kt-portlet .kt-portlet__body{
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+}

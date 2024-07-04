@@ -1,0 +1,831 @@
+<style>
+    :host>>>.svg-icon svg g [fill]:hover {
+        transition: fill 0.3s ease;
+        fill: #000000;
+    }
+
+    :host>>>.card {
+        border-radius: 0 !important;
+    }
+</style>
+<!-- [ngStyle]="{'width': getHeight()}" -->
+
+<!-- <div *ngIf="HoTro"> -->
+<div *ngIf="filteredHoTro | async">
+    <!-- <div *ngFor="let item of HoTro" [ngStyle]="{'height': '75px'}" style="margin-bottom: 10px;"> -->
+    <div *ngFor="let item of filteredHoTro | async" [ngStyle]="{'height': '75px'}" style="margin-bottom: 10px;">
+        <!-- [ngStyle]="{'width': getWidth()}" -->
+        <div class="bg-ch">
+            <div class="main-left row">
+                <div class="card card-custom col-12">
+                    <table class="table-borderless table-vertical-center" style="height: 75px;">
+                        <thead>
+                            <tr>
+                                <th class="p-0" [style.width]="'85%'"></th>
+                                <th class="p-0" [style.min-width]="'15%'"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pl-5 pr-4 py-4">
+                                    <div
+                                        *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status && IdStatus_dongyeucau != this.requestPcDTO.Status;else Dahuy5">
+                                        <div *ngIf="!edit;else edittitle" class="ct-title">
+                                            {{item.Title}}
+                                            &nbsp;<mat-icon style="font-size: 10px;color:#35495e"
+                                                (click)="edit_title()">
+                                                border_color</mat-icon>
+                                        </div>
+                                        <ng-template #edittitle>
+                                            <input [(ngModel)]="Title" id="txttitle" type="text"
+                                                class="form-input-title row  w-100" #input
+                                                (keyup.enter)="Update_title()">
+                                            <mat-error *ngIf="Title.length > 200">
+                                                Tiêu đề không được lớn hơn 200 ký tự
+                                            </mat-error>
+                                        </ng-template>
+                                        <div *ngIf="item.Note;else NoNote" style="font-size: 12px;">
+                                            {{item.Note}} -
+                                            <i style="font-size: 12px;">{{convertDateTitle(item.CreatedDate)}}</i>
+                                        </div>
+                                        <ng-template #NoNote>
+                                            <div style="font-size: 12px;">
+                                                <i style="font-size: 12px;">{{convertDateTitle(item.CreatedDate)}}</i>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+
+                                    <ng-template #Dahuy5>
+                                        <div style="color: #404040;font-size: 12pt;font-weight: bold;">
+                                            {{item.Title}}
+
+                                        </div>
+
+                                        <div style="font-size: 12px;">
+                                            {{item.Note}} -
+                                            <i style="font-size: 12px;">{{convertDateTitle(item.CreatedDate)}}</i>
+                                        </div>
+                                    </ng-template>
+                                </td>
+                                <td class="pr-7 py-4">
+                                    <div *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status;else Dahuy"
+                                        (click)="Update_rating()"
+                                        style="padding: 10px 10px 0 0;text-align: right !important;float: left;">
+                                        <span *ngFor="let item of [].constructor(item.Rating); let i = index"
+                                            class="fa fa-star" style="color: yellow;font-size: 18px;"></span>
+                                        <span *ngFor="let item of [].constructor(5-item.Rating); let i = index"
+                                            class="fa fa-star" style="color:#E6E6FA;font-size: 18px;"></span>
+
+                                    </div>
+                                    <ng-template #Dahuy>
+                                        <div style="padding: 10px 10px 0 0;text-align: right !important;float: left;">
+                                            <span *ngFor="let item of [].constructor(item.Rating); let i = index"
+                                                class="fa fa-star" style="color: yellow;font-size: 18px;"></span>
+                                            <span *ngFor="let item of [].constructor(5-item.Rating); let i = index"
+                                                class="fa fa-star" style="color:#E6E6FA;font-size: 18px;"></span>
+
+                                        </div>
+                                    </ng-template>
+                                    <div *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status && IdStatus_dongyeucau != this.requestPcDTO.Status"
+                                        style="float: right;right:0">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Hủy yêu cầu">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="Huyyeucau()">
+                                                <i class="flaticon2-delete" style="color: red;"></i>&nbsp;
+                                                <span>Hủy yêu cầu</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="requestPcDTO">
+
+
+
+    <div class="table-responsive angular-bootstrap-table khungchat" [ngStyle]="{ height: getHeightChat()}" #scrollMe
+        [scrollTop]="scrollMe.scrollHeight">
+        <div *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status"
+            style="padding-right: 100px;position: absolute;right: 5px;" [ngStyle]="{ top: getHeightChat()}">
+            <button *ngIf="check_answer == true" mat-raised-button class="btn-answer" (click)="OpenEdit(false)">
+                <mat-icon>create</mat-icon>Trả lời
+            </button>
+        </div>
+        <div style="margin-bottom: 10px!important;" class="overflow-auto">
+
+
+            <div style="margin-bottom: 10px!important;min-width: 750px; max-width: 1150px;" class="overflow-auto">
+                <!-- <div *ngFor="let us of lstMessage; let index = index" style="margin-bottom: 15px!important;"
+                    class="overflow-auto" (scroll)="onScroll($event)"> -->
+                <!-- <div *ngFor="let us of filteredMessage | async; let index = index" style="margin-bottom: 15px!important;"
+                    class="overflow-auto" (scroll)="onScroll($event)"> -->
+                <div *ngFor="let us of filterMessageThread(MessageService.messageThread$) | async; let index = index"
+                    style="margin-bottom: 15px!important;" class="overflow-auto" (scroll)="onScroll($event)">
+                    <div *ngIf="us.IsResponse == true;else RespoFalse" class="row mess1">
+                        <table class="overflow-auto" style="width:max-content">
+                            <tr style="width:100%">
+                                <th style="width:5%"></th>
+                                <th style="width:95%"></th>
+                                <th style="width:0%"></th>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 10px;">
+                                    <ngx-avatar [size]="30" matTooltip="{{us.fullname}}" src="{{us.image}}"
+                                        *ngIf="us.image;else bindText2">
+                                    </ngx-avatar>
+                                    <ng-template #bindText2>
+                                        <ngx-avatar [textSizeRatio]="2.5" matTooltip="{{us.fullname}}" [size]="30"
+                                            [name]="getName(us.fullname)" bgColor="{{getColorNameUser(us.fullname)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </td>
+                                <td class="mess_doc1">
+                                    <div class="title_mess">
+                                        <div style="padding: 2px 10px;">
+                                            <span class="nd-date" style="padding-right: 10px;"> {{us.fullname}}
+                                            </span>
+                                            <span class="nd-fullname">
+                                                {{this.FormatTimeService.format_convertDate(us.CreatedDate,2,true)}}
+                                            </span>
+                                            <br />
+                                        </div>
+                                        <div class="nd-mess" *ngIf="us.Type == 1;else bindImage">
+                                            <p [innerHTML]="us.Message"></p>
+                                        </div>
+                                        <ng-template #bindImage>
+                                            <div *ngIf="us.Type == 2;else bindFile">
+                                                <img *ngFor="let img of us.Attachment"
+                                                style=" width:300px;border-radius: inherit;cursor: pointer;"
+                                                src="{{img.hinhanh}}">
+                
+                                            </div>
+                                          </ng-template>
+                
+                
+                                            <ng-template #bindFile>
+                                              <div [ngClass]="getClassfileLeft(us.UserName)"
+                                                  *ngIf="us.Attachment.length>0">
+                                                  <!-- <label [ngClass]="getClassReply(us.UserName)" *ngIf="us.Note!==''&&us.Note&&!us.isCall">
+                                                    <mat-icon style="    font-size: 20px;">reply</mat-icon>
+                                                    <label [innerHTML]="us.Note"></label>
+                                                  </label> -->
+                                                  <div *ngFor="let file of us.Attachment let vifile=index">
+                
+                                                    <div style="display:flex ;flex-direction:column ;">
+                
+                
+                                                      <div style="display: flex;cursor: pointer;align-items: center;">
+                                                        <div style="display: flex;align-items:center ;">
+                
+                
+                                                          <div>
+                                                            <img style="width:25px !important ;height:25px !important ;" src=" {{ file.icon }}" />
+                                                            <div>
+                                                              <img style="    float: right;
+                                                          width: 10px;
+                                                          height: 10px;
+                                                          margin-top: -5px;
+                                                        " src="../../../../../../assets/media/mime/icontick.png">
+                                                            </div>
+                
+                                                          </div>
+                                                          <span style="    font-weight: bold;
+                                                      padding-left: 5px;">{{ file.filename }}
+                                                            <br>
+                
+                                                          </span>
+                
+                                                        </div>
+                                                        <!-- <i  (click)="TaiXuong(file)" class="fas fa-download dow"></i> -->
+                                                        <i [ngClass]="getClassDownload(file.isDownload)"
+                                                          (click)="saveOrOpenBlob(file.Link,file.filename,file.disabled,index,vifile,us.IdGroup,us.IdChat,file.id_att)"
+                                                          class="fas fa-download dow"></i>
+                                                      </div>
+                
+                                                      <div style="padding-left: 10px;">
+                
+                                                        <div id="downloadfile{{index}}{{vifile}}">
+                                                          <div id="progress{{index}}{{vifile}}">
+                
+                                                            <span id="progress-text{{index}}{{vifile}}"></span>
+                                                          </div>
+                
+                                                        </div>
+                
+                
+                                                        <span id="kbdownload{{index}}{{vifile}}"></span>
+                
+                
+                
+                                                      </div>
+                                                      <div *ngIf="file.disabled==true">
+                                                        <div>
+                                                          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                                        </div>
+                                                        <div class="progress" *ngIf="progress&&id_chat_notify==us.IdChat">
+                                                          <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+                                                          <br>
+                
+                                                        </div>
+                                                        <!-- <div id="uploadfile{{vi}}" >
+                                                      <div id="progressupload{{vi}}"  >
+                                                        <span id="progress-textupload{{vi}}"></span>
+                                                      </div>
+                
+                                                    </div>  -->
+                
+                                                      </div>
+                                                    </div>
+                
+                                                    <!-- <span>{{download.progress}}</span> -->
+                                                  </div>
+                                                </div>
+                                            </ng-template>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <ng-template #RespoFalse class="row mess2">
+                        <table style="width: max-content;float:right;">
+                            <tr style="width:100%">
+                                <th style="width:0%"></th>
+
+                                <th style="width:95%"></th>
+
+                                <th style="width:5%"></th>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: start;" class="mess_doc2">
+                                    <div class="title_mess">
+                                        <div style="padding: 2px 10px;">
+                                            <span class="nd-fullname" style="float:left;padding-right: 10px;"> {{us.fullname}}
+                                            </span>
+                                            <span class="nd-date" style="float:right">
+                                                {{this.FormatTimeService.format_convertDate(us.CreatedDate,2,true)}}
+                                            </span>
+                                            <br />
+                                        </div>
+                                        <div class="nd-mess" *ngIf="us.Type == 1;else bindImage">
+                                            <p [innerHTML]="us.Message"></p>
+                                        </div>
+
+                                        <ng-template #bindImage>
+                                            <div *ngIf="us.Type == 2;else bindFile">
+                                                <img *ngFor="let img of us.Attachment"
+                                                    style=" width:300px;border-radius: inherit;cursor: pointer;"
+                                                    src="{{img.hinhanh}}">
+                                                    
+                
+                                            </div>
+                                        </ng-template>
+                
+                
+                                        <ng-template #bindFile>
+                                            <div [ngClass]="getClassfileRight(us.UserName)" *ngIf="us.Attachment.length>0">
+                                                <!-- <label [ngClass]="getClassReply(us.UserName)" *ngIf="us.Note!==''&&us.Note&&!us.isCall">
+                                                  <mat-icon style="    font-size: 20px;">reply</mat-icon>
+                                                  <label [innerHTML]="us.Note"></label>
+                                                </label> -->
+                                                <div *ngFor="let file of us.Attachment let vifile=index">
+                
+                                                    <div style="display:flex ;flex-direction:column ;">
+                
+                
+                                                        <div style="display: flex;cursor: pointer;align-items: center;">
+                                                            <div style="display: flex;align-items:center ;"
+                                                                >
+                
+                
+                                                                <div>
+                                                                    <img style="width:25px !important ;height:25px !important ;"
+                                                                        src=" {{ file.icon }}" />
+                                                                    <div>
+                                                                        <img style="    float: right;
+                                                        width: 10px;
+                                                        height: 10px;
+                                                        margin-top: -5px;
+                                                      " src="../../../../../../assets/media/mime/icontick.png">
+                                                                    </div>
+                
+                                                                </div>
+                                                                <span style="    font-weight: bold;
+                                                    padding-left: 5px;">{{ file.filename }}
+                                                                    <br>
+                
+                                                                </span>
+                
+                                                            </div>
+                                                            <!-- <i  (click)="TaiXuong(file)" class="fas fa-download dow"></i> -->
+                                                            <i [ngClass]="getClassDownload(file.isDownload)"
+                                                                (click)="saveOrOpenBlob(file.Link,file.filename,file.disabled,index,vifile,us.IdGroup,us.IdChat,file.id_att)"
+                                                                class="fas fa-download dow"></i>
+                                                        </div>
+                
+                                                        <div style="padding-left: 10px;">
+                
+                                                            <div id="downloadfile{{index}}{{vifile}}">
+                                                                <div id="progress{{index}}{{vifile}}">
+                
+                                                                    <span id="progress-text{{index}}{{vifile}}"></span>
+                                                                </div>
+                
+                                                            </div>
+                
+                
+                                                            <span id="kbdownload{{index}}{{vifile}}"></span>
+                
+                
+                
+                                                        </div>
+                                                        <div *ngIf="file.disabled==true">
+                                                            <div>
+                                                                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                                            </div>
+                                                            <div class="progress" *ngIf="progress&&id_chat_notify==us.IdChat">
+                                                                <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%
+                                                                </div>
+                                                                <br>
+                
+                                                            </div>
+                                                            <!-- <div id="uploadfile{{vi}}" >
+                                                    <div id="progressupload{{vi}}"  >
+                                                      <span id="progress-textupload{{vi}}"></span>
+                                                    </div>
+                
+                                                  </div>  -->
+                
+                                                        </div>
+                                                    </div>
+                
+                                                    <!-- <span>{{download.progress}}</span> -->
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </td>
+                                <td style="float: right;padding-left: 10px;">
+                                    <ngx-avatar [size]="30" matTooltip="{{us.fullname}}" src="{{us.image}}"
+                                        *ngIf="us.image;else bindText2">
+                                    </ngx-avatar>
+                                    <ng-template #bindText2>
+                                        <ngx-avatar [textSizeRatio]="2.5" matTooltip="{{us.fullname}}" [size]="30"
+                                            [name]="getName(us.fullname)" bgColor="{{getColorNameUser(us.fullname)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </table>
+                    </ng-template>
+
+                </div>
+                <div class="message-input">
+                    <div class="wrap">
+                        <div *ngIf="myFilesVideo.length">
+                            <div *ngFor="let video of myFilesVideo;let indexvd=index">
+
+
+                                <div style="width: 20px;">
+                                    <button (click)="RemoveVideos(indexvd)" class="closebtn" mat-button mat-icon-button>
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <video [src]="video" height="200" controls></video>
+
+                            </div>
+                        </div>
+                        <!--  begin image -->
+                        <div style="    height: 150px;
+                display: flex;
+               padding-bottom: 15px;
+                overflow-x: auto;
+                overflow-y: hidden;" *ngIf="list_image.length>0">
+
+                            <div style="display: -webkit-inline-box;">
+
+
+                                <div style="display: flex;" *ngFor="let img of list_image;let viimg=index">
+                                    <div style="width: 20px;">
+                                        <button (click)="RemoveChoseImage(viimg)" class="closebtn" mat-button mat-icon-button>
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <img [src]="img" style="width: 100%;
+                                    height: 100%;;margin: 10px;">
+                                </div>
+                                <button style="height: 100%;
+                            margin:auto;
+                            border-radius: 10% !important;" (click)="hiddenfileinput_image.click()" matTooltip="Hỉnh ảnh"
+                                    mat-icon-button aria-label="Example icon button with a home icon">
+                                    <mat-icon class="sizeiconreaction">add_photo_alternate</mat-icon>
+                                </button>
+                                <input type='file' accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .heic, .heif, .tiff|image/*"
+                                    id="PDFInpdd" #hiddenfileinput_image (onChange)="onSelectFile_PDF($event)"
+                                    (click)="$event.target.value=null" multiple style="display: none;">
+
+                            </div>
+                        </div>
+
+                        <!-- end image -->
+                        <!-- begin file  -->
+                        <div class="bodyfile" *ngIf="listFileChat.length>0" style="margin-left: 50px;
+                            width: 915px;">
+
+                            <div style="display: flex;flex-wrap: wrap;">
+
+
+                                <div class="file" *ngFor="let file of listFileChat;let vifile=index">
+                                    <div>
+
+                                        <i style="cursor:pointer ;" (click)="RemoveChoseFile(vifile)" class="fa fa-times"
+                                            aria-hidden="true"></i>
+                                    </div>
+                                    <div class="attchamentfile">
+                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58"
+                                            style="enable-background:new 0 0 58 58; width: 40px;" xml:space="preserve">
+                                            <polygon style="fill:#EDEADA;" points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 " />
+                                            <g>
+                                                <path style="fill:#CEC9AE;"
+                                                    d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z" />
+                                                <path style="fill:#CEC9AE;"
+                                                    d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z" />
+                                                <path style="fill:#CEC9AE;"
+                                                    d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z" />
+                                                <path style="fill:#CEC9AE;"
+                                                    d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z" />
+                                                <path style="fill:#CEC9AE;"
+                                                    d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z" />
+                                            </g>
+                                            <polygon style="fill:#CEC9AE;" points="37.5,0 37.5,14 51.5,14 " />
+                                        </svg>
+                                        <div style="    display: flex;
+                                flex-direction: column;">
+                                            <span>{{file.filename}}</span>
+                                            <span>{{formatBytesInsert(file.size)}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <button style="
+
+                              border-radius: 10% !important;" (click)="hiddenfileinput.click()" matTooltip="File"
+                                mat-icon-button aria-label="Example icon button with a home icon">
+                                <mat-icon class="sizeiconreaction">add_to_photos</mat-icon>
+                            </button>
+                            <input type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+                                style="display: none;">
+                        </div>
+                        <!-- end file  -->
+
+
+
+                        <div *ngFor="let itrp of  listReply " class="listreply">
+
+                            <span> <mat-icon class="iconreply">reply</mat-icon>Trả lời {{itrp.FullName}}
+
+                                <button matTooltip="Đóng" (click)="DeleteReply()" mat-icon-button color="primary">
+                                    <mat-icon style="font-size: 15px;">close</mat-icon>
+                                </button>
+                            </span>
+                            <br>
+                            <div *ngIf="itrp.Attachment.length>0">
+                                <span *ngFor="let imgrep of itrp.Attachment ">
+                                    <img style="width: 50px;height: 50px;" [src]="imgrep.hinhanh">
+                                </span>
+                                <span *ngIf="itrp.Content_mess==''" style="padding-left: 10px;">
+                                    Tệp đính kèm
+
+                                </span>
+                            </div>
+                            <div *ngIf="itrp.Attachment_File.length>0">
+                                <div *ngFor="let file of itrp.Attachment_File " style="display: flex;cursor: pointer;">
+                                    <img style="width:50px ;height:50px ;" src=" {{ file.icon }}" />
+                                    <span style="    font-weight: bold;
+                                padding-left: 5px;">{{ file.filename }}</span>
+
+                                </div>
+                                <!-- <span *ngIf="itrp.Content_mess==''" style="padding-left: 10px;">
+                               Tệp đính kèm
+
+                              </span> -->
+                            </div>
+                            <span *ngIf="itrp.Content_mess!==''" style="padding-left: 10px;">
+                                <label [innerHTML]="decryRep(itrp.Content_mess,itrp.isEncode)"></label>
+                                <!-- {{itrp.Content_mess}} -->
+
+                            </span>
+
+
+                        </div>
+
+                        <!--  phần  sticker -->
+                        <div style="width:350px ;" id="collapseBasic" #collapsesticker="ngbCollapse"
+                            [(ngbCollapse)]="isCollapsedsticker">
+                            <div>
+                                <!-- begin store sticker -->
+                                <div *ngIf="showstoresticker">
+
+
+
+                                    <mat-tab-group class="chattapgr" [selectedIndex]="selectedTabstore"
+                                        (selectedTabChange)="onTabChanged($event)">
+                                        <mat-tab>
+
+                                            <ng-template mat-tab-label>
+                                                <mat-icon>keyboard_arrow_left</mat-icon>
+                                            </ng-template>
+
+                                        </mat-tab>
+                                        <mat-tab label="STORE SICKER">
+
+                                            <mat-card style="height: 430px;padding: 0px;">
+                                                <div style="
+                    height: 380px;
+                ">
+                                                    <mat-card-content style="    margin-left: 10px;">
+
+                                                        <img *ngIf="listStoreSticker.length==0" style="    width: 350px;"
+                                                            src="../../../../../../assets/media/custom/rong.png">
+                                                        <div *ngFor="let sticker of listStoreSticker">
+                                                            <div>
+                                                                <div style="display: flex;">
+
+
+                                                                    <div style="display: flex;
+                        flex-direction: column;    width: 280px;">
+                                                                        <span style="font-weight: bold;">
+                                                                            {{sticker.Title}}
+                                                                        </span>
+
+                                                                        <span style="font-size: 12px;">
+                                                                            {{sticker.Slsticker}} sticker
+                                                                        </span>
+                                                                    </div>
+                                                                    <div *ngIf="!sticker.check"
+                                                                        (click)="downloadSticker(sticker.GrSticker,'insert')"
+                                                                        class="stickerdownload">
+                                                                        <span style="    padding: 5px;
+                          font-size: 12px;"> Tải về</span>
+                                                                    </div>
+                                                                    <div *ngIf="sticker.check">
+                                                                        <img style="border-radius: 50%;
+                                height: 20px;" src="../../../../../../assets/media/custom/completesticker.png">
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <img style="    height: 70px;" src="{{sticker.URLSticker}}">
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </mat-card-content>
+                                                </div>
+
+                                            </mat-card>
+                                            <!-- <div style="height: 430px;">
+                      sticker
+                  </div> -->
+                                        </mat-tab>
+                                        <mat-tab label="QUẢN LÝ STICKER">
+                                            <mat-card style="height: 430px;padding: 0px;">
+                                                <div style="
+                    height: 380px;
+                ">
+                                                    <mat-card-content>
+                                                        <div *ngFor="let qlsticker of listQLStoreSticker">
+                                                            <div>
+                                                                <div style="display: flex;">
+
+
+                                                                    <div style="display: flex;
+                            flex-direction: column;    width: 280px;">
+                                                                        <span style="font-weight: bold;">
+                                                                            {{qlsticker.Title}}
+                                                                        </span>
+
+                                                                        <span style="font-size: 12px;">
+                                                                            {{qlsticker.Slsticker}} sticker
+                                                                        </span>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div style="display: flex;align-items: center;">
+                                                                    <img style="width: 250px;   height: 70px;"
+                                                                        src="{{qlsticker.URLSticker}}">
+                                                                    <div style="margin-left: 40px;"
+                                                                        (click)="downloadSticker(qlsticker.GrSticker,'remove')">
+                                                                        <mat-icon
+                                                                            style="font-size:23px !important ;cursor: pointer;">delete_forever</mat-icon>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <img *ngIf="listQLStoreSticker.length==0" style="    width: 350px;"
+                                                            src="../../../../../../assets/media/custom/rong.png">
+                                                        <!-- No Sticker -->
+
+
+
+                                                    </mat-card-content>
+                                                </div>
+                                            </mat-card>
+                                        </mat-tab>
+
+                                    </mat-tab-group>
+                                </div>
+
+                                <!--  end store sticker -->
+                                <!-- begin hiển thị sticker -->
+                                <mat-tab-group *ngIf="!showstoresticker" class="chattapgr" [selectedIndex]="selectedTab">
+                                    <mat-tab label="SICKER">
+
+                                        <mat-card style="height: 430px;padding: 0px;">
+                                            <div style="
+                  height: 380px;
+              ">
+                                                <mat-card-content>
+                                                    <perfect-scrollbar *ngIf="listStickerTime.length>0" style="height: 380px;">
+                                                        <div style="flex-wrap: wrap;
+                                display: flex;">
+                                                            <div *ngFor="let  itemstickertime of listStickerTime">
+                                                                <img (click)="sendMessageSticker(itemstickertime.UrlSticker,itemstickertime.GrSticker,itemstickertime.IdSticker)"
+                                                                    style=" cursor: pointer;width:80px ;height: 80px;"
+                                                                    src="{{itemstickertime.UrlSticker}}">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </perfect-scrollbar>
+                                                    <!--  time -->
+                                                    <img *ngIf="listSticker.length==0&&listStickerTime.length==0"
+                                                        style="    width: 350px;"
+                                                        src="../../../../../../assets/media/custom/rong.png">
+                                                    <perfect-scrollbar *ngIf="listSticker.length>0" style="height: 380px;">
+
+
+                                                        <div *ngFor="let  itemstick of listSticker">
+                                                            <div>
+                                                                <span style="padding: 10px;
+                              font-weight: bold;">
+                                                                    {{itemstick.Title}}
+                                                                </span>
+                                                                <div style="flex-wrap: wrap;
+                              display: flex;">
+                                                                    <div *ngFor="let  itemsticker of itemstick.Sticker">
+
+
+                                                                        <img (click)="sendMessageSticker(itemsticker.UrlSticker,itemstick.GrSticker,itemsticker.IdSticker)"
+                                                                            style=" cursor: pointer;width:80px ;height: 80px;"
+                                                                            src="{{itemsticker.UrlSticker}}">
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </perfect-scrollbar>
+
+
+                                                </mat-card-content>
+                                            </div>
+                                            <div style="height: 50px;  border-top: 1px solid #e7eef1;">
+                                                <div class="row ng-tns-c339-1">
+                                                    <div class="col-md-10" style="display: flex;">
+                                                        <mat-icon (click)="ShowTimeSticker()"
+                                                            [style.color]="conditiontime ? 'blue' : ''" style="    margin-top: 10px;
+                          font-size: 27px !important;cursor: pointer;">access_time</mat-icon>
+                                                        <div *ngFor=" let ministic of listStickermini ">
+                                                            <div (click)="ShowSticker(ministic.GrSticker)"
+                                                                style="    padding: 0px 10px 0px 10px;">
+                                                                <img style="width: 50px; height: 50px;cursor: pointer;"
+                                                                    src="{{ministic.URLMiniSticker}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="display: flex;
+                        justify-content: center;
+                        cursor: pointer;
+                        align-items: center;height: 50px;" class="col-md-2">
+                                                        <mat-icon style="font-size: 25px !important;"
+                                                            (click)="StoreSticker()">add_to_photos</mat-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card>
+                                        <!-- <div style="height: 430px;">
+                    sticker
+                </div> -->
+                                    </mat-tab>
+                                    <mat-tab label="EMOJI">
+
+
+                                        <span (click)="$event.stopPropagation(); false;">
+                                            <emoji-mart class="emoji-mart" set="{{set}}" (emojiSelect)="addEmoji($event)"
+                                                title="Pick your emoji…"></emoji-mart>
+                                        </span></mat-tab>
+
+                                </mat-tab-group>
+                                <!-- end hiển thị sticker -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- phần  sticker -->
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status && IdStatus_dongyeucau != this.requestPcDTO.Status">
+        <div *ngIf="check_answer == false" [ngStyle]="{ height: getHeightEdittor()}" style="padding: 5px 100px;">
+            <form #messageForm="ngForm" autocomplete="off">
+                <div class="inpuchat">
+                    <quill-editor class="editcon" [(ngModel)]="Message" name="Message"
+                        [ngModelOptions]="{standalone: true}" (onFocus)="focus($event)"
+                        (onEditorChanged)="changedEditor($event)"
+                        (ngModelChange)="saverange($event)" (onEditorCreated)="setFocus($event)" [modules]="modules"
+                        placeholder="Nhập tin nhắn..." style="width: 100%;" [styles]="{border: 'none'}"
+                        (paste)="onPaste($event)">
+                    </quill-editor>
+                    <div style="display: flex;">
+                        <button matTooltip="Icon" mat-icon-button type="button" (click)="Collapsedsticker()"
+                            [attr.aria-expanded]="!isCollapsedsticker" aria-controls="collapseBasic">
+                            <mat-icon style="font-size: 25px !important;color:#78787b ;">tag_faces</mat-icon>
+                        </button>
+                        <button style="color:#78787b !important;" (click)="hiddenfileinput_image.click()"
+                            matTooltip="Hỉnh ảnh" mat-icon-button aria-label="Example icon button with a home icon">
+                            <i style="font-size: 22px;color:#78787b" class="fa fa-file-image-o" aria-hidden="true"></i>
+                        </button>
+                        <button style="color:#78787b !important;" (click)="hiddenfileinput.click()" matTooltip="File"
+                            mat-icon-button aria-label="Example icon button with a home icon">
+                            <i style="font-size: 22px;color:#78787b" class="fa fa-paperclip" aria-hidden="true"></i>
+                        </button>
+                        <!-- videos -->
+                        <button style="color:#78787b !important ;" (click)="hiddenfileinput_video.click()"
+                            matTooltip="Videos" mat-icon-button aria-label="Example icon button with a home icon">
+                            <i style="font-size: 22px;color:#78787b" class="fa fa-file-video-o" aria-hidden="true"></i>
+                        </button>
+                        <input type='file' accept="video/mp4,video/x-m4v,video/*" id="PDFInpdd" #hiddenfileinput_video
+                            (change)="onSelectVideo($event)" style="display: none;">
+
+                        <input type='file' accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .heic, .heif, .tiff|image/*"
+                            id="PDFInpdd" #hiddenfileinput_image (change)="onSelectFile_PDF($event)" multiple
+                            style="display: none;">
+
+                        <input
+                            accept="application/vnd.ms-excel, application/vnd.ms-powerpoint,
+              text/plain, application/pdf,application/msword,.pdf, .xls, .xlsx, application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.zip,.rar,.7zip"
+                            type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+                            style="display: none;">
+                    </div>
+                    <!-- <quill-editor [(ngModel)]="Message" name="Message" [ngModelOptions]="{standalone: true}"
+                        [styles]="{height: '95px', BackgroundColor:'white'}" (onFocus)="focus($event)"
+                        (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)"
+                        (onEditorCreated)="created($event)"> -->
+                    <!--                         
+                    </quill-editor> -->
+                    <div>
+                        <button style="color:#78787b ;" matTooltip="Gửi tin nhắn" mat-icon-button
+                            aria-label="Example icon button with a home icon" type="submit" (click)="sendMessageeeee()">
+                            <mat-icon>send</mat-icon></button>
+                    </div>
+
+                </div>
+                <div>
+                    <div *ngIf="IdStatus_Dahuyyeucau != this.requestPcDTO.Status && IdStatus_dongyeucau != this.requestPcDTO.Status"
+                        style="float: right;margin: 5px 10px 0 0;">
+                        <button class="btn btn-primary"
+                            style="background-color: #E2445C;color:#fff;width: 80px;border: none !important;"
+                            (click)="OpenEdit(true)">Đóng</button>
+                        <!-- <button class="btn btn-primary"
+                            style="background-color: #0e72d8;color:#fff;width: 80px;border: none !important;"
+                            type="submit">Gửi</button> -->
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

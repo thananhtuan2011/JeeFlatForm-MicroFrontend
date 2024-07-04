@@ -1,0 +1,198 @@
+<style>
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+
+     :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+
+     :host>>>mat-row {
+        min-height: 35px;
+    }
+
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .hover-row:hover {
+        background-color: #F8F8F9;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    .active:hover {
+        background-color: #E6F4EF;
+        cursor: pointer;
+    }
+
+    .navigate-active {
+        color: #E6F4EF;
+    }
+
+    .paddingDiv:focus {
+        outline: 0;
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+     :host>>>.card {
+        border-radius: 0 !important;
+    }
+
+     :host>>>.mat-tab-body-content {
+        padding-top: 0px !important;
+    }
+
+     :host>>>.card-body {
+        padding: 0px !important;
+    }
+
+     :host>>>.card-header {
+        padding: 8px !important;
+    }
+
+    .HienDauBaCham {
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        width: 170px;
+    }
+
+    .active {
+        background-color: #ffffff;
+    }
+
+    .active:hover {
+        background-color: #ffffff;
+    }
+</style>
+
+
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+    <div class="list-yeucau">
+        <div class="card card-custom">
+            <div class="card-header" style="flex-wrap: nowrap !important;">
+                <div class="card-title" style="width: 100%;">
+                    <m-dynamic-search-form style="width: 100%;"></m-dynamic-search-form>
+                </div>
+                <div class="card-toolbar">
+                    <button class="btn-add-plus" (click)='themYeuCau()' mat-raised-button type="button" style="margin-right: 5px;margin-left:10px">
+                    <i class="fa fas fa-plus icon-add-plus"></i>
+                 </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="justify-content: flex-end;">
+            <div style=" position: relative; z-index: 100;">
+                <div style="position: absolute; padding-top: 2px; right: 0;" class="btn-group" ngbDropdown>
+                    <button class="btn" mat-button ngbDropdownToggle>
+                        {{labelFilter}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                        <button (click)="onLinkClick(0)" class="dropdown-item">
+                            <span>Tất cả</span>
+                        </button>
+                        <button (click)="onLinkClick(1)" class="dropdown-item">
+                            <span>Đã duyệt</span>
+                        </button>
+                        <button (click)="onLinkClick(2)" class="dropdown-item">
+                            <span>Chờ duyệt</span>
+                        </button>
+                        <button (click)="onLinkClick(3)" class="dropdown-item">
+                            <span>Không duyệt</span>
+                        </button>
+                        <button (click)="onLinkClick(4)" class="dropdown-item">
+                            <span>Quá hạn</span>
+                        </button>
+                        <button (click)="onLinkClick(5)" class="dropdown-item">
+                            <span>Đã đánh dấu</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="align-items: center; padding-top: 10px; margin-right: 0;">
+            <mat-tab-group [selectedIndex]="selectedTab" class="dl-tabs-yeu-cau" (selectedTabChange)="onLinkClick($event)">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span>Tôi gửi</span>&nbsp;
+                        <!-- <span *ngIf="lst.value > 0" style="background: red; border-radius: 50%; height: 20px; width: 20px; font-size: 10pt; color: white;">
+					{{lst.value > 9 ? '9+' : lst.value}}</span> -->
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <app-list-yeu-cau-gui [keyword]="keyword" [tuNgay]="TuNgay" [denNgay]="DenNgay" [loaiYeuCau]="LoaiYeuCau" [tinhTrang]="tinhTrang" [isLoad]="isLoad"></app-list-yeu-cau-gui>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span>Gửi đến tôi</span>&nbsp;
+                        <!-- <span *ngIf="lst.value > 0" style="background: red; border-radius: 50%; height: 20px; width: 20px; font-size: 10pt; color: white;">
+					{{lst.value > 9 ? '9+' : lst.value}}</span> -->
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <app-list-yeu-cau-duyet [keyword]="keyword" [tuNgay]="TuNgay" [denNgay]="DenNgay" [loaiYeuCau]="LoaiYeuCau" [tinhTrang]="tinhTrang" [isLoad]="isLoad"></app-list-yeu-cau-duyet>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+    <div [perfectScrollbar]="{wheelPropagation: false}" style=" position: relative;" [ngStyle]="{'width': getWidth()}">
+        <router-outlet></router-outlet>
+    </div>

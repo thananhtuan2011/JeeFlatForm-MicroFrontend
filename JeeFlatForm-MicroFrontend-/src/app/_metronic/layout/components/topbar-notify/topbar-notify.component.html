@@ -1,0 +1,11 @@
+<ng-container>
+  <!--begin::Notifications-->
+  <a class="btn btn-icon btn-clean btn-lg mb-1" id="kt_drawer_notify_toggle">
+    <div class="pulse">
+      <i matBadge="{{number > 0? number : ''}}" matBadgeColor="warn"
+        style="font-size: 24px;margin-top: 10px; color: #fff;" class="kt-menu__link-icon flaticon-alarm"></i>
+      <span *ngIf="number > 0" class="pulse-ring"></span>
+    </div>
+  </a>
+  <!--end::Notifications-->
+</ng-container>

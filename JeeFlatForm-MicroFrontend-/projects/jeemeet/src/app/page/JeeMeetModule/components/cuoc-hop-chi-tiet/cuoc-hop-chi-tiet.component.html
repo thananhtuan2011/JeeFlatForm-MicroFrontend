@@ -1,0 +1,2391 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div *ngIf="TypeTab === 3; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    <div class="row" *ngFor="let item of CuocHop_uyquyen">
+        <div class="col-md-12">
+            <div class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3 class="card-label"><label *ngIf="item.IsDuyet == 2&& item.Status != 2" style="
+                                      font-size: 13px;
+                                      border: solid 1px red;
+                                      border-radius: 25px;
+                                      padding: 3px 10px 3px 10px;
+                                      background-color: red;
+                                      color: white;">Đang chuẩn bị</label>
+                                        <label
+                                            *ngIf="convertDateExpired(item.FromTime,item.ThoiLuongPhut) == 1 && item.SapHoacDangDienRa === 1&& item.Status != 2"
+                                            style="
+                                    font-size: 13px;
+                                    border: solid 1px #F48120;
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: #F48120;
+                                    color: white;">Đang diễn ra</label>
+
+                                        <label *ngIf="item.SapHoacDangDienRa != 1 && item.Status != 2" style="
+                                      font-size: 13px;
+                                      border: solid 1px #0A9562;
+                                      border-radius: 25px;
+                                      padding: 3px 10px 3px 10px;
+                                      background-color: #0A9562;
+                                      color: white;">Đã diễn ra </label>
+
+                                        <label *ngIf="item.SapHoacDangDienRa === 1 && item.Status != 2" style="
+                                    font-size: 13px;
+                                    border: solid 1px #F48120;
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: #F48120;
+                                    color: white;">Sắp diễn ra</label>
+                                        <label *ngIf="item.Status == 2" style="
+                                    font-size: 13px;
+                                    border: solid 1px gray;
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: gray;
+                                    color: white;">Đã đóng</label>
+                                        <span style="font-size: 18px;width: 80%;margin-left:15px;color: #79A5FF;"><b
+                                                class="SoKyHieu">{{item.SoKyHieu}}</b> {{item.MeetingContent}}</span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="d-block title-ttuyquyen">Thời gian</label>
+                                <label class="d-block content-ttuyquyen "
+                                    style="color:#FFA41D">{{LayThu(item.BookingDate)}},
+                                    {{converFullDate(item.BookingDate)}} {{f_convertHour(item.FromTime)}} - <span
+                                        *ngIf="converFullDate(item.NgayKetThuc)!==converFullDate(item.ThoiGianBatDau)">
+                                        {{LayThu(item.NgayKetThuc)}}, {{converFullDate(item.NgayKetThuc)}}
+                                    </span>{{f_convertHour(item.NgayKetThuc)}}</label>
+                            </div>
+
+                            <div class="col-6">
+                                <label class="d-block title-ttuyquyen">Địa điểm</label>
+                                <label class="d-block content-ttuyquyen " style="color: #79A5FF;"
+                                    *ngIf="item.DiaDiem">{{item.DiaDiem}}</label>
+                                <label class="d-block content-ttuyquyen " style="color: #E4E6EF;"
+                                    *ngIf="!item.DiaDiem">Chưa có địa điểm họp</label>
+                            </div>
+
+                            <div class="col-6">
+                                <label class="d-block title-ttuyquyen">Tên phòng họp</label>
+                                <label class="d-block content-ttuyquyen " style="color:#323246;"
+                                    *ngIf="item.TenPhongHop">{{item.TenPhongHop}}</label>
+                                <label class="d-block content-ttuyquyen " style="color:#E4E6EF;"
+                                    *ngIf="!item.TenPhongHop">Chưa có phòng họp</label>
+                            </div>
+                            <div class="col-12">
+                                <label class="d-block title-ttuyquyen">Ghi chú</label>
+                                <label class="d-block content-ttuyquyen " style="color:#E4E6EF;"
+                                    *ngIf="item.MeetingNote">{{item.MeetingNote}}</label>
+                                <label class="d-block content-ttuyquyen " style="color:#E4E6EF;"
+                                    *ngIf="!item.MeetingNote">Chưa có ghi chú</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;"
+                        *ngIf="item.FileDinhKemThuMoi.length > 0">
+                        <div class="card-title">
+                            <h3 class="card-label">Thư mời đính kèm</h3>
+                        </div>
+                    </div>
+
+                    <div class="noi-dung" *ngIf="item.FileDinhKemThuMoi.length > 0"
+                        style="overflow-x: hidden;overflow-y: auto;">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                                    <th style="text-align: left;">Tên file</th>
+                                    <th style="text-align: left;">Tổng số lượt xem</th>
+                                    <th style="text-align: left;">Người đăng tải</th>
+                                    <th style="text-align: left;">Ngày đăng tải</th>
+                                    <!-- <th style="text-align: center;">Thao tác</th> -->
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let it of item.FileDinhKemThuMoi; let i=index">
+                                <tr class="p-file-ex">
+                                    <td style="text-align: center;">{{i+1}}</td>
+                                    <td style="text-align: left;">
+                                        <a href="" id="downloadFile" style="display: none;"></a>
+                                        <a (click)="TaiXuong(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.TenFile}}</a>
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <a (click)="getlistViewerDocument(it, 1)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.tongluotxem}}</a>
+
+                                    </td>
+                                    <td style="text-align: left;">{{it.HoTen}}</td>
+                                    <td style="text-align: left;">{{it.CreatedDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3 class="card-label">Tài liệu đính kèm</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" *ngIf="item.FileDinhKem.length > 0"
+                        style="overflow-x: hidden;overflow-y: auto;">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                                    <th style="text-align: left;">Tên file</th>
+                                    <th style="text-align: center;">Trạng thái</th>
+                                    <th style="text-align: left;">Tổng số lượt xem</th>
+                                    <th style="text-align: left;">Người đăng tải</th>
+                                    <th style="text-align: left;">Ngày đăng tải</th>
+                                    <th style="text-align: center;">Ghi Chú</th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let it of item.FileDinhKem; let i=index">
+                                <tr class="p-file-ex">
+                                    <td style="text-align: center;">{{i+1}}</td>
+                                    <td style="text-align: left;">
+                                        <a href="" id="downloadFile" style="display: none;"></a>
+                                        <a *ngIf="it.DuyetTaiLieuCuocHop===1||it.DuyetTaiLieuCuocHop===0"
+                                            (click)="downFile(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.TenFile}}</a>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===0" style="
+                                    font-size: 13px;
+                                    border: solid 1px rgb(35, 203, 209);
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: rgb(35, 203, 209);
+                                    color: white;">chưa duyệt</label>
+
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===1" style="
+                                    font-size: 13px;
+                                    border: solid 1px rgb(7, 126, 67);
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: rgb(7, 126, 67);
+                                    color: white;">đã duyệt</label>
+
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===2" style="
+                                    font-size: 13px;
+                                    border: solid 1px red;
+                                    border-radius: 25px;
+                                    padding: 3px 10px 3px 10px;
+                                    background-color: red;
+                                    color: yellow;">không duyệt</label>
+                                    </td>
+                                    <td style="text-align: left;padding-left: 30px;">
+                                        <a (click)="getlistViewerDocument(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.tongluotxem}}</a>
+
+                                    </td>
+                                    <td style="text-align: left;">{{it.HoTen}}</td>
+                                    <td style="text-align: left;">{{it.CreatedDate}}</td>
+                                    <td style="text-align: left;">
+                                        {{it.LyDo}}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="main-right">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Lịch sử ủy quyền
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="overflow-x: hidden;overflow-y: auto;">
+                        <span *ngIf="item.LSUyQuyen.length === 0">Không có người ủy quyền</span>
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                                    <th style="text-align: left;">Tên người được ủy quyền</th>
+                                    <th style="text-align: left;padding-left: 10px;">Loại ủy quyền</th>
+                                    <th style="text-align: left;">Ngày ủy quyền</th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let it of item.LSUyQuyen; let i=index">
+                                <tr class="p-file-ex">
+                                    <td style="text-align: center;">{{i+1}}</td>
+                                    <td style="text-align: left;color:rgba(239,142,24,0.79)">
+                                        {{it.HoTen}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <span *ngIf="it.Type == 1">Ủy quyền tham gia</span>
+                                        <span *ngIf="it.Type == 2">Ủy quyền thêm tài liệu</span>
+                                    </td>
+                                    <td style="text-align: left;">{{it.NgayUyQuyen}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseBlock>
+    <div class="row" *ngFor="let item of CuocHop">
+        <div class="col-md-8">
+            <div class="main-left">
+                <div class="card card-custom">
+                    <table style="margin-top: 10px;
+                    margin-bottom: 10px;" class="table-borderless table-vertical-center">
+                        <thead>
+                            <tr>
+                                <th class="p-0" [style.width]="'100px'"></th>
+                                <th class="p-0" [style.min-width]="'500px'"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding-left: 1.25rem;">
+                                    <div class="mr-1" [ngClass]="checkClass1(item.Status)">
+                                        <span [ngClass]="checkClass2(item.Status)"
+                                            class="d-block font-size-lg">{{LayThu(item.BookingDate)}}</span>
+                                        <span class="t d-block">{{f_convertHour2(item.FromTime)}}</span>
+                                        <span class="d d-block">{{converDate(item.BookingDate)}}</span>
+                                    </div>
+                                </td>
+                                <td class="pr-7 py-4">
+
+                                    <div style="display:flex;;width: 80%;    margin: 10px 0 8px 0;">
+                                        <div style="font-size: 18px">
+                                            <span *ngIf="item.IsDuyet == 2"
+                                                style="background-color: #DD4968; color:white;padding: 3px 8px 3px 8px;border-radius: 10px;margin-right: 5px;font-weight: 600;;font-size: 11px ">Đang
+                                                chuẩn bị</span><span *ngIf="item.SoKyHieu"
+                                                class="SoKyHieu">{{item.SoKyHieu}} </span>
+                                            <span>{{item.MeetingContent}}</span>
+                                        </div>
+                                    </div>
+                                    <span style="width: 80%;" class="text-muted font-weight-bold d-block"
+                                        *ngIf="item.DiaDiem">
+                                        Địa điểm: <span style="color:#79A5FF">{{item.DiaDiem}}</span>
+                                    </span>
+                                    <span *ngIf="item.MeetingNote" style="width: 80%;"
+                                        class="text-muted font-weight-bold d-block">
+                                        Ghi chú: <span style="color:#79A5FF">{{item.MeetingNote}}</span>
+                                    </span>
+                                    <span style="width: 80%;" class="text-muted font-weight-bold d-block"
+                                        *ngIf="item.TenPhongHop">
+                                        Tên phòng: <span style="color:#79A5FF">{{item.TenPhongHop}}</span>
+                                    </span>
+                                    <span class="d-block" style="padding-bottom: 5px;">
+                                        <span class="text-muted font-weight-bold">Thời gian: </span><span
+                                            class="text-muted font-weight-bold"
+                                            style="color:#FFA41D !important">{{LayThu(item.BookingDate)}},
+                                            {{converFullDate(item.BookingDate)}} {{f_convertHour(item.FromTime)}} -
+                                            <span
+                                                *ngIf="converFullDate(item.NgayKetThuc)!==converFullDate(item.ThoiGianBatDau)">
+                                                {{LayThu(item.NgayKetThuc)}}, {{converFullDate(item.NgayKetThuc)}}
+                                            </span> {{f_convertHour(item.NgayKetThuc)}} </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="position: absolute; right: 25px; top: 15px;">
+                        <!-- <button style="width: 25px; height: 25px; line-height: inherit;" mat-button mat-icon-button matTooltip="{{'QL_CUOCHOP.CUOCHOP.SUPPORTREQUIRELIST' | translate}}" (click)="getListRequireSupport()"><mat-icon>list</mat-icon></button> -->
+                        <button style="width: 25px; height: 25px; line-height: inherit; margin-right:8px" mat-button
+                            mat-icon-button matTooltip="{{'QL_CUOCHOP.CUOCHOP.FEEDBACKLIST' | translate}}"
+                            (click)="getListFeedback()"
+                            *ngIf="item.Status !==2 &&IsKetThuc===0&&item.IsDuyet===1&& !item.IsKhachMoi"><mat-icon>list_alt</mat-icon></button>
+
+
+                        <mat-menu #menuRecode="matMenu" xPosition="before">
+                            <div (click)="$event.stopPropagation()" class="kt-portlet__body"
+                                style=" height: 190px;width: 269px; ">
+
+
+                                <div *ngIf="start===0" style="margin-top: 1cm;text-align: center;">
+                                    <button mat-fab (click)="startPlay()" matTooltip="Bắt đầu ghi âm"
+                                        style=" color: rgb(53, 22, 233)">
+                                        <mat-icon>keyboard_voice</mat-icon>
+                                    </button>
+                                    <p style="margin-top: 1rem;">Thời gian ghi âm: {{ SetTimer }}</p>
+                                </div>
+
+                                <div *ngIf="start===1" style="margin-top: 1cm;text-align: center;">
+                                    <button mat-fab (click)="stopPlay()" matTooltip="Dừng ghi âm"
+                                        style=" color: rgb(53, 22, 233)">
+                                        <mat-icon style="size:10px">pause_circle_filled</mat-icon>
+                                    </button>
+
+                                    <p style="margin-top: 1rem;">Thời gian ghi âm: {{ SetTimer }}</p>
+                                </div>
+                                <div>
+                                    <button mat-fab (click)="cancel()" matTooltip="Hủy ghi âm"
+                                        *ngIf="start===2||showCancelBtn "
+                                        style="color: rgb(53, 22, 233);text-align: center;top:1.5cm;left:1.1cm">
+                                        <mat-icon style="size:10px">cancel</mat-icon>
+                                    </button>
+
+                                    <button mat-fab (click)="continue()" matTooltip="Tiếp tục ghi âm"
+                                        *ngIf="start===2||showCancelBtn "
+                                        style="color: rgb(53, 22, 233);text-align: center;top:1.5cm;left:1.23cm">
+                                        <mat-icon>play_circle_outline</mat-icon>
+                                    </button>
+                                    <div *ngIf="start===2" style="text-align: center">
+                                        <button mat-fab (click)="saveAudio()" matTooltip="Lưu ghi âm"
+                                            style="color: rgb(53, 22, 233);left: 1.5cm;">
+                                            <mat-icon>save_alt</mat-icon>
+                                        </button>
+                                        <p style="margin-top: 1rem;">Thời gian ghi âm: {{ SetTimer }}</p>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </mat-menu>
+
+                        <button [matMenuTriggerFor]="menuRecode"
+                            style="width: 25px; height: 25px; line-height: inherit;margin-right:8px" mat-button
+                            *ngIf="item.Status !==2 &&item.IsThuKy && IsKetThuc===0&&IsDuyet===1" mat-icon-button
+                            matTooltip="Ghi âm"><mat-icon>record_voice_over</mat-icon></button>
+                        <!-- <button style="width: 25px; height: 25px; line-height: inherit;margin-right:8px" mat-button mat-icon-button matTooltip="{{'MENU_MEETINGROOMDIAGRAM.MRD_COLNAME' | translate}}" (click)="viewDiagram()" *ngIf="isExitsDiagram &&IsKetThuc===0&&item.IsDuyet"><mat-icon>category</mat-icon></button> -->
+                        <!-- <button style="width: 25px; height: 25px; line-height: inherit; margin-right:8px" mat-button mat-icon-button matTooltip="{{'MENU_KHAOSAT.KS_TITLE_1' | translate}}" (click)="settingsSurvey()" *ngIf="isSecretary &&IsKetThuc===0&&item.IsDuyet"><mat-icon>settings</mat-icon></button> -->
+                        <!-- <button style="width: 25px; height: 25px; line-height: inherit;margin-right:8px" mat-button mat-icon-button matTooltip="{{'MENU_KHAOSAT.REFRESH' | translate}}" *ngIf="IsKetThuc===0" (click)="refreshSurveyList()"><mat-icon>refresh</mat-icon></button> -->
+                        <button [matMenuTriggerFor]="menu" style="width: 25px; height: 25px; line-height: inherit;"
+                            matTooltip="Chi tiết" mat-button mat-icon-button><mat-icon>more_horiz</mat-icon></button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="item.ZoomMeeting && (item.SapHoacDangDienRa === 1)" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">{{'QL_CUOCHOP.ZOOM_MEETING' | translate}}</h3>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <a *ngIf="item.TypeOpen === 1" (click)="ThamGiaPhongZoom(item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">{{'QL_CUOCHOP.ZOOM_OPENAPP' | translate}}</a>
+                        <a *ngIf="item.TypeOpen !== 1" (click)="ThamGiaPhongZoom(item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">{{'QL_CUOCHOP.ZOOM_JOINROOM' | translate}}</a>
+
+                        <div *ngIf="!item.LoginMeeting" class="row" style="padding-top: 10px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 89%;">
+                                    <input matInput #inputUrl placeholder="Link" value="{{item.LinkZoom}}" />
+                                </mat-form-field>
+                                <button mat-button color="primary" (click)="copy(inputUrl)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="item.GoogleMeet && (item.SapHoacDangDienRa === 1)" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">{{'QL_CUOCHOP.GGMEET_MEETING' | translate}}</h3>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <a (click)="ThamGiaPhongGoogle(item.LinkGoogle, item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">{{'QL_CUOCHOP.GGMEET_JOINROOM' | translate}}</a>
+
+                        <div *ngIf="!item.LoginMeeting" class="row" style="padding-top: 10px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 89%;">
+                                    <input matInput #inputUrl placeholder="Link" value="{{item.LinkGoogle}}" />
+                                </mat-form-field>
+                                <button mat-button color="primary" (click)="copy(inputUrl)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="item.WebexMeet && (item.SapHoacDangDienRa === 1)" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">{{'QL_CUOCHOP.CWEBEX_MEETING' | translate}}</h3>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <a (click)="ThamGiaPhongGoogle(item.LinkWebex, item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">{{'QL_CUOCHOP.CWEBEX_JOINROOM' | translate}}</a>
+
+                        <div *ngIf="!item.LoginMeeting" class="row" style="padding-top: 10px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 89%;">
+                                    <input matInput #inputUrl placeholder="Link" value="{{item.LinkWebex}}" />
+                                </mat-form-field>
+                                <button mat-button color="primary" (click)="copy(inputUrl)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="item.TeamsMeet && (item.SapHoacDangDienRa === 1)" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Phòng họp trực tuyến MS Teams</h3>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <a (click)="ThamGiaPhongGoogle(item.LinkTeams, item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">Tham gia vào phòng họp MS Teams</a>
+
+                        <div *ngIf="!item.LoginMeeting" class="row" style="padding-top: 10px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 89%;">
+                                    <input matInput #inputUrl placeholder="Link" value="{{item.LinkTeams}}" />
+                                </mat-form-field>
+                                <button mat-button color="primary" (click)="copy(inputUrl)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="item.OtherMeet" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">link họp được cung cấp</h3>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <a (click)="ThamGiaPhongGoogle(item.LinkOther, item)"
+                            class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3 cursor-pointer"
+                            style="color: white !important;">Tham gia bằng link họp</a>
+
+                        <div class="row" style="padding-top: 10px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 89%;">
+                                    <input matInput #inputUrl placeholder="Link" value="{{item.LinkOther}}" />
+                                </mat-form-field>
+                                <button mat-button color="primary" (click)="copy(inputUrl)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="NoiDungDienBien&&item.IsDuyet" class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Nội dung diễn biến cuộc họp</h3>
+                        </div>
+                        <div *ngIf="NoiDungDienBien" class="card-toolbar">
+                            <i *ngIf="item.IsThuKy" (click)='OpenDienBienCuocHop()' matTooltip="Cập nhật diễn biến"
+                                class="fas fa-pencil-alt"></i>&nbsp;&nbsp;&nbsp;
+                            <i class="fas fa-check icon_PheDuyet"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="NoiDungDienBien" class="noi-dung2">
+                        <span [innerHtml]="NoiDungDienBien | sanitizeHtml"></span>
+                    </div>
+                    <div *ngIf="(!NoiDungDienBien)" class="noi-dung">
+                        <div class="mat-table__message" style="text-align: center;"><span>{{'QL_CUOCHOP.TOMTAT_EMPTY'
+                                | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-left" *ngIf="item.FileDinhKemThuMoi.length > 0">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;"
+                        *ngIf="item.FileDinhKemThuMoi.length > 0">
+                        <div class="card-title">
+                            <h3 class="card-label">Thư mời đính kèm</h3>
+                        </div>
+                    </div>
+
+                    <div class="noi-dung" *ngIf="item.FileDinhKemThuMoi.length > 0"
+                        style="overflow-x: hidden;overflow-y: auto;">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                                    <th style="text-align: left;">Tên file</th>
+                                    <th style="text-align: left;">Tổng số lượt xem</th>
+                                    <th style="text-align: left;">Người đăng tải</th>
+                                    <th style="text-align: left;">Ngày đăng tải</th>
+                                    <!-- <th style="text-align: center;">Thao tác</th> -->
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let it of item.FileDinhKemThuMoi; let i=index">
+                                <tr class="p-file-ex">
+                                    <td style="text-align: center;">{{i+1}}</td>
+                                    <td style="text-align: left;">
+                                        <a href="" id="downloadFile" style="display: none;"></a>
+                                        <a (click)="TaiXuong(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.TenFile}}</a>
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <a (click)="getlistViewerDocument(it, 1)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.tongluotxem}}</a>
+
+                                    </td>
+                                    <td style="text-align: left;">{{it.HoTen}}</td>
+                                    <td style="text-align: left;">{{it.CreatedDate}}</td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-left"
+                *ngIf="((checkAddDocument&&IsDuyet===2)||(item.isCreated === 1&&IsDuyet===2))||IsDuyet===1 || item.IsThuKy">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;"
+                        *ngIf="((checkAddDocument&&IsDuyet===2)||(item.isCreated === 1&&IsDuyet===2))||IsDuyet===1&&item.FileDinhKem.length > 0 || item.IsThuKy">
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3 class="card-label">Tài liệu đính kèm</h3>
+                                    <span class="text-muted font-weight-bold d-block" style="font-size: 12px;"
+                                        *ngIf="(checkAddDocument&&IsDuyet===2&&item.isCreated !== 1)||(checkAddDocument&&IsDuyet===2&&item.isCreated === 1)&&item.GhiChuChoNguoiThemTaiLieu!==''|| item.IsThuKy">
+                                        Yêu cầu thêm tài liệu: {{item.GhiChuChoNguoiThemTaiLieu}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-toolbar" *ngIf="(checkAddDocument&&IsDuyet===2)|| item.IsThuKy">
+                            <button class="btn-add-plus" (click)="AddDocument()" mat-raised-button type="button"
+                                style="color:#FFFFFF;margin-right: 5px;;margin-left: 5px;">
+                                <i style="color: #FFFFFF;" class="fa fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="noi-dung" *ngIf="item.FileDinhKem.length > 0"
+                        style="overflow-x: hidden;overflow-y: auto;">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                                    <th style="text-align: left;">Tên file</th>
+                                    <th style="text-align: left;">Tổng số lượt xem</th>
+                                    <th style="text-align: left;">Người đăng tải</th>
+                                    <th style="text-align: left;">Ngày đăng tải</th>
+                                    <th style="text-align: center;">Thao tác</th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let it of item.FileDinhKem; let i=index">
+                                <tr class="p-file-ex">
+                                    <td style="text-align: center;">{{i+1}}</td>
+                                    <td style="text-align: left;">
+                                        <a href="" id="downloadFile" style="display: none;"></a>
+
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===0" style="
+                                      font-size: 13px;
+                                      border: solid 1px rgb(35, 203, 209);
+                                      border-radius: 11px;
+                                      padding: 3px 3px 3px 3px;
+                                      background-color: rgb(35, 203, 209);
+                                      color: white;">chưa duyệt</label>
+
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===1" style="
+                                      font-size: 13px;
+                                      border: solid 1px rgb(7, 126, 67);
+                                      border-radius: 11px;
+                                      padding: 3px 3px 3px 3px;
+                                      background-color: rgb(7, 126, 67);
+                                      color: white;">đã duyệt</label>
+
+                                        <label *ngIf="it.DuyetTaiLieuCuocHop===2" style="
+                                      font-size: 13px;
+                                      border: solid 1px red;
+                                      border-radius: 11px;
+                                      padding: 3px 3px 3px 3px;
+                                      background-color: red;
+                                      color: yellow;">không duyệt</label>
+
+
+                                        <a *ngIf="it.DuyetTaiLieuCuocHop===1||it.DuyetTaiLieuCuocHop===0&&IsDuyet===2"
+                                            (click)="downFile(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.TenFile}}</a>
+                                        <a class="name-file-khongduyet"
+                                            *ngIf="it.DuyetTaiLieuCuocHop!==1&&IsDuyet===1||it.DuyetTaiLieuCuocHop===2&&IsDuyet===2">{{it.TenFile}}</a>
+
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <a (click)="getlistViewerDocument(it)"
+                                            style="  color:rgba(239,142,24,0.79)">{{it.tongluotxem}}</a>
+
+                                    </td>
+                                    <td style="text-align: left;">{{it.HoTen}}</td>
+                                    <td style="text-align: left;">{{it.CreatedDate}}</td>
+                                    <td style="text-align: center;">
+                                        <div style="display:flex;justify-content: center;">
+
+                                            <a (click)="duyetfile(it,1)"
+                                                *ngIf="((item.isCreated === 1&&it.DuyetTaiLieuCuocHop===0)&&IsDuyet===2) || (item.IsThuKy&&it.DuyetTaiLieuCuocHop===0)"
+                                                matTooltip="{{ 'MENU_DMUPLOADFILE.DUYETFILE' | translate }}">
+                                                <mat-icon
+                                                    style="padding-top: 10px;color:rgb(48, 216, 99)">check</mat-icon>
+                                            </a>
+                                            <a (click)="duyetfile(it,2)"
+                                                *ngIf="((item.isCreated === 1&&it.DuyetTaiLieuCuocHop===0)&&IsDuyet===2) || (item.IsThuKy&&it.DuyetTaiLieuCuocHop===0)"
+                                                matTooltip="{{ 'MENU_DMUPLOADFILE.KHONGDUYETFILE' | translate }}">
+                                                <mat-icon style="padding-top: 10px;color:red">close</mat-icon>
+                                            </a>
+
+                                            <a (click)="deletefile(it)"
+                                                *ngIf="((it.IsCheckXoa)&&IsDuyet===2)|| (item.IsThuKy)"
+                                                matTooltip="xóa tài liệu">
+                                                <mat-icon style="padding-top: 10px;color:red">delete</mat-icon>
+                                            </a>
+
+                                            <div ngbDropdown placement="bottom-right"
+                                                *ngIf="it.DuyetTaiLieuCuocHop===2">
+                                                <mat-icon ngbDropdownToggle style="padding-top: 10px;color:blue"
+                                                    matTooltip="xem lý do">assignment</mat-icon>
+
+                                                <label ngbDropdownMenu class="box-lydo">
+                                                    <b> {{it.LyDo}}</b>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <!-- <div class="col-md-6 kt-portlet__head-toolbar">
+                            <span> -->
+                            <h3 class="card-label">Kết luận</h3>
+                            <!-- </span>
+                        </div> -->
+                        </div>
+                        <div *ngIf="item.KetLuan" class="card-toolbar">
+                            <i *ngIf="(item.DuocPhepNhapTomTat || item.isHost)&&item.IsDuyet"
+                                (click)="chinhSuaNoiDungKetLuan(item.KetLuan)"
+                                matTooltip="{{'QL_CUOCHOP.KETLUAN_CHINHSUA' | translate}}"
+                                class="fas fa-pencil-alt"></i>&nbsp;&nbsp;&nbsp;
+                            <i matTooltip="Đã cập nhật nội dung kết luận" class="fas fa-check icon_PheDuyet"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="ShowEditorKetLuan" class="noi-dung">
+                        <div class="col-lg-12 fileketluan">
+                            <label>File đính kèm:</label><br *ngIf="!IsXem" />
+                            <mat-hint *ngIf="!IsXem"> Định dạng phù hợp: (.{{strExtensionImg}});&nbsp;&nbsp;Video
+                                (.{{strExtensionVideo}});&nbsp;&nbsp;File (.{{strExtensionFile}})</mat-hint>
+                            <br *ngIf="!IsXem" />
+                            <br *ngIf="!IsXem" />
+                            <table class="table-file table table-bordered">
+                                <ng-container>
+                                    <tr>
+                                        <th style="width: 10%">
+                                            {{ "ComMon.STT" | translate }}
+                                        </th>
+                                        <th>
+                                            {{ "MODULE_FEEDBACK.FileName" | translate }}
+                                        </th>
+                                        <th style="width: 10%" *ngIf="!IsXem">
+                                            {{ "ComMon.Delete" | translate }}
+                                        </th>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngFor="
+                                        let item of ListFileDK;
+                                        let i = index
+                                    ">
+                                    <tr *ngIf="item.IsDel === false" class="p-file-ex">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>
+                                            <a href="{{ item.Path }}" target="_blank">{{ item.TenFile }}</a>
+                                        </td>
+                                        <td *ngIf="!IsXem">
+                                            <button mat-icon-button attr.aria-label="{{'ComMon.Delete' | translate}}"
+                                                (click)="removeFile(i)" *ngIf="!IsXem">
+                                                <mat-icon matTooltip="{{'ComMon.Delete' | translate}}">remove</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+
+                                <ng-container *ngIf="!IsXem">
+                                    <tr>
+                                        <td colspan="3">
+                                            {{ "MODULE_FEEDBACK.AttachNewFile" | translate }}
+                                        </td>
+                                    </tr>
+
+                                    <tr *ngFor="let item of files; let i = index">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>
+                                            &nbsp;
+                                            <button class="jee_btn-addcontinue" type="button" color="primary"
+                                                style="padding: 0px 5px 0 5px;"
+                                                matTooltip="{{ 'ComMon.CHONFILE' | translate }}" mat-raised-button
+                                                (click)="selectFile(i)">
+                                                {{ "ComMon.CHONFILE" | translate }}
+                                            </button> {{ item.data ? item.data.filename : "" }}
+                                            <input #fileInput type="file" id="FileUpLoad{{ i }}"
+                                                (click)="fileInput.value = null" value=""
+                                                (change)="FileChoose($event, i)" style="display: none" />
+                                        </td>
+                                        <td>
+                                            <button mat-icon-button attr.aria-label="{{
+                                                    'ComMon.Delete' | translate
+                                                }}" (click)="remove(i)">
+                                                <mat-icon matTooltip="{{'ComMon.Delete' | translate}}">remove</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ files.length + 1 }}</td>
+                                        <td></td>
+                                        <td>
+                                            <button mat-icon-button [attr.aria-label]="
+                                                    'MODULE_FEEDBACK.AddRow'
+                                                        | translate
+                                                " (click)="new_row()">
+                                                <mat-icon
+                                                    matTooltip="{{'MODULE_FEEDBACK.AddRow' | translate}}">add</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </table>
+
+
+                        </div>
+                        <div>
+                            <!-- <editor apiKey="test" [(ngModel)]="NoiDungKetLuan" [init]="setupTinyMce()">
+                            </editor> -->
+                            <quill-editor id="quillCustomForCreate" [modules]="quillConfig" name="fieldName"
+                                ngDefaultControl [(ngModel)]="NoiDungKetLuan" [styles]="editorStyles">
+                            </quill-editor>
+                            <div class="btn-luuNoiDung">
+                                <button (click)="ShowEditorKetLuan = false" type="button" class="ja_btn-goback"
+                                    mat-raised-button matTooltip="Quay về" type="button">
+                                    Quay về
+                                </button>&nbsp;&nbsp;
+                                <button class="jee_btn-addcontinue" (click)="CapNhatNoiDungKetLuan()" type="button"
+                                    mat-raised-button color="primary" matTooltip="{{'ComMon.BTN_SAVE' | translate}}">
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!ShowEditorKetLuan">
+                        <div *ngIf="(!item.KetLuan && item.DuocPhepNhapTomTat)&&item.IsDuyet || (!item.KetLuan && item.isHost)&&item.IsDuyet"
+                            class="thong-bao">
+                            <i class="fas fa-exclamation-circle"
+                                matTooltip="Cuộc họp này đang chờ kết luận từ bạn"></i>&nbsp;Cuộc họp này đang chờ kết
+                            luận từ bạn.&nbsp;
+                            <a (click)="ShowEditorKetLuan = !ShowEditorKetLuan" class="vietngay">Viết ngay</a>
+                        </div>
+                        <div *ngIf="item.ListFile.length > 0" class="noi-dung2">
+                            <div class="col-lg-12 fileketluan">
+                                <label>File đính kèm:</label>
+                                <table class="table-file table table-bordered">
+                                    <ng-container>
+                                        <tr>
+                                            <th style="width: 10%">
+                                                {{ "ComMon.STT" | translate }}
+                                            </th>
+                                            <th>
+                                                {{ "MODULE_FEEDBACK.FileName" | translate }}
+                                            </th>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngFor="
+                                        let item of item.ListFile;
+                                        let i = index
+                                    ">
+                                        <tr *ngIf="!item.isHost" class="p-file-ex">
+                                            <td>{{ i + 1 }}</td>
+                                            <td>
+                                                <a href="{{ item.Path }}" target="_blank">{{ item.TenFile }}</a>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <div *ngIf="item.KetLuan" class="noi-dung2">
+                            <span [innerHtml]="item.KetLuan | sanitizeHtml"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="!item.KetLuan && !item.DuocPhepNhapTomTat && !item.isHost&&item.IsDuyet"
+                        class="noi-dung">
+                        <div class="mat-table__message" style="text-align: center;">
+                            <span>{{'QL_CUOCHOP.KETLUAN_EMPTY' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="main-left">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Tóm tắt nội dung cuộc họp</h3>
+                        </div>
+                        <div *ngIf="item.TomTatNoiDung" class="card-toolbar">
+                            <i *ngIf="item.DuocPhepNhapTomTat || item.isHost"
+                                (click)="chinhSuaNoiDungTomTat(item.TomTatNoiDung)"
+                                matTooltip="{{'QL_CUOCHOP.TOMTAT_CHINHSUA' | translate}}"
+                                class="fas fa-pencil-alt"></i>&nbsp;&nbsp;&nbsp;
+                            <i matTooltip="Đã cập nhật nội dung kết luận" class="fas fa-check icon_PheDuyet"></i>
+                        </div>
+                    </div>
+
+                    <div *ngIf="ShowEditorTomTat" class="noi-dung">
+                        <!-- <editor apiKey="test" [(ngModel)]="NoiDungTomTat" [init]="setupTinyMce()">
+                        </editor> -->
+                        <quill-editor id="quillCustomForCreate" [modules]="quillConfig" name="fieldName"
+                            ngDefaultControl [(ngModel)]="NoiDungTomTat" [styles]="editorStyles">
+                        </quill-editor>
+                        <div class="btn-luuNoiDung">
+                            <button (click)="ShowEditorTomTat = false" type="button" class="ja_btn-goback"
+                                mat-raised-button matTooltip="Quay về" type="button">
+                                Quay về
+                            </button>&nbsp;&nbsp;
+                            <button class="jee_btn-addcontinue" (click)="CapNhatTomTat()" type="button"
+                                mat-raised-button color="primary" matTooltip="{{'ComMon.BTN_SAVE' | translate}}">
+                                Lưu
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!ShowEditorTomTat">
+                        <div *ngIf="(!item.TomTatNoiDung && item.DuocPhepNhapTomTat) &&item.IsDuyet|| (!item.TomTatNoiDung && item.isHost)&&item.IsDuyet"
+                            class="thong-bao">
+                            <i class="fas fa-exclamation-circle"></i>&nbsp;Cuộc họp này đang chờ tóm tắt từ bạn.&nbsp;
+                            <a (click)="ShowEditorTomTat = !ShowEditorTomTat" class="vietngay">Viết ngay</a>
+                        </div>
+                        <div *ngIf="item.TomTatNoiDung" class="noi-dung2">
+                            <span [innerHtml]="item.TomTatNoiDung | sanitizeHtml"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="(!item.TomTatNoiDung && !item.DuocPhepNhapTomTat && !item.isHost)&&item.IsDuyet"
+                        class="noi-dung">
+                        <div class="mat-table__message" style="text-align: center;"><span>{{'QL_CUOCHOP.TOMTAT_EMPTY'
+                                | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-left" *ngIf="item.IsDuyet">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Danh sách nhiệm vụ</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <button class="btn-add-plus" (click)="themMoiNhiemVu()" mat-raised-button type="button"
+                                style="color:#FFFFFF;margin-right: 5px;;margin-left: 5px;">
+                                <i style="color: #FFFFFF;" class="fa fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="jee-work-meet">
+                        <!-- <div *ngIf="!item.listid">
+                      <div [ngClass]="{'input-backgroud': isLoader}" class="input-group mb-3 bd-input">
+                          <div class="input-group-prepend" style="margin: auto;
+                          padding-left: 10px;">
+                              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                          </div>
+                          <div *ngIf="isLoader" class="loader-new"></div>
+                          <input (keydown.enter)="TaoDuAn(item.RowID)" [disabled]="isLoader" (ngModelChange)="prenventInputNonNumber($event)" [(ngModel)]="TenDuAn" style="border: 0 !important; background-color: transparent;" type="text" class="form-control input-focus color-text-cv"
+                              placeholder="Tạo danh sách công việc, nhập tên danh sách và enter">
+                          <div class="input-group-append" style="margin: auto;
+                          padding-right: 10px;">
+                              <span (click)="TaoDuAn(item.RowID)" *ngIf="btnSend" class="input-group-text"><span
+                       [inlineSVG]="
+                         './assets/media/svg/icons/Communication/Send.svg'
+                       "
+                       cacheSVG="true"
+                       class="svg-icon svg-icon-xl"
+                     ></span></span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div [hidden]="hiddenwork">
+                      <kt-work-list-new [ID_Project]="item.listid">
+                      </kt-work-list-new>
+                  </div> -->
+                        <app-danh-sach-nhiem-vu [meetingid]="ID_Meeting"></app-danh-sach-nhiem-vu>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left: 0px;">
+            <div class="main-right">
+                <div class="card card-custom">
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thông tin cuộc họp
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px">
+                        <b>Người tạo:</b><span> {{item.TenNguoiTao}} </span><span
+                            class="chucvu text-muted HienDauBaChamChucVu">({{item.ChucVuNguoiTao}})</span>
+
+                    </div>
+                    <div *ngIf="item.isCreated===1 || item.IsThuKy" class="border-yc"></div>
+                    <div *ngIf="item.isCreated===1 || item.IsThuKy" class="nav-expansion-panel">
+                        <mat-accordion>
+                            <mat-expansion-panel [expanded]="panelOpenState1" (opened)="panelOpenState1 = true"
+                                (closed)="panelOpenState1 = false" style="box-shadow: none;">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{!panelOpenState1 ? 'Xem chi tiết lịch sử hoạt động' : ' Ẩn xem chi tiết'}}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="noi-dung" style="margin-left: 15px">
+                                    <div class="timeline-wrapper">
+                                        <ul class="StepProgress">
+                                            <li *ngFor="let hst of dataHitoryMeet; let i=index"
+                                                class="StepProgress-item is-done">
+                                                <b>{{hst.FullName}}</b> <span
+                                                    [ngStyle]="{'color':getColorAction(hst.ActionType)}">
+                                                    {{hst.ActionName}} </span> vào lúc <i>{{hst.CreatedDate}}</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                    <div *ngIf="item.isCreated===1 || item.IsThuKy" class="border-yc"></div>
+                    <div *ngIf="item.isCreated===1 || item.IsThuKy" class="nav-expansion-panel">
+                        <mat-accordion>
+                            <mat-expansion-panel [expanded]="panelOpenState2" (opened)="panelOpenState2 = true"
+                                (closed)="panelOpenState2 = false" style="box-shadow: none;">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{!panelOpenState2 ? 'Xem chi tiết lịch sử duyệt file' : ' Ẩn xem chi tiết'}}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="noi-dung" style="margin-left: 15px">
+                                    <div class="timeline-wrapper">
+                                        <ul class="StepProgress">
+                                            <li *ngFor="let hst of dataHitoryTaiLieu; let i=index"
+                                                class="StepProgress-item is-done">
+                                                <b>{{hst.FullName}}</b> <span
+                                                    [ngStyle]="{'color':getColorAction(hst.ActionType)}">
+                                                    {{hst.ActionName}} </span> <b>{{hst.NameFile}}</b> vào lúc
+                                                <i>{{hst.CreatedDate}}</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                    <!-- <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần tham dự ({{item.ThanhPhan.length}})
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <a *ngIf="item.IsThuKy" class="vietngay" style="margin-right: 10px;" (click)="OpenQuanLyDiemDanh()">Xem chi tiết</a>
+                            <button *ngIf="item.Status !==2 &&item.SapHoacDangDienRa === 1 && (item.isHost || item.IsThuKy)" (click)="AddThanhVien(item.ThanhPhan)" mat-icon-button type="button" matTooltip="Thêm thành viên">
+                            <i class="flaticon2-plus"></i>
+                        </button>
+                        </div>
+                    </div> -->
+                    <div class="border-yc"></div>
+                    <div class="nav-expansion-panel2">
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle [expanded]="panelOpenState" (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false" style="box-shadow: none;">
+                                <mat-expansion-panel-header #panelH (click)="panelH._toggle()">
+                                    <mat-panel-title (click)="panelH._toggle()">
+                                        Thành phần tham dự ({{item.ThanhPhan.length}})
+                                        <mat-icon>{{panelOpenState ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                                            }}</mat-icon>
+                                    </mat-panel-title>
+                                    <mat-panel-description style="position: absolute; right :5px;top:22px">
+                                        <a *ngIf="item.IsThuKy" class="vietngay" style="margin-right: 10px;"
+                                            (click)="OpenQuanLyDiemDanh()">Xem chi tiết</a>
+                                        <button style="margin-top: -9px;"
+                                            *ngIf="item.Status !==2 &&item.SapHoacDangDienRa === 1 && (item.isHost || item.IsThuKy)"
+                                            (click)="AddThanhVien(item.ThanhPhan)" mat-icon-button type="button"
+                                            matTooltip="Thêm thành viên">
+                                            <i class="flaticon2-plus"></i> </button>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="border-yc"></div>
+                                <div class="card-header" style="border-bottom: none !important;">
+                                    <div class="card-title" style="width: 100% !important;">
+                                        <!-- <mat-form-field class="tim-kiem mat-form-field mat-form-field-fluid " style="width: 300px !important;">
+                                <input matInput [formControl]="searchControl" placeholder="Tìm kiếm thành viên" class="tim-kiem">
+                            </mat-form-field> -->
+                                        <input [formControl]="searchControl" class="cu-search-filter__input" type="text"
+                                            name="userQuestion" id="userQuestions" placeholder="Tìm kiếm thành viên" />
+                                    </div>
+                                    <!-- <div class="card-toolbar">
+                                        <div class="row" style="justify-content: flex-end;">
+                                            <div>
+                                                <div class="filter" [matMenuTriggerFor]="menuFilter">
+                                                    <span style="font-size: 12px; font-weight: 500;"><span> {{ labelFilter
+                                            }}</span></span>&nbsp;
+                                                    <span *ngIf="tinhTrang === '0'">({{item.ThanhPhan?item.ThanhPhan.length:0}})</span>
+                                                    <span *ngIf="tinhTrang === '1'">({{item.ThanhPhanThamGia?item.ThanhPhanThamGia.length:0}})</span>
+                                                    <span *ngIf="tinhTrang === '2'">({{item.ChoXacNhan?item.ChoXacNhan.length:0}})</span>
+                                                    <span *ngIf="tinhTrang === '3'">({{item.TuChoiThamGia?item.TuChoiThamGia.length:0}})</span> &nbsp;
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </div>
+                                                <mat-menu #menuFilter="matMenu">
+                                                    <button (click)="onLinkClick(0)" mat-menu-item matTooltip="Tất cả">
+                                        <span>Tất cả</span>
+                                    </button>
+                                                    <button (click)="onLinkClick(1)" mat-menu-item matTooltip="Tham gia">
+                                        <span>Tham gia</span>
+                                    </button>
+                                                    <button (click)="onLinkClick(2)" mat-menu-item matTooltip="Chờ xác nhận">
+                                        <span>Chờ xác nhận</span>
+                                    </button>
+                                                    <button (click)="onLinkClick(3)" mat-menu-item matTooltip="Từ chối">
+                                        <span>Từ chối</span>
+                                    </button>
+                                                </mat-menu>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="border-yc"></div>
+                                <div style="margin-left: 15px">
+                                    <!-- <ng-container *ngIf="tinhTrang === '1'">
+                                        <cdk-virtual-scroll-viewport itemSize="50" [ngClass]="chieucao(item.ThanhPhanThamGia)">
+                                            <div style="padding-bottom: 5px;" *cdkVirtualFor="let ob of item.ThanhPhanThamGia | filter: searchData" class="example-item">
+                                                <div class="row pb-2">
+                                                    <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                                        <div class="tinhtrang" matTooltip="{{getTenTinhTrang(ob.Status , item.XacNhanThamGia)}}" [ngStyle]="{'background-color':getColor2(ob.Status , item.XacNhanThamGia)}">
+                                                        </div>
+                                                    </div>
+                                                    <div [ngClass]="getTinhTrangClass1(ob.Status, item.XacNhanThamGia)">
+                                                        <div class="row">
+                                                            <div class="col-2 pd-0-tp">
+                                                                <ngx-avatar size="40" [matMenuTriggerFor]="ThanhPhan" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                                                </ngx-avatar>
+                                                                <ng-template #bindText>
+                                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="ThanhPhan" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                    </ngx-avatar>
+                                                                </ng-template>
+                                                            </div>
+                                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                                <span class="value d-block">{{ob.HoTen}} &nbsp;<a *ngIf="ob.isHost">(Chủ trì)</a></span>
+                                                                <span class="chucvu d-block text-muted HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <mat-menu #ThanhPhan="matMenu">
+                                                            <div class="d-flex pb-2 m-2">
+                                                                <div>
+                                                                    <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText1">
+                                                                    </ngx-avatar>
+                                                                    <ng-template #bindText1>
+                                                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                        </ngx-avatar>
+                                                                    </ng-template>
+                                                                </div>
+                                                                <div style="padding-left: 10px;">
+                                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                                        <span>{{ob.HoTen}}</span>
+                                                                    </div>
+                                                                    <div class="col-md-12 HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}"><span>{{ob.ChucVu}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-menu>
+                                                    </div>
+                                                    <div [ngClass]="getTinhTrangClass2(ob.Status, item.XacNhanThamGia)" style="display: flex; align-items: center; justify-content: flex-end;">
+                                                        <div *ngIf="ob.DuocPhepUyQuyen" class="ellipse" style="cursor: pointer;" matTooltip="Thêm người hỗ trợ">
+                                                            <i class="fas fa-users pd-0"></i>
+                                                        </div>
+                                                        <div *ngIf="!ob.isHost">
+                                                            <button *ngIf="ob.DuocPhepUyQuyen && !ob.UyQuyen" mat-icon-button type="button" (click)="UyQuyenThamGia(ob,item.ThanhPhanThamGia)" matTooltip="Chuyển tham dự họp">
+                                                              <img class="user-add" />
+                                                        </button>
+                                                        </div>
+                                                        <div [ngStyle]="{ height: getHeightAvatar(ob) }" style="display:block;position: relative;margin-right: 5px;" *ngIf="item.SapHoacDangDienRa === 1">
+                                                            <div class="cu-user-group url scale-hover-01 position-relative" *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0)&&(ob.idUser!==ob.UyQuyenUser)">
+                                                                <button *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0 && (ob.DuocPhepUyQuyen || item.IsThuKy))" style="margin-right: 10px;" matTooltip="Danh sách ủy quyền" [matMenuTriggerFor]="menuUyQuyen" mat-icon-button type="button">
+                                                      <mat-icon>perm_identity</mat-icon>
+                                                    </button>
+                                                                <mat-menu #menuUyQuyen="matMenu" xPosition="before">
+                                                                    <div *ngFor="let itemuyquyen of ob.ThongTinUyQuyen">
+                                                                        <div class="d-flex pb-2 m-2">
+                                                                            <div>
+                                                                                <ngx-avatar size="40" matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)" src="{{itemuyquyen.Image}}" *ngIf="itemuyquyen.Image;else bindText2">
+                                                                                </ngx-avatar>
+                                                                                <ng-template #bindText2>
+                                                                                    <ngx-avatar textSizeRatio="2.5" matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)" size="40" [name]="dangKyCuocHopService.getNameUser(itemuyquyen.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(itemuyquyen.HoTen)}}">
+                                                                                    </ngx-avatar>
+                                                                                </ng-template>
+                                                                            </div>
+                                                                            <div style="padding-left: 10px;">
+                                                                                <div class="col-md-12" style="font-weight: bold;">
+                                                                                    <span>{{itemuyquyen.HoTen}}</span>
+                                                                                    <button *ngIf="!item.IsThuKy" mat-icon-button (click)="RemoveUyQuyen(itemuyquyen,ob)" matTooltip="Xóa" style="color:red;">
+                                                                    <mat-icon style="size:10px">delete</mat-icon>
+                                                                </button>
+                                                                                </div>
+                                                                                <div class="col-md-12"><span>{{itemuyquyen.ChucVu}}</span></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </mat-menu>
+                                                            </div>
+                                                            <div *ngIf="item.IsThuKy&&item.IsDuyet===1" style="display: flex;position:absolute;top:23px;left:-20px">
+                                                                <div>
+                                                                    <button mat-icon-button matTooltip="Xác nhận cho thành viên này ủy quyền" *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0" (click)="XacNhanViecUyQuyen(ob,1)">
+                                                        <mat-icon>done</mat-icon>
+                                                      </button>
+                                                                </div>
+                                                                <div>
+                                                                    <button mat-icon-button matTooltip="Xác nhận không cho thành viên này ủy quyền" *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0" (click)="XacNhanViecUyQuyen(ob,0)">
+                                                        <mat-icon>remove_circle_outline</mat-icon>
+                                                      </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <button (click)="XinPhatBieu(ob.XinPhatBieu)" *ngIf="getTinhTrangClass(ob.Status, item) && ob.DuocPhepPhatBieu" mat-icon-button type="button" matTooltip="{{!ob.XinPhatBieu ? 'Phát biểu':'Hủy phát biểu'}}">
+                                              <i [ngClass]="{'KhongPhatBieu': ob.XinPhatBieu}" class="far fa-hand-paper"></i>
+                                          </button>
+                                                        <button *ngIf="getTinhTrangClass(ob.Status, item) && !ob.isHost && item.isHost&&item.IsDuyet===1" (click)="ChuyenChuTri(ob)" mat-icon-button type="button" matTooltip="chuyển chủ trì">
+                                              <i class="fas fa-crown"></i>
+                                          </button>
+                                                        <button (click)="RemoveThanhVien(ob, 1)" *ngIf="item.Status !==2 &&item.SapHoacDangDienRa === 1 && item.isHost" mat-icon-button color="warn" type="button" matTooltip="Xóa">
+                                              <mat-icon>delete</mat-icon>
+                                          </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </cdk-virtual-scroll-viewport>
+                                    </ng-container> -->
+                                    <!-- tat ca -->
+                                    <span *ngIf="item.ThanhPhan.length === 0">Không có thành viên tham dự cuộc
+                                        họp</span>
+                                    <ng-container *ngIf="tinhTrang === '0'">
+                                        <mat-tab-group *ngIf="item.ThanhPhan.length > 0">
+                                            <mat-tab label="Thành viên tham gia">
+                                                <cdk-virtual-scroll-viewport itemSize="50"
+                                                    [ngClass]="chieucao(item.ThanhPhan)">
+                                                    <div style="padding-bottom: 5px;"
+                                                        *cdkVirtualFor="let ob of item.ThanhPhan | filter: searchData"
+                                                        class="example-item">
+                                                        <div class="row pb-2">
+                                                            <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                                                <div class="tinhtrang"
+                                                                    matTooltip="{{getTenTinhTrang(ob.Status , item.XacNhanThamGia)}}"
+                                                                    [ngStyle]="{'background-color':getColor2(ob.Status , item.XacNhanThamGia)}">
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                [ngClass]="getTinhTrangClass1(ob.Status, item.XacNhanThamGia)">
+                                                                <div class="row">
+                                                                    <div class="col-2 pd-0-tp">
+                                                                        <ngx-avatar size="40"
+                                                                            [matMenuTriggerFor]="ThanhPhan"
+                                                                            matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                                            *ngIf="ob.Image;else bindText">
+                                                                        </ngx-avatar>
+                                                                        <ng-template #bindText>
+                                                                            <ngx-avatar textSizeRatio="2.5"
+                                                                                [matMenuTriggerFor]="ThanhPhan"
+                                                                                matTooltip="{{ob.HoTen}}" size="40"
+                                                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                            </ngx-avatar>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                    <div class="col-10"
+                                                                        style="padding-left: 15px !important;">
+                                                                        <span class="value d-block">{{ob.HoTen}}
+                                                                            &nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                                                trì)</a></span>
+                                                                        <span
+                                                                            class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                                            matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <mat-menu #ThanhPhan="matMenu">
+                                                                    <div class="d-flex pb-2 m-2">
+                                                                        <div>
+                                                                            <ngx-avatar size="40"
+                                                                                matTooltip="{{ob.HoTen}}"
+                                                                                src="{{ob.Image}}"
+                                                                                *ngIf="ob.Image;else bindText1">
+                                                                            </ngx-avatar>
+                                                                            <ng-template #bindText1>
+                                                                                <ngx-avatar textSizeRatio="2.5"
+                                                                                    matTooltip="{{ob.HoTen}}" size="40"
+                                                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                                </ngx-avatar>
+                                                                            </ng-template>
+                                                                        </div>
+                                                                        <div style="padding-left: 10px;">
+                                                                            <div class="col-md-12"
+                                                                                style="font-weight: bold;">
+                                                                                <span>{{ob.HoTen}}</span>
+                                                                            </div>
+                                                                            <div class="col-md-12"><span
+                                                                                    class="HienDauBaChamChucVu"
+                                                                                    matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </mat-menu>
+                                                            </div>
+                                                            <div [ngClass]="getTinhTrangClass2(ob.Status, item.XacNhanThamGia)"
+                                                                style="display: flex; align-items: center; justify-content: flex-end;">
+                                                                <div *ngIf="ob.DuocPhepUyQuyen"
+                                                                    (click)="AddThanhVienHoTro(ob,item.ThanhPhan)"
+                                                                    class="ellipse"
+                                                                    style="cursor: pointer;margin-right: 10px;"
+                                                                    matTooltip="Thêm người hỗ trợ">
+                                                                    <i class="fas fa-users pd-0"></i>
+                                                                </div>
+                                                                <div *ngIf="!ob.isHost">
+                                                                    <button *ngIf="ob.DuocPhepUyQuyen && !ob.UyQuyen"
+                                                                        mat-icon-button type="button"
+                                                                        (click)="UyQuyenThamGia(ob,item.ThanhPhan)"
+                                                                        matTooltip="Chuyển tham dự họp">
+                                                                        <img class="user-add" />
+                                                                    </button>
+                                                                </div>
+                                                                <div [ngStyle]="{ height: getHeightAvatar(ob) }"
+                                                                    style="display:block;position: relative;margin-right: 5px;"
+                                                                    *ngIf="item.SapHoacDangDienRa === 1">
+                                                                    <div class="cu-user-group url scale-hover-01 position-relative"
+                                                                        *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0)&&(ob.idUser!==ob.UyQuyenUser)">
+                                                                        <button mat-icon-button type="button"
+                                                                            *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0 && (ob.DuocPhepUyQuyen || item.IsThuKy))"
+                                                                            matTooltip="Danh sách ủy quyền"
+                                                                            [matMenuTriggerFor]="menuUyQuyen1">
+                                                                            <mat-icon>perm_identity</mat-icon>
+                                                                        </button>
+                                                                        <mat-menu #menuUyQuyen1="matMenu"
+                                                                            xPosition="before">
+                                                                            <div
+                                                                                *ngFor="let itemuyquyen of ob.ThongTinUyQuyen">
+                                                                                <div class="d-flex pb-2 m-2">
+                                                                                    <div>
+                                                                                        <ngx-avatar size="40"
+                                                                                            matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)"
+                                                                                            src="{{itemuyquyen.Image}}"
+                                                                                            *ngIf="itemuyquyen.Image;else bindText2">
+                                                                                        </ngx-avatar>
+                                                                                        <ng-template #bindText2>
+                                                                                            <ngx-avatar
+                                                                                                textSizeRatio="2.5"
+                                                                                                matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)"
+                                                                                                size="40"
+                                                                                                [name]="dangKyCuocHopService.getNameUser(itemuyquyen.HoTen)"
+                                                                                                bgColor="{{dangKyCuocHopService.getColorNameUser(itemuyquyen.HoTen)}}">
+                                                                                            </ngx-avatar>
+                                                                                        </ng-template>
+                                                                                    </div>
+                                                                                    <div style="padding-left: 10px;">
+                                                                                        <div class="col-md-12"
+                                                                                            style="font-weight: bold;">
+                                                                                            <span>{{itemuyquyen.HoTen}}</span>
+                                                                                            <button mat-icon-button
+                                                                                                *ngIf="!item.IsThuKy"
+                                                                                                (click)="RemoveUyQuyen(itemuyquyen,ob)"
+                                                                                                matTooltip="Xóa"
+                                                                                                style="color:red;">
+                                                                                                <mat-icon
+                                                                                                    style="size:10px">delete</mat-icon>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="col-md-12">
+                                                                                            <span>{{itemuyquyen.ChucVu}}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </mat-menu>
+                                                                    </div>
+                                                                    <div *ngIf="item.IsThuKy&&item.IsDuyet===1"
+                                                                        style="display: flex;position:absolute;top:23px;left:-20px">
+                                                                        <div>
+                                                                            <button mat-icon-button
+                                                                                matTooltip="Xác nhận cho thành viên này ủy quyền"
+                                                                                *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0"
+                                                                                (click)="XacNhanViecUyQuyen(ob,1)">
+                                                                                <mat-icon>done</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div>
+                                                                            <button mat-icon-button
+                                                                                matTooltip="Xác nhận không cho thành viên này ủy quyền"
+                                                                                *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0"
+                                                                                (click)="XacNhanViecUyQuyen(ob,0)">
+                                                                                <mat-icon>remove_circle_outline</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <button (click)="XinPhatBieu(ob.XinPhatBieu)"
+                                                                    *ngIf="getTinhTrangClass(ob.Status, item) && ob.DuocPhepPhatBieu"
+                                                                    mat-icon-button type="button"
+                                                                    matTooltip="{{!ob.XinPhatBieu ? 'Phát biểu':'Hủy phát biểu'}}">
+                                                                    <i [ngClass]="{'KhongPhatBieu': ob.XinPhatBieu}"
+                                                                        class="far fa-hand-paper"></i>
+                                                                </button>
+                                                                <button
+                                                                    *ngIf="getTinhTrangClass(ob.Status, item) && !ob.isHost && item.isHost&&item.IsDuyet===1"
+                                                                    (click)="ChuyenChuTri(ob)" mat-icon-button
+                                                                    type="button" matTooltip="chuyển chủ trì">
+                                                                    <i class="fas fa-crown"></i>
+                                                                </button>
+                                                                <button (click)="RemoveThanhVien(ob, 1)"
+                                                                    *ngIf="item.Actions.btn_ThemXoaThanhPhanThamGia"
+                                                                    mat-icon-button color="warn" type="button"
+                                                                    matTooltip="Xóa">
+                                                                    <mat-icon>delete</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </cdk-virtual-scroll-viewport>
+                                            </mat-tab>
+                                            <mat-tab label="Đơn vị tham gia">
+                                                <div class="nav-expansion-panel3">
+                                                    <mat-accordion>
+                                                        <mat-expansion-panel *ngFor="let panel of listGroupDept">
+                                                            <mat-expansion-panel-header>
+                                                                {{panel.DepartmentName}}
+                                                            </mat-expansion-panel-header>
+                                                            <div style="padding-bottom: 15px; margin-top: -10px;"
+                                                                class="border-yc"></div>
+                                                            <cdk-virtual-scroll-viewport itemSize="50"
+                                                                [ngClass]="chieucao2(panel.listUser)| filter: searchData">
+                                                                <div style="padding-bottom: 5px;"
+                                                                    *cdkVirtualFor="let ob of panel.listUser "
+                                                                    class="example-item">
+                                                                    <div class="row pb-2">
+                                                                        <div class="col-1 pd-0-tp"
+                                                                            style="margin: auto 0;">
+                                                                            <div class="tinhtrang"
+                                                                                matTooltip="{{getTenTinhTrang(ob.Status , item.XacNhanThamGia)}}"
+                                                                                [ngStyle]="{'background-color':getColor2(ob.Status , item.XacNhanThamGia)}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            [ngClass]="getTinhTrangClass1(ob.Status, item.XacNhanThamGia)">
+                                                                            <div class="row">
+                                                                                <div class="col-2 pd-0-tp">
+                                                                                    <ngx-avatar size="40"
+                                                                                        [matMenuTriggerFor]="ThanhPhan"
+                                                                                        matTooltip="{{ob.HoTen}}"
+                                                                                        src="{{ob.Image}}"
+                                                                                        *ngIf="ob.Image;else bindText">
+                                                                                    </ngx-avatar>
+                                                                                    <ng-template #bindText>
+                                                                                        <ngx-avatar textSizeRatio="2.5"
+                                                                                            [matMenuTriggerFor]="ThanhPhan"
+                                                                                            matTooltip="{{ob.HoTen}}"
+                                                                                            size="40"
+                                                                                            [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                                                            bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                                        </ngx-avatar>
+                                                                                    </ng-template>
+                                                                                </div>
+                                                                                <div class="col-10"
+                                                                                    style="padding-left: 15px !important;">
+                                                                                    <span
+                                                                                        class="value d-block">{{ob.HoTen}}
+                                                                                        &nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                                                            trì)</a></span>
+                                                                                    <span
+                                                                                        class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                                                        matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <mat-menu #ThanhPhan="matMenu">
+                                                                                <div class="d-flex pb-2 m-2">
+                                                                                    <div>
+                                                                                        <ngx-avatar size="40"
+                                                                                            matTooltip="{{ob.HoTen}}"
+                                                                                            src="{{ob.Image}}"
+                                                                                            *ngIf="ob.Image;else bindText1">
+                                                                                        </ngx-avatar>
+                                                                                        <ng-template #bindText1>
+                                                                                            <ngx-avatar
+                                                                                                textSizeRatio="2.5"
+                                                                                                matTooltip="{{ob.HoTen}}"
+                                                                                                size="40"
+                                                                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                                            </ngx-avatar>
+                                                                                        </ng-template>
+                                                                                    </div>
+                                                                                    <div style="padding-left: 10px;">
+                                                                                        <div class="col-md-12"
+                                                                                            style="font-weight: bold;">
+                                                                                            <span>{{ob.HoTen}}</span>
+                                                                                        </div>
+                                                                                        <div class="col-md-12"><span
+                                                                                                class="HienDauBaChamChucVu"
+                                                                                                matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-menu>
+                                                                        </div>
+                                                                        <div [ngClass]="getTinhTrangClass2(ob.Status, item.XacNhanThamGia)"
+                                                                            style="display: flex; align-items: center; justify-content: flex-end;">
+                                                                            <div *ngIf="ob.DuocPhepUyQuyen"
+                                                                                (click)="AddThanhVienHoTro(ob,item.ThanhPhan)"
+                                                                                class="ellipse"
+                                                                                style="cursor: pointer;margin-right: 10px;"
+                                                                                matTooltip="Thêm người hỗ trợ">
+                                                                                <i class="fas fa-users pd-0"></i>
+                                                                            </div>
+                                                                            <div *ngIf="!ob.isHost">
+                                                                                <button
+                                                                                    *ngIf="ob.DuocPhepUyQuyen && !ob.UyQuyen"
+                                                                                    mat-icon-button type="button"
+                                                                                    (click)="UyQuyenThamGia(ob,item.ThanhPhan)"
+                                                                                    matTooltip="Chuyển tham dự họp">
+                                                                                    <img class="user-add" />
+                                                                                </button>
+                                                                            </div>
+                                                                            <div [ngStyle]="{ height: getHeightAvatar(ob) }"
+                                                                                style="display:block;position: relative;margin-right: 5px;"
+                                                                                *ngIf="item.SapHoacDangDienRa === 1">
+                                                                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                                                                    *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0)&&(ob.idUser!==ob.UyQuyenUser)">
+                                                                                    <button mat-icon-button
+                                                                                        type="button"
+                                                                                        *ngIf="(ob.UyQuyen && ob.ThongTinUyQuyen.length > 0 && (ob.DuocPhepUyQuyen || item.IsThuKy))"
+                                                                                        matTooltip="Danh sách ủy quyền"
+                                                                                        [matMenuTriggerFor]="menuUyQuyen1">
+                                                                                        <mat-icon>perm_identity</mat-icon>
+                                                                                    </button>
+                                                                                    <mat-menu #menuUyQuyen1="matMenu"
+                                                                                        xPosition="before">
+                                                                                        <div
+                                                                                            *ngFor="let itemuyquyen of ob.ThongTinUyQuyen">
+                                                                                            <div
+                                                                                                class="d-flex pb-2 m-2">
+                                                                                                <div>
+                                                                                                    <ngx-avatar
+                                                                                                        size="40"
+                                                                                                        matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)"
+                                                                                                        src="{{itemuyquyen.Image}}"
+                                                                                                        *ngIf="itemuyquyen.Image;else bindText2">
+                                                                                                    </ngx-avatar>
+                                                                                                    <ng-template
+                                                                                                        #bindText2>
+                                                                                                        <ngx-avatar
+                                                                                                            textSizeRatio="2.5"
+                                                                                                            matTooltip="{{itemuyquyen.HoTen}} (Được ủy quyền)"
+                                                                                                            size="40"
+                                                                                                            [name]="dangKyCuocHopService.getNameUser(itemuyquyen.HoTen)"
+                                                                                                            bgColor="{{dangKyCuocHopService.getColorNameUser(itemuyquyen.HoTen)}}">
+                                                                                                        </ngx-avatar>
+                                                                                                    </ng-template>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    style="padding-left: 10px;">
+                                                                                                    <div class="col-md-12"
+                                                                                                        style="font-weight: bold;">
+                                                                                                        <span>{{itemuyquyen.HoTen}}</span>
+                                                                                                        <button
+                                                                                                            mat-icon-button
+                                                                                                            *ngIf="!item.IsThuKy"
+                                                                                                            (click)="RemoveUyQuyen(itemuyquyen,ob)"
+                                                                                                            matTooltip="Xóa"
+                                                                                                            style="color:red;">
+                                                                                                            <mat-icon
+                                                                                                                style="size:10px">delete</mat-icon>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="col-md-12">
+                                                                                                        <span>{{itemuyquyen.ChucVu}}</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </mat-menu>
+                                                                                </div>
+                                                                                <div *ngIf="item.IsThuKy&&item.IsDuyet===1"
+                                                                                    style="display: flex;position:absolute;top:23px;left:-20px">
+                                                                                    <div>
+                                                                                        <button mat-icon-button
+                                                                                            matTooltip="Xác nhận cho thành viên này ủy quyền"
+                                                                                            *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0"
+                                                                                            (click)="XacNhanViecUyQuyen(ob,1)">
+                                                                                            <mat-icon>done</mat-icon>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <button mat-icon-button
+                                                                                            matTooltip="Xác nhận không cho thành viên này ủy quyền"
+                                                                                            *ngIf="ob.DuyetUyQuyen===0&&ob.ThongTinUyQuyen.length>0"
+                                                                                            (click)="XacNhanViecUyQuyen(ob,0)">
+                                                                                            <mat-icon>remove_circle_outline</mat-icon>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button
+                                                                                (click)="XinPhatBieu(ob.XinPhatBieu)"
+                                                                                *ngIf="getTinhTrangClass(ob.Status, item) && ob.DuocPhepPhatBieu"
+                                                                                mat-icon-button type="button"
+                                                                                matTooltip="{{!ob.XinPhatBieu ? 'Phát biểu':'Hủy phát biểu'}}">
+                                                                                <i [ngClass]="{'KhongPhatBieu': ob.XinPhatBieu}"
+                                                                                    class="far fa-hand-paper"></i>
+                                                                            </button>
+                                                                            <button
+                                                                                *ngIf="getTinhTrangClass(ob.Status, item) && !ob.isHost && item.isHost&&item.IsDuyet===1"
+                                                                                (click)="ChuyenChuTri(ob)"
+                                                                                mat-icon-button type="button"
+                                                                                matTooltip="chuyển chủ trì">
+                                                                                <i class="fas fa-crown"></i>
+                                                                            </button>
+                                                                            <button (click)="RemoveThanhVien(ob, 1)"
+                                                                                *ngIf="item.Actions.btn_ThemXoaThanhPhanThamGia"
+                                                                                mat-icon-button color="warn"
+                                                                                type="button" matTooltip="Xóa">
+                                                                                <mat-icon>delete</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </cdk-virtual-scroll-viewport>
+                                                        </mat-expansion-panel>
+
+                                                    </mat-accordion>
+                                                </div>
+
+                                            </mat-tab>
+                                        </mat-tab-group>
+
+                                    </ng-container>
+                                    <!-- xac nhan tham gia -->
+                                    <!-- <ng-container *ngIf="tinhTrang === '2'">
+                                        <cdk-virtual-scroll-viewport itemSize="50" [ngClass]="chieucao(item.ChoXacNhan)">
+                                            <div style="padding-bottom: 5px;" *cdkVirtualFor="let ob of item.ChoXacNhan | filter: searchData" class="example-item">
+                                                <div class="row pb-2">
+                                                    <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                                        <div class="tinhtrang" matTooltip="{{getTenTinhTrang(ob.Status, item.XacNhanThamGia)}}" [ngStyle]="{'background-color':getColor2(ob.Status, item.XacNhanThamGia)}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-9 pd-0-tp">
+                                                        <div class="row">
+                                                            <div class="col-2 pd-0-tp">
+                                                                <ngx-avatar size="40" [matMenuTriggerFor]="ChoXacNhan" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                                                </ngx-avatar>
+                                                                <ng-template #bindText>
+                                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="ChoXacNhan" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                    </ngx-avatar>
+                                                                </ng-template>
+                                                            </div>
+                                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                                <span class="value d-block">{{ob.HoTen}} &nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                  trì)</a></span>
+                                                                <span class="chucvu d-block text-muted HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <mat-menu #ChoXacNhan="matMenu">
+                                                            <div class="d-flex pb-2 m-2">
+                                                                <div>
+                                                                    <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText1">
+                                                                    </ngx-avatar>
+                                                                    <ng-template #bindText1>
+                                                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                        </ngx-avatar>
+                                                                    </ng-template>
+                                                                </div>
+                                                                <div style="padding-left: 10px;">
+                                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                                        <span>{{ob.HoTen}}</span>
+                                                                    </div>
+                                                                    <div class="col-md-12"><span class="HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-menu>
+                                                    </div>
+                                                    <div class="col-2 pd-0-tp"><button (click)="RemoveThanhVien(ob, 1)" *ngIf="item.Status !==2 &&item.SapHoacDangDienRa === 1 && item.isHost" mat-icon-button color="warn" type="button" matTooltip="Xóa">
+                                      <mat-icon>delete</mat-icon>
+                                  </button></div>
+                                                </div>
+                                            </div>
+                                        </cdk-virtual-scroll-viewport>
+
+                                    </ng-container> -->
+                                    <!-- tu choi -->
+                                    <!-- <ng-container *ngIf="tinhTrang === '3'">
+                                        <cdk-virtual-scroll-viewport itemSize="50" [ngClass]="chieucao(item.TuChoiThamGia)">
+                                            <div style="padding-bottom: 5px;" *cdkVirtualFor="let ob of item.TuChoiThamGia | filter: searchData" class="example-item">
+                                                <div class="row pb-2">
+                                                    <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                                        <div class="tinhtrang" matTooltip="{{getTenTinhTrang(ob.Status, item.XacNhanThamGia)}}" [ngStyle]="{'background-color':getColor2(ob.Status, item.XacNhanThamGia)}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-9 pd-0-tp">
+                                                        <div class="row">
+                                                            <div class="col-2 pd-0-tp">
+                                                                <ngx-avatar size="40" [matMenuTriggerFor]="TuChoiThamGia" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                                                </ngx-avatar>
+                                                                <ng-template #bindText>
+                                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="TuChoiThamGia" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                    </ngx-avatar>
+                                                                </ng-template>
+                                                            </div>
+                                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                                <span class="value d-block">{{ob.HoTen}} &nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                    trì)</a></span>
+                                                                <span class="chucvu d-block text-muted HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <mat-menu #TuChoiThamGia="matMenu">
+                                                            <div class="d-flex pb-2 m-2">
+                                                                <div>
+                                                                    <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText1">
+                                                                    </ngx-avatar>
+                                                                    <ng-template #bindText1>
+                                                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                                        </ngx-avatar>
+                                                                    </ng-template>
+                                                                </div>
+                                                                <div style="padding-left: 10px;">
+                                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                                        <span>{{ob.HoTen}}</span>
+                                                                    </div>
+                                                                    <div class="col-md-12"><span class="HienDauBaChamChucVu" matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-menu>
+                                                    </div>
+                                                    <div class="col-2 pd-0-tp"><button (click)="RemoveThanhVien(ob, 1)" *ngIf="item.Status !==2 &&item.SapHoacDangDienRa === 1 && item.isHost" mat-icon-button color="warn" type="button" matTooltip="Xóa">
+                                        <mat-icon>delete</mat-icon>
+                                    </button></div>
+                                                </div>
+                                            </div>
+                                        </cdk-virtual-scroll-viewport>
+
+                                    </ng-container> -->
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+
+                    <!-- <div *ngIf="item.ThanhPhanThamGia.length > 0" class="noi-dung" style="margin-left: 15px;">
+                    <div *ngFor="let ob of item.ThanhPhanThamGia || []">
+                        <div class="row pb-2">
+                            <div class="col-2">
+                                <ngx-avatar size="40" [matMenuTriggerFor]="menu22" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                </ngx-avatar>
+                                <ng-template #bindText>
+                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu22" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                    </ngx-avatar>
+                                </ng-template>
+                            </div>
+                            <div class="col-10">
+                                <span class="value d-block">{{ob.HoTen}}</span>
+                                <span class="chucvu d-block text-muted">({{ob.ChucVu}})</span>
+                            </div>
+                        </div>
+                        <mat-menu #menu22="matMenu">
+                            <div class="d-flex pb-2 m-2">
+                                <div>
+                                    <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText1">
+                                    </ngx-avatar>
+                                    <ng-template #bindText1>
+                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40" [name]="dangKyCuocHopService.getNameUser(ob.HoTen)" bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </div>
+                                <div style="padding-left: 10px;">
+                                    <div class="col-md-12" style="font-weight: bold;">
+                                        <span>{{ob.HoTen}}</span>
+                                    </div>
+                                    <div class="col-md-12"><span>{{ob.ChucVu}}</span></div>
+                                </div>
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div> -->
+                    <div *ngIf="item.XacNhanThamGiaTuBan.length > 0" class="border-yc"></div>
+                    <div *ngIf="item.XacNhanThamGiaTuBan.length > 0" class="card-header"
+                        style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Xác nhận tham dự từ bạn</h3>
+                        </div>
+                    </div>
+                    <div *ngIf="item.XacNhanThamGiaTuBan.length > 0" class="border-yc"></div>
+                    <div *ngIf="item.XacNhanThamGiaTuBan.length > 0" class="noi-dung" style="margin-left: 15px;">
+                        <div *ngFor="let ob of item.XacNhanThamGiaTuBan || []">
+                            <div class="row pb-2">
+                                <div class="col-2 pd-0-tp">
+                                    <ngx-avatar size="40" [matMenuTriggerFor]="menu222" matTooltip="{{ob.HoTen}}"
+                                        src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                    </ngx-avatar>
+                                    <ng-template #bindText>
+                                        <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu222"
+                                            matTooltip="{{ob.HoTen}}" size="40"
+                                            [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                            bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </div>
+                                <div class="col-7">
+                                    <span class="value d-block">{{ob.HoTen}}</span>
+                                    <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                        matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                </div>
+                                <div class="col-3 pd-0-tp text-right">
+                                    <button (click)="XacNhanThamGia(1)" mat-icon-button style="color: #0A9562;"
+                                        type="button" matTooltip="Xác nhận tham gia">
+                                        <mat-icon>done</mat-icon>
+                                    </button>
+                                    <button (click)="XacNhanThamGia(2)" mat-icon-button style="color: red" type="button"
+                                        matTooltip="Từ chối tham gia">
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <mat-menu #menu222="matMenu">
+                                <div class="d-flex pb-2 m-2">
+                                    <div>
+                                        <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                            *ngIf="ob.Image;else bindText1">
+                                        </ngx-avatar>
+                                        <ng-template #bindText1>
+                                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                            </ngx-avatar>
+                                        </ng-template>
+                                    </div>
+                                    <div style="padding-left: 10px;">
+                                        <div class="col-md-12" style="font-weight: bold;">
+                                            <span>{{ob.HoTen}}</span>
+                                        </div>
+                                        <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                    </div>
+                                </div>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                    <div class="border-yc"></div>
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần thêm tài liệu ({{item.ThanhPhanThemTaiLieu.length}})
+                            </h3>
+                        </div>
+
+                        <div class="card-toolbar">
+                            <button *ngIf="item.Status !==2 &&item.isCreated===1&&item.IsDuyet===2"
+                                (click)="AddThanhVien(item.ThanhPhanThemTaiLieu,6)" mat-icon-button type="button"
+                                matTooltip="Thêm thành viên">
+                                <i class="flaticon2-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px;max-height: 450px; overflow: auto;">
+                        <div *ngFor="let ob of item.ThanhPhanThemTaiLieu || []">
+                            <div class="row pb-2">
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col-2 pd-0-tp">
+                                            <ngx-avatar size="40" [matMenuTriggerFor]="menu22" matTooltip="{{ob.HoTen}}"
+                                                src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                            </ngx-avatar>
+                                            <ng-template #bindText>
+                                                <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu22"
+                                                    matTooltip="{{ob.HoTen}}" size="40"
+                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                </ngx-avatar>
+                                            </ng-template>
+                                        </div>
+                                        <div class="col-10" style="padding-left: 15px !important;">
+                                            <span class="value d-block">{{ob.HoTen}}&nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                    trì)</a></span>
+                                            <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div style="display: flex;justify-content: flex-end;">
+                                        <button *ngIf="item.IsDuyet===2&&ob.checkUserLogin&&item.IsDuyet===2"
+                                            (click)="UyQuyenThemTaiLieu(ob)" mat-icon-button type="button"
+                                            matTooltip="Ủy quyền thêm tài liệu">
+                                            <i class="fas fa-crown"></i>
+                                        </button>
+
+                                        <button *ngIf="item.isCreated===1&&item.IsDuyet===2"
+                                            (click)="sendNotifyremind(ob)" mat-icon-button color="primary" type="button"
+                                            matTooltip="Nhắc nhở bổ sung tài liệu">
+                                            <mat-icon>notifications</mat-icon>
+                                        </button>
+
+                                        <button *ngIf="item.Actions.btn_ThemXoaThanhPhanThemTaiLieu"
+                                            (click)="RemoveThanhVien(ob, 6)" mat-icon-button color="warn" type="button"
+                                            matTooltip="Xóa">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-menu #menu22="matMenu">
+                                <div class="d-flex pb-2 m-2">
+                                    <div>
+                                        <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                            *ngIf="ob.Image;else bindText1">
+                                        </ngx-avatar>
+                                        <ng-template #bindText1>
+                                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                            </ngx-avatar>
+                                        </ng-template>
+                                    </div>
+                                    <div style="padding-left: 10px;">
+                                        <div class="col-md-12" style="font-weight: bold;">
+                                            <span>{{ob.HoTen}}</span>
+                                        </div>
+                                        <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                    </div>
+                                </div>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+
+                    <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần thư ký ({{item.ThanhPhanTheoDoi.length}})
+                            </h3>
+                        </div>
+
+                        <div class="card-toolbar">
+                            <a style="margin-right: 10px;cursor:pointer;" *ngIf="item.IsThuKy"
+                                (click)="getlistViewerDocument(item.RowID, 2)" matTooltip="Danh sách lượt xem">
+                                <i class="far fa-eye"></i> &nbsp;Lượt xem
+                            </a>
+                            <a *ngIf="item.IsThuKy" class="vietngay" style="margin-right: 10px;"
+                                (click)="OpenDanhSachPhatBieu()">Danh sách phát biểu</a>
+                            <button
+                                *ngIf="item.SapHoacDangDienRa === 1 &&item.Status !==2 && (item.isHost || item.IsThuKy)"
+                                (click)="AddThanhVien(item.ThanhPhanTheoDoi,2)" mat-icon-button type="button"
+                                matTooltip="Thêm thành viên">
+                                <i class="flaticon2-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px;">
+                        <span *ngIf="item.ThanhPhanTheoDoi.length === 0">Không có thành phần thư ký</span>
+                        <div *ngFor="let ob of item.ThanhPhanTheoDoi || []">
+                            <div class="row pb-2">
+                                <div class="col-10 pd-0-tp">
+                                    <div class="row">
+                                        <div class="col-2 pd-0-tp">
+                                            <ngx-avatar size="40" [matMenuTriggerFor]="menu22" matTooltip="{{ob.HoTen}}"
+                                                src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                            </ngx-avatar>
+                                            <ng-template #bindText>
+                                                <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu22"
+                                                    matTooltip="{{ob.HoTen}}" size="40"
+                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                </ngx-avatar>
+                                            </ng-template>
+                                        </div>
+                                        <div class="col-10" style="padding-left: 15px !important;">
+                                            <span class="value d-block">{{ob.HoTen}}&nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                    trì)</a></span>
+                                            <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2" style="display: flex;justify-content: center;">
+                                    <button
+                                        *ngIf="item.SapHoacDangDienRa === 1 &&item.Status !==2 &&!ob.isHost && item.isHost&&item.IsDuyet==1"
+                                        (click)="ChuyenChuTri(ob)" mat-icon-button type="button"
+                                        matTooltip="chuyển chủ trì">
+                                        <i class="fas fa-crown"></i>
+                                    </button>
+                                    <button *ngIf="item.Actions.btn_ThemXoaThanhPhanThuKy"
+                                        (click)="RemoveThanhVien(ob, 2)" mat-icon-button color="warn" type="button"
+                                        matTooltip="Xóa">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <mat-menu #menu22="matMenu">
+                                <div class="d-flex pb-2 m-2">
+                                    <div>
+                                        <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                            *ngIf="ob.Image;else bindText1">
+                                        </ngx-avatar>
+                                        <ng-template #bindText1>
+                                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                            </ngx-avatar>
+                                        </ng-template>
+                                    </div>
+                                    <div style="padding-left: 10px;">
+                                        <div class="col-md-12" style="font-weight: bold;">
+                                            <span>{{ob.HoTen}}</span>
+                                        </div>
+                                        <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                    </div>
+                                </div>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần nhập tóm tắt, kết luận ({{item.ThanhPhanNhapTTKT.length}})
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <button
+                                *ngIf="item.SapHoacDangDienRa === 1 &&item.Status !==2 && (item.isHost || item.IsThuKy)"
+                                (click)="AddThanhVien(item.ThanhPhanNhapTTKT,3)" mat-icon-button type="button"
+                                matTooltip="Thêm thành viên">
+                                <i class="flaticon2-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px;max-height: 450px; overflow: auto;">
+                        <span *ngIf="item.ThanhPhanNhapTTKT.length === 0">Không có thành phần nhập tóm tắt kết
+                            luận</span>
+                        <div *ngFor="let ob of item.ThanhPhanNhapTTKT || []">
+                            <div class="row pb-2">
+                                <div class="col-10 pd-0-tp">
+                                    <div class="row">
+                                        <div class="col-2 pd-0-tp">
+                                            <ngx-avatar size="40" [matMenuTriggerFor]="menu2222"
+                                                matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                *ngIf="ob.Image;else bindText">
+                                            </ngx-avatar>
+                                            <ng-template #bindText>
+                                                <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu2222"
+                                                    matTooltip="{{ob.HoTen}}" size="40"
+                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                </ngx-avatar>
+                                            </ng-template>
+                                        </div>
+                                        <div class="col-10" style="padding-left: 15px !important;">
+                                            <span class="value d-block">{{ob.HoTen}}&nbsp;<a *ngIf="ob.isHost">(Chủ
+                                                    trì)</a></span>
+                                            <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2"><button *ngIf="item.Actions.btn_ThemXoaThanhPhanTomTatKL"
+                                        (click)="RemoveThanhVien(ob, 3)" mat-icon-button color="warn" type="button"
+                                        matTooltip="Xóa">
+                                        <mat-icon>delete</mat-icon>
+                                    </button></div>
+                            </div>
+                            <mat-menu #menu2222="matMenu">
+                                <div class="d-flex pb-2 m-2">
+                                    <div>
+                                        <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                            *ngIf="ob.Image;else bindText1">
+                                        </ngx-avatar>
+                                        <ng-template #bindText1>
+                                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                            </ngx-avatar>
+                                        </ng-template>
+                                    </div>
+                                    <div style="padding-left: 10px;">
+                                        <div class="col-md-12" style="font-weight: bold;">
+                                            <span>{{ob.HoTen}}</span>
+                                        </div>
+                                        <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                    </div>
+                                </div>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần khách mời ({{item.ThanhPhanKhachMoi.length}})</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <button
+                                *ngIf="item.SapHoacDangDienRa === 1 &&item.Status !==2 &&item.SapHoacDangDienRa === 1 && (item.isHost || item.IsThuKy)"
+                                (click)="AddThanhVien(item.ThanhPhanKhachMoi, 4)" mat-icon-button type="button"
+                                matTooltip="Thêm thành viên">
+                                <i class="flaticon2-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px">
+                        <span *ngIf="item.ThanhPhanKhachMoi.length === 0">Không có thành phần khách mời</span>
+                        <cdk-virtual-scroll-viewport itemSize="50" [ngClass]="chieucao(item.ThanhPhanKhachMoi)">
+                            <div style="padding-bottom: 5px;" *cdkVirtualFor="let ob of item.ThanhPhanKhachMoi || []"
+                                class="example-item">
+                                <div class="row pb-2">
+                                    <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                        <div class="tinhtrang"
+                                            matTooltip="{{getTenTinhTrang(ob.Status, item.XacNhanThamGia)}}"
+                                            [ngStyle]="{'background-color':getColor2(ob.Status, item.XacNhanThamGia)}">
+                                        </div>
+                                    </div>
+                                    <div class="col-9 pd-0-tp">
+                                        <div class="row">
+                                            <div class="col-2 pd-0-tp">
+                                                <ngx-avatar size="40" [matMenuTriggerFor]="menu22"
+                                                    matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                    *ngIf="ob.Image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu22"
+                                                        matTooltip="{{ob.HoTen}}" size="40"
+                                                        [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                        bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                <span class="value d-block">{{ob.HoTen}}</span>
+                                                <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                    matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 pd-0-tp">
+                                        <button *ngIf="item.Actions.btn_ThemXoaThanhPhanKhachMoi"
+                                            (click)="RemoveThanhVien(ob, 4)" mat-icon-button color="warn" type="button"
+                                            matTooltip="Xóa">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <mat-menu #menu22="matMenu">
+                                    <div class="d-flex pb-2 m-2">
+                                        <div>
+                                            <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                *ngIf="ob.Image;else bindText1">
+                                            </ngx-avatar>
+                                            <ng-template #bindText1>
+                                                <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                </ngx-avatar>
+                                            </ng-template>
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <div class="col-md-12" style="font-weight: bold;">
+                                                <span>{{ob.HoTen}}</span>
+                                            </div>
+                                            <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                    matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                        </div>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Thành phần khác ({{item.ThanhPhanKhac.length}})</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <button
+                                *ngIf="item.SapHoacDangDienRa === 1 &&item.Status !==2 &&item.SapHoacDangDienRa === 1 && (item.isHost || item.IsThuKy)"
+                                (click)="AddThanhVien(item.ThanhPhanKhac, 7)" mat-icon-button type="button"
+                                matTooltip="Thêm thành viên">
+                                <i class="flaticon2-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="noi-dung" style="margin-left: 15px">
+                        <span *ngIf="item.ThanhPhanKhac.length === 0">Không có thành phần khác</span>
+                        <cdk-virtual-scroll-viewport itemSize="50" [ngClass]="chieucao(item.ThanhPhanKhac)">
+                            <div style="padding-bottom: 5px;" *cdkVirtualFor="let ob of item.ThanhPhanKhac || []"
+                                class="example-item">
+                                <div class="row pb-2">
+                                    <div class="col-1 pd-0-tp" style="margin: auto 0;">
+                                        <div class="tinhtrang"
+                                            matTooltip="{{getTenTinhTrang(ob.Status, item.XacNhanThamGia)}}"
+                                            [ngStyle]="{'background-color':getColor2(ob.Status, item.XacNhanThamGia)}">
+                                        </div>
+                                    </div>
+                                    <div class="col-9 pd-0-tp">
+                                        <div class="row">
+                                            <div class="col-2 pd-0-tp">
+                                                <ngx-avatar size="40" [matMenuTriggerFor]="menu22"
+                                                    matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                    *ngIf="ob.Image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu22"
+                                                        matTooltip="{{ob.HoTen}}" size="40"
+                                                        [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                        bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                <span class="value d-block">{{ob.HoTen}}</span>
+                                                <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                                    matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 pd-0-tp">
+                                        <button *ngIf="item.Actions.btn_ThemXoaThanhPhanKhachMoi"
+                                            (click)="RemoveThanhVien(ob, 7)" mat-icon-button color="warn" type="button"
+                                            matTooltip="Xóa">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <mat-menu #menu22="matMenu">
+                                    <div class="d-flex pb-2 m-2">
+                                        <div>
+                                            <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                                *ngIf="ob.Image;else bindText1">
+                                            </ngx-avatar>
+                                            <ng-template #bindText1>
+                                                <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40"
+                                                    [name]="dangKyCuocHopService.getNameUser(ob.HoTen)"
+                                                    bgColor="{{dangKyCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                                </ngx-avatar>
+                                            </ng-template>
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <div class="col-md-12" style="font-weight: bold;">
+                                                <span>{{ob.HoTen}}</span>
+                                            </div>
+                                            <div class="col-md-12"><span class="HienDauBaChamChucVu"
+                                                    matTooltip="{{ob.ChucVu}}">{{ob.ChucVu}}</span></div>
+                                        </div>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div class="card-header" style="border-bottom: none !important;">
+                        <div class="card-title">
+                            <h3 class="card-label">Bình luận</h3>
+                        </div>
+                    </div>
+                    <div class="border-yc"></div>
+                    <div *ngIf="topicObjectID$.asObservable() | async" class="noi-dung">
+                        <app-jee-comment [showCommentDefault]="true" [appCode]="'MEET'"
+                            [objectID]="topicObjectID$.asObservable() | async">
+                        </app-jee-comment>
+                    </div>
+                </div>
+            </div>
+            <!-- <div *ngIf="item.ThanhPhanThamGia.length == 0 && item.XacNhanThamGiaTuBan.length == 0 && item.ThanhPhanTheoDoi.length == 0 && item.ThanhPhanNhapTTKT.length == 0 && item.ThanhPhanKhachMoi.length == 0" class="main-right">
+            <div class="card card-custom"><span style="text-align: center;padding: 15px 0 15px">{{'ComMon.NOINFO' | translate}}</span></div>
+        </div> -->
+        </div>
+
+        <mat-menu #menu="matMenu" xPosition="before">
+            <div class="menuFull">
+                <!-- <div *ngIf="item.isDel === 1 && IsKetThuc===0" class="menuItem" (click)='XoaCuocHop()'>
+                  <div class="ItemList"><i class="flaticon-delete-1"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.DELETE' | translate}}</div>
+              </div> -->
+                <!-- <div *ngIf="item.isDel === 1 &&item.IsDuyet===1 && IsKetThuc===0" class="menuItem" (click)='XoaCuocHop()'>
+                    <div class="ItemList"><i class="flaticon-delete-1"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.DELETE' | translate}}</div>
+                </div> -->
+                <div *ngIf="item.Actions.btn_XoaCuocHop" class="menuItem" (click)='XoaCuocHop()'>
+                    <div class="ItemList"><i class="flaticon-delete-1"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.DELETE' |
+                        translate}}</div>
+                </div>
+                <!-- <div *ngIf="item.Status === 1 && item.isDel === 1&&item.IsDuyet===0 " class="menuItem" (click)="chinhsua()">
+                    <div class="ItemList"><i class="flaticon-edit"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.EDIT' | translate}}
+                    </div>
+                </div> -->
+                <!-- <div *ngIf="item.Status === 1 && item.isDel === 1&&item.IsDuyet===1 " class="menuItem" (click)="chinhsua()">
+                    <div class="ItemList"><i class="flaticon-edit"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.EDIT' | translate}}
+                    </div>
+                </div> -->
+                <div *ngIf="item.Actions.btn_ChinhSua" class="menuItem" (click)="chinhsua()">
+                    <div class="ItemList"><i class="flaticon-edit"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.EDIT' |
+                        translate}}
+                    </div>
+                </div>
+                <div *ngIf="item.Status === 1 && item.isCreated === 1&&item.IsDuyet===2" class="menuItem"
+                    (click)='XacNhanCuocHop()'>
+                    <div class="ItemList">
+                        <i class="flaticon-interface-5"></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.XACNHAN' | translate}}
+                    </div>
+                </div>
+
+                <div *ngIf="item.Status !==2 && item.isDel===1 " class="menuItem " (click)='DongCuochop()'>
+                    <div class="ItemList "><i class="flaticon-close "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.CLOSE' |
+                        translate}}
+                    </div>
+                </div>
+                <div *ngIf="item.Actions.btn_HoanCuocHop" class="menuItem " (click)='HoanCuochop(item)'>
+                    <div class="ItemList "><i class="flaticon-clock-1"></i>&nbsp;&nbsp;<span
+                            *ngIf="item.Status !==3">Hoãn</span> <span *ngIf="item.Status ===3">Mở hoãn</span> cuộc họp
+                    </div>
+                </div>
+                <div class="menuItem " (click)='QuayVe()'>
+                    <div class="ItemList "><i class="flaticon-logout "></i>&nbsp;&nbsp;Quay về</div>
+                </div>
+                <!-- <div class="menuItem " *ngIf="item.IsThuKy " (click)='Export()'>
+                    <div class="ItemList "><i class="flaticon-folder-2 "></i>&nbsp;&nbsp;Export file</div>
+                </div> -->
+                <!-- <div class="menuItem " (click)='chooseSurveyList(1)' *ngIf="isExist==2 && item.IsKhaoSat ">
+                  <div class="ItemList "><i class="flaticon-list "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SURVEYTABLE' | translate}}</div>
+              </div> -->
+                <!-- <div class="menuItem " *ngIf="isExist==1 && item.IsKhaoSat " (click)='chooseResuilt(1)'>
+                  <div class="ItemList "><span>
+                      <i class="flaticon-list "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SURVEYTABLE' | translate}} <b style="color: green; ">
+                          ({{'QL_CUOCHOP.CUOCHOP.SURVEYTABLECOMPLETE' | translate}})</b></span></div>
+              </div> -->
+                <!-- <div class="menuItem " (click)='chooseSurveyList(1)' *ngIf="isExist===2 && item.IsKhaoSat && !item.IsKhachMoi ">
+                    <div class="ItemList "><i class="flaticon-list "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SURVEYTABLE' | translate}}</div>
+                </div>
+                <div class="menuItem " *ngIf="isExist===1 && !item.IsKhachMoi " (click)='chooseSurveyList(1)'>
+                    <div class="ItemList "><span>
+                          <i class="flaticon-list "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SURVEYTABLE' | translate}}
+                            </span></div>
+                </div>
+                <div class="menuItem " (click)='chooseSurveyLists(3)' *ngIf="item.IsThuKy && isExistSurveyResult && !item.IsKhachMoi ">
+                    <div class="ItemList "><i class="flaticon-list-1 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SURVEYRESULT' | translate}}
+                    </div>
+                </div> -->
+                <div class="menuItem " *ngIf="item.Status !==2 &&item.IsThuKy&&item.IsDuyet===1 "
+                    (click)='OpenPrintQR(item.QRCODE)'>
+                    <div class="ItemList "><i class="flaticon-list "></i>&nbsp;&nbsp;In mã QR</div>
+                </div>
+
+                <div class="menuItem " *ngIf="item.Status !==2 &&item.IsThuKy&&item.IsDuyet===1 && item.IdPhongHop"
+                    (click)='OpenPrintQRPH(item)'>
+                    <div class="ItemList "><i class="flaticon-list "></i>&nbsp;&nbsp;In mã QR phòng họp</div>
+                </div>
+
+                <div class="menuItem " *ngIf="item.Actions.btn_ThemMoiSoTay" (click)="addSoTayGhiChu() ">
+                    <div class="ItemList "><i class="flaticon-edit-1 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SOTAY' |
+                        translate}}
+                    </div>
+                </div>
+                <div class="menuItem " *ngIf="item.Actions.btn_DanhSachSoTay" (click)="DanhSachSoTayGhiChu() ">
+                    <div class="ItemList "><i
+                            class="flaticon-list-2 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SOTAY_NHATKY' | translate}}
+                    </div>
+                </div>
+                <div class="menuItem " *ngIf="item.Status !==2 &&item.IsThuKy&&item.IsDuyet===1 "
+                    (click)='OpenDienBienCuocHop()'>
+                    <div class="ItemList "><i class="flaticon-list "></i>&nbsp;&nbsp;Nhập diễn biến cuộc họp</div>
+                </div>
+
+                <!-- <div class="menuItem " *ngIf="!item.IsKhachMoi " (click)="DanhSachThongKeDangCauHoi() ">
+                  <div class="ItemList "><i class="flaticon2-graphic "></i>&nbsp;&nbsp;Thống kê câu hỏi biểu quyết
+                  </div>
+              </div> -->
+                <div class="menuItem " (click)="onOffFeedback(true) "
+                    *ngIf="item.Status !==2 &&!isFeedback && isOnOffFeeback && !isCompleted ">
+                    <div class="ItemList "><i class="flaticon-plus "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.FEEDBACKON' |
+                        translate}}</div>
+                </div>
+                <div class="menuItem " (click)="onOffFeedback(false) "
+                    *ngIf="item.Status !==2 &&isFeedback && isOnOffFeeback && !isCompleted && IsKetThuc===0 ">
+                    <div class="ItemList "><i
+                            class="flaticon-cancel "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.FEEDBACKOFF' | translate}}
+                    </div>
+                </div>
+                <div class="menuItem " (click)="addFeedback() "
+                    *ngIf="item.Status !==2 &&isFeedback && checkFeedBack && !isCompleted && IsKetThuc===0 ">
+                    <div class="ItemList "><i class="flaticon-chat-2 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.FEEDBACK' |
+                        translate}}</div>
+                </div>
+                <!-- <div class="menuItem " (click)="getListFeedback() ">
+                  <div class="ItemList "><i class="flaticon2-list-3 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.FEEDBACKLIST' | translate}}
+                  </div>
+              </div> -->
+                <div class="menuItem " (click)="sendNotify() "
+                    *ngIf="item.Status !==2 &&item.IsThuKy && IsKetThuc===0&&item.IsDuyet===1 ">
+                    <div class="ItemList "><i
+                            class="flaticon2-notification "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SENDNOTIFY' |
+                        translate}}
+                    </div>
+                </div>
+
+                <!-- <div class="menuItem " (click)="addRequireSupport() " *ngIf="checkSupport && IsKetThuc===0 ">
+                  <div class="ItemList "><i class="flaticon-chat-2 "></i>&nbsp;&nbsp;{{'QL_CUOCHOP.CUOCHOP.SUPPORTREQUIRE' | translate}}
+                  </div>
+              </div> -->
+            </div>
+        </mat-menu>
+    </div>
+</ng-template>

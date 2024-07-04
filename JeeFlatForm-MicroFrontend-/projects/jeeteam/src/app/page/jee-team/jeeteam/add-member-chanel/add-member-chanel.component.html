@@ -1,0 +1,153 @@
+<style>
+    ::placeholder {
+        color: black;
+        padding: 2px;
+    }
+
+    .post {
+        text-align: center;
+        width: 480px;
+        height: 35px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        border-radius: 5px;
+        /* background-color:lightgreen;
+            color:#FFf; */
+        background-color: rgb(19, 173, 58);
+        color: white;
+        border: none;
+
+
+    }
+
+    .angular-editor-textarea {
+        min-height: 150px;
+        overflow: auto;
+        margin-top: 5px;
+        resize: vertical;
+        outline: none;
+    }
+    .la
+    {
+        font-size: 25px;
+    }
+    .title
+    {
+        text-align: center;
+    }
+</style>
+<div class="__dialogwrapper">
+    <div class="__dialogwrapper-inner">
+        <div class="__dialogmain">
+         
+            <div class="__dialogcontent simple-form">
+                <div id="post-status" class="__apdialog" title="">
+                    <div class="title">
+
+
+                        <span style="font-size:25px; font-weight: bold;">Thêm thành viên </span>
+
+                        <button style="float: right;margin-top: -5px;" (click)="closeDilog()" mat-button
+                            mat-icon-button>
+                            <i style="font-size: 15px;" class="flaticon2-cancel-music"></i>
+                        </button>
+                    </div>
+                    
+                   
+                </div>
+                <hr>
+
+                <div class="row">
+                        <div class="col-7">
+                            <div class="input" style="padding-bottom: 15px;">
+                                <form>
+                                    <input style="width:100%" id="stuff_group" [formControl]="searchControl" placeholder="Tìm kiếm thành viên... " type="text">
+                                    <label for="stuff_group" class="flaticon-search-magnifier-interface-symbol input-icon"></label>
+                                </form>
+                            </div>
+                            <div style="height:300px">
+
+                            
+                            <perfect-scrollbar style="max-height:300px">
+                          
+                            <div class="list home-links"  *ngFor="let members of filteredGroups |async;let vi=index">
+
+
+                                <div (click)="ChooseMember(members.IdUser)" class="li" style="    display: flex;
+                            align-items: center; padding-bottom: 15px;cursor: pointer; padding-left: 7px;">
+                                <div>
+                                    <ngx-avatar [size]="45" src="{{ members.Avatar }}" *ngIf="members.Avatar"></ngx-avatar>
+                                    <ngx-avatar [size]="45" [name]="members.FullName.slice(0, 1)" bgColor="{{ members.BgColor }}" *ngIf="!members.Avatar"></ngx-avatar>
+                                       <!-- <img class="avatar" src={{members.Avatar}}> -->
+                                </div>
+                                <div style="width: 100%;padding-left: 10px;">
+                                        <span>
+                                            {{members.FullName}}
+                                        </span>
+                                        <br>
+                                     
+                                </div>
+                                
+                            
+                              
+                            </div>
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                        </div>
+                   
+
+                        <div class="col-5">
+                            <div style="height:300px;">
+                                <perfect-scrollbar>
+                          
+                                <div *ngFor="let members of list_choose;let ch=index">
+    
+    
+                                    <div  style="    display: flex;
+                                align-items: center; padding-bottom: 15px;">
+                                    <div>
+                                        <ngx-avatar [size]="45" src="{{ members.Avatar }}" *ngIf="members.Avatar"></ngx-avatar>
+                                        <ngx-avatar [size]="45" [name]="members.FullName.slice(0, 1)" bgColor="{{ members.BgColor }}" *ngIf="!members.Avatar"></ngx-avatar>
+                                    </div>
+                                    <div style="width: 100%;padding-left: 10px;">
+                                            <span>
+                                                {{members.FullName}}
+                                            </span>
+                                            <br>
+                                         
+                                    </div>
+                                    
+                                
+   <div  style="
+   display: flex;
+   flex-direction: row-reverse;">
+     <button style="float: right;margin-top: -5px;"(click)="RemoveChooseMemeber(ch)" mat-button
+     mat-icon-button>
+     <i style="font-size: 10px;" class="flaticon2-cancel-music"></i>
+ </button>
+   
+   </div>
+                                  
+                                </div>
+                                </div>
+                                </perfect-scrollbar>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr>
+<div  style="display: flex;flex-direction: row-reverse;">
+
+
+<button (click)="closeDilog()" style="width: 100px;    height: 40px;"  mat-stroked-button color="primary">Hủy</button>
+<button  (click)="submit()" style=" width: 100px;    height: 40px;
+margin-right: 15px;"  [disabled]="list_choose.length===0" mat-raised-button color="primary">Lưu</button>
+</div>

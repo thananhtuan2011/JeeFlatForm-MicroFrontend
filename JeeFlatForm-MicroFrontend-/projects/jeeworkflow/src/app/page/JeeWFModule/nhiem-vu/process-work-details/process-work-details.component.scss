@@ -1,0 +1,144 @@
+.icon-add{
+  border: 1px dashed #676363; border-radius: 50%; height: 26px; width: 26px; text-align: center; padding-top: 2px; margin-top: 3px;
+}
+
+.users {
+  overflow: hidden;
+  position: relative;
+  float: left;
+  padding-left: 10px;
+}
+
+.user {
+  overflow: hidden;
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin-left: -8px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 2px solid #f3f3f3;
+}
+
+//Start tab hoạt động
+.workflow-hoatdong{
+    margin: auto;
+    width: 100%;
+
+    .hoatdong-child{
+      margin-bottom: 10px;
+      padding: 5px;
+  }
+  
+  .hoatdong-header{
+      color: green;
+      font-size: 11px;
+      font-weight: 500;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+  }
+  
+  .hoatdong-body-1{
+      position: relative;
+      padding-left: 100px;
+      min-height: 40px;
+      border-bottom: 1px solid #e5e5e5;
+      width: 100%;
+  }
+  
+  .hoatdong-body-1:before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    top: 0px;
+    height: 110%;
+    left: 70px;
+    background-color: #e5e5e5;
+  }
+  
+  .time{
+    position: absolute;
+    top: 15px;
+    left: 0px;
+  }
+  
+  .icon{
+    position: absolute;
+    top: 15px;
+      left: 55px;
+      width: 32px;
+      height: 32px;
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: #888;
+      color: #fff;
+      -moz-border-radius: 18px;
+      -webkit-border-radius: 18px;
+      border-radius: 18px;
+  }
+  
+  .info{
+    display: block;
+    font-size: 14px;
+    padding-bottom: 5px;
+    padding-top: 15px;
+  }
+  
+  .hoatdong-body-1:last-child {
+    border: none;
+  }
+}
+
+.cu-notification-item__text{
+  color: rgb(10 180 255);
+  font-family: Gotham Pro,arial,serif;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 11px;
+  margin: 0 0 0 10px;
+  padding: 4px 8px 3px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  box-shadow: 0 0 3px 0 rgb(0 0 0 / 26%);
+  flex-shrink: 0;
+}
+
+.cu-notification-item__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cu-notification-item__status_before {
+  margin-left: 20px;
+}
+
+.cu-notification-item__status {
+  margin: 0 10px;
+}
+
+.title-giaidoan{
+  font-size: 11pt;
+  font-style: italic;
+}
+//End tab hoạt động
+
+//Start tab công việc chi tiết
+.pie {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.disabled-menu {
+  pointer-events: none;
+  opacity: .5;
+}
+//End tab công việc chi tiết

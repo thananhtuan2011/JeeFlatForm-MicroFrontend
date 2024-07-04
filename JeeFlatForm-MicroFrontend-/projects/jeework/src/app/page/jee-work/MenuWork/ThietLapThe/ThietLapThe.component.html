@@ -1,0 +1,427 @@
+<div style="
+    width: 100%;
+    height: 100vh;
+    background: #EBEBEB;
+    overflow: hidden;
+  ">
+   <div class="panel-left-v2" style="height: 100%;">
+      <!-- #region header -->
+      <div>
+         <div class="header title1"
+            style="display: flex;justify-content: space-between;font-size: 18pt;font-weight: 500;border-bottom: 1px solid #d3d3d3de;">
+            <span>{{ "jeework.thietlapthe" | translate }}</span>
+            <div class="fle">
+
+               <button mat-button mat-raised-button (click)="close()">{{ "COMMOM.TROLAI" | translate }}</button>
+            </div>
+         </div>
+      </div>
+      <!-- #endregion -->
+
+      <div style="height:50%;display: flex;margin-top: 10px;">
+         <div style=" width: 70%;border-bottom: 1px solid #d3d3d3de;" class="pn-left">
+            <mat-tab-group (selectedTabChange)="ChangeTab($event)" style="cursor: pointer;">
+               <mat-tab label="{{'projects.thechung' | translate}}">
+                  <ng-template matTabContent>
+                     <div class="view-template overflow-auto" style="padding-bottom: 0;height: 100%;margin-right: 120px;
+                     margin-left: 120px;">
+                        <div class="row w-100" style="height: 100%;">
+                           <div class="col-md-12">
+                              <div class="header-view row mt-4">
+                                 <div style="text-align: center">
+                                    <div>
+                                       <ng-container *ngFor="let tag of this.TagChung; let index = index">
+                                          <div class="status-input col-12 form-control" *ngIf="true"
+                                             style="width: 100%">
+                                             <div class="cu-custom-fields__form-dropdown-option-color"
+                                                [ngStyle]="{ backgroundColor: tag.color_tag }"></div>
+                                             <div class="input" (click)="changeTagChung(tag)"
+                                                style="margin-left:10px;align-items: center;display: flex;height:25px">
+                                                <span>{{ tag.title }}</span>
+
+                                                <div style="margin-left: auto;display: flex;">
+                                                   <mat-slide-toggle class="example-margin"
+                                                      style="pointer-events: none;" [color]="color_primary"
+                                                      [checked]="tag.IsCheck===1||tag.IsCheck===true?true:false">
+                                                   </mat-slide-toggle>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </ng-container>
+                                    </div>
+                                 </div>
+
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                  </ng-template>
+               </mat-tab>
+               <mat-tab label="{{'projects.tag' | translate}} {{DanhMucChungService.ts_duan}}">
+                  <ng-template matTabContent>
+                     <div class="row full-height">
+                        <div style="overflow: auto;height: 100%;width: 37%;" class=" pn-left">
+                           <mat-form-field style="width: 100%;padding: 10px;">
+                              <mat-label>{{'projects.choose' | translate}} vai trò</mat-label>
+                              <mat-select (selectionChange)="chageDuanThamGia($event.value)"
+                                 [(value)]="selectedRole">
+                                 <mat-option *ngFor="let item of lstRole" [value]="item.RoleID">
+                                    {{item.RoleName}}
+                                 </mat-option>
+
+                              </mat-select>
+                           </mat-form-field>
+                           <!-- <div> -->
+                           <div class="option" (click)="changeDuan(item)" *ngFor="let item of duan"
+                              [ngStyle]="{'background-color': this.id_row == item.id_row? 'rgba(10, 133, 255, 0.25)':''}">
+                              <div class="choses">
+                                 <!-- <span style="margin-left:20px">{{item.title}} </span> -->
+                                 <span style="margin-left:1%">{{item.title_full}} </span>
+                              </div>
+                           </div>
+                           <!-- </div> -->
+                        </div>
+                        <div class="col-7 cu-view-space"
+                           style="padding-left: 5%;height: 100%;">
+                           <div class="view-template overflow-auto" style="padding-bottom: 0;height: 100%;">
+                              <div class="row w-100" style="height: 100%;">
+                                 <div class="col-md-12">
+                                    <div class="header-view row mt-4">
+                                       <div style="text-align: center">
+                                          <div>
+                                             <ng-container *ngFor="let tag of this.TagDuan; let index = index">
+                                                <div class="status-input col-12 form-control" *ngIf="true"
+                                                   style="width: 100%">
+                                                   <div class="cu-custom-fields__form-dropdown-option-color"
+                                                      [ngStyle]="{ backgroundColor: tag.color }"></div>
+                                                   <div class="input" 
+                                                      style="margin-left:10px;align-items: center;display: flex;height:25px">
+                                                      <span>{{ tag.title }}</span>
+
+                                                      <div style="margin-left: auto;display: flex;">
+                                                         <button class="pd-0 mg-0" style="visibility: hidden; width: 0"
+                                                            #changeColor [matMenuTriggerFor]="color"></button>
+                                                         <div class="text-color" (click)="changeColor.click()">
+                                                            Chọn màu
+                                                         </div>
+                                                         <div (click)="changeTag(tag)">
+                                                            <mat-slide-toggle class="example-margin" 
+                                                            style="pointer-events: none;" [color]="color_primary"
+                                                            [checked]="tag.IsCheck===1||tag.IsCheck===true?true:false">
+                                                         </mat-slide-toggle>
+                                                         </div>
+                                                         <div
+                                                            (click)="Remove(tag)" class="close-tag"
+                                                            style="cursor: pointer;padding-left: 10px;padding-top: 12px;">
+                                                            <i class="fas fa-times" style="color:#848E9E"></i>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <mat-menu #color="matMenu" yPosition="above" xPosition="after"
+                                                      style="overflow: hidden ;">
+                                                      <div class="row" style="padding-left: 15px;
+                                          padding-right: 8px;
+                                          width: 200px;">
+                                                         <div class="color-picker"
+                                                            [ngStyle]="{ backgroundColor: color }"
+                                                            (click)="ChangeTagColor(color, tag)"
+                                                            *ngFor="let color of defaultColors">
+                                                         </div>
+                                                      </div>
+                                                   </mat-menu>
+                                                </div>
+                                             </ng-container>
+                                          </div>
+                                       </div>
+
+                                    </div>
+                                    <div style="width: 50%">
+                                       <div class="header-view-title">
+                                          {{ "jeework.themthemoi" | translate }}
+                                       </div>
+                                       <div style="max-height: 70%;overflow: auto;">
+                                          <ng-container *ngFor="let tag of listTagAdd; let index = index">
+                                             <div class="status-input col-12 form-control" *ngIf="true"
+                                                style="width: 100%">
+                                                <div class="cu-custom-fields__form-dropdown-option-color"
+                                                   [ngStyle]="{ backgroundColor: tag.color }"></div>
+                                                <div class="input"
+                                                   style="margin-left: 10px;align-items: center;display: flex;">
+                                                   <input type="text" #input (focus)="tagFocus(tag.rowid)"
+                                                      (keyup.enter)="tagFocusout($event.target.value, tag)"
+                                                      (focusout)="tagFocusout($event.target.value, tag)"
+                                                      [value]="tag.title" class="" />
+                                                </div>
+
+                                                <!-- <div>
+                                                   <button mat-icon-button class="icon-xoa" (click)="Delete_Tag(tag)"
+                                                      matTooltip="{{ 'GeneralKey.xoa' | translate }}">
+                                                      <mat-icon>delete</mat-icon>
+                                                   </button>
+                                                </div> -->
+                                             </div>
+
+                                          </ng-container>
+
+                                          <div class="status-input col-12 form-control" *ngIf="isAddTag">
+                                             <div class="input">
+                                                <app-focus-block type="text"
+                                                   placeholder="{{ 'jeework.themthe' | translate }}" isbd="true"
+                                                   style="width: 100%" (out)="focusOutTag($event)">
+                                                </app-focus-block>
+                                             </div>
+                                          </div>
+
+
+                                       </div>
+                                       <div class="cu-create-custom-field-form__edit-add ng-star-inserted">
+
+                                          <button class="cu-btn cu-btn_sm cu-btn_outline ng-star-inserted"
+                                             (click)="isAddTag = true" style="float: left;width: 140px;" *ngIf="!isAddStatus">
+                                             + Thêm thẻ mới
+                                          </button>
+
+                                       
+                                       </div>
+                                    </div>
+                                 </div>
+
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                  </ng-template>
+               </mat-tab>
+               <mat-tab label="{{'projects.tag' | translate}} {{DanhMucChungService.ts_phongban}}">
+                  <ng-template matTabContent>
+                     <div class="row full-height">
+                        <div style="overflow: auto;height: 100%;width: 37%;" class=" pn-left">
+                           <div class="option" (click)="changeDepartment(item)" *ngFor="let item of phongban"
+                           [ngStyle]="{'background-color': this.id_dept == item.id_row? 'rgba(10, 133, 255, 0.25)':''}">
+                           <div class="choses">
+                              <span style="margin-left:1%">{{item.title}} </span>
+                           </div>
+                        </div>
+                        </div>
+                        <div class="col-7 cu-view-space"
+                           style="padding-left: 5%;height: 100%;">
+                           <div class="view-template overflow-auto" style="padding-bottom: 0;height: 100%;">
+                              <div class="row w-100" style="height: 100%;">
+                                 <div class="col-md-12">
+                                    <div class="header-view row mt-4">
+                                       <div style="text-align: center">
+                                          <div>
+                                             <ng-container *ngFor="let tag of this.TagDepartment; let index = index">
+                                                <div class="status-input col-12 form-control" *ngIf="true"
+                                                   style="width: 100%">
+                                                   <div class="cu-custom-fields__form-dropdown-option-color"
+                                                      [ngStyle]="{ backgroundColor: tag.color }"></div>
+                                                   <div class="input" 
+                                                      style="margin-left:10px;align-items: center;display: flex;height:25px">
+                                                      <span>{{ tag.title }}</span>
+
+                                                      <div style="margin-left: auto;display: flex;">
+                                                         <button class="pd-0 mg-0" style="visibility: hidden; width: 0"
+                                                            #changeColor [matMenuTriggerFor]="color"></button>
+                                                         <div class="text-color" (click)="changeColor.click()">
+                                                            Chọn màu
+                                                         </div>
+                                                         <div (click)="changeTagDept(tag)">
+                                                            <mat-slide-toggle class="example-margin" 
+                                                            style="pointer-events: none;" [color]="color_primary"
+                                                            [checked]="tag.IsCheck===1||tag.IsCheck===true?true:false">
+                                                         </mat-slide-toggle>
+                                                         </div>
+                                                         <div
+                                                            (click)="RemoveTagDepartmnet(tag)" class="close-tag"
+                                                            style="cursor: pointer;padding-left: 10px;padding-top: 12px;">
+                                                            <i class="fas fa-times" style="color:#848E9E"></i>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <mat-menu #color="matMenu" yPosition="above" xPosition="after"
+                                                      style="overflow: hidden ;">
+                                                      <div class="row" style="padding-left: 15px;
+                                          padding-right: 8px;
+                                          width: 200px;">
+                                                         <div class="color-picker"
+                                                            [ngStyle]="{ backgroundColor: color }"
+                                                            (click)="ChangeTagColor(color, tag)"
+                                                            *ngFor="let color of defaultColors">
+                                                         </div>
+                                                      </div>
+                                                   </mat-menu>
+                                                </div>
+                                             </ng-container>
+                                          </div>
+                                       </div>
+
+                                    </div>
+                                    <div style="width: 50%">
+                                       <div class="header-view-title">
+                                          {{ "jeework.themthemoi" | translate }}
+                                       </div>
+                                       <div style="max-height: 70%;overflow: auto;">
+                                          <ng-container *ngFor="let tag of listTagAdd; let index = index">
+                                             <div class="status-input col-12 form-control" *ngIf="true"
+                                                style="width: 100%">
+                                                <div class="cu-custom-fields__form-dropdown-option-color"
+                                                   [ngStyle]="{ backgroundColor: tag.color }"></div>
+                                                <div class="input"
+                                                   style="margin-left: 10px;align-items: center;display: flex;">
+                                                   <input type="text" #input (focus)="tagFocus(tag.rowid)"
+                                                      (keyup.enter)="tagFocusout($event.target.value, tag)"
+                                                      (focusout)="tagFocusout($event.target.value, tag)"
+                                                      [value]="tag.title" class="" />
+                                                </div>
+
+                                           
+                                             </div>
+
+                                          </ng-container>
+
+                                          <div class="status-input col-12 form-control" *ngIf="isAddTag">
+                                             <div class="input">
+                                                <app-focus-block type="text"
+                                                   placeholder="{{ 'jeework.themthe' | translate }}" isbd="true"
+                                                   style="width: 100%" (out)="focusOutTagDepartment($event)">
+                                                </app-focus-block>
+                                             </div>
+                                          </div>
+
+
+                                       </div>
+                                       <div class="cu-create-custom-field-form__edit-add ng-star-inserted">
+
+                                          <button class="cu-btn cu-btn_sm cu-btn_outline ng-star-inserted"
+                                             (click)="isAddTag = true" style="float: left;width: 140px;" *ngIf="!isAddStatus">
+                                             + Thêm thẻ mới
+                                          </button>
+
+                  
+                                       </div>
+                                    </div>
+                                 </div>
+
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                  </ng-template>
+               </mat-tab>
+
+            </mat-tab-group>
+
+
+
+         </div>
+         <div style="overflow: auto;width: 30%;margin-bottom: 0 !important;border-bottom: 1px solid #d3d3d3de;"
+            class="pn-right">
+            <div class="the-header">
+               <div class="kt-form__filtration">
+                  <div class="kt-portlet__head-title">
+                     <h3 class="kt-portlet__head-text" style="padding-left:5px;margin:0 0 5px 0">
+                        {{ 'jeework.danhsachthechon' | translate }}
+                     </h3>
+                  </div>
+               </div>
+               <div class=" kt-form">
+                  <div class="row">
+                     <div class="title2" style="display: flex;
+                     justify-content: space-between;
+                     padding: 5px 0px 5px 15px;
+                     margin-top: 10px;">
+                        <span>Thẻ chung</span>
+                     </div>
+                     <div style="width: 100%;float:left">
+                        <!-- <div class="" style="margin-left:5px;"> -->
+                        <ng-container>
+                           <div class="color-picker-box">
+                              <ng-container *ngFor="let tag of this.seletecTagchung">
+                                 <div class="tag-color tag-config" [ngStyle]="{'backgroundColor': tag.color_tag}"
+                                    *ngIf="tag.IsCheck"
+                                    style="margin-left:5px; float:left;width:auto;padding-right: 5px;">
+                                    <div class="d-flex">
+                                       <div class="tag" [ngStyle]="tag.color_tag=='rgb(0, 0, 0)'?{'color':'rgb(255,255,255)'}:''">{{tag.title}}</div>
+                                       <div *ngIf="tag.CategoryType==2||tag.CategoryID!=0" (click)="deleteTag(tag)"
+                                          class="close-tag" style="cursor: pointer;padding-left: 20px;">
+                                          <i class="fas fa-times text-white"></i>
+                                       </div>
+                                    </div>
+
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </ng-container>
+
+                        <!-- </div> -->
+                     </div>
+                     <div class="title2" style="display: flex;
+                     justify-content: space-between;
+                     padding: 0px 0px 10px 15px;
+                     margin-top: 10px;">
+                        <span>{{'projects.tag' | translate}} {{DanhMucChungService.ts_duan}}</span>
+                     </div>
+                     <div style="width: 100%;float:left">
+                        <!-- <div class="" style="margin-left:5px;"> -->
+                        <ng-container>
+                           <div class="color-picker-box">
+                              <ng-container *ngFor="let tag of this._SelectTag">
+                                 <div class="tag-color tag-config" [ngStyle]="{'backgroundColor': tag.color}"
+                                    *ngIf="tag.IsCheck"
+                                    style="margin-left:5px; float:left;width:auto;padding-right: 5px;">
+                                    <div class="d-flex">
+                                       <div style="width: 90%;" class="tag" [ngStyle]="tag.color=='rgb(0, 0, 0)'?{'color':'rgb(255,255,255)'}:''">{{tag.title}}</div>
+                                       <div (click)="deleteTag(tag)" class="close-tag"
+                                          style="cursor: pointer;padding-left: 20px;">
+                                          <i class="fas fa-times text-white"></i>
+                                       </div>
+                                    </div>
+
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </ng-container>
+
+                        <!-- </div> -->
+                     </div>
+                     <div class="title2" style="display: flex;
+                     justify-content: space-between;
+                     padding: 0px 0px 10px 15px;
+                     margin-top: 10px;">
+                        <span>{{'projects.tag' | translate}} {{DanhMucChungService.ts_phongban}}</span>
+                     </div>
+                     <div style="width: 100%;float:left">
+                        <!-- <div class="" style="margin-left:5px;"> -->
+                        <ng-container>
+                           <div class="color-picker-box">
+                              <ng-container *ngFor="let tag of this._SelectTagDepartment">
+                                 <div class="tag-color tag-config" [ngStyle]="{'backgroundColor': tag.color}"
+                                    *ngIf="tag.IsCheck"
+                                    style="margin-left:5px; float:left;width:auto;padding-right: 5px;">
+                                    <div class="d-flex">
+                                       <div style="width: 90%;" class="tag" [ngStyle]="tag.color=='rgb(0, 0, 0)'?{'color':'rgb(255,255,255)'}:''">{{tag.title}}</div>
+                                       <div (click)="deleteTag(tag)" class="close-tag"
+                                          style="cursor: pointer;padding-left: 20px;">
+                                          <i class="fas fa-times text-white"></i>
+                                       </div>
+                                    </div>
+
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </ng-container>
+
+                        <!-- </div> -->
+                     </div>
+
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div>

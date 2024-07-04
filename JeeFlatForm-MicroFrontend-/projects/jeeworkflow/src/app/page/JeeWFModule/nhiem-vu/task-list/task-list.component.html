@@ -1,0 +1,220 @@
+<div class="table-kanban" [ngStyle]="{'height': getHeight()}">
+	<div class="row body-example-list">
+		<div class="col-xl-3 example-box-task" *ngFor="let weekItem of ListData,let vi = index">
+			<div class="kt-task">
+				<div class="row header-task" style="padding: 10px; position: sticky;" [ngClass]="getBackground_HeaderTask(weekItem)">
+					<div class="col-md-10 pd-0" style="align-self: center">
+						<span [ngClass]="getColor_HeaderTask(weekItem)" class="text-task css-title-task"
+							matTooltip="{{ weekItem.Tasks }}"
+							(click)="ChiTietNhiemVu(weekItem)">{{weekItem.Tasks}}</span>
+					</div>
+					<div class="side">
+						<div class="users">
+							<div class="user url" *ngFor="let img of weekItem.task_manager1,let vi = index"
+								style="justify-content: flex-end;">
+								<ngx-avatar class="m--img-rounded m--marginless m--img-centered" [size]="40"
+									src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText"
+									[matMenuTriggerFor]="menu">
+								</ngx-avatar>
+								<ng-template #bindText>
+									<ngx-avatar [size]="40" [name]="img.FirstName.slice(0, 1)"
+										bgColor="{{ _ProcessWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+										[matMenuTriggerFor]="menu">
+									</ngx-avatar>
+								</ng-template>
+								<mat-menu #menu="matMenu">
+									<div class="row">
+										<div class="col-md-3">
+											<ngx-avatar class="m--img-rounded m--marginless m--img-centered"
+												src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText">
+											</ngx-avatar>
+											<ng-template #bindText>
+												<ngx-avatar class="m--img-rounded m--marginless m--img-centered"
+													[name]="img.FirstName.slice(0, 1)"
+													bgColor="{{ _ProcessWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+												</ngx-avatar>
+											</ng-template>
+										</div>
+										<div class="col-md-9 font-chu">
+											<div class="col-md-12" style="font-weight: bold;">
+												<span>{{img.FullName}}</span>
+											</div>
+											<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+										</div>
+									</div>
+								</mat-menu>
+							</div>
+							<div class="user url"
+								[ngStyle]="{'display' : weekItem.task_manager2_count > 0 ? '' : 'none'}"
+								style="justify-content: flex-end; background-color: white;">
+								<div class="manager2" alt="" [matMenuTriggerFor]="menu">{{weekItem.task_manager2}}</div>
+								<mat-menu #menu="matMenu">
+									<div class="row" *ngFor="let img of weekItem.task_manager2">
+										<div class="col-md-3">
+											<img class="m--img-rounded m--marginless m--img-centered"
+												style="width: 50px; height: 50px;" src="{{img.AvartarImgURL}}" alt="">
+										</div>
+										<div class="col-md-9 font-chu">
+											<div class="col-md-12" style="font-weight: bold;">
+												<span>{{img.ObjectName}}</span>
+											</div>
+											<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+										</div>
+									</div>
+								</mat-menu>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="height:40px; font-size: 9pt; padding: 5px 10px;">
+					<span class="css-content" [innerHTML]="weekItem.Description"></span>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.giaidoan"></span>
+					</div>
+					<div class="col-md-8 pd-0 giaidoan" [ngClass]="BgGiaiDoan(weekItem.Status)"
+						*ngIf="weekItem.IsFinish == null"
+						style="align-self: center; padding-left: 10px !important; text-align: left; display: flex;">
+						<div class="col-md-10 pd-0" style="align-self: center; display: flex;">
+							<span *ngIf="weekItem.isNew">
+								<div *ngIf="isnew" class="icon-new-stage">N</div>
+							</span>
+							<span class="text-task"
+								[ngClass]="ColorGiaiDoan(weekItem.Status)">[{{weekItem.Position_Currentstage+1}}/{{weekItem.TotalStage}}]&nbsp;{{weekItem.CurrentStage}}</span>
+						</div>
+						<div class="row" style="align-self: center;" *ngIf="weekItem.Implementer.length == 1">
+							<ngx-avatar [size]="30" src="{{weekItem.Implementer[0].AvartarImgURL}}"
+								*ngIf="weekItem.Implementer[0].AvartarImgURL; else bindText">
+							</ngx-avatar>
+							<ng-template #bindText>
+								<ngx-avatar textSizeRatio="2.5" [size]="30"
+									[name]="weekItem.Implementer[0].FirstName.slice(0, 1)"
+									bgColor="{{ _ProcessWorkService.getColorNameUser(weekItem.Implementer[0].FirstName.slice(0, 1)) }}">
+								</ngx-avatar>
+							</ng-template>
+						</div>
+						<div class="row" style="align-self: center;" *ngIf="weekItem.Implementer.length > 1">
+							<ngx-avatar [matMenuTriggerFor]="menu" textSizeRatio="2.5" [size]="30"
+								name="{{weekItem.Implementer2_count}}">
+							</ngx-avatar>
+							<mat-menu #menu="matMenu">
+								<div class="row" *ngFor="let img of weekItem.Implementer2">
+									<div class="col-md-2" style="padding: 5px;">
+										<ngx-avatar [size]="35" src="{{img.AvartarImgURL}}"
+											*ngIf="img.AvartarImgURL; else bindText">
+										</ngx-avatar>
+										<ng-template #bindText>
+											<ngx-avatar textSizeRatio="2.5" [size]="35"
+												[name]="img.FirstName.slice(0, 1)"
+												bgColor="{{ _ProcessWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+											</ngx-avatar>
+										</ng-template>
+									</div>
+									<div class="col-md-10 font-chu">
+										<div class="col-md-12" style="font-weight: bold;">
+											<span>{{img.FullName}}</span>
+										</div>
+										<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+									</div>
+								</div>
+							</mat-menu>
+						</div>
+						<div class="row" style="align-self: center;"
+							*ngIf="weekItem.IsFinish != null && !(weekItem.Implementer.length > 0)">
+							<div class="icon-add" matTooltip="Chọn người giao việc" style="cursor: pointer;">
+								<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8 pd-0 hoanthanh" *ngIf="weekItem.IsFinish != null && weekItem.IsFinish"
+						style="align-self: center;">
+						<span *ngIf="weekItem.isNew">
+							<div *ngIf="isnew" class="icon-new">N</div>
+						</span>&nbsp;
+						<span class="color-span" style="font-size: 11pt; font-weight: bold;"
+							translate="workprocess.hoanthanh"></span>
+					</div>
+					<div class="col-md-8 pd-0 giaidoan" [ngClass]="BgGiaiDoan(weekItem.stage_active_statusid)"
+						*ngIf="weekItem.IsFinish != null && !weekItem.IsFinish"
+						style="align-self: center; padding-left: 10px !important; text-align: left; display: flex;">
+						<div class="col-md-10 pd-0" style="align-self: center; display: flex;">
+							<span *ngIf="weekItem.isNew">
+								<div *ngIf="isnew" class="icon-new-stage">N</div>
+							</span>
+							<span class="text-task"
+								[ngClass]="ColorGiaiDoan(weekItem.stage_active_statusid)">[{{weekItem.Position_Currentstage+1}}/{{weekItem.TotalStage}}]&nbsp;{{weekItem.stage_active}}</span>
+						</div>
+						<div class="row" style="align-self: center;" *ngIf="weekItem.Implementer.length == 1">
+							<ngx-avatar [size]="30" src="{{weekItem.Implementer[0].AvartarImgURL}}"
+								*ngIf="weekItem.Implementer[0].AvartarImgURL; else bindText">
+							</ngx-avatar>
+							<ng-template #bindText>
+								<ngx-avatar textSizeRatio="2.5" [size]="30"
+									[name]="weekItem.Implementer[0].FirstName.slice(0, 1)"
+									bgColor="{{ _ProcessWorkService.getColorNameUser(weekItem.Implementer[0].FirstName.slice(0, 1)) }}">
+								</ngx-avatar>
+							</ng-template>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="weekItem.IsFinish == null">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.batdau"></span>
+					</div>
+					<div class="col-md-8 pd-0 batdau" style="align-self: center;" [ngClass]="BgBatDau(weekItem)">
+						<span class="color-span" style="font-size: 11pt; font-weight: bold;">
+							{{
+							(weekItem.StartDate == '' ||
+							weekItem.StartDate == null) ? '' :
+							this.formatTimeService.format_convertDate(weekItem.StartDate,3,true)
+							}}
+						</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="!(weekItem.IsFinish == null)">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.thoigian"></span>
+					</div>
+					<div class="col-md-8 pd-0 thoigian" style="align-self: center;">
+						<span class="color-span-left">{{weekItem.task_createddate |
+							date:'dd/MM/yyyy'}}</span>&nbsp;<span class="color-span-left">-</span>&nbsp;<span
+							class="color-span-right">{{weekItem.task_completedate |
+							date:'dd/MM/yyyy'}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="weekItem.IsFinish == null">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.hanchot"></span>
+					</div>
+					<div class="col-md-8 pd-0 hanchot" style="align-self: center;" [ngClass]="BgHanChot(weekItem)">
+						<span *ngIf="weekItem.IsQuaHan" class="icon-quahan">!
+						</span>&nbsp;
+						<span [ngClass]="ColorHanChot(weekItem)">{{
+							(weekItem.Status != null &&
+							weekItem.Deadline == null) ? '' :
+							this.formatTimeService.format_convertDate(weekItem.Deadline,3,true)
+							}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;"
+					*ngIf="weekItem.IsFinish != null && weekItem.IsFinish">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.songay"></span>
+					</div>
+					<div class="col-md-8 pd-0 thoigian" style="align-self: center;">
+						<span
+							class="color-span-right">{{count_Date(weekItem.task_createddate,weekItem.task_completedate)}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;"
+					*ngIf="weekItem.IsFinish != null && !weekItem.IsFinish">
+					<div class="col-md-12 pd-0 css-content"
+						style="align-self: center; color: #E2445C; font-size: 11pt; text-align: left; font-style: italic;">
+						{{weekItem.task_reason}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

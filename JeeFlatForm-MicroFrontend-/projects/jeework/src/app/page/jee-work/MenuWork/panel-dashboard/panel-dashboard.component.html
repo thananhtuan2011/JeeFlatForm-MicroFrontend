@@ -1,0 +1,450 @@
+<div class="row title-dash" *ngIf="istaskbar == '1'">
+  <div class="col-md-8" style="display: flex; align-items: center; padding: 0;">
+    <img style="height: 50px; padding-right: 10px;" src="{{image}}" alt="Logo" *ngIf="image != null && image!= ''" />
+    <h3 style="margin: 0;" class="title">{{title_Dash}}</h3>
+  </div>
+  <div class="col-md-4" style="text-align: right; padding-right:10px;">
+    <!-- <button mat-button class="btn-add-nhiemvu" mat-raised-button type="button" (click)="Add2()">
+      <span>+ Tạo nhanh nhiệm vụ</span>
+    </button>&nbsp; -->
+    <button mat-button class="btn-add-nhiemvu" mat-raised-button type="button" (click)="Add2()">
+      <span>+ Tạo {{DanhMucChungService.ts_congviec}}</span>
+    </button>
+  </div>
+</div>
+<div class="gridster-container-jeework" [ngStyle]="{'height': getHeight()}">
+  <gridster [options]="options">
+    <gridster-item [item]="widget" *ngFor="let widget of dashboard" id="gridster-height{{ widget.id }}">
+      <div class="widget-header">
+        <div class="drag-handler widget-header-child widget-header-title">
+          {{ widget.name }}
+        </div>
+        &nbsp;&nbsp;
+        <ng-container
+          *ngIf="widget.id == 9 || widget.id == 16 || widget.id == 17 || widget.id == 18 || widget.id == 25">
+          <div class="widget-header-child" *ngIf="widget.id == 25">
+            <div class="btn btn-light" style="color: #62a4ff" (click)="ThemCongViec(25)">
+              +&nbsp;&nbsp;Thêm
+              mới
+            </div>
+          </div>
+          &nbsp;
+          <div class="widget-header-child" *ngIf="widget.id == 25">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSduan25.name ? filterDSduan25.name : 'Chọn ' + DanhMucChungService.ts_duan }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSduan25 && filterDSduan25.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter25(widget,0)">
+                    <span>Tất cả</span>
+                  </button>
+                  <button mat-menu-item (click)="clickFilter(widget, item)" *ngFor="let item of filterDSduan25.list">
+                    <span ngClass="{{item.style}}">{{ item.title_full }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro25.name ? filterDSvaitro25.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro25 && filterDSvaitro25.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro25.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="priority">
+              <i class="{{itemfilter_chart25.icon}} pd-r-10"></i>
+              <span>{{ itemfilter_chart25.name ? itemfilter_chart25.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #priority="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart25=item;LoadPriority25(widget,item);"
+                    *ngFor="let item of list_priority_25">
+                    <i class="{{item.icon}} pd-r-10"></i>
+                    {{ item.name}}
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 9">
+            <div class="btn btn-light" style="color: #62a4ff; float: left;margin-right: 5px;"
+              [matMenuTriggerFor]="dieukienloc9">
+              <span>{{ filterDieuKienLoc_TrangThaiCV.name ? filterDieuKienLoc_TrangThaiCV.name : 'Chọn điều kiện'
+                }}</span>
+            </div>
+            <mat-menu #dieukienloc9="matMenu" xPosition="before">
+              <div style="max-height: 150px !important;overflow: auto;">
+                <button *ngFor="let item of filterDieuKienLoc_TrangThaiCV.list" mat-menu-item
+                  (click)="clickFilterDieuKien_TrangThaiCV(widget, item)"
+                  style="margin-right: 0 !important;max-width: 250px !important;border: none;background-color: transparent;">
+                  <span>{{ item.Title }}</span>
+                </button>
+              </div>
+
+              <div style="float: left;width: 100%;margin-bottom: 7px;">
+                <button class="btn btn-light" style="color: #62a4ff;width: 100%;" (click)="Update_SetTime(widget)">
+                  <span>Thiết lập</span>
+                </button>
+              </div>
+            </mat-menu>
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ itemfilter_chart.title ? itemfilter_chart.title : 'Hình cột' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filter_chart">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart=item;LoadChart(item);"
+                    *ngFor="let item of filter_chart">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 17">
+            <div class="btn btn-light" style="color: #62a4ff; float: left;margin-right: 5px;"
+              [matMenuTriggerFor]="dieukienloc17">
+              <span>{{ filterDieuKienLoc_BDTG.name ? filterDieuKienLoc_BDTG.name : 'Chọn điều kiện'
+                }}</span>
+            </div>
+            <mat-menu #dieukienloc17="matMenu" xPosition="before">
+              <div style="max-height: 150px !important;overflow: auto;">
+                <button *ngFor="let item of filterDieuKienLoc_BDTG.list" mat-menu-item
+                  (click)="clickFilterDieuKien_BDTG(widget, item)"
+                  style="margin-right: 0 !important;max-width: 250px !important;border: none;background-color: transparent;">
+                  <span>{{ item.Title }}</span>
+                </button>
+              </div>
+
+              <div style="float: left;width: 100%;margin-bottom: 7px;">
+                <button class="btn btn-light" style="color: #62a4ff;width: 100%;" (click)="Update_SetTime(widget)">
+                  <span>Thiết lập</span>
+                </button>
+              </div>
+            </mat-menu>
+
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ itemfilter_chart17.title ? itemfilter_chart17.title : 'Hình cột' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filter_chart17">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart17=item;LoadChart17(item);"
+                    *ngFor="let item of filter_chart17">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 18">
+            <div class="btn btn-light" style="color: #62a4ff; float: left;margin-right: 5px;"
+              [matMenuTriggerFor]="dieukienloc18">
+              <span>{{ filterDieuKienLoc_Widget18.name ? filterDieuKienLoc_Widget18.name : 'Chọn điều kiện'
+                }}</span>
+            </div>
+            <mat-menu #dieukienloc18="matMenu" xPosition="before">
+              <div style="max-height: 150px !important;overflow: auto;">
+                <button *ngFor="let item of filterDieuKienLoc_Widget18.list" mat-menu-item
+                  (click)="clickFilterDieuKien_Widget18(widget, item)"
+                  style="margin-right: 0 !important;max-width: 250px !important;border: none;background-color: transparent;">
+                  <span>{{ item.Title }}</span>
+                </button>
+              </div>
+
+              <div style="float: left;width: 100%;margin-bottom: 7px;">
+                <button class="btn btn-light" style="color: #62a4ff;width: 100%;" (click)="Update_SetTime(widget)">
+                  <span>Thiết lập</span>
+                </button>
+              </div>
+            </mat-menu>
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ itemfilter_chart18.title ? itemfilter_chart18.title : 'Hình cột' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filter_chart18">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart18=item;LoadChart18(item);"
+                    *ngFor="let item of filter_chart18">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          &nbsp;&nbsp;
+          <div class="widget-header-child" *ngIf="widget.id == 9">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSTrangThaiduan.name ? filterDSTrangThaiduan.name : 'Chọn ' + DanhMucChungService.ts_duan
+                }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSTrangThaiduan && filterDSTrangThaiduan.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)"
+                    *ngFor="let item of filterDSTrangThaiduan.list">
+                    <span ngClass="{{item.style}}">{{ item.title_full }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro9.name ? filterDSvaitro9.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro9 && filterDSvaitro9.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro9.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 17">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSTrangThaiduan17.name ? filterDSTrangThaiduan17.name : 'Chọn ' +
+                DanhMucChungService.ts_duan }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSTrangThaiduan17 && filterDSTrangThaiduan17.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)"
+                    *ngFor="let item of filterDSTrangThaiduan17.list">
+                    <span ngClass="{{item.style}}">{{ item.title_full }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro17.name ? filterDSvaitro17.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro17 && filterDSvaitro17.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro17.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 18">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSTrangThaiduan18.name ? filterDSTrangThaiduan18.name : 'Chọn ' +
+                DanhMucChungService.ts_phongban }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSTrangThaiduan18 && filterDSTrangThaiduan18.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)"
+                    *ngFor="let item of filterDSTrangThaiduan18.list">
+                    <span ngClass="{{item.style}}">{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro18.name ? filterDSvaitro18.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro18 && filterDSvaitro18.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro18.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          &nbsp;
+          <div class="widget-header-child" *ngIf="widget.id == 16">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSphongban.name ? filterDSphongban.name : 'Chọn ' + DanhMucChungService.ts_phongban
+                }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSphongban && filterDSphongban.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)" *ngFor="let item of filterDSphongban.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro.name ? filterDSvaitro.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro && filterDSvaitro.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="widget.id == 20 || widget.id == 21 || widget.id == 24|| widget.id == 33||widget.id == 36">
+          <div class="widget-header-child" *ngIf="widget.id == 20">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <i class="{{itemfilter_chart20.icon}} pd-r-10"></i>
+              <span>{{ itemfilter_chart20.name ? itemfilter_chart20.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart20=item;LoadPriority20(widget,item);"
+                    *ngFor="let item of list_priority_20">
+                    <i class="{{item.icon}} pd-r-10"></i>
+                    {{ item.name}}
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 21">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <i class="{{itemfilter_chart21.icon}} pd-r-10"></i>
+              <span>{{ itemfilter_chart21.name ? itemfilter_chart21.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart21=item;LoadPriority21(widget,item);"
+                    *ngFor="let item of list_priority_21">
+                    <i class="{{item.icon}} pd-r-10"></i>
+                    {{ item.name}}
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div ngbDropdown class="d-inline-block" *ngIf="widget.id == 24" style="border-radius: 4px;">
+            <div class="btn btn-light" mat-button ngbDropdownToggle>
+              <span class="dropdown-text"><span class="ellipse-widget">{{labelWidget24}}</span></span>
+            </div>
+            <div ngbDropdownMenu>
+              <div class="row" style="display: grid; margin: 5px !important; line-height: 0.5;">
+                <mat-checkbox [checked]="getCheck24(0)" (change)="changeStatus24($event, '0', 'Tất cả')">
+                  <span>Tất cả</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(1)" (change)="changeStatus24($event, '1', 'Hoàn thành đúng hạn')">
+                  <span>Hoàn thành đúng hạn</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(2)" (change)="changeStatus24($event, '2', 'Hoàn thành quá hạn')">
+                  <span>Hoàn thành quá hạn</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(3)" (change)="changeStatus24($event, '3', 'Đang làm trong hạn')">
+                  <span>Đang làm trong hạn</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(4)" (change)="changeStatus24($event, '4', 'Sắp tới hạn')">
+                  <span>Sắp tới hạn</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(5)" (change)="changeStatus24($event, '5', 'Tới hạn')">
+                  <span>Tới hạn</span>
+                </mat-checkbox><br>
+                <mat-checkbox [checked]="getCheck24(6)" (change)="changeStatus24($event, '6', 'Quá hạn')">
+                  <span>Quá hạn</span>
+                </mat-checkbox><br>
+              </div>
+              <button (click)="changeStatusAll24(widget)" class="dropdown-item">
+                <span>Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 24" style="padding-left: 10px;">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="priority">
+              <i class="{{itemfilter_chart24.icon}} pd-r-10"></i>
+              <span>{{ itemfilter_chart24.name ? itemfilter_chart24.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #priority="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart24=item;LoadPriority24(widget,item);"
+                    *ngFor="let item of list_priority_24">
+                    <i class="{{item.icon}} pd-r-10"></i>
+                    {{ item.name}}
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 33">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ itemfilter_VaiTro33.name ? itemfilter_VaiTro33.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_VaiTro33=item;LoadVaiTro33(widget,item);"
+                    *ngFor="let item of list_VaiTro_33">
+                    {{ item.name}}
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 36">
+            <div class="btn btn-light" style="color: #62a4ff" >
+              <span> {{ filterDSTrangThaiduan36.name ? filterDSTrangThaiduan36.name : 'Chọn ' +
+                DanhMucChungService.ts_duan }} </span>
+            </div>
+            <!-- [matMenuTriggerFor]="team"
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSTrangThaiduan36 && filterDSTrangThaiduan36.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)"
+                    *ngFor="let item of filterDSTrangThaiduan36.list">
+                    <span ngClass="{{item.style}}">{{ item.title_full }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu> -->
+          </div>
+
+        </ng-container>
+
+        <div class="widget-header-child widget-header-right">
+          <button (click)="closeWidget(widget.id)" class="btn mat-icon-button" style="padding: 0; background: none;">
+            <span class="material-icons"
+              style="font-size: 2.4rem !important; font-weight: 500; padding-bottom: 5.5px; color: #707070">
+              close
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="gridster-item-content">
+        <ndc-dynamic [ndcDynamicComponent]="widget.componentType" [ndcDynamicInputs]="getInput(widget)"
+          [ndcDynamicOutputs]="outputs"></ndc-dynamic>
+      </div>
+    </gridster-item>
+    <div id="button-edit-widget">
+      <div class="example-flex-container">
+        <button (click)="AddCloseWidget()" class="mat-mini-fab bg-button-add" matTooltip="Thêm widget">
+          <i class="fa fas fa-plus icon-add-plus" style="color: #FFFFFF;"></i>
+        </button>
+      </div>
+    </div>
+  </gridster>
+</div>

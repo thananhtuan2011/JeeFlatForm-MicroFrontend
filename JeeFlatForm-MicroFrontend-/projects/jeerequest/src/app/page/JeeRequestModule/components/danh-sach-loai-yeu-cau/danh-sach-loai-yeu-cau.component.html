@@ -1,0 +1,42 @@
+<style>
+     :host>>>.card-body {
+        padding: 0px !important;
+    }
+    
+    .form-control:focus {
+        border: 1px solid #E4E6EF !important;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header" style="border-bottom: none;">
+        <div class="card-title">
+            <h3 class="dialog-title">{{'Yeucau.chonloaiyeucautk' | translate}}</h3>
+        </div>
+        <div class="card-toolbar">
+            <button (click)="close()" mat-button mat-icon-button>
+            <i  class="flaticon2-cancel-music"></i>
+          </button>
+        </div>
+    </div>
+    <div class="input-group md-form form-sm form-2 pl-0">
+        <!-- <input class="form-control my-0 py-1 red-border" type="text" [(ngModel)]="keyword" (keyup)="loadDataList()" placeholder="Tìm nhanh" aria-label="Search"> -->
+        <input style="border-radius: 0px !important;background: transparent;" class="form-control my-0 py-1 search-border-yc" type="text" [(ngModel)]="keyword" (keyup)="loadDataList()" placeholder="{{'Yeucau.timkiem' | translate}}" aria-label="Search">
+
+        <div class="input-group-append">
+            <span class="input-group-text red lighten-3 search-border-yc" style="border-radius: 0px !important;background: transparent;" id="basic-text1"><i class="fas fa-search text-grey"
+          aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <div class="card-body" [perfectScrollbar]="{wheelPropagation: false}" [ngStyle]="{'max-height': '70vh', 'position': 'relative'}">
+
+        <div style="padding: 0px !important; border-radius: 0px !important;">
+            <div class="hoverItem" (click)='taoYeuCau(it)' *ngFor="let it of item || []">
+                <div style="padding: 15px 0 15px 20px">
+                    <div class=" font-size-lg cursor-pointer" [ngStyle]="{'color':it.Color}">{{it.TenLoaiYeuCau}}</div>
+                    <div style="color: #B6B9BF;">{{it.MoTa}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

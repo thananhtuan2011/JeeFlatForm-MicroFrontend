@@ -1,0 +1,191 @@
+.fancyTable thead tr th {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: #E8AB52 !important;
+}
+
+.fancyTable thead tr td {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: black !important;
+}
+
+.fancyTable td,
+.fancyTable th {
+  border: 1px solid #cdcdcd !important;
+  padding: 3px !important;
+}
+
+
+.fullname {
+  color: black !important;
+  font-weight: 300;
+
+}
+
+:host>>>.m-portlet.m-portlet--rounded-force {
+  overflow: visible;
+}
+
+.css-stickyheader-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col2 {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.css-sticky-col-htdh {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  color: #50CD89 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-htqh {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: #A0522D !important;
+  z-index: 2;
+}
+
+.css-sticky-col-ch {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: #3E97FF !important;
+  z-index: 2;
+}
+
+.css-sticky-col-sth {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: #8A50FC !important;
+  z-index: 2;
+}
+
+.css-sticky-col-th {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: #FFA800 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-qh {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: #F64D60 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-red {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: red !important;
+  z-index: 2;
+}
+
+.css-sticky-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-col2 {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  color: black !important;
+  z-index: 2;
+}
+
+.css-sticky-row1 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-row2 {
+  position: sticky;
+  left: 0;
+  top: 26px;
+  z-index: 2;
+}
+
+.css-sticky-row2-cus {
+  position: sticky;
+  left: 0;
+  top: 56px;
+  z-index: 2;
+}
+
+.css-sticky-row3 {
+  position: sticky;
+  left: 0;
+  top: 82px;
+  z-index: 2;
+}
+
+
+
+.fancyTable thead tr th {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: #E8AB52 !important;
+}
+
+.fancyTable thead tr td {
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+}
+
+.fancyTable td,
+.fancyTable th {
+  border: 1px solid #cdcdcd !important;
+  padding: 3px !important;
+}
+
+.css-sticky-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.css-btn-excel {
+  margin-left: 1300px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

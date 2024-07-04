@@ -1,0 +1,735 @@
+m-add-widget-dashborad {
+  .fancyTable thead tr th {
+    padding: 5px;
+    border-top: 0.5px solid #323248 !important;
+    border-bottom: 0.5px solid #323248 !important;
+    font-size: 14px !important;
+    color: white !important;
+    height: 56px;
+    background-color: #151521;
+  }
+
+  .fancyTable tbody tr td {
+    padding: 10px;
+    color: #ffffffcc !important;
+    font-size: 14px !important;
+    min-height: 48px;
+    border-bottom: 0.5px solid #323248 !important;
+  }
+
+  .card {
+    background-color: #1e1e2d;
+    border: none;
+
+    >.card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 60px;
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #1e1e2d;
+      border-bottom: 1px solid #323248;
+
+      >.card-title {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem;
+        margin-left: 0;
+      }
+
+      >.card-toolbar {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+    }
+
+    // >.card-body {}
+
+    >.dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+m-page-girdters-dashboard,
+m-template-dashboard-details {
+  .title-dash {
+    height: 60px;
+    padding-left: 15px;
+    align-items: center;
+    margin: 0 15px 0 10px;
+    border-radius: 7px;
+
+    .title {
+      color: #cdcdde;
+      font-weight: bold;
+    }
+  }
+
+  .btn-add-nhiemvu {
+    // background: #EB5F21;
+    background-color: var(--btn-add-plus);
+    color: #FFFFFF;
+  }
+
+  .widget-pd-0 {
+    padding: 0 !important;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .text-1-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .text-2-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .user {
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin-right: 5px;
+    background: rgba(0, 0, 0, .1);
+    border: 2px solid #f3f3f3;
+  }
+
+  .box-absolute-auto {
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+  }
+
+  .box-trang-thai {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    margin: auto;
+    cursor: pointer;
+  }
+
+  gridster-item {
+    border-radius: 7px;
+    padding: 24px;
+    padding-top: 0px;
+    background: #1e1e2d;
+
+    .header-grid .mat-table {
+      height: 50px !important;
+
+      .mat-header-cell {
+        background-color: #f3f6f9 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: #525e64 !important;
+        }
+      }
+    }
+
+    .header-grid thead tr {
+      height: 50px !important;
+      vertical-align: middle;
+
+      th {
+        background-color: #151521 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: #cdcdde !important;
+        }
+      }
+    }
+
+    .header-grid tbody tr {
+      td {
+        min-height: 48px;
+        border-bottom: 0.5px solid #323248 !important;
+      }
+    }
+  }
+
+  .name-title {
+    color: #cdcdde;
+  }
+
+  .job-title {
+    color: #828282;
+  }
+
+  .hover-row:hover {
+    background-color: #151521;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    background-color: #1e1e2d;
+
+    .dropdown-item {
+      color: #f5f6f7;
+
+      &:hover,
+      &:focus {
+        background: #00dcff26;
+        color: #3698f9;
+      }
+    }
+  }
+
+  .btn-light {
+    background-color: #1e1e2d;
+    border: 1px;
+  }
+
+  app-task-datetime-pc {
+    position: relative;
+    text-align: center;
+  }
+}
+
+widget-tong-hop-cong-viec {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .bg-quahan {
+    background-color: rgb(58, 36, 52) !important;
+  }
+
+  .bg-toihan {
+    background-color: rgb(57, 47, 40) !important;
+  }
+
+  .bg-saptoihan {
+    background-color: rgb(47, 38, 79) !important;
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .color-quahan {
+    color: rgb(241, 65, 108) !important;
+  }
+
+  .color-toihan {
+    color: rgb(255, 199, 0) !important;
+  }
+
+  .color-saptoihan {
+    color: rgb(114, 57, 234) !important;
+  }
+
+  .color-tronghan {
+    color: rgb(80, 205, 137) !important;
+  }
+}
+
+widget-khoi-luong-cong-viec {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .bg-quahan {
+    background-color: rgb(58, 36, 52) !important;
+  }
+
+  .bg-toihan {
+    background-color: rgb(57, 47, 40) !important;
+  }
+
+  .bg-saptoihan {
+    background-color: rgb(47, 38, 79) !important;
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .color-quahan {
+    color: rgb(241, 65, 108) !important;
+  }
+
+  .color-toihan {
+    color: rgb(255, 199, 0) !important;
+  }
+
+  .color-saptoihan {
+    color: rgb(114, 57, 234) !important;
+  }
+
+  .color-tronghan {
+    color: rgb(80, 205, 137) !important;
+  }
+}
+
+list-works-draft {
+  .table tbody tr {
+    vertical-align: middle;
+    color: #ffffff;
+  }
+}
+
+app-edit-popup-widget-time,
+app-motanoidung-set-time,
+app-edit-popup-widget-time-v1,
+app-motanoidung-set-time-v1 {
+  .fancyTable {
+    width: 100%;
+  }
+
+  .fancyTable thead th {
+    padding: 5px;
+    border-top: 0.5px solid #323248 !important;
+    border-bottom: 0.5px solid #323248 !important;
+    font-size: 14px !important;
+    color: #cdcdde !important;
+    height: 56px;
+    background-color: #151521;
+  }
+
+  .fancyTable tbody td {
+    padding: 10px;
+    color: #ffffffcc !important;
+    font-size: 14px !important;
+    min-height: 48px;
+    border-bottom: 0.5px solid #323248 !important;
+  }
+
+  .card {
+    background-color: #1e1e2d;
+    border: none;
+
+    >.card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 60px;
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #1e1e2d;
+      border-bottom: 1px solid #323248;
+
+      >.card-title {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem;
+        margin-left: 0;
+      }
+
+      >.card-toolbar {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+app-set-up-widget-time,
+app-set-up-widget-time-v1 {
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-icon {
+    font-size: inherit;
+  }
+
+  .card {
+    background-color: #1e1e2d;
+    border: none;
+
+    >.card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 60px;
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #1e1e2d;
+      border-bottom: 1px solid #323248;
+
+      >.card-title {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem;
+        margin-left: 0;
+      }
+
+      >.card-toolbar {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+app-panel-dashboard {
+  .title-dash {
+    height: 60px;
+    background: #1e1e2d;
+    color: #cdcdde;
+    padding-left: 15px;
+    align-items: center;
+    margin: 0 15px 0 10px;
+    border-radius: 7px;
+  }
+
+  gridster-item {
+    border-radius: 7px;
+    padding: 24px;
+    padding-top: 0px;
+    background: #1e1e2d;
+
+    .header-grid .mat-table {
+      height: 50px !important;
+
+      .mat-header-cell {
+        background-color: #f3f6f9 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: #525e64 !important;
+        }
+      }
+    }
+
+    .header-grid thead tr {
+      height: 50px !important;
+
+      th {
+        background-color: #151521 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: #cdcdde !important;
+        }
+      }
+    }
+
+    app-task-datetime-pc {
+      position: relative;
+      text-align: center;
+    }
+  }
+
+  .name-title {
+    color: #cdcdde;
+  }
+
+  .job-title {
+    color: #828282;
+  }
+
+  .hover-row:hover {
+    background-color: #151521;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    background-color: #1e1e2d;
+
+    .dropdown-item {
+      color: #f5f6f7;
+
+      &:hover,
+      &:focus {
+        background: #00dcff26;
+        color: #3698f9;
+      }
+    }
+  }
+
+  .btn-light {
+    background-color: #1e1e2d;
+    border: 1px;
+  }
+}
+
+app-danh-sach-nhiem-vu-don-vi-duoc-giao-widget,
+my-works-widget-20,
+my-works-widget-21,
+my-works-widget-24,
+works-by-project-25 {
+  .tableWidget {
+    width: 100%;
+
+    .box-absolute-auto {
+      height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 1px;
+      display: flex;
+      align-items: center;
+      width: 100px;
+      margin: auto;
+      cursor: pointer;
+    }
+
+    .point {
+      width: 10px;
+      padding: 0;
+      height: 10px;
+      margin-right: 10px;
+    }
+
+    .box-color {
+      width: 10px;
+      height: 10px;
+      margin-right: 25px;
+      padding: 0;
+    }
+  }
+
+  .tableWidget thead tr th {
+    padding: 5px;
+    border-top: 0.5px solid #323248 !important;
+    border-bottom: 0.5px solid #323248 !important;
+    font-size: 14px !important;
+    color: #cdcdde !important;
+    height: 56px;
+    background-color: #151521;
+
+    span {
+      font-size: 12pt;
+    }
+  }
+
+  .tableWidget tbody tr td {
+    padding: 5px;
+    color: #cdcdde !important;
+    font-size: 14px !important;
+    min-height: 48px;
+    border-bottom: 0.5px solid #323248 !important;
+  }
+
+  .themmoiForm {
+    background-color: #FFFFFF !important;
+  }
+
+  .form-input-title {
+    flex-grow: 1;
+    border: none;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+    // border: 1px solid #E4E6EF;
+    height: 40px;
+    margin-top: 10px;
+  }
+
+}
+
+nhac-nho-nhiem-vu-da-giao-widget {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .bg-quahan {
+    background: #f64d60 !important;
+  }
+
+  .fnt-cl-white {
+    color: #ffffff;
+  }
+
+  .bg-toihan {
+    background: #ffa800;
+  }
+
+  .bg-saptoihan {
+    background: #8a50fc !important;
+  }
+
+  .bg-chuatoihan {
+    background: #3E97FF !important;
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .color-quahan {
+    color: rgb(241, 65, 108) !important;
+  }
+
+  .color-toihan {
+    color: rgb(255, 199, 0) !important;
+  }
+
+  .color-saptoihan {
+    color: rgb(114, 57, 234) !important;
+  }
+
+  .color-tronghan {
+    color: rgb(80, 205, 137) !important;
+  }
+}
+
+nhac-nho-nhiem-vu-duoc-giao-widget {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .fnt-cl-white {
+    color: #ffffff;
+  }
+
+  .bg-quahan {
+    background: rgba(246, 77, 96, 0.15);
+  }
+
+  .bg-toihan {
+    background: rgba(255, 168, 0, 0.15);
+  }
+
+  .bg-saptoihan {
+    background: rgba(138, 80, 252, 0.15);
+  }
+
+  .bg-chuatoihan {
+    background: rgba(62, 151, 255, 0.15);
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .fnt-cl-dtGqh {
+    color: #f64d60;
+  }
+
+  .fnt-cl-dtGth {
+    color: #ffa800;
+  }
+
+  .fnt-cl-dtGsth {
+    color: #8a50fc;
+  }
+
+  .fnt-cl-dtGcth {
+    color: #3E97FF;
+  }
+
+  .color-quahan {
+    color: #f64d60 !important;
+  }
+
+  .color-toihan {
+    color: #ffa800 !important;
+  }
+
+  .color-saptoihan {
+    color: #8a50fc !important;
+  }
+
+  .color-tronghan {
+    color: #3E97FF !important;
+  }
+}
+
+ref-app-widget-nhiem-vu-v2 {
+  th.mat-header-cell {
+    border-bottom-style: none;
+    background-color: #1b1b29;
+    color: #a1a5b7;
+  }
+
+  .span-dondoc {
+    cursor: pointer;
+    white-space: normal;
+    text-align: justify;
+    color: red;
+    text-decoration: underline;
+  }
+  
+  .span-egov {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 13px;
+    padding-left: 5px;
+    color: #ffffffde;
+    font-style: italic;
+  }
+}

@@ -1,0 +1,69 @@
+//=======================CSS THEME DARK OR LIGHT=========
+@import "~@angular/material/theming";
+@include mat-core();
+$mat-primary-scheme: (
+    100: #c5cae9,
+    500: #61699a,
+    700: #303f9f,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: #ffffff, 700: #ffffff, ),
+);
+$mat-accent-scheme: (
+    100: #ff80ab,
+    500: #ff4081,
+    700: #f50057,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: rgba(0, 0, 0, 0.87), 700: #ffffff, ),
+);
+$mat-primary-palette: mat-palette($mat-primary-scheme);
+$mat-accent-palette: mat-palette($mat-accent-scheme);
+$app-light-theme: mat-light-theme($mat-primary-palette, $mat-accent-palette);
+
+.light-mode {
+    @include angular-material-theme($app-light-theme);
+
+
+    /*#endregion */
+
+    @import "./team/light.scss";
+    @import "./comment/jee-comment-light.scss";
+
+}
+
+
+//===========Css popup cảnh báo và thông báo light=================== 
+
+
+$app-dark-theme: mat-dark-theme($mat-primary-palette, $mat-accent-palette);
+
+.dark-mode {
+    @include angular-material-theme($app-dark-theme);
+    background-color: #151521;
+    color: whitesmoke;
+
+    .cmtname {
+        color: black;
+    }
+
+    .cmtjob {
+        color: black;
+    }
+
+
+
+    /*#endregion */
+    @import "./team/dark.scss";
+    @import "./comment/jee-comment-dark.scss";
+
+
+    //===========Css popup cảnh báo và thông báo dark=================== 
+
+}
+
+//============================Start Show waiting==================
+
+/*#region Dùng để show hide waiting div*/
+// .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {//Thiên đóng
+//     color: rgb(243, 160, 7);
+//     border: 0.5;
+//     background-color: #e2e2e2; //808080 quá đậm
+//     border-color: #D1D1D1;
+// }

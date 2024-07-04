@@ -1,0 +1,32 @@
+.text-title1 {
+    padding-top: 15%;
+    font-size: 11pt;
+    font-weight: 400;
+    display: flex;
+}
+
+.text-title2 {
+    font-size: 11pt;
+    font-weight: 400;
+    padding-top: 2%;
+}
+
+.reason {
+    margin-left: 2%;
+    width: 85%;
+    font-size: 12pt;
+    resize: none
+}
+.hd1{
+    display: flex;
+    padding: 2% 2% 2% 0;
+    height:auto
+}
+.form-input-title {
+    flex-grow: 1;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+    border: 1px solid #b1b2b8;
+    background: none;
+  }

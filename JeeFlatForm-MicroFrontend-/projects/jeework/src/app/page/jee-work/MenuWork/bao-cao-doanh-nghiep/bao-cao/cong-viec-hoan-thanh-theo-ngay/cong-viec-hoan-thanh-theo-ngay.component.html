@@ -1,0 +1,28 @@
+<div class="card " [ngStyle]="{ 'height': getHeight() }">
+    <div class="card-header bg-white position-relative bg-dark1">
+        <b translate="filter.quatrinhhoanthanhtheongay"></b>
+        <div class="row position-absolute"
+            style="top: 0;right: 0;bottom: 0;padding: 10px 0;width: 50%;">
+            <div class="row col-4" *ngFor="let item of ListLabel;let i = index"
+                style="flex-wrap: nowrap;">
+                <span class="circle" [ngStyle]="{'background': listColor2[i]}" style="padding: 0; position: relative;">
+                </span>
+                <span class="hide-text" matTooltip={{item}} style="padding-left:10px">
+                    {{item}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body position-relative" style="height: 400px;">
+        <div
+            style="position: absolute; top: 50%; left: -70px; transform: rotate(-90deg); font-size: 24px;">
+            <span>{{'filter.soluong'|translate}} {{this._CVHTTrongNgayService.ts_congviec}}</span>
+        </div>
+        <div *ngIf="chart2Ready" style="display: block;margin-left: 30px;">
+            <canvas baseChart [chartType]="chartType2" [datasets]="chartData2" [labels]="chartLabel2"
+                [options]="chartOptions2" [legend]="chartLegend2">
+            </canvas>
+
+        </div>
+    </div>
+</div>

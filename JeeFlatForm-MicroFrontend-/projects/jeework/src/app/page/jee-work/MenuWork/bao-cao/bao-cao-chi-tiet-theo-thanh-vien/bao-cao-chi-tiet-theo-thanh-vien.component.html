@@ -1,0 +1,108 @@
+<div [ngStyle]="{'height': getHeight()}">
+  <!-- <a href="" id="downloadFile" style="display: none;"></a>
+  <a href="javascript:void(0)" class="btn-export excel" mat-raised-button color="primary" matTooltip="Xuất Excel" 
+  style="background-color:#0071B7 !important;display: flex;float: right;margin: 5px 0 5px 0;"
+    (click)="Export()">
+    <img class="icon-btn-export"> Xuất Excel
+  </a>&nbsp;&nbsp;
+  <a href="" id="downloadFile" style="display: none;"></a> -->
+
+  <table style="width:100% !important" class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0"
+    cellspacing="0">
+    <thead>
+      <tr>
+        <th class="css-stickyheader-col0" style="min-width: 200px; text-align: center;height: 80px;color: white !important;">
+          Thành viên
+        </th>
+        <th class="css-stickyheader-col0" style="text-align: center;color: white !important;">
+          Tổng số công việc
+        </th>
+        <th class="css-stickyheader-col0" style="text-align: center;color: white !important;">
+          Tổng số giờ
+        </th>
+        <th class="css-stickyheader-col0" style="text-align: center;color: white !important;">
+          Tổng số giờ hoàn thành
+        </th>
+        <th class="css-stickyheader-col1" style="text-align: center;color: white !important;">
+          Hoàn thành
+        </th>
+        <th class="css-stickyheader-col2" style="text-align: center;color: white !important;">
+          Hoàn thành muộn
+        </th>
+        <th class="css-stickyheader-col1" style="text-align: center;color: white !important;">
+          Quá hạn
+        </th>
+        <th class="css-stickyheader-col0" style="text-align: center;color: white !important;">
+          Đang thực hiện
+        </th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Staff">
+        <td class="css-sticky-col0" style=" height: 25px;">
+          <div style="width:15%;float: left;text-align: center;">
+            <div class="url">
+              <kt-avatar-user [image]="item.image" [size]="35" [name]="item.hoten">
+              </kt-avatar-user>
+            </div>
+          </div>
+
+
+          <div style="width:85%;float: left;">
+            <div class="fullname">
+              <span class="url -hover">{{item.hoten}}</span>
+            </div>
+            <div class="info">
+              <span style="color: black;">{{item.tenchucdanh}}</span>
+            </div>
+          </div>
+        </td>
+
+
+        <td class="css-sticky-col1" style="text-align: center; height: 25px;">
+          <div style="width:90%;float:left">
+            <kt-crossbar-chart [data]="item.datasets" [color]="colorCrossbar">
+            </kt-crossbar-chart>
+          </div>
+
+          <div style="color: rgb(247, 26, 26); font-weight: bold;width:10%;float:left">
+            {{item.num_work}} </div>
+
+        </td>
+
+
+        <td class="css-sticky-col2" style="text-align: center; height: 25px;">
+          <div class="it item-text" style="color: rgb(230, 141, 8); font-weight: bold;">
+            {{item.sum_estimates}}</div>
+
+        </td>
+
+
+        <td class="css-sticky-col0" style="text-align: center; height: 25px;">
+          <div class="it item-text" style="color: rgb(10, 151, 29); font-weight: bold;">
+            {{item.sum_estimates_done}}</div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 25px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+            {{item.hoanthanh}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 25px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+            {{item.ht_quahan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 25px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[2]}">
+            {{item.quahan}} </div>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 25px;">
+          <div class="it item-text" [ngStyle]="{'color': colorCrossbar[3]}">
+            {{item.danglam}} </div>
+        </td>
+
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>

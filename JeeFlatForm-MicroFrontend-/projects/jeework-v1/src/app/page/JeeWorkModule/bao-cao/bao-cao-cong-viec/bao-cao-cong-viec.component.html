@@ -1,0 +1,110 @@
+<div>
+
+  <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          STT
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Số, ký hiệu văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Ngày văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col1" style="min-width: 200px; text-align: center;color: white !important;">
+          Trích yếu văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col2" style="min-width: 200px; text-align: center;color: white !important;">
+          Đơn vị theo dõi/Lãnh đạo văn phòng phụ trách
+        </th>
+        <th rowspan="3" class="css-stickyheader-col1" style="min-width: 200px; text-align: center;color: white !important;">
+          Nội dung nhiệm vụ được giao
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Đơn vị thực hiện
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Hạn xử lý
+        </th>
+
+        <th class="css-stickyheader-col0" colspan="4" style="min-width: 200px; text-align: center;color: white !important;">
+          Tình hình thực hiện
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 100px; text-align: center;color: white !important;" rowspan="3">
+          Diễn giải tình hình thực hiện
+        </th>
+      </tr>
+      <tr class="css-stickyheader-col0">
+
+        <th class="css-sticky-row2-cus" style="width: 50px; text-align: center;color: white !important;" rowspan="1" colspan="2">
+          Chưa hoàn thành</th>
+        <th class="css-sticky-row2-cus" style="width: 50px; text-align: center;color: white !important;" rowspan="1" colspan="2">
+          Đã hoàn thành</th>
+
+      </tr>
+      <tr class="css-stickyheader-col0">
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 80px;color: white !important;">
+          Còn hạn</td>
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 80px;color: white !important;">
+          Quá hạn</td>
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 80px;color: white !important;">
+          Còn hạn</td>
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 80px;color: white !important;">
+          Quá hạn</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of listData; let i = index">
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{i+1}}</td>
+        <td class="css-sticky-col1" style="text-align: left; height: 22px;">
+          {{data.so_hieu_vb}}</td>
+        <td class="css-sticky-col2" style="text-align: left; height: 22px;">
+          {{data.ngay_vb}}</td>
+        <!-- <td class="{{dt.Style}}" style=" text-align: center" *ngFor="let dt of data.Data" [attr.colspan]="dt.ColSpan">
+          <input class="{{dt.Style}}" [disabled]="!dt.IsEdit || disabledBtn " value="{{dt.GiaTri}}"
+            matTooltip="{{dt.GiaTri}}" id="txt{{data.ID_NV}}{{dt.FullNgay}}"
+            style="width:90%; border-color:Red; border-style:none" type="text">
+          <span matTooltip="{{dt.GiaTri}}">{{dt.trich_yeu_vb}}</span>
+        </td> -->
+
+        <td class="css-sticky-col0" style="text-align: left; height: 22px;">
+          <span style="padding-left: 10px;">
+            {{data.trich_yeu_vb}}
+          </span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: left; height: 22px;">
+          <span style="padding-left: 10px;">
+            <!-- {{data.trich_yeu_vb}} -->
+          </span>
+        </td>
+        <td class="css-sticky-col0" style="height: 22px;">
+          {{data.noi_dung}}
+        </td>
+        <td class="css-sticky-col0" style="height: 22px;">
+          {{data.don_vi_thuc_hien}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{data.han_xu_ly}}
+        </td>
+
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_cht_ch)}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_cht_qh)}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_ht_dh)}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_ht_qh)}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

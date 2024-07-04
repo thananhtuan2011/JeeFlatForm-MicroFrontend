@@ -1,0 +1,45 @@
+<style>
+	:host>>>.mat-calendar-header {
+		padding: 0px !important;
+	}
+
+	:host>>>.mat-calendar-controls {
+		display: contents;
+		margin: 5% calc(33% / 7 - 16px);
+	}
+
+	:host>>>perfect-scrollbar>.ps.ps--active-x>.ps__rail-x {
+		display: none;
+	}
+</style>
+
+<div style="width: 100%; height: 100%; margin: 0; display: flex;">
+	<div class="calendar-left">
+		<div style="background-color: #ff6a00;">
+			<mat-form-field class="mat-form-field-fluid" style="margin-left: 16px;">
+				<mat-select [(value)]="filterPhong" 
+					(selectionChange)="LoadDataDangKy()" class="select">
+					<mat-option value="0">Tất cả</mat-option>
+					<mat-option value="{{hv.RowID}}" *ngFor="let hv of listPhongHop">
+						{{hv.Title}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<mat-calendar #miniCalendar (selectedChange)="navLinkDayClick($event)"></mat-calendar><br>
+		<mat-accordion>
+			<mat-expansion-panel class="mat-expansion-panel-flat" [disabled]="true" [expanded]="true">
+				<section *ngFor="let item of types">
+					<mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked"
+						(change)="filter(item)" >
+						<span [ngStyle]="{'color': getColor(item.Id)}">{{item.Title}}</span>
+					</mat-checkbox>
+				</section><br>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</div>
+	<div class="calendar-right">
+		<div class='app-calendar' *ngIf="calendarVisible">
+			<full-calendar #calendar [options]="calendarOptions"></full-calendar>
+		</div>
+	</div>
+</div>

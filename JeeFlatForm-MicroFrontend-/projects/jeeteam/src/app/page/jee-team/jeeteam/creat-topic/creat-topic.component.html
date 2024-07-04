@@ -1,0 +1,93 @@
+
+<div>
+    <div>
+        <div style="    padding-bottom: 40px;">
+            <span style="    font-weight: bold;
+            font-size: 25px;">
+                Nhập thảo luận
+            </span>
+            <button (click)="goBack()" style="float: right;" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                <mat-icon>close</mat-icon>
+              </button>
+        </div>
+    </div>
+    <quill-editor placeholder="Nhập nội dung" id="quillCustomForCreateTeam"   [modules]="quillConfig" [styles]="editorStyles1" [(ngModel)]="content">
+    </quill-editor>
+    <div >
+        <!-- load file -->
+        <div>
+            <div class="bodyfile" *ngIf="listFileChat.length>0">
+
+                <div style="display: flex;flex-wrap: wrap;">
+
+
+                  <div style="padding-right: 10px;" class="file" *ngFor="let file of listFileChat;let vifile=index">
+                    <div>
+
+                      <i style="cursor:pointer ;" (click)="RemoveChoseFile(vifile)" class="fa fa-times"
+                        aria-hidden="true"></i>
+                    </div>
+                    <div class="attchamentfile">
+                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58"
+                        style="enable-background:new 0 0 58 58; width: 40px;" xml:space="preserve">
+                        <polygon style="fill:#EDEADA;" points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 " />
+                        <g>
+                          <path style="fill:#CEC9AE;"
+                            d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z" />
+                          <path style="fill:#CEC9AE;"
+                            d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z" />
+                        </g>
+                        <polygon style="fill:#CEC9AE;" points="37.5,0 37.5,14 51.5,14 " />
+                      </svg>
+                      <div style="    display: flex;
+                    flex-direction: column;">
+                        <span>{{file.filename}}</span>
+                        <span>{{formatBytesInsert(file.size)}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <button style="
+
+                  border-radius: 10% !important;" (click)="hiddenfileinput.click()" matTooltip="File" mat-icon-button
+                  aria-label="Example icon button with a home icon">
+                  <mat-icon class="sizeiconreaction">add_to_photos</mat-icon>
+                </button>
+                <input type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+                  style="display: none;">
+              </div>
+        </div>
+        <div>
+
+       
+        <button style="color:#78787b !important;" (click)="hiddenfileinput.click()" matTooltip="File"
+        mat-icon-button aria-label="Example icon button with a home icon">
+        <span style="color: #198cd2;">Tệp đính kèm</span>
+        <i style="font-size: 22px;color:#78787b" class="fa fa-paperclip" aria-hidden="true"></i>
+      </button>
+      <input
+      accept="application/vnd.ms-excel, application/vnd.ms-powerpoint,
+text/plain, application/pdf,application/msword,.pdf, .xls, .xlsx, application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.zip,.rar,.7zip"
+      type='file' id="PDFInpdd" #hiddenfileinput (change)="onSelectFile_PDF($event)" multiple
+      style="display: none;">
+    </div>
+    </div>
+    <div  *ngIf="loading" style="text-align: center;width: 100%;">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div style="    text-align: center;
+    padding-top: 30px;">
+        <button (click)="InsertTopic()" style="background-color: #0A9562;color:white;border-radius: 10px;" mat-button>Gửi thảo luận</button>      
+    </div>
+</div>

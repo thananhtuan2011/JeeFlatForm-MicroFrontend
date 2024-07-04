@@ -1,0 +1,289 @@
+<style>
+	.mat-form-field {
+		width: 100%;
+	}
+
+	.card-body {
+		padding-top: 10px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ getTitle() }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<mat-tab-group style="overflow-x: auto">
+						<mat-tab label="Thông tin chính">
+							<div class="row">
+								<div class="col-md-12 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Tên mặt hàng *" #focusInput class="input-batbuoc" autocomplete="off"
+										formControlName="tenMatHang" type="text">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Mã hàng" class="input-thuong" autocomplete="off"
+											formControlName="maHang" type="text">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Đơn vị tính" formControlName="idDVT" required>
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="Filter3"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filter3()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let tmp of filteredDVT | async " value="{{tmp.IDDVT}}">
+												{{tmp.TenDVT}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Loại mặt hàng" formControlName="idLMH" class="input-thuong">
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="Filter1"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filter1()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let tmp of filteredIdLMHs | async " value="{{tmp.IDLoaiMH}}">
+												{{tmp.TenLoaiMH}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Danh mục hàng" formControlName="idDM" class="input-thuong">
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="Filter2"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filter2()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let tmp of filteredIdDMs | async " value="{{tmp.IDLoaiMH}}">
+												{{tmp.TenLoaiMH}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Giá vốn" 
+											formControlName="giaVon" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Giá bán" 
+											formControlName="donGia" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<!-- <div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput mask="{{commonService.markDecimal}}" placeholder="Giá sỉ" 
+											formControlName="giaSi" thousandSeparator="{{tsSeparator}}" class="input-thuong">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput mask="{{commonService.markDecimal}}" placeholder="Giá khuyến mãi" 
+											formControlName="giaKhuyenMai" thousandSeparator="{{tsSeparator}}" class="input-thuong">
+									</mat-form-field>
+								</div> -->
+							</div>
+						</mat-tab>
+		
+						<!-- Thông tin cơ bản -->
+						<mat-tab label="Thông tin cơ bản">
+							<div class="row">
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Mô tả ngắn gọn" class="input-thuong" autocomplete="off"
+										formControlName="mota" type="text">
+									</mat-form-field>
+								</div>
+								<!-- <div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Kho xét tồn" formControlName="idKho" multiple>
+											<mat-option *ngFor="let tmp of listIdKho" value="{{tmp.IdK}}">
+												{{tmp.TenK}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div> -->
+								<mat-checkbox formControlName="isDepot">
+									Xét tồn kho
+								</mat-checkbox>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Tồn tối thiểu" 
+											formControlName="tonMin" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Tồn tối đa" 
+											formControlName="tonMax" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="ĐVT cấp 2" formControlName="idDVTCap2">
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="Filter4"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filter4()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option value="0">[Chọn ĐVT cấp 2]</mat-option>
+											<mat-option *ngFor="let tmp of filteredDVT2 | async " value="{{tmp.IDDVT}}">
+												{{tmp.TenDVT}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile" *ngIf="itemForm.controls.idDVTCap2.value != '0'">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Quy đổi" 
+											formControlName="quyDoi" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile" *ngIf="itemForm.controls.idDVTCap2.value != '0'">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Giá quy đổi" 
+											formControlName="giaQuyDoi" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<mat-checkbox formControlName="ngungKinhDoanh">
+									Ngừng kinh doanh
+								</mat-checkbox>
+								<mat-checkbox formControlName="isHanSuDung">
+									Xét hạn sử dụng
+								</mat-checkbox>
+								<div class="col-md-12 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Barcode" class="input-thuong" autocomplete="off"
+										formControlName="barcode" type="text">
+									</mat-form-field>
+								</div>
+								<div class="col-md-12 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Mô tả chi tiết" class="input-thuong" autocomplete="off"
+										formControlName="chiTietMoTa" type="text">
+									</mat-form-field>
+								</div>
+							</div>
+						</mat-tab>
+		
+						<!-- Thông tin phụ -->
+						<mat-tab label="Thông tin phụ">
+							<div class="row">
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Tên khác" class="input-thuong" autocomplete="off"
+										formControlName="tenKhac" type="text">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="Tên onsite" class="input-thuong" autocomplete="off"
+										formControlName="tenOnSite" type="text">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<input matInput placeholder="VAT" 
+											formControlName="vAT" class="input-thuong" type="number">
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Độ ưu tiên" formControlName="doUuTien">
+											<mat-option value="1">Cao nhất</mat-option>
+											<mat-option value="2">Cao</mat-option>
+											<mat-option value="3">Trung bình</mat-option>
+											<mat-option value="4">Thấp</mat-option>
+											<mat-option value="5">Rất thấp</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Nhà cung cấp" formControlName="idNCC" multiple>
+											<mat-option *ngFor="let tmp of listIdNCC" value="{{tmp.IdNCC}}">
+												{{tmp.TenNCC}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Nhãn hiệu" formControlName="idNhanHieu" class="input-thuong">
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="FilterNH"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filterNH()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let tmp of filteredIdNHs | async " value="{{tmp.IDNhanHieu}}">
+												{{tmp.TenNhanHieu}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6 kt-margin-bottom-10-mobile">
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select placeholder="Xuất xứ" formControlName="idXuatXu" class="input-thuong">
+											<mat-option>
+												<ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'"
+													[noEntriesFoundLabel]="'Không tìm thấy kết quả phù hợp'" [(ngModel)]="FilterXX"
+													[ngModelOptions]="{standalone: true}" (ngModelChange)="filterXX()">
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let tmp of filteredIdXXs | async " value="{{tmp.IDXuatXu}}">
+												{{tmp.TenXuatXu}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-md-12 kt-margin-bottom-10-mobile">
+									<!-- <dl-image-control [data]="imagedata" formControlName="imageControl" type="image/*"
+										nameButton="Chọn hình ảnh" [multiple]="false" [required]="false">
+									</dl-image-control> -->
+								</div>
+							</div>
+						</mat-tab>
+	
+					</mat-tab-group>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+		<!-- <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<span translate="landingpagekey.luutieptuc"></span>
+		</button> -->
+	</div>
+</div>

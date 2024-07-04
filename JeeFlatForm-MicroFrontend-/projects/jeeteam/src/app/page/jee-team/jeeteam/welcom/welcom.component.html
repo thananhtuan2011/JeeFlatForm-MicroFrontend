@@ -1,0 +1,66 @@
+<style>
+  .body {
+    height: 100vh;
+  }
+
+  @media screen and (max-width: 1200px) and (min-width: 1000px) {
+    .body {
+      /* padding-left:31%;  */
+      height: 100vh;
+    }
+
+  }
+
+  @media screen and (max-width: 1000px) and (min-width: 700px) {
+    .body {
+      /* padding-left:40%;  */
+      height: 100vh;
+    }
+
+  }
+
+  h3 {
+    color: #007DFA;
+  }
+
+  .txt {
+    color: black;
+  }
+
+  .cssimg {
+    width: 100%;
+  }
+</style>
+<div>
+
+  <ngb-carousel>
+    <ng-template ngbSlide>
+      <div class="centerimg">
+        <div style="margin-top: 80px;
+            position: absolute;">
+          <h1 style="color:rgb(35, 95, 214) ;">Chào mừng đến với Team</h1>
+        </div>
+
+        <img   [ngStyle]="{'height': getHeight()}"*ngIf="!themdark" class="cssimg" src="assets/media/gif/jeeteam.gif" alt="Random first slide">
+        <img  [ngStyle]="{'height': getHeight()}" *ngIf="themdark" class="cssimg" src="assets/media/gif/teamdark.gif" alt="Random first slide">
+      </div>
+
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="centerimg">
+        <img   [ngStyle]="{'height': getHeight()}" *ngIf="!themdark" class="cssimg" src="assets/media/gif/jeeteam2.gif" alt="Random second slide">
+        <img  [ngStyle]="{'height': getHeight()}" *ngIf="themdark" class="cssimg" src="assets/media/gif/teamdark2.gif" alt="Random second slide">
+      </div>
+
+    </ng-template>
+    <ng-template ngbSlide>.
+      <div class="centerimg">
+        <img  [ngStyle]="{'height': getHeight()}" *ngIf="!themdark" class="cssimg" style="margin-top: -20px;" src="assets/media/gif/jeeteam3.gif"
+          alt="Random third slide">
+        <img  [ngStyle]="{'height': getHeight()}" *ngIf="themdark" class="cssimg" style="margin-top: -20px;" src="assets/media/gif/teamdark3.gif"
+          alt="Random third slide">
+      </div>
+
+    </ng-template>
+  </ngb-carousel>
+</div>

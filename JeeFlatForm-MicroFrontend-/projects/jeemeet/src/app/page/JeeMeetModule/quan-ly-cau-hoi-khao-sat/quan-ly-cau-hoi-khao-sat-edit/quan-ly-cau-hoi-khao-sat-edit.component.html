@@ -1,0 +1,340 @@
+<style>
+	/* .form-control {
+		background-color: #6c757d;
+	} */
+
+	.ja_btn-addnew {
+		background-color: #0e72d8;
+		color: #ffffff;
+		right: 4.5cm;
+	}
+	.white-text {
+  color: white;
+}
+.form-control  {
+    background-color: #f0f0;
+}
+:host>>>.table> :not(caption)>*>* {
+    padding: 0px !important;
+  }
+::ng-deep .mat-select-placeholder {
+	color: #f0f0f0;
+}
+
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{getTitle()}}
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body" style="height: calc(60vh - 120px); overflow: auto;" #scrollMe>
+        <div [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed" [ngStyle]="{'max-height': '1000px', 'position': 'relative'}">
+            <div class="row align-items-center">
+
+              <div class="col-lg-6" style="margin-bottom: 10px">
+                <label>{{ "MENU_CAUHOIKHAOSAT.TYPE_TITLE" | translate }}&nbsp;&nbsp;&nbsp;</label>
+                <mat-select #selectElement
+                  [(ngModel)]="trangthai"
+                  class="form-control"
+                  (selectionChange)="changeSelection($event)"
+                  placeholder="--Chọn--"
+                  formControlName="Type">
+                  <mat-option [value]=1>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_1" | translate }}
+                  </mat-option>
+                  <mat-option [value]=2>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_2" | translate }}
+                  </mat-option>
+                  <mat-option [value]=3>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_3" | translate }}
+                  </mat-option>
+                  <mat-option [value]=4>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_4" | translate }}
+                  </mat-option>
+                  <mat-option [value]=5>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_5" | translate }}
+                  </mat-option>
+                  <mat-option [value]=6>
+                    {{ "MENU_CAUHOIKHAOSAT.TYPE_6" | translate }}
+                  </mat-option>
+                </mat-select>
+              </div>
+
+                <div class="col-md-6 m--margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput class="input-batbuoc mat-focused"
+                        placeholder="Nội dung câu hỏi"
+                        formControlName="NoiDungCauHoi"
+                        required #focusInput>
+                    </mat-form-field>
+                </div>
+
+
+                <div
+					class="col-lg-6 kt-margin-bottom-20-mobile"
+					*ngIf="Type === 2 || Type === 3"
+				>
+					<mat-form-field class="mat-form-field-fluid">
+						<input
+							matInput
+							placeholder="{{
+								'MENU_CAUHOIKHAOSAT.CAUTRALOI_NHAP'
+									| translate
+							}}"
+							[readonly]="IsXem"
+							formControlName="CauTraLoi"
+							type="text"
+						/>
+						<!-- <mat-error>
+							{{
+								"MODULE.MENU_CAUHOIKHAOSAT.VUILONG_CTL"
+									| translate
+							}}
+						</mat-error> -->
+					</mat-form-field>
+				</div>
+				<div
+					class="col-lg-6 kt-margin-bottom-20-mobile"
+					*ngIf="Type === 4"
+				>
+					<mat-form-field class="mat-form-field-fluid">
+						<input
+							matInput
+							placeholder="{{
+								'MENU_CAUHOIKHAOSAT.CAUTRALOI_NHAP'
+									| translate
+							}}"
+							[readonly]="IsXem"
+							formControlName="CauTraLoi"
+							type="text"
+						/>
+						<!-- <mat-error>
+							{{
+								"MODULE.MENU_CAUHOIKHAOSAT.VUILONG_CTL"
+									| translate
+							}}
+						</mat-error> -->
+					</mat-form-field>
+				</div>
+				<div class="col-md-6" *ngIf="Type === 2 || Type === 3">
+					<button
+						*ngIf="!IsXem"
+						mat-raised-button
+						style="
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+						"
+						class="ja_btn-addnew" matTooltip="{{ 'MENU_CAUHOIKHAOSAT.THEM' | translate }}"
+						(click)="addChiTiet()"
+					>
+						{{ "MENU_CAUHOIKHAOSAT.THEM" | translate }}
+					</button>
+				</div>
+
+				<div class="col-md-6" *ngIf="Type === 4">
+					<button
+						*ngIf="!IsXem"
+						mat-raised-button
+						style="
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+						"
+						class="ja_btn-addnew" matTooltip="THÊM"
+						(click)="addChiTiet()"
+					>
+						THÊM
+					</button>
+				</div>
+				<div class="col-md-12" *ngIf="Type === 2 || Type === 3">
+					<table
+						mat-table
+						[dataSource]="dataSource"
+						style="width: 100%"
+					>
+						<ng-container matColumnDef="STT">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								style="width: 10%"
+							>
+								STT
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element; let i = index"
+								style="width: 10%"
+							>
+								{{ i + 1 }}
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="CauTraLoi">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								matSortDisableClear="true"
+								style="text-align: center; width: 70%"
+							>
+								Câu trả lời
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element"
+								style="width: 20%"
+							>
+								<span
+									style="
+										display: flex;
+										flex-direction: column;
+										justify-content: center;
+										text-align: center;
+										margin: 14px auto;
+									"
+									>{{ element.CauTraLoi }}
+								</span>
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="action">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								matSortDisableClear="true"
+							>
+								<span *ngIf="!IsXem">Thao tác</span>
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element; let i = index"
+							>
+								<button
+									mat-icon-button
+									color="warn"
+									type="button"
+									*ngIf="!IsXem"
+									matTooltip="Xoá"
+									(click)="deleteCauTraLoi(element, i)"
+								>
+									<mat-icon>delete</mat-icon></button
+								>&nbsp;
+							</td>
+						</ng-container>
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedColumns"
+						></tr>
+					</table>
+				</div>
+				<div class="col-md-12" *ngIf="Type === 4">
+					<table
+						mat-table
+						[dataSource]="dataSource"
+						style="width: 100%"
+					>
+						<ng-container matColumnDef="STT">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								style="width: 10%"
+							>
+								STT
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element; let i = index"
+								style="width: 10%"
+							>
+								{{ i + 1 }}
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="CauTraLoi">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								matSortDisableClear="true"
+								style="text-align: center; width: 70%"
+							>
+								Câu trả lời
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element"
+								style="width: 20%"
+							>
+								<span
+									style="
+										display: flex;
+										flex-direction: column;
+										justify-content: center;
+										text-align: center;
+										margin: 14px auto;
+									"
+									>{{ element.CauTraLoi }}
+								</span>
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="action">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								matSortDisableClear="true"
+							>
+								<span *ngIf="!IsXem">Thao tác</span>
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let element; let i = index"
+							>
+								<button
+									mat-icon-button
+									color="warn"
+									type="button"
+									*ngIf="!IsXem"
+									matTooltip="Xoá"
+									(click)="deleteCauTraLoi(element)"
+								>
+									<mat-icon>delete</mat-icon></button
+								>&nbsp;
+							</td>
+						</ng-container>
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedColumns"
+						></tr>
+					</table>
+				</div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" *ngIf="!IsXem" (click)="close_ask()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+        {{'COMMON.BACK' | translate}}
+      </button>&nbsp;&nbsp;
+      <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" *ngIf="IsXem"   (click)="close()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+        {{'COMMON.BACK' | translate}}
+      </button>&nbsp;&nbsp;
+      <button class="jee_button jee_btn-addcontinue" type="button" mat-raised-button *ngIf="!IsXem" (click)="onSubmit(true)" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+        {{'COMMON.LUU_DONG' | translate}}
+      </button> &nbsp;&nbsp;
+
+      <!-- <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit(false)" *ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_TIEPTUC' | translate }}">
+      {{'COMMON.LUU_TIEPTUC' | translate}}
+      </button> -->
+  </div>
+</div>
+
+

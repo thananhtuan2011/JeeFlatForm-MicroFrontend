@@ -1,0 +1,80 @@
+<style>
+
+
+    .menu {
+        margin: 30px;
+        line-height: 2;
+        font-weight: 400;
+        font-size: 1.2rem;
+        --bs-gutter-x: 0;
+    }
+
+    .submenu {
+        padding-left: 20px;
+        /* cursor: pointer; */
+    }
+
+    .right {
+        float: right;
+        width: 1090px
+    }
+
+
+</style>
+<div class="panel-ticket">
+    <div class="wizard-ticket">
+        <div class="m-ticket sky-scroll-work left">
+            <div class="row menu">
+                <div class="col-md-12">
+                    <span [ngStyle]="{ 'color': getFont(1) }">1. Giới thiệu chung</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{ 'color': getFont(2) }">2. Lĩnh vực hỗ trợ</span>
+                    <!-- <div class="col-md-12 submenu">
+                        <span>- Thiết lập lịch làm việc</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span>- Thiết bị chấm công</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span>- Cách trừ vào trễ/về sớm</span>
+                    </div> -->
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{ 'color': getFont(3) }">3. Phân loại và cách phân công xử lý yêu cầu hỗ trợ</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{ 'color': getFont(4) }">4. Các trạng thái của yêu cầu</span>
+                </div>
+            </div>
+        </div>
+        <div class="m-ticket right" style="float: right;font-size: 1 !important;">
+            <div class="borer-p" style="height: 526px;">
+                <router-outlet></router-outlet>
+            </div>
+
+            <div style="height: 70px;     line-height: 70px;
+            float: right;padding-right: 15px;">
+                <span>
+                    <button type="button" (click)="PreviousStep()" class="ja_button ja_btn-goback" mat-raised-button
+                        [hidden]="step == 1"><span>Trở
+                            lại</span></button>&nbsp;
+                    <button type="button" (click)="NextStep()" mat-raised-button class="ja_button ja_btn-addnew"
+                        matTooltip="" [hidden]="step == 4">
+                        <span>Tiếp tục</span>
+                    </button>
+                    <button [hidden]="step != 4" type="button" style="background-color: yellowgreen;color: white;" mat-raised-button
+                        class="ja_button" (click)="Done()">
+                        <i style="color: white;" class="la la-check"></i>&nbsp;<span>Hoành thành</span>
+                    </button>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

@@ -1,0 +1,79 @@
+<div >
+
+   
+
+    <div>
+        <span style="font-size: 15pt;">Chi tiết bình chọn</span>
+    </div>
+    <hr>
+    <div  *ngIf="isloading" style="text-align: center;">
+        <span style="width:2rem; height: 2rem;" class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>
+      </div>
+    <div >
+           <div style="display: flex;flex-direction: column;">
+
+           
+        <span style="    font-size: 15pt;
+        text-align: center;
+    ">
+                {{listvote.NoiDung}}
+            </span>
+            
+            <span style="color: #adaaaa;
+            text-align: center;" *ngFor="let user of listvote.InfoUser">
+                    Tạo bởi {{user.Fullname}}     {{ listvote.CreatedDate | dateTimeFormat: 'YYYY-MM-DD HH:mm:ss' }}
+            </span>
+        </div>
+    </div>
+    <div  style=" max-height: 50vh;position: relative; overflow-x: hidden;">
+
+    <div *ngFor="let item of listvote.Vote ">
+        <div  style="display:flex ;flex-direction: column;" >
+            <div>
+
+         
+                <span style="display: flex;">
+                    {{item.noidung}}
+                    <p style="padding-left: 5px;">
+                        ({{item.lengthvote}})
+                    </p>
+                </span>
+            </div>
+            <div style="display: flex;flex-wrap: wrap;">
+
+                    
+                <div *ngFor="let user of item.UserVote" style="padding-right:6px ;" >
+                    <span>{{user.fullname}}</span>
+                    <div style="display: flex;justify-content:center ;">
+
+                    
+                    <ngx-avatar class="avatar"  [size]="40" src="{{user.avatar }}" *ngIf="user.avatar"></ngx-avatar>
+                    <ngx-avatar class="avatar"  [size]="40" [name]="user.fullname" bgColor="#adaaaa" *ngIf="!user.avatar"></ngx-avatar>
+               
+                </div>
+              
+                <!-- <div [ngStyle]="{ 'width':  }">
+
+                </div> -->
+               
+             </div>
+             
+            </div>
+          
+        </div>
+        <div style="display: flex;">
+
+       
+         <div [ngStyle]="{ 'background-color': '#5c9aea', 'width':item.lengthvote/item.allmember *100 +'%', 'height': '16px'
+        ,'border-radius': '5px','margin-top': '15px'}">
+
+            </div>
+            <div style="margin: 10px 10px -10px 10px;">
+                {{item.lengthvote/item.allmember *100 }}%
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+</div>

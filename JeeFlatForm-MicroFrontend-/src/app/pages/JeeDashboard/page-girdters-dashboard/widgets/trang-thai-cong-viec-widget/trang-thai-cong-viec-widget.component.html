@@ -1,0 +1,10 @@
+<div id="chart-pie" [ngStyle]="{ 'width': getWidth() }" *ngIf="LoaiBD == 1" style="display: flex;">
+  <canvas baseChart [data]="pieChartData" [legend]="true" [labels]="pieChartLabel" [plugins]="pieChartPlugins"
+    [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColor">
+  </canvas>
+</div>
+<div id="chart-pie" [ngStyle]="{ 'width': getWidth() }" *ngIf="LoaiBD == 0" style="display: flex;">
+  <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+    [chartType]="barChartType" [colors]="barChartColors" (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"></canvas>
+</div>

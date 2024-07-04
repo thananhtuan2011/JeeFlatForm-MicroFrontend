@@ -1,0 +1,67 @@
+<style>
+    .item-text {
+        padding-left: 20px;
+    }
+
+    ::ng-deep .sky-tooltip {
+        white-space: pre-line !important;
+    }
+</style>
+<div class="table-responsive" [ngStyle]="{'height': getHeight()}">
+    <table
+        class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid table-vertical-center">
+        <thead>
+            <tr class="text-left">
+                <th class="pr-0" style="min-width: 250px; padding-left: 10px;"><span translate="members.hoten"></span>
+                </th>
+                <th style="min-width: 120px"><span translate="members.moigiao"></span></th>
+                <th style="min-width: 120px" class="pd-0"><span translate="members.dangthuchien"></span></th>
+                <th style="min-width: 120px" class="pd-0"><span translate="members.hoanthanh"></span></th>
+                <th style="min-width: 120px" class="pd-0"><span translate="members.quahan"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of itemsUser$ | async">
+                <td>
+                    <div class="avatar-jw">
+                        <div class="user url mr-2">
+                            <ngx-avatar size="35" matTooltipClass="sky-tooltip"
+                                matTooltip="{{getMoreInformation(item)}}" src="{{item.image}}"
+                                *ngIf="item.image;else bindText">
+                            </ngx-avatar>
+                            <ng-template #bindText>
+                                <ngx-avatar textSizeRatio="2.5" matTooltipClass="sky-tooltip"
+                                    matTooltip="{{getMoreInformation(item)}}" size="35"
+                                    [name]="_JeeWorkLiteService.getNameUser(item.hoten)"
+                                    bgColor="{{_JeeWorkLiteService.getColorNameUser(item.hoten)}}">
+                                </ngx-avatar>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="name">
+                        <span class="url -hover name-title">{{item.hoten}}</span>
+                    </div>
+                    <div class="info text-2-line">
+                        <span class="job-title">{{item.tenchucdanh}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+                        {{item.moigiao}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+                        {{item.danglam}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[3]}">
+                        {{item.hoanthanh}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+                        {{item.quahan}} </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,87 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Danh sách Phiếu lấy ý kiến</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th class=" text-center" style="min-width: 30px">
+                        <span class="fw-bold" column="SoThuTu">STT</span>
+                    </th>
+                    <th style="min-width: 170px">
+                        <span class="fw-bold">Tiêu đề</span>
+                        <app-sort-icon column="TenPhongHop" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+                    </th>
+
+                    <th style="min-width: 50px;">
+                        <span class="fw-bold">Ngày tạo</span>
+                        <app-sort-icon column="CreatedDate" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+                    </th>
+
+                    <th style="min-width: 100px">
+                        <span class="fw-bold">Trạng Thái</span>
+                        <app-sort-icon column="CreatedDate" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+                    </th>
+
+                    <th style="min-width: 100px; text-align: center">
+                        <span class="fw-bold">Tác vụ</span>
+                    </th>
+
+                </thead>
+                <tbody *ngIf="phieuLayYKienService.items$ | async">
+                    <tr *ngFor="let item of (phieuLayYKienService.items$ | async); let i = index;">
+                        <td class="text-center">
+                            {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                        </td>
+                        <td>
+                            <span>
+                            {{item.TieuDe}}
+                          </span>
+                        </td>
+
+                        <td>
+                            <span>{{item.CreatedDate}}</span>
+                        </td>
+
+                        <td>
+                            <div title="{{ Title(item) }}" style="display: initial" class="p-background-dynamic-status" [ngStyle]="{ backgroundColor: Background(item) }">
+                                {{ Title(item) }}
+                            </div>
+                        </td>
+
+
+                        <td style="text-align: center">
+                            <button type="button" (click)="Update(item)" mat-icon-button style="color:rgb(33, 172, 33)" matTooltip="{{ 'MENU_PHIEULAYYKIEN.THUCHIENLAYYKIEN' | translate }}" *ngIf="item.IsTraLoi==1&&((item.IdCuocHop==0&&item.TrangThai==0)||(item.IdCuocHop!=0))&&item.IsActive==1">
+                              <mat-icon>question_answer</mat-icon>
+                            </button>
+                            <button type="button" (click)="Update(item)" mat-icon-button style="color:rgb(191, 49, 235)" matTooltip="{{ 'MENU_PHIEULAYYKIEN.THUCHIENLAYYKIENLAI' | translate }}" *ngIf="item.IsTraLoi==2&&((item.IdCuocHop==0&&item.TrangThai==0)||(item.IdCuocHop!=0))&&item.IsActive==1">
+                              <mat-icon>question_answer</mat-icon>
+                            </button>&nbsp;
+                        </td>
+                        <!-- <td style="text-align: center">
+                            <button type="button" (click)="Update(item)" mat-icon-button style="color:rgb(33, 172, 33)" matTooltip="{{ 'MENU_PHIEULAYYKIEN.THUCHIENLAYYKIEN' | translate }}" *ngIf="item.IsTraLoi==1&&item.TrangThai==0&&item.IsActive==1">
+                            <mat-icon>question_answer</mat-icon>
+                          </button>
+                            <button type="button" (click)="Update(item)" mat-icon-button style="color:rgb(191, 49, 235)" matTooltip="{{ 'MENU_PHIEULAYYKIEN.THUCHIENLAYYKIENLAI' | translate }}" *ngIf="item.IsTraLoi==2&&item.TrangThai==0&&item.IsActive==1">
+                            <mat-icon>question_answer</mat-icon>
+                          </button>&nbsp;
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(phieuLayYKienService.items$ | async).length === 0">
+                <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu</div>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

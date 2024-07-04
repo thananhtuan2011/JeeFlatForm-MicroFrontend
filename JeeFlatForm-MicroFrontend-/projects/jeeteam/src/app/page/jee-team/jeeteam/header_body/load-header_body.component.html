@@ -1,0 +1,115 @@
+<style>
+    ul {
+        list-style: none;
+    }
+
+    .bodyheaderteam {
+        display: flex;
+        top: 0px;
+        left: 25%;
+    position: fixed;
+    display: flex;
+    width: -webkit-fill-available;
+    }
+</style>
+
+<div>
+
+    <div>
+        <div *ngIf="listmenuheader.length>0&&!isprivate" class="bodyheaderteam">
+            <div class="list home-links">
+                <div *ngFor="let item of listmenuheader" style="margin: 10px; display: flex;">
+
+
+                    <!-- <ul class="li url ">
+                        <li class="title" style="font-weight: bold;">{{item.title}}</li>
+
+                    </ul> -->
+
+                    <ul 
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowId,'thaoluan']"
+                        routerLinkActive="active_property" class="li url">
+                        <li>{{'JEETEAM.THAOLUAN' | translate}}</li>
+                    </ul>
+                    <ul 
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowId,'tailieu']"
+                        routerLinkActive="active_property" class="li url">
+                        <li>{{'JEETEAM.TAILIEU' | translate}}</li>
+                    </ul>
+                    <ul *ngIf="isprivate" 
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowId,'thanhvien']"
+                        routerLinkActive="active_property" class="li url">
+                        <li>{{'JEETEAM.THANHVIEN' | translate}}</li>
+                    </ul>
+
+                </div>
+
+
+            </div>
+            <div>
+
+                <!-- <span style="font-weight: bold;" >{{item.title}}</span> -->
+
+            </div>
+
+            <!-- <button  mat-icon-button [ngStyle]="{color: getColor()}">
+                <mat-icon>videocam</mat-icon>
+            </button> -->
+        </div>
+        <div style="  display: flex;
+        top: 0px;
+        left: 25%;
+    position: fixed;
+    display: flex;
+    width: -webkit-fill-available;" *ngIf="listmenuheader.length>0&&isprivate">
+            <div class="list home-links">
+                <div *ngFor="let item of listmenuheader" style="margin: 10px; display: flex;">
+
+
+                    <ul class="li url">
+                        <li class="title_jeeteam" >{{item.title}}</li>
+
+                    </ul>
+
+                    <ul 
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowIdChildSub,'thaoluan']"
+                        routerLinkActive="active_property" class="li url">
+
+                        <li>{{'JEETEAM.THAOLUAN' | translate}}</li>
+                    </ul>
+                    <ul 
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowIdChildSub,'tailieu']"
+                        routerLinkActive="active_property" class="li url">
+                        <li>{{'JEETEAM.TAILIEU' | translate}}</li>
+                    </ul>
+                    <ul *ngIf="isprivate"
+                        [routerLink]="[item.routerlink.replace('dashboard', 'Group'),item.RowIdChildSub,'thanhvien']"
+                        routerLinkActive="active_property" class="li url">
+                        <li>{{'JEETEAM.THANHVIEN' | translate}}</li>
+                    </ul>
+
+                </div>
+
+
+            </div>
+            <div>
+
+                <!-- <span style="font-weight: bold;" >{{item.title}}</span> -->
+
+            </div>
+
+            <!-- <button  mat-icon-button [ngStyle]="{color: getColor()}">
+                <mat-icon>videocam</mat-icon>
+            </button> -->
+        </div>
+        <div>
+            <router-outlet></router-outlet>
+
+        </div>
+
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,397 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<style>
+     :host>>>.table> :not(caption)>*>* {
+        padding: 0px !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{'QL_CUOCHOP.CUOCHOP.SURVEYTABLE' | translate}} -
+                <span class="red-text">
+     {{title}}
+   </span>
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button mat-icon-button class="close-button" (click)="DongForm()" matTooltip="{{'Đóng' | translate}}">
+     <mat-icon class="close-icon" color="warn">close</mat-icon>
+   </button>
+        </div>
+    </div>
+    <div class="kt-form" *ngIf="dataI && dataI.DanhSachCauHoi&&type==1">
+        <div class="card-body" style="height: calc(100vh - 280px);     overflow: auto;" #scrollMe>
+            <div class="row">
+                <div class="col-md-8 kt-margin-bottom-10-mobile" #scrollMe>
+                    <div *ngFor="let que of dataI.DanhSachCauHoi; let i = index">
+                        <div style="margin-left: 30px;">
+                            <h5 class="kt-portlet__head-title">{{i+1}}. {{que.NoiDungCauHoi}}</h5>
+                        </div>
+                        <div class="noi-dung" style="margin-left: 60px;">
+                            <ng-container>
+                                <div style="padding-bottom: 5px;">
+                                    <div *ngIf="que.Type==1">
+                                        <div>
+                                            <input class="form-control" type="text" [(ngModel)]="que.GhiChu" placeholder="{{'QL_CUOCHOP.NDCAUHOITRA' | translate}}">&nbsp;&nbsp;
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==2">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==3">
+                                        <div *ngFor="let ans of que.DanhSachCauTraLoi">
+                                            <input type="checkbox" [(ngModel)]="ans.Checked" (change)="isChanges()">&nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==4">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption4(ans.Checked,i,j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                        <input type="checkbox" [(ngModel)]="que.Checked" (change)="isChangeoneoptionDif(que.Checked,i)">&nbsp;&nbsp;{{'QL_CUOCHOP.CAUHOITRADIF' | translate}}
+                                        <input class="form-control" type="text" [(ngModel)]="que.GhiChu" *ngIf="que.Checked" placeholder="{{'QL_CUOCHOP.NDCAUHOITRA' | translate}}">&nbsp;&nbsp;
+                                    </div>
+                                    <div *ngIf="que.Type==5">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{que.NoiDungCauHoi+ans.CauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                            <label for="{{que.NoiDungCauHoi+ans.CauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==6">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChange(i, j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>&nbsp;&nbsp;
+                                        <textarea class="form-control" [(ngModel)]="que.GhiChu" placeholder="{{'QL_CUOCHOP.CUOCHOP.SURVEYNOTE' | translate}}" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 kt-margin-bottom-10-mobile">
+                    <ng-container>
+                        <div style="padding-top: 5%;" *ngIf="dataI.Files && dataI.Files.length>0">
+                            <div>
+                                <h5 class="kt-portlet__head-title">{{'QL_CUOCHOP.CUOCHOP.SURVEYLISTFILE' | translate}}
+                                </h5>
+                            </div>
+                            <div *ngFor="let file of dataI.Files; let j = index" style="margin-left: 30px;">
+                                <span><a href="{{ domain + file.Path }}" target="_blank">{{j + 1}}.
+                 {{file.TenFile}}</a></span> &nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-12 kt-margin-bottom-20-mobile flex" style="padding-top: 15px" *ngIf="!(IsXem && isCopy)">
+                    <div class=" kt-margin-bottom-20-mobile defaultCol" style="right: 0.4cm">
+                        {{ "MENU_QUANLYCANHBAO.QLCB_FILEDINHKEM" | translate }}
+                        <br *ngIf="!IsXem" />
+                        <mat-hint *ngIf="!IsXem">
+                            {{ "COMMON.DINHDANGPHUHOP" | translate }} (.{{ strExtensionImg }}); Video (.{{ strExtensionVideo }})<br />File (.{{ strExtensionFile }})<br />Kích thước tối đa: {{ sizemaxfile }}MB</mat-hint><br *ngIf="!IsXem" />
+                    </div>
+                    <div class="col-lg-12 kt-margin-bottom-20-mobile flex">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr style="
+                 background-color: rgba(
+                   128,
+                   128,
+                   128,
+                   0.288
+                 );
+               ">
+                                    <th style="width: 20%">
+                                        {{ "STT" | translate }}
+                                    </th>
+                                    <th>
+                                        {{ "MODULE_FEEDBACK.FileName" | translate }}
+                                    </th>
+                                    <th style="width: 20%" *ngIf="!IsXem">
+                                        {{ "Xóa" | translate }}
+                                    </th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="
+               let item of ListFileDinhKem;
+               let i = index
+             ">
+                                <tr *ngIf="!item.IsDel" class="p-file-ex" style="
+                 background-color: rgba(
+                   128,
+                   128,
+                   128,
+                   0.288
+                 );
+               ">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        <a href="{{ domain + item.Path }}" target="_blank">{{ item.TenFile }}</a>
+                                    </td>
+                                    <td *ngIf="!IsXem">
+                                        <button mat-icon-button attr.aria-label="{{
+                     'Xóa' | translate
+                   }}" (click)="removeFile(i)" *ngIf="!IsXem">
+                   <mat-icon>remove</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="!IsXem">
+                                <tr>
+                                    <td colspan="3">
+                                        {{ "MODULE_FEEDBACK.AttachNewFile" | translate }}
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let item of files; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        &nbsp;
+                                        <div>
+                                            <button type="button" color="primary" mat-raised-button (click)="selectFile(i)" matTooltip="{{ 'COMMON.CHONFILE' | translate }}">
+                     {{ "COMMON.CHONFILE" | translate }}
+                   </button>
+                                        </div>
+                                        {{item.data ? item.data.filename : ""}}
+                                        <input #fileInput type="file" id="FileUpLoad{{ i }}" (click)="fileInput.value = null" value="" (change)="FileChoose($event, i)" style="display: none" />
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button attr.aria-label="{{'Xóa' | translate}}" (click)="remove(i)" matTooltip="{{ 'Xóa' | translate }}">
+                   <mat-icon>remove</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ files.length + 1 }}</td>
+                                    <td></td>
+                                    <td>
+                                        <button mat-icon-button [attr.aria-label]="
+                   'MODULE_FEEDBACK.AddRow'
+                     | translate
+                 " (click)="new_row()">
+                   <mat-icon matTooltip="{{ 'MODULE_FEEDBACK.AddRow' | translate }}">add</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+   <div class="kt-form__actions">
+     <div class="row text-center">
+       <div class="col-lg-12">
+         <button
+           type="button"
+           mat-raised-button
+          (click)="DongForm()"
+           cdkFocusInitial
+           matTooltip="{{ 'COMMON.BACK' | translate }}"
+         >
+           {{ "COMMON.BACK" | translate }}</button
+         >&nbsp;
+       <button type="button" mat-raised-button color="primary" (click)="onSubmit()" matTooltip="{{'MENU_MEETING.MEETING_SEND' | translate}}">
+         {{'MENU_MEETING.MEETING_SEND' | translate}}
+       </button>
+       </div>
+     </div>
+   </div>
+ </div> -->
+    </div>
+    <div class="kt-form" *ngIf="!dataI">
+        <div class="card-body" style="height: calc(100vh - 280px);     overflow: auto;" #scrollMe>
+            <!-- <h3 class="text-center">{{'COMMON.NODATA' | translate}}</h3> -->
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom">
+    <div class="kt-form" *ngIf="dataI && dataI.DanhSachCauHoi&&type==2">
+        <div class="card-body" style="height: calc(100vh - 280px);     overflow: auto;" #scrollMe>
+            <div class="row">
+                <div class="col-md-8 kt-margin-bottom-10-mobile" #scrollMe>
+                    <div *ngFor="let que of dataI.DanhSachCauHoi; let i = index">
+                        <div style="margin-left: 30px;">
+                            <h5 class="kt-portlet__head-title">{{i+1}}. {{que.NoiDungCauHoi}}</h5>
+                        </div>
+                        <div class="noi-dung" style="margin-left: 60px;">
+                            <ng-container>
+                                <div style="padding-bottom: 5px;">
+                                    <div *ngIf="que.Type==1">
+                                        <div>
+                                            <input class="form-control" type="text" [(ngModel)]="que.GhiChu" placeholder="{{'QL_CUOCHOP.NDCAUHOITRA' | translate}}">&nbsp;&nbsp;
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==2">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==3">
+                                        <div *ngFor="let ans of que.DanhSachCauTraLoi">
+                                            <input type="checkbox" [(ngModel)]="ans.Checked" (change)="isChanges()">&nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==4">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption4(ans.Checked,i,j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                        <input type="checkbox" [(ngModel)]="que.Checked" (change)="isChangeoneoptionDif(que.Checked,i)">&nbsp;&nbsp;{{'QL_CUOCHOP.CAUHOITRADIF' | translate}}
+                                        <input class="form-control" type="text" [(ngModel)]="que.GhiChu" *ngIf="que.Checked" placeholder="{{'QL_CUOCHOP.NDCAUHOITRA' | translate}}">&nbsp;&nbsp;
+                                    </div>
+                                    <div *ngIf="que.Type==5">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{que.NoiDungCauHoi+ans.CauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                            <label for="{{que.NoiDungCauHoi+ans.CauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.Type==6">
+                                        <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                            <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChange(i, j)">
+                                            <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                        </div>&nbsp;&nbsp;
+                                        <textarea class="form-control" [(ngModel)]="que.GhiChu" placeholder="{{'QL_CUOCHOP.CUOCHOP.SURVEYNOTE' | translate}}" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 kt-margin-bottom-10-mobile">
+                    <ng-container>
+                        <div style="padding-top: 5%;" *ngIf="dataI.Files && dataI.Files.length>0">
+                            <div>
+                                <h5 class="kt-portlet__head-title">{{'QL_CUOCHOP.CUOCHOP.SURVEYLISTFILE' | translate}}
+                                </h5>
+                            </div>
+                            <div *ngFor="let file of dataI.Files; let j = index" style="margin-left: 30px;">
+                                <span><a href="{{ domain + file.Path }}" target="_blank">{{j + 1}}.
+                 {{file.TenFile}}</a></span> &nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 kt-margin-bottom-20-mobile flex" style="padding-top: 15px" *ngIf="!(IsXem && isCopy)">
+                    <div class=" kt-margin-bottom-20-mobile defaultCol" style="right: 0.4cm">
+                        {{ "MENU_QUANLYCANHBAO.QLCB_FILEDINHKEM" | translate }}
+                        <br *ngIf="!IsXem" />
+                        <mat-hint *ngIf="!IsXem">
+                            {{ "COMMON.DINHDANGPHUHOP" | translate }} (.{{ strExtensionImg }}); Video (.{{ strExtensionVideo }})<br />File (.{{ strExtensionFile }})<br />Kích thước tối đa: {{ sizemaxfile }}MB</mat-hint><br *ngIf="!IsXem" />
+                    </div>
+                    <div class="col-lg-12 kt-margin-bottom-20-mobile flex">
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr style="
+                 background-color: rgba(
+                   128,
+                   128,
+                   128,
+                   0.288
+                 );
+               ">
+                                    <th style="width: 20%">
+                                        {{ "STT" | translate }}
+                                    </th>
+                                    <th>
+                                        {{ "MODULE_FEEDBACK.FileName" | translate }}
+                                    </th>
+                                    <th style="width: 20%" *ngIf="!IsXem">
+                                        {{ "Xóa" | translate }}
+                                    </th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="
+               let item of ListFileDinhKem;
+               let i = index
+             ">
+                                <tr *ngIf="!item.IsDel" class="p-file-ex" style="
+                 background-color: rgba(
+                   128,
+                   128,
+                   128,
+                   0.288
+                 );
+               ">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        <a href="{{ domain + item.Path }}" target="_blank">{{ item.TenFile }}</a>
+                                    </td>
+                                    <td *ngIf="!IsXem">
+                                        <button mat-icon-button attr.aria-label="{{
+                     'Xóa' | translate
+                   }}" (click)="removeFile(i)" *ngIf="!IsXem">
+                   <mat-icon>remove</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="!IsXem">
+                                <tr>
+                                    <td colspan="3">
+                                        {{ "MODULE_FEEDBACK.AttachNewFile" | translate }}
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let item of files; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        &nbsp;
+                                        <div>
+                                            <button type="button" color="primary" mat-raised-button (click)="selectFile(i)" matTooltip="{{ 'COMMON.CHONFILE' | translate }}">
+                     {{ "COMMON.CHONFILE" | translate }}
+                   </button>
+                                        </div>
+                                        {{item.data ? item.data.filename : ""}}
+                                        <input #fileInput type="file" id="FileUpLoad{{ i }}" (click)="fileInput.value = null" value="" (change)="FileChoose($event, i)" style="display: none" />
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button attr.aria-label="{{'Xóa' | translate}}" (click)="remove(i)" matTooltip="{{ 'Xóa' | translate }}">
+                   <mat-icon>remove</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ files.length + 1 }}</td>
+                                    <td></td>
+                                    <td>
+                                        <button mat-icon-button [attr.aria-label]="
+                   'MODULE_FEEDBACK.AddRow'
+                     | translate
+                 " (click)="new_row()">
+                   <mat-icon matTooltip="{{ 'MODULE_FEEDBACK.AddRow' | translate }}">add</mat-icon>
+                 </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kt-form" *ngIf="!dataI">
+    </div>
+</div>
+
+<div class="dialog-footer">
+    <button type="button" class="button-cancel" mat-raised-button (click)="DongForm()" cdkFocusInitial matTooltip="{{'COMMON.BACK' | translate}}">
+ {{'COMMON.BACK' | translate}}
+</button>&nbsp;&nbsp;
+    <button type="button" color="primary" class="button-cancel" mat-raised-button (click)="onSubmit()" matTooltip="{{'MENU_MEETING.MEETING_SEND' | translate}}">
+ {{'MENU_MEETING.MEETING_SEND' | translate}}
+</button>
+</div>

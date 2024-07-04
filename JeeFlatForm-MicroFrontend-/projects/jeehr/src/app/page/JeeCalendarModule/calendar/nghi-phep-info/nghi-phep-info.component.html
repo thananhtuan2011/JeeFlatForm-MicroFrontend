@@ -1,0 +1,121 @@
+<style>
+	.m-form .m-form__section:last-child,
+	.m-form .m-form__section.m-form__section--last {
+		margin-bottom: 0;
+		text-align: center;
+	}
+
+	.colauto {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+
+	.tieude {
+		text-align: left;
+		color: black !important;
+	}
+
+	.tieude1 {
+		text-align: right;
+		color: black !important;
+	}
+
+	.lylich {
+		font-weight: bold;
+	}
+
+	.form-header {
+		font-size: 18pt;
+		text-align: center;
+	}
+
+	.khung-container {
+		display: table;
+		width: 100%;
+		padding-left: 5%;
+		padding-right: 5%;
+	}
+
+	.khung {
+		display: table-cell;
+		width: 20%;
+		padding: 5px
+	}
+
+	.khung-tieude {
+		font-weight: bold;
+	}
+
+	:host>>>.sau {
+		min-width: 0px !important;
+	}
+
+	.border-button {
+		border: 1px solid;
+		border-color: #0A9562;
+	}
+
+	.button-trolai {
+		color: #0A9562;
+	}
+
+	:host>>>.m-portlet.m-portlet--rounded-force {
+		overflow: visible;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-body">
+		<div class="row" style="justify-content: center;">
+			<span style="width: 800px;" [innerHTML]="item.DataHtml"></span>
+		</div>
+		<br />
+		<div class="row align-items-center khung-container" style="justify-content: center;">
+			<div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+				<div class="khung-header"><span>{{item.title}}</span>
+				</div><br />
+				<div>
+					<mat-form-field class="mat-form-field-fluid">
+						<input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+					</mat-form-field>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.ngayduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.nguoiduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+					<div class="col-md-4 "><span translate="landingpagekey.lydo"></span></div>
+					<div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+				</div>
+			</div>
+			<div class="col-md-3 khungboder khung" *ngFor="let item of listData_ApprovingUser">
+				<div class="khung-header">
+					<span>{{item.ViTriDuyet}}</span>
+				</div><br />
+				<div>
+					<mat-form-field class="mat-form-field-fluid">
+						<input style="text-align: center" matInput [(value)]="ChoDuyet" readonly="true">
+					</mat-form-field>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.ngayduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span></span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.nguoiduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{item.TenNguoiDuyet}}</span></div>
+				</div>
+			</div>
+		</div>
+		<br />
+	</div>
+	<div class="dialog-footer">
+		<button (click)="goBack()" mat-raised-button class="ja_button ja_btn-goback"
+			matTooltip="{{ 'landingpagekey.trolai' | translate }}" type="button">
+			<span translate="landingpagekey.trolai"></span>
+		</button>
+	</div>
+</div>

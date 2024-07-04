@@ -1,0 +1,492 @@
+<style>
+  .ja_btn-addDraft {
+    background-color: rgb(255, 184, 34) !important;
+    color: #ffffff !important;
+  }
+
+  .ja_btn-addDraft:hover {
+    background-color: rgb(255, 184, 34) !important;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="dialog-title"><span>Giao nhiệm vụ mới</span></h3>
+    </div>
+  </div>
+  <div class="card-body" [ngStyle]="{'height': getHeight()}" style="overflow-y: scroll; padding: 2rem;">
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-12" style="align-self: center;">
+        <p style="font-weight:600;font-size: 16px;">Văn bản</p>
+        <hr width="100%" size="5px" style="color:#696969	;margin-top: 5px;margin-bottom: 5px;" />
+      </div>
+
+    </div>
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-3" style="align-self: center;">
+        <div>Số, ký hiệu văn bản&nbsp;<span style="color: red;">(*)</span></div>
+      </div>
+      <div class="col-md-3">
+        <input style="margin: 0;" id="txtsokyhieu" type="text" class="form-input-title row  w-100">
+      </div>
+      <div class="col-md-3" style="align-self: center; text-align: right;">
+        <div>Ngày văn bản&nbsp;<span style="color: red;">(*)</span></div>
+      </div>
+      <div class="col-md-3">
+        <input style="margin: 0;" id="txtngayvanban" type="date" class="form-input-title row  w-100">
+      </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-3" style="align-self: center; padding-right: 0;">
+        <div>Người giao nhiệm vụ&nbsp;<span style="color: red;">(*)</span></div>
+      </div>
+      <div class="col-md-9" style="display: flex;">
+        <!-- <ng-container [ngTemplateOutlet]="NguoiGiaoViec"></ng-container> -->
+        <div ngbDropdown class="d-inline-block" style="width: 100%;">
+          <button class="btn btn-list" mat-button ngbDropdownToggle>
+            <div style="float: left;">{{labelNGNV}}</div>
+            <!-- <div style="text-align: right;">
+              <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down </mat-icon>
+            </div> -->
+          </button>
+          <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+            <mat-form-field class="mat-form-field-fluid ">
+              <input matInput [formControl]="bankFilterCtrlNGNV" placeholder="Tìm kiếm" autocomplete="off" />
+            </mat-form-field>
+            <button class="dropdown-item" *ngFor="let p of filteredBanksNGNV | async" (click)="changeNGNV(p)">
+              {{p.tenchucdanh}} - {{p.hoten}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-3" style="align-self: center;">
+        <div>Trích yêu văn bản&nbsp;<span style="color: red;">(*)</span></div>
+      </div>
+      <div class="col-md-9">
+        <input style="margin: 0;" id="txttrichyeu" type="text" class="form-input-title row  w-100">
+      </div>
+    </div>
+    <div class="row" style="padding-bottom: 10px;">
+      <table style="width: 100%;">
+        <tr>
+          <td style="width: 70%;">
+            <div class="row col-md-12">
+              <span style="text-transform: uppercase; color: #42b814;; font-weight: bold;"
+                translate="work.vanbandinhkem"></span>
+            </div>
+          </td>
+          <td style="width: 30%; text-align: end;">
+            <a class="action" style="cursor: pointer;" (click)="selectFile()">
+              <span translate="landingpagekey.them"></span>
+              &nbsp;
+              <i matTooltip="Chấp nhận tất cả các định dạng, tối đa 16 MB" class="fas fa-info-circle"></i>
+            </a>
+            <input *ngIf="DocsID!=0" #myInput placeholder="Chọn file" id="imgInpdd1" type="file" name="myInput" multiple
+              style="display: none;" (change)="save_file_Direct($event)">
+            <input *ngIf="DocsID==0" #myInput placeholder="Chọn file" id="imgInpdd1" type="file" name="myInput" multiple
+              style="display: none;" (change)="UploadFileForm($event)">
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 100%; padding-top: 10px;" colspan="2" class="color-tieude">
+            <div class="row comment-box">
+              <div class="col-md-12 kt-margin-bottom-10-mobile" *ngFor="let att2 of AttFile;">
+                <div class="attach-item show-action">
+                  <div *ngIf="DocsID!=0;else notDraft" class="attach-item-icon">
+                    <img src="{{att2.icon}}" />
+                  </div>
+                  <ng-template #notDraft>
+                    <div class="attach-item-icon">
+                      <img src="{{getIcon(att2.type)}}" />
+                    </div>
+                  </ng-template>
+
+                  <div class="attach-item-name">
+                    <p>{{att2.filename}}</p>
+                  </div>
+                  <div class="attach-item-del d-flex">
+                    <a class="url" matTooltip="Xóa" (click)="deleteFile(att2)">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-6" style="align-self: center;">
+        <p style="font-weight:600;font-size: 16px;">Nhiệm vụ</p>
+
+      </div>
+      <div class="col-md-6" style="justify-content: end">
+        <button style="margin: 0;float: right;" type="button" mat-raised-button class="ja_button ja_btn-addnew"
+          (click)="ThemVB()">
+          <span>+ Thêm</span>
+        </button>
+      </div>
+      <div class="col-md-12">
+        <hr width="100%" size="5px" style="color:#696969;margin-top: 5px;margin-bottom: 5px;" />
+      </div>
+
+    </div>
+
+
+    <div class="row" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        <div style="align-self: center;padding-bottom: 10px;">
+          <div>Nhiệm vụ 1&nbsp;<span style="color: red;">(*)</span></div>
+        </div>
+        <div class="row">
+          <div style="padding-top: 10px;padding-bottom: 10px;">
+            <div>Giao cho</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div class="row" style="padding-bottom: 10px;">
+          <input style="margin: 0;" id="txttitle" type="text" class="form-input-title row  w-100">
+        </div>
+        <div class="row" style="padding-bottom: 10px;">
+          <div class="col-md-3 pd-0">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-list" mat-button ngbDropdownToggle>
+                {{labelDuAn}}
+                <!-- <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down </mat-icon> -->
+              </button>
+              <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                <mat-form-field class="mat-form-field-fluid ">
+                  <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm" autocomplete="off" />
+                </mat-form-field>
+                <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async" (click)="changeDuAn(p)">
+                  {{p.title_full}}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 pd-0" style="align-self: center;">
+            <ng-container [ngTemplateOutlet]="Assignee"></ng-container>
+          </div>
+          <div class="col-md-1 pd-0" style="align-self: center;">
+            <ng-container [ngTemplateOutlet]="setPriority" *ngIf="roleprioritize"></ng-container>
+          </div>
+          <div class="col-md-4 pd-0" style="align-self: center;">
+            <div style="display: flex;">
+
+              <div class="col-md-8 pd-0" style="align-self: center;text-align: right;">
+                {{viewdateDynamic()}}
+              </div>
+
+              <div class="col-md-2 pd-0" style="align-self: center;">
+                <ng-container [ngTemplateOutlet]="setDate" *ngIf="roledeadline"></ng-container>
+              </div>
+              <div class="col-md-2 pd-0" style="align-self: center;justify-content: end;">
+                <div>&nbsp;<span style="color: red;">(*)</span></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div style="margin-left: 10px; margin-right: 10px;">
+        <hr width="100%" size="5px" style="color:#696969;margin-top: 5px;margin-bottom: 5px;" />
+      </div>
+    </div>
+
+    <div class="row" *ngFor="let data of listGiaoCho;let vi = index" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        <div style="align-self: center;padding-bottom: 10px;">
+          <div>Nhiệm vụ {{vi+2}}&nbsp;<span style="color: red;">(*)</span></div>
+        </div>
+        <div class="row">
+          <div style="padding-top: 10px;padding-bottom: 10px;">
+            <div>Giao cho</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div class="row" style="padding-bottom: 10px;">
+          <input style="margin: 0;" id="txttitle_{{vi}}" (keyup.enter)="updateTitleNV($event,vi)"
+            [value]="setTitle(data)" matTooltip="Enter để lưu tên nhiệm vụ chỉnh sửa" type="text"
+            class="form-input-title row  w-100">
+        </div>
+        <div class="row" style="padding-bottom: 10px;">
+          <div class="col-md-3 pd-0" style="display: flex;">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-list" mat-button ngbDropdownToggle>
+                {{data.labelDuAn}}
+                <!-- <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down </mat-icon> -->
+              </button>
+              <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                <mat-form-field class="mat-form-field-fluid ">
+                  <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm" autocomplete="off" />
+                </mat-form-field>
+                <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async"
+                  (click)="changeDuAnDynamic(p,data,vi)">
+                  {{p.title_full}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 pd-0" style="align-self: center;">
+            <ng-container [ngTemplateOutlet]="AssigneeDynamic" [ngTemplateOutletContext]="{data: data, vi: vi}">
+            </ng-container>
+          </div>
+          <!-- <div class="col-md-1 pd-0" style="align-self: center;">
+            <div class="cu-task-row-assignee" style="width: 100%;justify-content: end;">
+              <div class="cu-user-group">
+                <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print"
+                  matTooltip="{{ 'work.gandouutien' | translate }}">
+                  <div
+                    class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                    <div class="cu-user-group__icon-mono">
+                      <button class="btn -hover text-muted" [matMenuTriggerFor]="priority123">
+                        <i class="{{data.cssPriority}} pd-0" style="font-size: 13px;"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <mat-menu #priority123="matMenu">
+                <button mat-menu-item *ngFor="let prio of list_priority" (click)="SelectPriDynamic(data,prio.value,vi)">
+                  <i class="{{prio.icon}} pd-r-10"></i>
+                  {{ 'priority.'+prio.name | translate }}
+                </button>
+              </mat-menu>
+            </div>
+          </div> -->
+          <div class="col-md-1 pd-0" style="align-self: center;">
+            <ng-container [ngTemplateOutlet]="setPriorityisVanBan" [ngTemplateOutletContext]="{data: data,vi: vi}"
+              *ngIf="roleprioritize"></ng-container>
+          </div>
+          <div class="col-md-4 pd-0" style="align-self: center;">
+            <div class="row">
+              <div class="col-md-6 pd-0" style="align-self: center;text-align: right;">
+                {{viewdateDynamicVB(data)}}
+              </div>
+              <div class="col-md-2 pd-0" style="align-self: center;">
+                <ng-container [ngTemplateOutlet]="setDateisVanBan" [ngTemplateOutletContext]="{vi: vi}"
+                  *ngIf="roledeadline"></ng-container>
+              </div>
+              <div class="col-md-2 pd-0" style="align-self: center;justify-content: end;">
+                <div>&nbsp;<span style="color: red;">(*)</span></div>
+              </div>
+              <div class="col-md-2 pd-0" style="padding: 0 0 0 5px; align-self: center;justify-content: end;">
+                <i class="fas fa-trash-alt" style="cursor: pointer; color:red;" (click)="deleteRow(vi)"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="title mt-7" style="color: #42b814; font-weight: 700;">{{txtMoTa}}</h4>
+        <div class="myQuill">
+          <quill-editor  style="margin-bottom: 15px;"  [modules]="quillConfig" class="quilljeework" placeholder="" [styles]="editorStyles1"
+            [(ngModel)]="description_tiny">
+          </quill-editor>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-footer">
+    <button type="button" (click)="goBack()" class="ja_button ja_btn-goback" mat-raised-button><span
+        translate="landingpagekey.trolai"></span></button>&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true,1)"
+      matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+      <span translate="landingpagekey.luudong"></span>
+    </button>&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false,1)"
+      matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}" *ngIf="!isTaskChat">
+      <mat-icon class="icon-repeat">repeat</mat-icon><span translate="landingpagekey.luutieptuc"></span>
+    </button>&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addDraft" (click)="onSubmit(true,2)"
+      matTooltip="{{ 'landingpagekey.luunhap' | translate }}">
+      <span translate="landingpagekey.luunhap"></span>
+    </button>
+  </div>
+</div>
+<ng-template #Assignee>
+  <div class="cu-task-row-assignee row" style="width: 100%; justify-content: end;">
+    <div class="cu-user-group url position-relative" *ngFor="let user of getAssignees()">
+      <!-- <kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+      </kt-avatar-user> -->
+      <span style="font-weight: bold; padding-right: 5px; font-size: 9pt;">{{user.hoten}}</span>
+    </div>
+    <div class="cu-user-group" *ngIf="roleassign">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{Assign.id_nv>0?Assign.hoten: 'work.assignee' | translate}}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+              <i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #assign="matMenu">
+      <div class="page-work-detail">
+        <kt-choose-users [options]="options_assign" (IsSearch)="stopPropagation($event)"
+          (ItemSelected)="ItemSelected($event,1)">
+        </kt-choose-users>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>
+
+<ng-template #setPriority>
+  <div class="cu-task-row-assignee" style="width: 100%;justify-content: end;">
+    <div class="cu-user-group">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{ 'work.gandouutien' | translate }}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button class="btn -hover text-muted" [matMenuTriggerFor]="priority1">
+              <img style="cursor: pointer;height: 20px" [ngClass]="get_flag_color(priority)">
+              <!-- <i class="{{getPriority(priority)}} pd-0" style="font-size: 13px;"></i> -->
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #priority1="matMenu">
+      <button mat-menu-item *ngFor="let prio of list_priority" (click)="priority=prio.value">
+        <img style="cursor: pointer;height: 20px" [ngClass]="get_flag_color(prio.value)">
+        <!-- <i class="{{prio.icon}} pd-r-10"></i> -->
+        {{ 'priority.'+prio.name | translate }}
+      </button>
+    </mat-menu>
+  </div>
+</ng-template>
+
+<ng-template #setDate>
+  <div class="cu-task-row-assignee" style="width: 100%;justify-content: end;">
+    <div class="cu-user-group">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{viewdate()}}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button
+              class="btn -hover {{(this.selectedDate.startDate =='' && this.selectedDate.endDate=='')?'text-muted':'text-success'}}"
+              (click)="Selectdate()">
+              <i class="far fa-calendar-check pd-0" style="font-size: 13px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #AssigneeDynamic let-data="data" let-vi="vi">
+  <div class="cu-task-row-assignee row" style="width: 100%; justify-content: end;">
+    <div class="cu-user-group url position-relative" *ngFor="let user of data.Assign">
+      <!-- <kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+      </kt-avatar-user> -->
+      <span style="font-weight: bold; padding-right: 5px; font-size: 9pt;">{{user.hoten}}</span>
+    </div>
+    <div class="cu-user-group" *ngIf="roleassign">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{data.Assign.id_nv>0?data.Assign.hoten: 'work.assignee' | translate}}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+              <i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #assign="matMenu">
+      <div class="page-work-detail">
+        <kt-choose-users2 [options]="data.options_assign" (IsSearch)="stopPropagation($event)"
+          (ItemSelected)="ItemSelectedDynamic($event,1,vi)">
+        </kt-choose-users2>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>
+<ng-template #setPriorityisVanBan let-data="data" let-vi="vi">
+  <div class="cu-task-row-assignee" style="width: 100%;justify-content: end;">
+    <div class="cu-user-group">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{ 'work.gandouutien' | translate }}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button class="btn -hover text-muted" [matMenuTriggerFor]="priority1234">
+              <img style="cursor: pointer;height: 20px" [ngClass]="get_flag_color(data.priority)">
+              <!-- <i class="{{getPriority(data.priority)}} pd-0" style="font-size: 13px;"></i> -->
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #priority1234="matMenu">
+      <button mat-menu-item *ngFor="let prio of list_priority" (click)="SetPriDynamic(vi,prio.value)">
+        <!-- <i class="{{prio.icon}} pd-r-10"></i> -->
+        <img style="cursor: pointer;height: 20px" [ngClass]="get_flag_color(prio.value)">
+        {{ 'priority.'+prio.name | translate }}
+      </button>
+    </mat-menu>
+  </div>
+</ng-template>
+<ng-template #setDateisVanBan let-vi="vi">
+  <div class="cu-task-row-assignee" style="width: 100%;justify-content: end;">
+    <div class="cu-user-group">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+        matTooltip="{{viewdate()}}">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button
+              class="btn -hover {{(this.selectedDate.startDate =='' && this.selectedDate.endDate=='')?'text-muted':'text-success'}}"
+              (click)="SelectdateisVanBan(vi)">
+              <i class="far fa-calendar-check pd-0" style="font-size: 13px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #NguoiGiaoViec>
+  <div class="cu-task-row-assignee row" style="justify-content: left;">
+    <div class="cu-user-group url scale-hover-02 position-relative" *ngFor="let user of getNguoiGiaoViec()">
+      <kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+      </kt-avatar-user>
+    </div>
+    <div class="cu-user-group" *ngIf="roleassign">
+      <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above">
+        <div class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+          <div class="cu-user-group__icon-mono">
+            <button class="btn -hover text-muted" [matMenuTriggerFor]="nguoigiaoviec">
+              <i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #nguoigiaoviec="matMenu">
+      <div class="page-work-detail">
+        <kt-choose-users [options]="options_nguoigiaoviec" (IsSearch)="stopPropagation($event)"
+          (ItemSelected)="ItemSelected($event,3)">
+        </kt-choose-users>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>

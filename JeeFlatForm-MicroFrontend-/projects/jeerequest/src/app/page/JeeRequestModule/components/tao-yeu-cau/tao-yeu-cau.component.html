@@ -1,0 +1,71 @@
+<style>
+    .hoverItem:hover {
+        background-color: #f6f6f6;
+        font-weight: 500;
+    }
+    
+    .card.card-custom>.card-body {
+        padding: 2rem 2.25rem 0 2.25rem;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="dialog-title">{{getTitle()}}</h3>
+        </div>
+        <!-- <div class="card-toolbar"> 
+        <button (click)="close()" mat-button mat-icon-button>
+          <i  class="flaticon2-cancel-music"></i>
+        </button>
+    </div> -->
+    </div>
+    <div class="card-body" [perfectScrollbar]="{wheelPropagation: false}" [ngStyle]="{'max-height': '65vh', 'position': 'relative'}">
+        <div>
+            <span>{{'Yeucau.loaiyeucau' | translate}}</span>
+            <div class="bg-ten-loai">
+                <div style="font-size: 15px;">{{TenLoaiYeuCau}}</div>
+            </div>
+            <div style="width: 100%;padding-bottom: 20px;">
+                {{MotaLoaiYeuCau}}
+            </div>
+
+            <div [ngSwitch]="this.Loai">
+                <ng-template [ngSwitchCase]="1">
+                    <m-dynamic-form-copy (Close)="closeDynamic()" (TAT)="TatKT()" [ID]="Id_LoaiYeuCau" [TenLoaiYeuCau]="TenLoaiYeuCau" [MoTaYeuCau]="MoTa" [TenYeuCau]="tenYeuCau" [ViewData]="dataConTrol"></m-dynamic-form-copy>
+                </ng-template>
+                <ng-template [ngSwitchCase]="2">
+                    <m-dynamic-form-edit (Close)="closeDynamic()" [ID]="Id_LoaiYeuCau" [TenLoaiYeuCau]="TenLoaiYeuCau" [id_YeuCau]="id_YeuCau" [MoTaYeuCau]="MoTa" [TenYeuCau]="tenYeuCau" [ViewData]="dataConTrol"></m-dynamic-form-edit>
+                </ng-template>
+                <ng-template [ngSwitchCase]="3">
+                    <m-dynamic-form (Close)="closeDynamic()" (TAT)="TatKT()" [ID]="Id_LoaiYeuCau" [TenLoaiYeuCau]="TenLoaiYeuCau" [ViewData]="fields"></m-dynamic-form>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer" style="justify-content: center;padding: 0px 0 15px 0px;border-top: 0px">
+<div class="row text-center">
+  <button [disabled]="disabledBtn" mat-raised-button type="button" style="background-color: #B6B9BF;color:#FFFFFF" (click)="close()">
+      Trở lại
+  </button>&nbsp;
+  <button [disabled]="disabledBtn" *ngIf="this.Loai!=2" mat-raised-button type="button" (click)="guiYeuCau()" style="background-color: #0A9562;color:#FFFFFF" >
+    {{nguoiDuyet}}
+  </button> 
+  <button [disabled]="disabledBtn" *ngIf="this.Loai==2" mat-raised-button type="button" (click)="guiYeuCau()" style="background-color: #0A9562;color:#FFFFFF" >
+    chỉnh sửa yêu cầu
+</button> 
+</div>
+</div> -->
+
+    <div class="dialog-footer">
+        <button type="button" mat-raised-button (click)="close()" class="ja_button ja_btn-goback">
+    Quay lại
+  </button>&nbsp;
+
+        <button *ngIf="this.Loai != 2" type="button" [disabled]="disabledBtn" mat-raised-button (click)="guiYeuCau()" class="ja_button ja_btn-addnew">{{nguoiDuyet}}
+  </button>
+
+        <button *ngIf="this.Loai == 2" type="button" [disabled]="disabledBtn" mat-raised-button (click)="guiYeuCau()" class="ja_button ja_btn-addnew">{{'Yeucau.chinhsuayeucau' | translate}}
+  </button>
+    </div>
+</div>

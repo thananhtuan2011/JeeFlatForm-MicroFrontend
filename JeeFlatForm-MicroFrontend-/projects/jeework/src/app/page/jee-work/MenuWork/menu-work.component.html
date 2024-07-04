@@ -1,0 +1,41 @@
+<style>
+  .sky-scroll-work {
+    overflow: auto;
+  }
+
+  /* .sky-scroll-work:hover {
+    overflow: auto;
+  } */
+
+  .sky-scroll-work::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background: #ebebeb;
+  }
+
+  .sky-scroll-work::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  }
+
+  .sky-scroll-work::-webkit-scrollbar {
+    width: 7px;
+  }
+</style>
+<div class="sky-scroll-work" style="
+    height: 99vh;
+    position: absolute;
+    width: 17%;
+    display: block;
+  ">
+  <app-list-menu-work></app-list-menu-work>
+</div>
+<div style="
+    margin-left: 17%;
+    display: block;
+    height: 100vh;
+    overflow: hidden;">
+  <div style="height: 98%; margin-top: 10px;">
+    <router-outlet></router-outlet>
+  </div>
+</div>

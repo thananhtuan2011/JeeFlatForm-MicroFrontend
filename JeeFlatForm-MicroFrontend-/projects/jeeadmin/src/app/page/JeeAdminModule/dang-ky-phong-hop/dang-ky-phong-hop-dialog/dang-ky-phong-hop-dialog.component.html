@@ -1,0 +1,91 @@
+<style>
+	.border-button {
+		border: 1px solid;
+		border-color: #0A9562;
+	}
+
+	.button-trolai{
+		color: #0A9562;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<span class="dialog-title" translate="datphonghop.thongtindangky"></span>
+		</div>
+	</div>
+	
+	<div class="card-body">
+		<form [formGroup]="itemForm" *ngIf="item" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row">
+						<div class="col-md-6 kt--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select [(value)]="filterPhong" placeholder="{{ 'datphonghop.taisan' | translate }}">
+									<mat-option value="{{hv.RowID}}" *ngFor="let hv of listPhongHop">
+										{{hv.Title}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput [matDatepicker]="dp1" class="require" required
+									placeholder="{{ 'datphonghop.ngay' | translate}}" formControlName="BookingDate">
+								<mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+								<mat-datepicker #dp1></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="{{ 'datphonghop.thoigiantu' | translate}}" required
+									formControlName="FromTime">
+									<mat-option>
+										<ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+											[noEntriesFoundLabel]="''">
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option value="{{itemCate.Gio}}"
+										*ngFor="let itemCate of filteredBanksTuGio | async">
+										{{ itemCate.Gio }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="{{ 'datphonghop.den' | translate}}" required
+									formControlName="ToTime">
+									<mat-option>
+										<ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+											[noEntriesFoundLabel]="''">
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option value="{{itemCate.Gio}}"
+										*ngFor="let itemCate of filteredBanksDenGio | async">
+										{{ itemCate.Gio }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<textarea class="require" matInput placeholder="{{ 'datphonghop.noidunghop' | translate }}" rows="3"
+									required autocomplete="off" formControlName="MeetingContent" style="resize: none;"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" (click)="goBack()" class="ja_button btn-goback" mat-raised-button >
+			<span translate="COMMON.BACK"></span></button>&nbsp;&nbsp;
+		<button type="button" (click)="GuiDangKy()" mat-raised-button class="ja_button btn-addcontinue"
+			[disabled]="disabledBtn"><mat-icon style="margin-top: 4px;">check</mat-icon>
+			<span translate="COMMON.guidangky"></span></button>
+	</div>
+</div>

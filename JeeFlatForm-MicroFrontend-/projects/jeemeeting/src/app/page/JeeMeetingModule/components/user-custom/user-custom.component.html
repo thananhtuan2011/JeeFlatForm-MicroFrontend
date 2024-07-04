@@ -1,0 +1,35 @@
+<div class="row">
+    <div [ngClass]="!name? 'col-12' : 'col-2'">
+        <ngx-avatar size="{{iconSize}}" [matMenuTriggerFor]="menuPerson" matTooltip="{{item.HoTen}}" src="{{item.Image}}" *ngIf="item.Image;else bindText2">
+        </ngx-avatar>
+        <ng-template #bindText2>
+            <ngx-avatar [matMenuTriggerFor]="menuPerson" textSizeRatio="2.5" matTooltip="{{item.HoTen}}" size="{{iconSize}}" [name]="getNameUser(item.HoTen)" bgColor="{{getColorNameUser(item.HoTen)}}">
+            </ngx-avatar>
+        </ng-template>
+    </div>
+    <div *ngIf="name" class="col-10">
+        <div class="col-12" style="font-weight: bold;">
+            <span>{{item.HoTen}}</span>
+        </div>
+        <div class="col-12"><span class="font-weight-bold">{{item.ChucVu}}</span></div>
+    </div>
+</div>
+
+<mat-menu #menuPerson="matMenu">
+    <div class="row">
+        <div class="col-3">
+            <ngx-avatar size="40" matTooltip="{{item.HoTen}}" src="{{item.Image}}" *ngIf="item.Image;else bindText2">
+            </ngx-avatar>
+            <ng-template #bindText2>
+                <ngx-avatar textSizeRatio="2.5" matTooltip="{{item.HoTen}}" size="40" [name]="getNameUser(item.HoTen)" bgColor="{{getColorNameUser(item.HoTen)}}">
+                </ngx-avatar>
+            </ng-template>
+        </div>
+        <div class="col-9">
+            <div class="col-12" style="font-weight: bold;">
+                <span>{{item.HoTen}}</span>
+            </div>
+            <div class="col-12"><span class="font-weight-bold">{{item.ChucVu}}</span></div>
+        </div>
+    </div>
+</mat-menu>

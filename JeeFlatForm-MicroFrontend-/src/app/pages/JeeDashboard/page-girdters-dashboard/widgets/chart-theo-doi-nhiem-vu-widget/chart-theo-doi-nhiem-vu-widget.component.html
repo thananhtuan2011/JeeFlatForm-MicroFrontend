@@ -1,0 +1,18 @@
+<style>
+    .item-text {
+        text-align: center;
+        font-weight: bold;
+        font-size: 11pt;
+    }
+
+    .item-text-title {
+        padding-left: 15px;
+        font-size: 11pt;
+    }
+</style>
+<div>
+    <div style="display: flex" [ngStyle]="{ 'width': getWidth() }">
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+            [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+    </div>
+</div>

@@ -1,0 +1,1097 @@
+<style>
+    .card .card-body {
+        padding: 2rem 2.25rem !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{getTitle()}}
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body" style="height: calc(100vh - 280px); overflow: auto;" #scrollMe>
+        <form class="kt-form" [formGroup]="CuocHopForm">
+            <div class="kt-portlet__body">
+                <div class="form-group kt-form__group row">
+                    <div class="col-md-6" style="padding-bottom:10px">
+                        <mat-radio-group (change)="changeTypeMeeting($event)" formControlName="TypeMeeting">
+                            <mat-radio-button value="1">Trong ngày
+                            </mat-radio-button>
+                            <mat-radio-button value="2">Từ ngày - đến ngày
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-lg-12">
+                        <mat-form-field class="example-full-width">
+                            <textarea rows="2" placeholder="Nội dung cuộc họp" formControlName="TenCuocHop" #focusInput
+                                matInput></textarea>
+                        </mat-form-field>
+                    </div>
+                    <ng-container *ngIf="TypeMeeting === '1'&&this.CuocHop.Id===0 ">
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Thời gian diễn ra</mat-placeholder>
+                                <input [ngModel]="NgayBatDau" matInput [matDatepicker]="picker"
+                                    formControlName="ThoiGianBatDau" (ngModelChange)="addEvent($event)">
+
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Thời gian từ</mat-placeholder>
+                                <mat-select [ngModel]="GioBatDau" formControlName="thoigianbatdau"
+                                    (ngModelChange)="addEvent2($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksTuGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Đến</mat-placeholder>
+                                <mat-select [ngModel]="GioKetThuc" formControlName="thoigianketthuc"
+                                    (ngModelChange)="addEvent3($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksDenGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="TypeMeeting === '1'&&this.CuocHop.Id>0">
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>{{'QL_CUOCHOP.CUOCHOP.TIME_DIENRA' | translate}}</mat-placeholder>
+                                <input [ngModel]="NgayBatDau" matInput [matDatepicker]="picker"
+                                    formControlName="ThoiGianBatDau" (ngModelChange)="addEvent($event)">
+
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Thời gian từ</mat-placeholder>
+                                <mat-select [ngModel]="GioBatDau" formControlName="thoigianbatdau"
+                                    (ngModelChange)="addEvent2($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksTuGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Đến</mat-placeholder>
+                                <mat-select [ngModel]="GioKetThuc" formControlName="thoigianketthuc"
+                                    (ngModelChange)="addEvent3($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksDenGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="TypeMeeting === '2'&& this.CuocHop.Id===0 ">
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <input [ngModel]="NgayBatDau" matInput [matDatepicker]="picker"
+                                    formControlName="ThoiGianBatDau" (ngModelChange)="addEvent($event)">
+                                <mat-placeholder>Thời gian bắt đầu</mat-placeholder>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Thời gian từ</mat-placeholder>
+                                <mat-select [ngModel]="GioBatDau" formControlName="thoigianbatdau"
+                                    (ngModelChange)="addEvent2($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksTuGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <input [ngModel]="NgayKetThuc" matInput [matDatepicker]="picker2"
+                                    formControlName="ThoiGianKetThuc" (ngModelChange)="addEvent4($event)">
+                                <mat-placeholder>Thời gian kết thúc</mat-placeholder>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Đến</mat-placeholder>
+                                <mat-select [ngModel]="GioKetThuc" formControlName="thoigianketthuc"
+                                    (ngModelChange)="addEvent3($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksDenGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="TypeMeeting === '2'&&this.CuocHop.Id>0 ">
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <input [ngModel]="NgayBatDau" matInput [matDatepicker]="picker"
+                                    formControlName="ThoiGianBatDau" (ngModelChange)="addEvent($event)">
+                                <mat-placeholder>Thời gian bắt đầu</mat-placeholder>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Thời gian từ</mat-placeholder>
+                                <mat-select [ngModel]="GioBatDau" formControlName="thoigianbatdau"
+                                    (ngModelChange)="addEvent2($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksTuGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <input [ngModel]="NgayKetThuc" matInput [matDatepicker]="picker2"
+                                    formControlName="ThoiGianKetThuc" (ngModelChange)="addEvent4($event)">
+                                <mat-placeholder>Thời gian kết thúc</mat-placeholder>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-placeholder>Đến</mat-placeholder>
+                                <mat-select [ngModel]="GioKetThuc" formControlName="thoigianketthuc"
+                                    (ngModelChange)="addEvent3($event)">
+
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+                                            [noEntriesFoundLabel]="''">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option [ngClass]="{'custom-option': true}" value="{{itemCate.Gio}}"
+                                        *ngFor="let itemCate of filteredBanksDenGio | async">
+                                        {{ itemCate.Gio }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <input formControlName="SoKyHieu" placeholder="Số ký hiệu" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-placeholder>Phòng họp </mat-placeholder>
+                            <mat-select (selectionChange)="selectPhongHop($event)" formControlName="IdPhongHopOffline">
+                                <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Tìm kiếm'"
+                                        [noEntriesFoundLabel]="'Không có kết quả'" [(ngModel)]="searchPH"
+                                        [ngModelOptions]="{standalone: true}" (ngModelChange)="filterPH()">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option [ngClass]="{'custom-option-tab': true}" value="0">Không chọn
+                                </mat-option>
+                                <mat-option [ngClass]="{'custom-option': true}" *ngFor="let tmp of filteredPH| async "
+                                    value="{{tmp.Id}}">
+                                    {{tmp.TenPhongHop}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <textarea rows="1" placeholder="Địa điểm" formControlName="DiaDiem" matInput></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12 kt-margin-bottom-10-mobile">
+                        <label>Thư mời đính kèm:</label> <br />
+                        <mat-hint> Định dạng phù hợp: (.{{strExtensionImg}});&nbsp;&nbsp;Video
+                            (.{{strExtensionVideo}});&nbsp;&nbsp;File (.{{strExtensionFile}})</mat-hint><br /><br />
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%">STT</th>
+                                    <th>Tên file</th>
+                                    <th style="width:10%">Hành động</th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let item of ListFileDinhKemThuMoi; let i=index">
+                                <tr *ngIf="item.IsDel === false" class="p-file-ex">
+                                    <td>{{i+1}}</td>
+                                    <td><a href="{{item.Link}}" target="_blank">{{item.TenFile}}</a></td>
+                                    <td>
+                                        <button mat-icon-button (click)="removeFileThuMoi(i)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container>
+                                <tr>
+                                    <td colspan="2">Đính kèm file mới
+                                    </td>
+                                    <td>
+                                        <button class="jee_btn-addcontinue"
+                                            style="padding: 0 10px 0 10px;margin-right: 10px" type="button"
+                                            color="primary" mat-raised-button (click)="selectFileThuMoi(333331)">
+                                            Chọn file
+                                        </button>
+                                        <input #fileInput type="file" id="FileUpLoadThuMoi333331" multiple
+                                            (click)="fileInput.value = null" value=""
+                                            (change)="FileChoosesThuMoi($event,-1)" style="display: none" />
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let item of filesThuMoi; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        &nbsp;
+                                        <button class="jee_btn-addcontinue" style="padding: 0 10px 0 10px;"
+                                            type="button" color="primary" mat-raised-button
+                                            (click)="selectFileThuMoi(i)">
+                                            Chọn file khác
+                                        </button> {{item?item.filename:""}}
+                                        <input #fileInput type="file" id="FileUpLoadThuMoi{{i}}" multiple
+                                            (click)="fileInput.value = null" value=""
+                                            (change)="FileChooseThuMoi($event,i)" style="display: none" />
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button (click)="removeThuMoi(i)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                    <div class="col-md-12 kt-margin-bottom-10-mobile">
+                        <label>File đính kèm:</label> <br />
+                        <mat-hint> Định dạng phù hợp: (.{{strExtensionImg}});&nbsp;&nbsp;Video
+                            (.{{strExtensionVideo}});&nbsp;&nbsp;File (.{{strExtensionFile}})</mat-hint><br /><br />
+                        <table class="table-file table table-bordered">
+                            <ng-container>
+                                <tr>
+                                    <th style="width:10%">STT</th>
+                                    <th>Tên file</th>
+                                    <th style="width:10%">Hành động</th>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let item of ListFileDinhKem; let i=index">
+                                <tr *ngIf="item.IsDel === false" class="p-file-ex">
+                                    <td>{{i+1}}</td>
+                                    <td><a href="{{item.Link}}" target="_blank">{{item.TenFile}}</a></td>
+                                    <td>
+                                        <button mat-icon-button (click)="removeFile(i)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container>
+                                <tr>
+                                    <td colspan="2">Đính kèm file mới
+                                    </td>
+                                    <td>
+                                        <button class="jee_btn-addcontinue"
+                                            style="padding: 0 10px 0 10px;margin-right: 10px" type="button"
+                                            color="primary" mat-raised-button (click)="selectFile(3333311)">
+                                            Chọn file
+                                        </button>
+                                        <input #fileInput type="file" id="FileUpLoad3333311" multiple
+                                            (click)="fileInput.value = null" value="" (change)="FileChooses($event,-1)"
+                                            style="display: none" />
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let item of files; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        &nbsp;
+                                        <button class="jee_btn-addcontinue" style="padding: 0 10px 0 10px;"
+                                            type="button" color="primary" mat-raised-button (click)="selectFile(i)">
+                                            Chọn file khác
+                                        </button> {{item?item.filename:""}}
+                                        <input #fileInput type="file" id="FileUpLoad{{i}}"
+                                            (click)="fileInput.value = null" value="" (change)="FileChoose($event,i)"
+                                            style="display: none" />
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button (click)="remove(i)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+
+                    <div class="col-lg-12" *ngIf="TypeThanhPhan === 1 || TypeThanhPhan===3">
+                        <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                            <div style="padding-top: 5px; margin-right: 15px;">Thành phần tham dự:
+                            </div>
+                            <ng-container *ngIf="meetingType1_member === 0 || meetingType1_member === 3">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let user of listNguoiThamGia || [];let i = index">
+                                    <div style="padding-right: 5px;" *ngIf="i<10">
+                                        <i *ngIf="addNguoiThamGia"
+                                            class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThamGia(user)"></i>
+                                        <app-avatar-user [image]="user.Image" size="29" [name]="user.HoTen">
+                                        </app-avatar-user>
+                                    </div>
+                                </div>
+                                <div *ngIf="addNguoiThamGia&&listNguoiThamGia.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(1)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span class="symbol-label font-weight-bold">{{listNguoiThamGia.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThamGia.length<=10">
+                                    <div *ngIf="addNguoiThamGia" (click)="AddThanhVien(1)" matTooltip="Chọn người"
+                                        class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="meetingType1_member === 1 || meetingType1_member === 3">
+                                <div *ngIf="meetingType1_member === 3"
+                                    style="padding-top: 5px; margin-right: 15px; margin-left: 25px;">Đơn vị tham dự:
+                                </div>
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let user of listNguoiThamGia_dept || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThamGia(user,1)"></i>
+                                        <app-avatar-user-dept [image]="user.Image" size="29"
+                                            [name]="user.DepartmentName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of user.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiThamGia_dept.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(1)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiThamGia_dept.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThamGia_dept.length<=10">
+                                    <div (click)="AddThanhVien(1)" matTooltip="Chọn người" class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType1_member === 2">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let user of listNguoiThamGia_group || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThamGia(user)"></i>
+                                        <app-avatar-user-dept [image]="user.Image" size="29" [name]="user.GroupName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of user.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiThamGia_group.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(1)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiThamGia_group.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThamGia_group.length<=10">
+                                    <div (click)="AddThanhVien(1)" matTooltip="Chọn người" class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12" *ngIf="TypeThanhPhan === 1 || TypeThanhPhan===3 ">
+                        <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                            <div style="padding-top: 5px;margin-right: 15px;">Thư ký cuộc họp:
+                            </div>
+                            <ng-container *ngIf="meetingType2_member === 0 || meetingType2_member === 3">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let usertd of listNguoiTheoDoi || [];let i = index">
+                                    <div style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTheoDoi(usertd)"></i>
+                                        <app-avatar-user [image]="usertd.Image" size="29" [name]="usertd.HoTen">
+                                        </app-avatar-user>
+                                    </div>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(2)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span class="symbol-label font-weight-bold">{{listNguoiTheoDoi.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi.length<=10">
+                                    <div (click)="AddThanhVien(2)" matTooltip="Chọn người" class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType2_member === 1 || meetingType2_member === 3">
+                                <div *ngIf="meetingType2_member === 3"
+                                    style="padding-top: 5px; margin-right: 15px; margin-left: 25px;">Đơn vị thư ký:
+                                </div>
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let usertd of listNguoiTheoDoi_dept || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTheoDoi(usertd,1)"></i>
+                                        <app-avatar-user-dept [image]="usertd.Image" size="29"
+                                            [name]="usertd.DepartmentName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of usertd.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi_dept.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(2)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiTheoDoi_dept.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi_dept.length<=10">
+                                    <div (click)="AddThanhVien(2)" matTooltip="Chọn người" class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType2_member === 2">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let usertd of listNguoiTheoDoi_group || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTheoDoi(usertd)"></i>
+                                        <app-avatar-user-dept [image]="usertd.Image" size="29"
+                                            [name]="usertd.GroupName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of usertd.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi_group.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(2)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiTheoDoi_group.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTheoDoi_group.length<=10">
+                                    <div (click)="AddThanhVien(2)" matTooltip="Chọn người" class="url user"
+                                        style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                        <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12" *ngIf="TypeThanhPhan === 1 || TypeThanhPhan===3">
+                        <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                            <div style="padding-top: 5px; margin-right: 15px;">Người thêm tài liệu:
+                            </div>
+                            <ng-container *ngIf="meetingType6_member === 0  || meetingType6_member === 3">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiThemTaiLieu || [];let i = index">
+                                    <div style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThemTaiLieu(userthemtailieu)"></i>
+                                        <app-avatar-user [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.HoTen">
+                                        </app-avatar-user>
+                                    </div>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(6)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiThemTaiLieu.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu.length<=10" (click)="AddThanhVien(6)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType6_member === 1 || meetingType6_member === 3">
+                                <div *ngIf="meetingType6_member === 3"
+                                    style="padding-top: 5px; margin-right: 15px; margin-left: 25px;">Đơn vị thêm tài
+                                    liệu:
+                                </div>
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiThemTaiLieu_dept || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThemTaiLieu(userthemtailieu,1)"></i>
+                                        <app-avatar-user-dept [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.DepartmentName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userthemtailieu.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu_dept.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(6)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiThemTaiLieu_dept.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu_dept.length<=10" (click)="AddThanhVien(6)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType6_member === 2">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiThemTaiLieu_group || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserThemTaiLieu(userthemtailieu)"></i>
+                                        <app-avatar-user-dept [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.GroupName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userthemtailieu.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu_group.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(6)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiThemTaiLieu.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiThemTaiLieu_group.length<=10" (click)="AddThanhVien(6)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="TypeThanhPhan === 1 || TypeThanhPhan===3">
+                        <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                            <div style="padding-top: 5px; margin-right: 15px;">Thành phần khác:
+                            </div>
+                            <ng-container *ngIf="meetingType7_member === 0  || meetingType7_member === 3">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiTPKhac || [];let i = index">
+                                    <div style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTPKhach(userthemtailieu)"></i>
+                                        <app-avatar-user [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.HoTen">
+                                        </app-avatar-user>
+                                    </div>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(7)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span class="symbol-label font-weight-bold">{{listNguoiTPKhac.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac.length<=10" (click)="AddThanhVien(7)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType7_member === 1 || meetingType7_member === 3">
+                                <div *ngIf="meetingType7_member === 3"
+                                    style="padding-top: 5px; margin-right: 15px; margin-left: 25px;">Đơn vị thêm tài
+                                    liệu:
+                                </div>
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiTPKhac_dept || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTPKhach(userthemtailieu,1)"></i>
+                                        <app-avatar-user-dept [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.DepartmentName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userthemtailieu.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac_dept.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(7)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiTPKhac_dept.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac_dept.length<=10" (click)="AddThanhVien(6)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType7_member === 2">
+                                <div class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userthemtailieu of listNguoiTPKhac_group || [];let i = index">
+                                    <div [matMenuTriggerFor]="menuListUser" style="padding-right: 5px;" *ngIf="i<10">
+                                        <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                            style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                            (click)="deleteUserTPKhach(userthemtailieu)"></i>
+                                        <app-avatar-user-dept [image]="userthemtailieu.Image" size="29"
+                                            [name]="userthemtailieu.GroupName">
+                                        </app-avatar-user-dept>
+                                    </div>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userthemtailieu.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac_group.length>10" style="cursor: pointer;"
+                                    (click)="AddThanhVien(7)" class="symbol symbol-30  symbol-circle symbol-light"
+                                    matTooltip="Chọn người">
+                                    <span
+                                        class="symbol-label font-weight-bold">{{listNguoiTPKhac_group.length-10}}+</span>
+                                </div>
+                                <div *ngIf="listNguoiTPKhac_group.length<=10" (click)="AddThanhVien(7)"
+                                    matTooltip="Chọn người" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div style="padding-top: 15px;padding-bottom: 5px;">
+                            <mat-checkbox (change)="showOptions($event)" formControlName="NhapTomTat">Bắt buộc nhập tóm
+                                tắt, kết luận cuộc họp
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="clickNhapTomTat">
+                        <div style="flex-grow: 1;padding-top: 12px;display: flex;">
+                            <div style="padding: 5px; margin-right: 15px;">Người nhập tóm tắt:
+                            </div>
+                            <ng-container *ngIf="meetingType3_member === 0 || meetingType3_member === 3">
+                                <div style="padding-right: 5px;"
+                                    class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userTT of listNguoiTomTat || [];let index = index">
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                        (click)="deleteUserTomTat(userTT)"></i>
+                                    <app-avatar-user [image]="userTT.Image" size="29" [name]="userTT.HoTen">
+                                    </app-avatar-user>
+                                </div>
+                                <div (click)="AddThanhVien(3)"
+                                    matTooltip="{{'QL_CUOCHOP.CUOCHOP.CHONNGUOI' | translate}}" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType3_member === 1 || meetingType3_member === 3">
+                                <div *ngIf="meetingType3_member === 3"
+                                    style="padding-top: 5px; margin-right: 15px; margin-left: 25px;">Đơn vị nhập tóm tắt
+                                    kết luận:
+                                </div>
+                                <div style="padding-right: 5px;"
+                                    class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userTT of listNguoiTomTat_dept || [];let index = index">
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                        (click)="deleteUserTomTat(userTT, 1)"></i>
+                                    <app-avatar-user-dept [matMenuTriggerFor]="menuListUser" [image]="userTT.Image"
+                                        size="29" [name]="userTT.DepartmentName">
+                                    </app-avatar-user-dept>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userTT.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+
+                                <div (click)="AddThanhVien(3)"
+                                    matTooltip="{{'QL_CUOCHOP.CUOCHOP.CHONNGUOI' | translate}}" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="meetingType3_member === 2">
+                                <div style="padding-right: 5px;"
+                                    class="cu-user-group url scale-hover-01 position-relative"
+                                    *ngFor="let userTT of listNguoiTomTat_group || [];let index = index">
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                                    <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                        (click)="deleteUserTomTat(userTT)"></i>
+                                    <app-avatar-user-dept [matMenuTriggerFor]="menuListUser" [image]="userTT.Image"
+                                        size="29" [name]="userTT.GroupName">
+                                    </app-avatar-user-dept>
+                                    <mat-menu #menuListUser="matMenu" xPosition="before">
+                                        <div *ngFor="let it of userTT.UserIdList">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{it.FullName}}"
+                                                        src="{{it.AvartarImgURL}}"
+                                                        *ngIf="it.AvartarImgURL;else bindText2">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText2>
+                                                        <ngx-avatar textSizeRatio="2.5"
+                                                            matTooltip="{{it.FullName}} (Được ủy quyền)" size="40"
+                                                            [name]="CuocHopService.getNameUser(it.FullName)"
+                                                            bgColor="{{CuocHopService.getColorNameUser(it.FullName)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{it.FullName}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{it.Jobtitle}}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                                <div (click)="AddThanhVien(3)"
+                                    matTooltip="{{'QL_CUOCHOP.CUOCHOP.CHONNGUOI' | translate}}" class="url user"
+                                    style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                    <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="padding-top: 10px;">
+                        <mat-form-field class="example-full-width">
+                            <textarea rows="1" formControlName="GhiChu" placeholder="Ghi chú" matInput></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-12" style="padding-top: 10px;">
+                        <mat-form-field class="example-full-width">
+                            <textarea rows="1" class="input-thuong" formControlName="GhiChuChoNguoiThemTaiLieu"
+                                placeholder="Yêu cầu thêm tài liệu" matInput></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="dialog-footer" style="padding-right: 50px;">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="close_ask()"
+        [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+        {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit()" [disabled]="disabledBtn"
+        matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+        <mat-icon *ngIf="disabledBtn"><mat-spinner diameter="20">
+            </mat-spinner></mat-icon> {{'COMMON.LUU_DONG' | translate}}
+    </button>
+</div>

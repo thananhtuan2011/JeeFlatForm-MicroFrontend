@@ -1,0 +1,982 @@
+<style>
+  .tooltipImage {
+    text-decoration: none;
+    position: relative;
+  }
+
+  .tooltipImage label {
+    display: none;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    color: black;
+    background: white;
+  }
+
+  .tooltipImage label img {
+    margin: 0px 8px 8px 0;
+    width: 200px;
+    height: 200px;
+  }
+
+  .tooltipImage:hover label {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: auto;
+    border: 1px solid black;
+    margin-top: 12px;
+    margin-left: 32px;
+    overflow: hidden;
+    padding: 8px;
+  }
+</style>
+<div style="margin: 0; position: absolute; display: flex;" [ngStyle]="{'width': getWidthDetails()}">
+  <div *ngIf="IsToiGui" style="padding: 10px; overflow: auto; width: 100%;">
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-phep" *ngIf="itemPhep && ShowInfoPhep">
+      <div class="row" style="justify-content: center; margin: 0%;">
+        <span style="width: 800px;" [innerHTML]="itemPhep.DataHtml"></span>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header"><span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_ApprovingUser">
+          <div class="khung-header">
+            <span>{{item.ViTriDuyet}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput [(value)]="ChoDuyet" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span></span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.TenNguoiDuyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-tangca" *ngIf="itemTC && ShowInfoTC">
+      <div class="row" style="justify-content: center; margin: 0">
+        <div style="width: 800px; justify-content: center" class="m-form m-form--group-seperator-dashed">
+          <div class="row align-items-center" style="padding-top: 30px;">
+            <div class="col-md-12" style="text-align: center;">
+              <div class="m-form__section form-header" style="font-size: 18pt;"><span
+                  translate="overtimeregister.phieudangkytangca"></span>
+              </div>
+              <br />
+            </div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.hoten"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemTC.HoTen}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.ngaygui"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemTC.NgayGui | date:'dd/MM/yyyy'}}</span>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.ngaytangca"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemTC.NgayTangCa}}
+                ({{itemTC.ThoiGian}}) </span> - <span style="color: darkgreen;">{{itemTC.SoGio | number :
+                '1.2-2'}}h</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.congviec"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemTC.Lydo}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.cachtinh"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemTC.TextHinhThucChiTra}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.IsFixHours"></span></div>
+            <div class="col-md-8 lylich sau">
+              <mat-checkbox [checked]="itemTC.IsFixHours" style="pointer-events:none;">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header">
+            <span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_ApprovingUser">
+          <div class="khung-header">
+            <span>{{item.ViTriDuyet}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput [(value)]="ChoDuyet" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span></span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.TenNguoiDuyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-doica" *ngIf="itemDCLV && ShowInfoDCLV">
+      <div class="row" style="justify-content: center; margin: 0%;">
+        <span style="width: 800px;" [innerHTML]="itemDCLV.data"></span>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header"><span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="landingpagekey.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_ApprovingUser">
+          <div class="khung-header">
+            <span>{{item.ViTriDuyet}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput [(value)]="ChoDuyet" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span></span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.TenNguoiDuyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-gtcc" *ngIf="ShowInfoGTCC" style="padding-top: 30px;">
+      <div>
+        <div class="row align-items-center" style="margin:0">
+          <div class="col-md-12" style="text-align: center;">
+            <div class="m-form__section form-header"><span translate="guigiaitrinh.dongiaitrinhchamcong"></span>
+            </div>
+            <br />
+          </div>
+        </div>
+        <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+          style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="sticky">
+                <span translate="guigiaitrinh.stt"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.ngay"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.giochamcong"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.giocansua"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.giovaodung"></span>&nbsp;<span
+                  matTooltip="Nhập HH:mm nếu cùng ngày, dd/MM/yyyy HH:mm nếu khác ngày chấm công">(i)</span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.gioradung"></span>&nbsp;<span
+                  matTooltip="Nhập HH:mm nếu cùng ngày, dd/MM/yyyy HH:mm nếu khác ngày chấm công">(i)</span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.lydo"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.dinhkem"></span>
+              </th>
+              <th class="sticky">
+                <span translate="guigiaitrinh.duyet"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of listColumn,let vi = index">
+              <td style="text-align: center;">
+                {{vi + 1}}
+              </td>
+              <td style="text-align: left;">
+                {{list.Ngay | date:'dd/MM/yyyy'}}
+              </td>
+              <td style="width: 100px; text-align: left; ">
+                <span>{{list.GioChamCong}}</span>
+              </td>
+              <td style="text-align: left; ">
+                <span>{{''+list.GioCanSua == '0' ? 'Vào' : ''+list.GioCanSua == '1' ? 'Ra' : 'Vào - ra'}}</span>
+              </td>
+              <td>
+                <span *ngIf="''+list.GioCanSua == '0' || ''+list.GioCanSua =='2'">{{list.GioVaoDung}}</span>
+              </td>
+              <td>
+                <span *ngIf="''+list.GioCanSua == '1' || ''+list.GioCanSua =='2'">{{list.GioRaDung}}</span>
+              </td>
+              <td>
+                <span>{{getLoaiLyDo(list)}}</span>
+                <span>{{list.LyDo}}</span>
+              </td>
+              <td>
+                <div class="row">
+                  <div *ngIf="list.TenFile == '' && !(list.RowID > 0)">
+                    <label for="file-upload" class="custom-file-upload" style="cursor: pointer;color: blue;"
+                      translate="guigiaitrinh.chonhinh">
+                    </label>
+                    <input id="file-upload" type="file" accept="image/jpg, image/jpeg, image/png"
+                      (change)="FileSelected($event, list)" />
+                  </div>
+                  <div class="tooltipImage" style="padding: 0; align-self: center;" *ngIf="list.TenFile != ''">
+                    <span>{{list.TenFile}}</span>
+                    <label>
+                      <img [src]="list.Image">
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td style="font-size: 11pt;padding-bottom: 10px;
+						padding-top: 10px;pointer-events:none;">
+                <mat-checkbox [checked]="list.IsDuyet" *ngIf="!showButton">
+                </mat-checkbox>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-4 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header">
+            <span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+          </div>
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 padding"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 padding khung-tieude">
+              <span>{{item.CheckedDate | date :'dd/MM/yyyy'}}</span>
+            </div>
+          </div>
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 padding"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 padding khung-tieude"><span>{{item.hoten}}</span></div>
+          </div>
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote != '' && item.CheckNote != null">
+            <div class="col-md-4 padding"><span translate="landingpagekey.lydo"></span></div>
+            <div class="col-md-8 padding" style="color: red;"><span>{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="overflow: auto;" [ngStyle]="{'height': getHeightCenter()}" class="info-thoiviec"
+      *ngIf="ShowInfoTV && itemTV">
+      <div class="m-form__group">
+        <div class="row" style="justify-content: center;">
+          <div style="width: 800px; justify-content: center" class="m-form m-form--group-seperator-dashed">
+            <div class="row align-items-center" style="padding-top: 30px;">
+              <div class="col-md-12" style="text-align: center;">
+                <h5 class="m-form__section" style="font-size: 18pt;"><span translate="xinthoiviec.tieude"></span>
+                </h5>
+              </div>
+            </div>
+            <div class="row" style="font-size: 13pt;">
+              <div class="col-md-3 truoc"><span translate="xinthoiviec.ngaythoiviecdukien"></span></div>
+              <div class="col-md-9 lylich sau"><span>{{itemTV.Ngay | date:'dd/MM/yyyy'}}</span>
+              </div>
+            </div>
+            <div class="row" style="font-size: 13pt;">
+              <div class="col-md-3 truoc"><span translate="xinthoiviec.lydo"></span></div>
+              <div class="col-md-12 lylich sau"><span><span [innerHTML]="itemTV.Lydo"></span></span></div>
+            </div>
+          </div>
+        </div>
+        <br *ngIf="itemTV.Status == '2'" />
+        <div class="row align-items-center" *ngIf="itemTV.Status == '2'"
+          style="padding-left: 15px; padding-bottom: 15px; font-size: 11pt;">
+          <b>{{itemTV.NguoiDuyet}}</b>&nbsp;đã duyệt vào ngày&nbsp;<b>{{itemTV.Ngay |
+            date:'dd/MM/yyy'}}</b>&nbsp;Lý do:&nbsp;<span style="color: red;">{{itemTV.lydo_duyet}}</span>
+        </div>
+        <div class="row align-items-center khung-container" style="justify-content: center;">
+          <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+            <div style="text-align: center; border-bottom: solid 1px darkgray;font-size: 13pt;font-weight: bold;">
+              <span>{{item.title}}</span>
+            </div><br />
+            <div>
+              <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+            </div><br />
+            <div class="row" style="font-size: 11pt;">
+              <div class="col-md-4"><span translate="dontu.ngayduyet"></span></div>
+              <div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+            </div><br />
+            <div class="row" style="font-size: 11pt;">
+              <div class="col-md-4"><span translate="dontu.nguoiduyet"></span></div>
+              <div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+            </div><br />
+            <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+              <div class="col-md-4 "><span translate="landingpagekey.lydo"></span></div>
+              <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!IsToiGui" style="padding: 10px; overflow: auto;" [ngStyle]="{'width': getWidthDetails_Center()}">
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-phep" *ngIf="itemDuyetPhep && ShowInfoPhep">
+      <div class="row" style="justify-content: center;  margin: 0%;">
+        <span style="width: 800px;" [innerHTML]="itemDuyetPhep.DataHtml"></span>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header"><span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngIf="listData_ApprovingUser.length > 0">
+          <div class="khung-header">
+            <span>{{vitriduyet}}</span>
+          </div><br />
+          <div>
+            <form [formGroup]="itemFormDuyetPhep">
+              <mat-form-field class="mat-form-field-fluid">
+                <input matInput formControlName="ghiChu" placeholder="{{'dontu.lydo' | translate}}">
+              </mat-form-field>
+            </form>
+          </div><br />
+          <div class="row" style="justify-content: center">
+            <button mat-raised-button type="button" class="btn-duyet" (click)="KyDuyetPhep()" *ngIf="showKyDuyet"
+              [disabled]="enableBT && disabledBtn" matTooltip="{{thongbao}}">
+              <span translate="Ký duyệt"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad"></div>
+            </button>&nbsp;
+            <button mat-raised-button class="btn-duyet" type="button" (click)="DuyetPhep()"
+              [disabled]="enableBT && disabledBtn" matTooltip="{{thongbao}}">
+              <span translate="dontu.duyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="warn" (click)="KhongDuyetPhep()"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.khongduyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="primary" (click)="Chuyen()"
+              *ngIf="isBtnChuyen" [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.chuyen"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-4 "><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-8 khung-tieude"><span>{{tennguoiduyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-tangca" *ngIf="itemDuyetTC && ShowInfoTC">
+      <div class="row" style="justify-content: center; margin:0">
+        <form [formGroup]="itemFormDuyetTC" style="width: 800px; justify-content: center"
+          class="m-form m-form--group-seperator-dashed">
+          <div class="row align-items-center" style="padding-top: 30px;">
+            <div class="col-md-12" style="text-align: center;">
+              <div class="m-form__section form-header"><span translate="overtimeregister.phieudangkytangca"></span>
+              </div>
+              <br />
+            </div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.hoten"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemDuyetTC.HoTen}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.ngaygui"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemDuyetTC.NgayGui |
+                date:'dd/MM/yyyy'}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.ngaytangca"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemDuyetTC.NgayTangCa}}
+                ({{itemDuyetTC.ThoiGian}}) </span> - <span style="color: darkgreen;">{{itemDuyetTC.SoGio | number :
+                '1.2-2'}}h</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.congviec"></span></div>
+            <div class="col-md-8 lylich sau"><span>{{itemDuyetTC.Lydo}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.cachtinh"></span></div>
+            <div class="col-md-8 sau" *ngIf="ShowHinhThuc">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select class="require" required class="mat-form-field mat-form-field-fluid"
+                  formControlName="hinhthuc">
+                  <mat-option value="{{dt.RowID}}" *ngFor="let dt of listCachTinhTangCa">
+                    {{ dt.Title }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-8 lylich sau"><span
+                *ngIf="!ShowHinhThuc && itemDuyetTC.IsDuyet">{{itemDuyetTC.TextHinhThucChiTra}}</span></div>
+          </div>
+          <div class="row" style="font-size: 13pt;">
+            <div class="col-md-4 truoc"><span translate="overtimeregister.IsFixHours"></span></div>
+            <div class="col-md-8 lylich sau">
+              <mat-checkbox [checked]="itemDuyetTC.IsFixHours" style="pointer-events:none;">
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-6 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header">
+            <span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-6 khungboder khung" *ngIf="listData_ApprovingUser.length > 0">
+          <div class="khung-header">
+            <span>{{vitriduyet}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input matInput [(ngModel)]="GhiChu" placeholder="Lý do">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="justify-content: center">
+            <button mat-raised-button type="button" class="btn-duyet" (click)="DuyetORKhongDuyet(true)"
+              [disabled]="enableBT && disabledBtn" matTooltip="{{thongbao}}">
+              <span translate="dontu.duyet"></span>
+            </button>&nbsp;
+            <button mat-raised-button type="button" color="warn" (click)="DuyetORKhongDuyet(false)"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.khongduyet"></span>
+            </button>&nbsp;<button mat-raised-button type="button" color="primary" (click)="Chuyen()"
+              *ngIf="isBtnChuyen" [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.chuyen"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{tennguoiduyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-doica" *ngIf="itemDuyetDCLV && ShowInfoDCLV">
+      <div class="row" style="justify-content: center; margin:0;">
+        <span style="width: 800px;" [innerHTML]="itemDuyetDCLV.data"></span>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-6 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header">
+            <span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-6 khungboder khung" *ngIf="listData_ApprovingUser.length > 0">
+          <div class="khung-header">
+            <span>{{vitriduyet}}</span>
+          </div><br />
+          <div>
+            <form [formGroup]="itemFormDuyetDCLV">
+              <mat-form-field class="mat-form-field-fluid">
+                <input matInput formControlName="ghiChu" placeholder="{{'dontu.lydo' | translate}}">
+              </mat-form-field>
+            </form>
+          </div><br />
+          <div class="row" style="justify-content: center">
+            <button mat-raised-button type="button" class="btn-duyet" (click)="DuyetDCLV()"
+              [disabled]="enableBT && disabledBtn" matTooltip="{{thongbao}}">
+              <span translate="dontu.duyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="warn" (click)="KhongDuyetDCLV()"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.khongduyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="primary" (click)="Chuyen()"
+              *ngIf="isBtnChuyen" [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.chuyen"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>
+          </div>
+          <br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{tennguoiduyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="{'height': getHeightCenter()}" class="info-gtcc" *ngIf="ShowInfoGTCC" style="padding-top: 30px;">
+      <div class="row align-items-center" style="margin:0">
+        <div class="col-md-12" style="text-align: center;">
+          <div class="m-form__section form-header" style="font-size: 18pt;"><span
+              translate="guigiaitrinh.duyetdongiaitrinhchamcong"></span>&nbsp;<span>{{TimeStrNV}}</span>
+          </div>
+        </div>
+        <div class="row" style="justify-content: center;  margin: 0%; width: 100%;">
+          <span style="width: 800px;">
+            <div class="row">
+              <div class="col-md-2 truoc">
+                Họ và tên
+              </div>
+              <div class="col-md-4 sau">
+                {{HoTenNV}}
+              </div>
+              <div class="col-md-3 truoc">
+                Mã số
+              </div>
+              <div class="col-md-3 sau">
+                {{MaNV}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 truoc">
+                Chức vụ
+              </div>
+              <div class="col-md-4 sau">
+                {{ChucVuNV}}
+              </div>
+              <div class="col-md-3 truoc">
+                Phòng ban/Bộ phận
+              </div>
+              <div class="col-md-3 sau">
+                {{CoCauNV}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 truoc">
+                Tình trạng:
+              </div>
+              <div class="col-md-10 sau">
+                <span class="{{ClassTinhTrang}}">{{TinhTrang}}</span>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+      <br />
+      <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+        style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="sticky" style="text-align: center;">
+              <span translate="landingpagekey.stt"></span>
+            </th>
+            <th class="sticky" style="width: 100px;">
+              <span translate="guigiaitrinh.ngay"></span>
+            </th>
+            <th class="sticky" style="width: 150px;">
+              <span class="giothucte" translate="guigiaitrinh.giothucte"></span><br />
+              <span class="giogiaitrinh" translate="guigiaitrinh.giogiaitrinh"></span>
+            </th>
+            <th class="sticky">
+              <span translate="guigiaitrinh.loaigiaitrinh"></span>
+            </th>
+            <th class="sticky">
+              <span translate="guigiaitrinh.lydo"></span>
+            </th>
+            <th class="sticky">
+              <span translate="guigiaitrinh.dinhkem"></span>
+            </th>
+            <th class="sticky">
+              <span translate="guigiaitrinh.duyet"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let list of listColumn,let vi = index">
+            <td style="text-align: center;">
+              {{vi + 1}}
+            </td>
+            <td style="text-align: left;">
+              <span>{{list.NgayNew}}</span>
+            </td>
+            <td>
+              <div class="row" style="width: 100px;">
+                <div class="col-md-5 pd-0">
+                  <span class="giothucte">{{list.GioChamCongVao}}</span>
+                </div>
+                <div class="col-md-2 pd-0">
+                  <span class="giogiaitrinh">-</span>
+                </div>
+                <div class="col-md-5 pd-0">
+                  <span class="giothucte">{{list.GioChamCongRa}}</span>
+                </div>
+                <div class="col-md-5 pd-0">
+                  <span class="giogiaitrinh">{{list.GioVaoDung}}</span>
+                </div>
+                <div class="col-md-2 pd-0">
+                  <span class="giogiaitrinh">-</span>
+                </div>
+                <div class="col-md-5 pd-0">
+                  <span class="giogiaitrinh">{{list.GioRaDung}}</span>
+                </div>
+              </div>
+            </td>
+            <td style="text-align: left; ">
+              <span>{{list.GioCanSua}}</span>
+            </td>
+            <td>
+              <span class="status-color" [ngStyle]="{'background-color': list.BgColor}">{{list.LoaiLyDo}}</span>&nbsp;
+              <span>{{list.LyDo}}</span>
+            </td>
+            <td>
+              <div class="tooltipImage" style="padding: 0; align-self: center;" *ngIf="list.TenHinh != ''">
+                <span>{{list.TenHinh}}</span>
+                <label>
+                  <img [src]="list.ImageHinh" (click)="openImage(list.ImageHinh)">
+                </label>
+              </div>
+            </td>
+            <td style="font-size: 11pt;padding-bottom: 10px;
+              padding-top: 10px;">
+              <mat-checkbox [checked]="list.IsDuyet" (change)="DuyetChange($event,list)"
+                [disabled]="listData_ApprovingUser.length == 0">
+              </mat-checkbox>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header">
+            <span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{item.CheckedDate | date: 'dd/MM/yyyy'}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div>
+          <div class="row" *ngIf="item.CheckNote != '' && item.CheckNote != null">
+            <div class="col-md-12 padding" style="color: red;"><span>{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngIf="listData_ApprovingUser.length > 0">
+          <div class="khung-header">
+            <span>{{vitriduyet}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input matInput [(ngModel)]="GhiChuDuyet" placeholder="{{'dontu.lydo' | translate}}">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="justify-content: center">
+            <button mat-raised-button type="button" class="btn-duyet" (click)="DuyetGTCC()"
+              [disabled]="enableBT && disabledBtn" matTooltip="{{thongbao}}">
+              <span translate="dontu.duyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="warn" (click)="KhongDuyetGTCC()"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.khongduyet"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>&nbsp;<button mat-raised-button type="button" color="primary" (click)="Chuyen()"
+              *ngIf="isBtnChuyen" [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.chuyen"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{tennguoiduyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="overflow: auto;" [ngStyle]="{'height': getHeightCenter()}" class="info-thoiviec"
+      *ngIf="ShowInfoTV && itemTV">
+      <div class="row" style="justify-content: center;">
+        <span style="width: 800px;" [innerHTML]="itemTV.DataHtml"></span>
+      </div>
+      <br />
+      <div class="row align-items-center khung-container" style="justify-content: center;">
+        <div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+          <div class="khung-header"><span>{{item.title}}</span>
+          </div><br />
+          <div>
+            <mat-form-field class="mat-form-field-fluid">
+              <input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+            </mat-form-field>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.ngayduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{item.hoten}}</span></div>
+          </div><br />
+          <div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+            <div class="col-md-4 "><span translate="dontu.lydo"></span></div>
+            <div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 khungboder khung" *ngIf="listData_ApprovingUser.length > 0">
+          <div class="khung-header">
+            <span>{{vitriduyet}}</span>
+          </div><br />
+          <div>
+            <form [formGroup]="itemFormDuyetTV">
+              <mat-form-field class="mat-form-field-fluid">
+                <input matInput formControlName="ghiChu" placeholder="{{'dontu.lydo' | translate}}">
+              </mat-form-field>
+            </form>
+          </div><br />
+          <div class="row" style="justify-content: center">
+            <button mat-raised-button type="button" class="btn-duyet" (click)="DuyetTV()"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.duyet"></span>
+            </button>&nbsp;<button mat-raised-button type="button" color="warn" (click)="KhongDuyetTV()"
+              [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.tralai"></span>
+            </button>&nbsp;<button mat-raised-button type="button" color="primary" (click)="Chuyen()"
+              *ngIf="isBtnChuyen" [disabled]="enableBT && disabledBtn">
+              <span translate="dontu.chuyen"></span>&nbsp;&nbsp;<div *ngIf="disabledBtn" class="spinner-button-pad">
+              </div>
+            </button>
+          </div><br />
+          <div class="row" style="font-size: 11pt;">
+            <div class="col-md-6"><span translate="dontu.nguoiduyet"></span></div>
+            <div class="col-md-6 khung-tieude"><span>{{tennguoiduyet}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 300px; overflow: auto; padding-top: 10px;" [ngStyle]="{'height': getHeightRight()}"
+    *ngIf="ShowInfoPhep && !IsToiGui">
+    <div class="card card-custom dontu-list-phep" *ngFor="let dt of listphep">
+      <div class="card-header" style="display: flex; padding: 0 1rem;">
+        <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0; align-self: center;"><span
+            style="text-transform: uppercase; font-weight: bold;">{{dt.LoaiPhep}}</span>
+        </div>
+        <div class="card-toolbar">
+          <span class="conlai">{{dt.Tong | number : '1.2-2'}}</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 1rem;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tonnamtruoc"></span><br /><span *ngIf="dt.NgayHetHan"
+              translate="phepcanhan.sudungden" style="color: #b3b3b3; font-size: 9pt;"></span><span
+              *ngIf="dt.NgayHetHan" style="color: #F86252; font-size: 9pt;">&nbsp;{{dt.NgayHetHan}}</span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepTon > 0">+
+              {{dt.PhepTon | number : '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tongduoccap"></span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;">{{ 'phepcanhan.pheptrongnam' | translate }}:&nbsp;</span>
+            <span *ngIf="dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{getPhepHuong(dt,
+              SoNgayPhepThamNien)}}/{{TongNgayPhepNam}}</span>
+            <span *ngIf="!dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{dt.PhepDuocHuong}}</span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;"
+              *ngIf="SoNgayPhepThamNien && dt.IsPhepNam && +SoNgayPhepThamNien > 0">{{
+              'phepcanhan.thamnien' | translate }}:&nbsp;</span><span *ngIf="dt.IsPhepNam && +SoNgayPhepThamNien > 0"
+              style="color: #007BFF; font-size: 9pt;">{{SoNgayPhepThamNien}}</span>
+          </div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepDuocHuong > 0">+
+              {{dt.PhepDuocHuong}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.tongdanghi"></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;">-
+              {{dt.TongNghiPhep | number :
+              '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.hethan"></span>&nbsp;<span><i
+                class="flaticon-questions-circular-button" style="padding-left: 10px;"></i></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;"
+              *ngIf="dt.HetHan > 0">- {{dt.HetHan | number : '1.2-2'}}</span>
+            <span class="tongdanghi" style="font-size: 11pt;" *ngIf="dt.HetHan == 0">{{dt.HetHan}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 25%; overflow: auto; padding-top: 10px;" [ngStyle]="{'height': getHeightCenter()}"
+    *ngIf="ShowInfoTC && false">
+    <div class="card card-custom">
+      <div class="card-header" style="display: flex; padding: 0 1rem;">
+        <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0; align-self: center;">
+          <h5><span>DANH SÁCH CÔNG VIỆC</span></h5>
+        </div>
+        <div class="card-toolbar">
+        </div>
+      </div>
+      <div class="card-body" style="padding: 1rem;">
+        <ng-container *ngFor="let item of listWork">
+          <div class="row-item" style="cursor: pointer;" matTooltip="Xem công việc" (click)="GetDetailsWork(item)">
+            <div class="item-detail" style="margin-right: 0; display: flex;">
+              <div class="item-detail-info" style="padding-left: 0; padding-right: 0;">
+                <div class="item-left col-2 url pd-0" style="align-self: center;">
+                  <ng-container *ngIf="item.createdBy">
+                    <div class="row" style="justify-content: center;">
+                      <ngx-avatar size="40" src="{{item.createdBy.AvartarImgURL}}"
+                        matTooltip="{{item.createdBy.FullName}} - {{item.createdBy.Jobtitle}}"
+                        *ngIf="item.createdBy.AvartarImgURL;else bindText">
+                      </ngx-avatar>
+                      <ng-template #bindText>
+                        <ngx-avatar textSizeRatio="2.5" size="40"
+                          matTooltip="{{item.createdBy.FullName}} - {{item.createdBy.Jobtitle}}"
+                          bgColor="{{danhMucChungService.getColorNameUser(item.createdBy.FirstName)}}"
+                          [name]="danhMucChungService.getNameUser(item.createdBy.FirstName.slice(0, 1))">
+                        </ngx-avatar>
+                      </ng-template>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="item-left col-10 url pl-0" style="align-self: center;">
+                  <div class="row h-100" style="line-height: 2;">
+                    <div class="col-9 pd-0">
+                      <div class="item-title">
+                        <span style="font-size: 12pt; font-weight: normal;">{{item.name}}</span>
+                      </div>
+                      <div class="item-thoigian">
+                        <span style="font-size: 10pt;" *ngIf="item.type == 1"
+                          [ngStyle]="{color: item.color}">{{item.status}}&nbsp;&nbsp;</span>
+                        <span class="item-status" style="font-size: 10pt;" *ngIf="!(item.type == 1)"
+                          [ngClass]="ColorTitle(item.color)">{{item.status}}&nbsp;&nbsp;</span>
+                        <i class="far fa-comment" [ngStyle]="{'color':item.comments > 0 ? '#FF6A00' : ''}"></i>&nbsp;
+                        <span [ngStyle]="{'color':item.comments > 0 ? '#FF6A00' : ''}">{{item.comments}}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-3 pd-0">
+                      <div style="white-space: nowrap; text-align: center;">
+                        <span
+                          style="font-size: 9pt;">{{this._FormatTimeService.format_convertDate(item.createdDate,1,false)}}</span>
+                      </div>
+                      <div class="item-thoigian" style="text-align: center;">
+                        <span><i class="{{getPriority(item.clickup_prioritize).icon}}"
+                            style="font-size: 16px;"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

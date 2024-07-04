@@ -1,0 +1,92 @@
+<style>
+     :host>>>.card-body {
+        padding: 15px !important;
+    }
+    
+    .color-thongtin {
+        font-weight: bold;
+    }
+    
+    .color-tieude {
+        line-height: 2;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Thông tin đăng ký
+            </h3>
+        </div>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body">
+        <form *ngIf="item" class="m-form m-form--group-seperator-dashed">
+            <div class="m-form__section m-form__section--first">
+                <div class="row align-items-center info-dangky">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span translate="mt.nhanviendangky"></span>:
+                            </td>
+                            <td style="width: 30%;" class="color-thongtin">
+                                <span>{{item.extendedProps.fullname}}</span>
+                            </td>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span translate="mt.bophan"></span>:
+                            </td>
+                            <td style="width: 30%;" class="color-thongtin">
+                                <span>{{item.extendedProps.department}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row align-items-center info-dangky">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span translate="mt.thoigian"></span>:
+                            </td>
+                            <td style="width: 30%;" class="color-thongtin">
+                                <span>{{item.start | date: 'dd/MM/yyyy HH:mm'}} - {{item.end | date: 'HH:mm'}}</span>
+                            </td>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span>Tài sản</span>:
+                            </td>
+                            <td style="width: 30%;" class="color-thongtin">
+                                <span>{{item.extendedProps.property}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row align-items-center info-dangky">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span translate="mt.noidunghop"></span>:
+                            </td>
+                            <td class="color-thongtin">
+                                <span>{{item.extendedProps.title}}</span>
+                            </td>
+                            <td style="width: 20%;" class="color-tieude">
+                                <span>Trạng thái</span>:
+                            </td>
+                            <td style="width: 30%;" class="color-thongtin">
+                                <span>{{getTenTrangThai(item.extendedProps.type)}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="dialog-footer">
+        <button type="button" mat-raised-button (click)="goBack()" class="ja_button ja_btn-goback">
+			<span>Trở về</span>
+		</button>
+        <button type="button" mat-raised-button (click)="deleteItem()" class="ja_button ja_btn-koduyet" *ngIf="item.extendedProps.type != -1">
+			<span>Hủy</span>
+		</button>&nbsp;
+    </div>
+</div>

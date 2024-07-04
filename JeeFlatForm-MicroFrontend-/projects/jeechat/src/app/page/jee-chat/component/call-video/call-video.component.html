@@ -1,0 +1,197 @@
+<style>
+  .call
+
+  {
+    display: flex;
+    height: 500px;
+
+    border: 1px solid lightgray;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+</style>
+<div appJpDraggableDialog>
+
+<div *ngIf="acticall&&!error&&!acticlose" >
+  <div>
+  
+
+
+  <div *ngIf="status=='video'">
+<div style="width:1000px;">
+
+<div style=" 
+position: relative;
+width: 200px;
+height: 100px;
+margin-bottom: -100px;" id="record-video">
+
+</div>
+
+     <div  *ngIf="!isGroup"   id="remote-video">
+
+      <div *ngIf="!lazyStream">
+
+        <div >
+
+          <img style="    opacity: 0.1;
+          width: 100%;height: 500px;" src="{{AvatarSend}}">
+    
+   
+   
+    <div  class="classavatar">
+    <div style="display: flex;justify-content: center;">
+ 
+      <ngx-avatar [size]="65"  src="{{AvatarSend}}" *ngIf="AvatarSend"></ngx-avatar>
+      <ngx-avatar [size]="65" [name]="CallPeople.slice(0, 1)" bgColor="{{BgColorSend}}" *ngIf="!AvatarSend"></ngx-avatar>
+    </div>
+    <div class="namecall">{{CallPeople}}</div>
+  </div>
+</div>
+</div>
+
+
+    </div>
+ 
+    
+  </div>
+  
+
+
+    <div *ngIf="isGroup">
+
+            phần dành cho Group
+    </div>
+
+
+
+
+    <div  style="text-align: center;">
+      <div id="audioTimer"> 
+        {{ callTime }} </div>
+
+    <div style="float: right;">
+     
+   
+    </div>
+    </div>
+    
+  </div>
+    <div class="call" *ngIf="status=='call'"  id="remote-call">
+     
+      <div style="width:1000px ;">
+
+        <img style="    opacity: 0.1;
+          width: 100%;" src="{{AvatarSend}}">
+      <div style="position: absolute;top: 44%;left: 46%;">
+        <div style="    display: flex;
+        justify-content: center;
+    ">
+
+
+        <ngx-avatar [size]="45"  src="{{AvatarSend}}" *ngIf="AvatarSend"></ngx-avatar>
+        <ngx-avatar [size]="45" [name]="CallPeople.slice(0, 1)" bgColor="{{BgColorSend}}" *ngIf="!AvatarSend"></ngx-avatar>
+      </div>
+      <div  style="font-weight: bold;text-align: center;">{{CallPeople}}</div>
+      <div  style="text-align: center;">{{format(mm)}}:{{format(ss)}}</div>
+      <div *ngIf="!lazyStream">
+        
+        Đang kết nối...
+      </div>
+     
+    </div>
+  </div>
+  </div>
+</div>
+     <div   style="
+     padding-top: 10px;
+     position: relative;
+     width: 100%;
+     z-index: 99999;
+     text-align: center;">
+<button  class="mediashare" (click)="screenShare()" matTooltip="Chia sẻ màn hình" mat-mini-fab ><mat-icon> screen_share</mat-icon></button>
+   
+      <button (click)="Disconnect()" matTooltip="Kết thúc" class="callend"  mat-stroked-button color="primary"><mat-icon class="iconendcall"> call_end</mat-icon></button>
+    
+ <button (click)="OffMic()" class="mediacall" *ngIf="!offmic"  mat-mini-fab aria-label="Example icon button with a plus one icon">
+  <mat-icon  >mic</mat-icon>
+</button>
+<button  (click)="OffMic()" class="mediacall" *ngIf="offmic"  mat-mini-fab>
+  <mat-icon >mic_off</mat-icon>
+</button>
+
+<button (click)="OffVideo()"  class="mediacall" *ngIf="!offvideo"  mat-mini-fab aria-label="Example icon button with a plus one icon">
+  <mat-icon  >videocam</mat-icon>
+
+</button>
+<button (click)="OffVideo()" class="mediacall" *ngIf="offvideo"  mat-mini-fab  aria-label="Example icon button with a plus one icon">
+  <mat-icon >videocam_off</mat-icon>
+
+</button>
+   
+     </div>
+    
+</div>
+<div *ngIf="!acticall&&!error&&!acticlose">
+  <span style="font-weight: bold;">{{NameCall}}
+
+  </span>
+  <p>đã mời bạn tham gia cuộc gọi</p>
+<br>
+<div style="    padding-top: 10
+px
+;
+    justify-content: center;
+    display: flex;">
+
+
+  <div class="action">
+    <button style="background: green;" (click)="ChapNhan()" mat-mini-fab  aria-label="Example icon button with a filter list icon">
+      <mat-icon> call</mat-icon>
+    </button>
+
+    <span>Chấp nhận </span>
+  </div>
+
+  <div style="padding-left: 50px;" class="action">
+    <button (click)="Disconnect()" mat-mini-fab color="warn"  aria-label="Example icon button with a filter list icon">
+      <mat-icon > call_end</mat-icon>
+    </button>
+    <span>Từ chối</span>
+  </div>
+
+</div>
+</div>
+
+
+<div *ngIf="error&&!acticlose">
+       Trình duyệt không được hỗ trợ hoặc video,mic không thể kết nối
+
+       <div  class="action">
+        <button (click)="Close()" mat-mini-fab color="warn"    aria-label="Example icon button with a filter list icon">
+          <mat-icon > call_end</mat-icon>
+        </button>
+        <span>Từ chối</span>
+      </div>
+</div>
+<div *ngIf="acticlose">
+
+  <p>Cuộc gọi đã kết thúc</p>
+<br>
+<div style="    display: flex;
+justify-content: center;
+align-items: center;" >
+
+  <div  >
+    <button (click)="Close()" mat-mini-fab color="warn" matTooltip="Tắt"  aria-label="Example icon button with a filter list icon">
+      <mat-icon>clear</mat-icon>
+    </button>
+
+  </div>
+ 
+
+</div>
+</div>
+</div>

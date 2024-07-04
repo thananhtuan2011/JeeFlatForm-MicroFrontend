@@ -1,0 +1,60 @@
+pipeline {
+    environment {
+        REGISTRY_HOST = "registry.jee.vn"
+        REGISTRY_PUBLISHER = "dps"
+        REGISTRY_CRED = "registry"
+        PROJECT_NAME = "platform-backend-test"
+        DOMAIN = "jee.vn"
+        DOMAIN_CSS = "csstech.vn"
+        DOMAIN_VTS = "vts-demo.com"
+        DOMAIN_DP247 = "dp247.vn"
+        SUBDOMAIN = "app"
+        STACK_NAME = "mfe"
+
+        NODE_ENV = "production"
+
+        service = ""
+    }
+    agent any
+    stages {
+
+        stage('Install Package') {
+            steps {
+                sh 'apt-get update'
+                sh 'apt-get install -y gettext-base'
+            }
+        }
+
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+
+        stage("Install kubectl"){
+            steps {
+                sh """
+                    curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+                    chmod +x ./kubectl
+                    mv ./kubectl /usr/local/bin/kubectl
+                    kubectl version --client
+                """
+            }
+        }
+
+        stage('Deploy to Cluster') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        dir("__BUILD__"){
+                            sh "envsubst < deploy.yaml | kubectl apply -f -"
+                            sh "kubectl rollout restart -n mfe deployment platform-backend-test"
+                        }
+                    }
+                }
+            }
+        } 
+    }
+}

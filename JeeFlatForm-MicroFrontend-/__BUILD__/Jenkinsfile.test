@@ -1,0 +1,49 @@
+pipeline {
+    environment {
+        REGISTRY_HOST = "registry.jee.vn"
+        REGISTRY_PUBLISHER = "dps"
+        REGISTRY_CRED = "registry"
+        PROJECT_NAME = "platform-backend-test"
+        DOMAIN = "jee.vn"
+        SUBDOMAIN = "platform"
+        STACK_NAME = "mfe"
+
+        NODE_ENV = "production"
+
+        PROJECT_BUILD = 'demo1'
+
+        service = ""
+    }
+    agent any
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    service = docker.build("${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest", "--build-arg NODE_ENV=${NODE_ENV} --build-arg PROJECT_BUILD=${PROJECT_BUILD} -f Dockerfile .")
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        service.push("latest")
+                    }
+                }
+            }
+        }
+
+        stage('Cleaning up') {
+            steps{
+                sh "docker image prune -f"
+            }
+        }
+    }
+}

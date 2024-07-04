@@ -1,0 +1,163 @@
+<div class="aside-primary d-flex flex-column align-items-center flex-row-auto">
+  <!--begin::Primary-->
+  <div style="padding-top:1rem;" class="aside-brand d-flex flex-column align-items-center flex-column-auto"
+    id="kt_brand" [ngClass]="brandClasses">
+    <!--begin::Logo-->
+    <ul class="nav flex-column " role="tablist">
+      <!--begin::Item-->
+      <li class="nav-item sky-mb3" id="tourguide_avatar" data-bs-toggle="tooltip" data-bs-placement="right" title="Hồ sơ">
+        <app-topbar-profile></app-topbar-profile>
+      </li>
+    </ul>
+    <!--end::Logo-->
+  </div>
+  <!--begin::Nav Wrapper-->
+  <div style="padding-top:1rem;" class="aside-nav d-flex flex-column align-items-center flex-column-fluid sky-scroll"
+    [ngStyle]="{'height': getHeight()}">
+    <!--begin::Nav-->
+    <!--begin::Nav-->
+    <ul class="nav flex-column " role="tablist" id="tourguide_menuleft">
+      <div>
+        <li class="nav-item sky-mb3" (click)="CloseMenuTemplateDashboard()" data-bs-toggle="tooltip"
+          data-bs-placement="right" title="Trang chủ" container="body">
+          <a [routerLink]="['/Dashboard']" routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg"
+            data-toggle="tab" role="tab">
+            <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon flaticon-home"></i>
+          </a>
+        </li>
+      </div>
+      <!--begin::Item-->
+      <div *ngFor="let data of list_menudesktop ">
+
+        <!--  begin những app không dùng menu bên trái -->
+        <li *ngIf="data.AppCode != 'JEECHAT' && data.ALink != ''" class="nav-item sky-mb3" (click)="CloseMenuTemplate()"
+          data-bs-toggle="tooltip" data-bs-placement="right" [title]="data.Title" container="body">
+
+          <span *ngIf="data.SoLuong > 0" style="left: 50px; margin-top: 10px;" matBadge="N" matBadgeColor="warn"></span>
+          <a [routerLink]="[data.ALink]" routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg"
+            data-toggle="tab" (click)="setTab(null,null); updatereadmenu(data)" role="tab">
+            <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon" [ngClass]="data.Icon"></i>
+          </a>
+        </li>
+        <!--  end những app không dùng menu bên trái -->
+
+        <!--  begin những app  dùng menu bên trái -->
+        <li *ngIf="data.AppCode=='JEECHAT'" class="nav-item sky-mb3" data-bs-toggle="tooltip" data-bs-placement="right"
+          [title]="data.Title" ngbTooltipClass="tooltip" container="body">
+          <span *ngIf="unread>0" style="left: 50px; margin-top: 10px;" matBadge="N" matBadgeColor="warn">
+          </span>
+          <a class="nav-link btn btn-icon btn-clean btn-lg" [routerLink]="[data.ALink]" routerLinkActive="active"
+            data-toggle="tab" (click)="setTab(TABS[1],data.AppCode)" data-target="#kt_aside_tab_1" role="tab">
+            <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon" [ngClass]="data.Icon"></i>
+          </a>
+        </li>
+        <!--  end những app  dùng menu bên trái -->
+      </div>
+      <!--  begin những app  dùng menu bên trái -->
+      <div *ngIf="list_menudesktop_hidden.length > 0">
+        <li class="nav-item sky-mb3" data-bs-toggle="tooltip" [matMenuTriggerFor]="menu" data-bs-placement="right"
+          title="Khác" container="body">
+          <a routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg" data-toggle="tab" role="tab">
+            <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon flaticon-grid-menu-v2"></i>
+          </a>
+        </li>
+        <mat-menu #menu="matMenu" class="mat-menu-left-desktop">
+          <div *ngFor="let data of list_menudesktop_hidden ">
+
+            <!--  begin những app không dùng menu bên trái -->
+            <li mat-menu-item *ngIf="data.AppCode != 'JEECHAT' && data.ALink != ''" class="nav-item sky-mb3"
+              (click)="CloseMenuTemplate()" container="body">
+
+              <span *ngIf="data.SoLuong > 0" style="left: 25px; margin-top: 10px;" matBadge="N"
+                matBadgeColor="warn"></span>
+              <a [routerLink]="[data.ALink]" routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg"
+                data-toggle="tab" (click)="setTab(null,null); updatereadmenu(data)" role="tab" style="width:auto">
+                <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon" [ngClass]="data.Icon"></i>
+                <span style="color: #fff; padding-left: 10px;">{{data.Title}}</span>
+              </a>
+            </li>
+            <!--  end những app không dùng menu bên trái -->
+
+            <!--  begin những app  dùng menu bên trái -->
+            <li mat-menu-item *ngIf="data.AppCode=='JEECHAT'" class="nav-item sky-mb3" data-bs-placement="right"
+              container="body">
+              <span *ngIf="unread>0" style="left: 25px; margin-top: 10px;" matBadge="N" matBadgeColor="warn">
+              </span>
+              <a class="nav-link btn btn-icon btn-clean btn-lg" [routerLink]="[data.ALink]" routerLinkActive="active"
+                data-toggle="tab" (click)="setTab(TABS[1],data.AppCode)" data-target="#kt_aside_tab_1" role="tab"
+                style="width:auto">
+                <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon" [ngClass]="data.Icon"></i>
+                <span style="color: #fff; padding-left: 10px;">{{data.Title}}</span>
+              </a>
+            </li>
+            <!--  end những app  dùng menu bên trái -->
+          </div>
+        </mat-menu>
+      </div>
+    </ul>
+    <!--begin::Item-->
+    <!--end::Nav-->
+  </div>
+  <!--end::Nav Wrapper-->
+  <!--begin::Footer -->
+  <div class="aside-footer d-flex flex-column align-items-center flex-column-auto" id="kt_footer"
+    style="margin-top:1rem">
+    <li (click)="readAllNew()" class="nav-item sky-mb3 deletemaker" data-bs-toggle="tooltip" data-bs-placement="right"
+      title="Thông báo" container="body">
+      <app-topbar-notify [numberInfo]="numberInfo"></app-topbar-notify>
+    </li>
+    <li class="nav-item sky-mb3 deletemaker" data-bs-toggle="tooltip" data-bs-placement="right" title="Ứng Dụng"
+      container="body" id="tourguide_app">
+      <app-topbar-quickact></app-topbar-quickact>
+    </li>
+    <!-- Support - AI -->
+    <li id="tourguide_support" class="nav-item sky-mb3 deletemaker" (click)="CloseMenuTemplate();" data-bs-toggle="tooltip"
+      data-bs-placement="right" title="Hỗ trợ">
+      <a routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg" data-toggle="tab"
+        (click)="setTab(null,null);clickOpenAI()" role="tab">
+        <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon flaticon-questions-circular-button"></i>
+      </a>
+    </li>
+    <!-- Support - AI -->
+    <li *ngIf="isSupport" id="tourguide_support"  class="nav-item sky-mb3 deletemaker" (click)="CloseMenuTemplate();readNotiSuppport()"
+      data-bs-toggle="tooltip" data-bs-placement="right" title="Hỗ trợ">
+      <span *ngIf="numberSupport > 0" style="position: absolute;
+      left: 50px;
+      margin-top: 10px;" matBadge="{{numberSupport}}" matBadgeColor="warn"></span>
+      <a [routerLink]="['/Support']" routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg"
+        data-toggle="tab" (click)="setTab(null,null);" role="tab">
+        <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon flaticon-questions-circular-button"></i>
+      </a>
+    </li>
+    <li style="display: none;" class="nav-item sky-mb3 deletemaker" (click)="CloseMenuTemplate();" data-bs-toggle="tooltip"
+      data-bs-placement="right" title="Thiết lập">
+      <a routerLinkActive="active" class="nav-link btn btn-icon btn-clean btn-lg" data-toggle="tab"
+        (click)="setTab(null,null);" role="tab">
+        <i style="font-size: 24px; color: #fff;" class="kt-menu__link-icon flaticon-cogwheel-2"></i>
+      </a>
+    </li>
+    <!-- <app-topbar></app-topbar> -->
+  </div>
+  <!--end::Footer-->
+  <!--end::Primary-->
+</div>
+<ng-container *ngIf="disableAsideSecondaryDisplay">
+  <!--begin::Secondary-->
+  <div class="aside-secondary d-flex flex-row-fluid">
+    <!--begin::Workspace-->
+    <div style="width: 100%;">
+      <!--begin::Tab Content-->
+      <div class="tab-content">
+        <!--begin::Tab Pane-->
+        <div class="tab-pane fade" [ngClass]="{ 'show active': activeTabId === TABS[1] }" id="kt_aside_tab_1">
+          <!-- <app-my-chat></app-my-chat> -->
+        </div>
+        <!--end::Tab Pane-->
+        <div class="tab-pane fade" id="kt_aside_tab_5" [ngClass]="{ 'show active': activeTabId === TABS[5] }">
+          <!-- <app-aside-dynamic class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+          </app-aside-dynamic> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

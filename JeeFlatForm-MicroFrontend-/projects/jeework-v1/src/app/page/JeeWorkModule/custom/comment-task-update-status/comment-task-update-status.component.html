@@ -1,0 +1,51 @@
+<style>
+    ::ng-deep .light-mode .mat-dialog-container {
+        padding: 0 !important;
+    }
+  
+    :host>>>.card-body {
+        padding: 15px !important;
+    }
+  
+    :host>>>.row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+  </style>
+  
+  <div class="card card-custom" style="padding: 0 !important;">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;">
+            <h3 class="card-label card-label-dialog">Bình luận để lưu trạng thái
+            </h3>
+        </div>
+        <div class="card-toolbar">
+          <button type="button" mat-raised-button class="ja_button ja_btn-goback" cdkFocusInitial (click)="close()">
+              <span translate="landingpagekey.trolai"></span>&nbsp;&nbsp;<div class="spinner-button-pad"></div>
+          </button>&nbsp;
+        </div>
+    </div>
+    <div class="card-body" >
+        <div class="kt-portlet__body" style="padding-bottom: 50px">
+            <div (click)="$event.stopPropagation()" style="max-height:450px;min-width: 500px;min-height: 300px;">
+                <ng-container>
+                    <!-- <app-jee-comment
+                        [showonpopup]="true"
+                        [showCommentDefault]="true"
+                        [componentName]="compopnent">
+                    </app-jee-comment> -->
+                    <ng-container *ngIf="topicObjectID$.asObservable() | async">
+                        <app-jee-comment [appCode]="'WORK'" [showCommentDefault]="true"
+                            [objectID]="topicObjectID$.asObservable() | async" (changeValue)="ChangComment()">
+                        </app-jee-comment>
+                    </ng-container>
+                </ng-container>
+    
+            </div>
+        </div>
+  
+    </div>
+  
+  </div>

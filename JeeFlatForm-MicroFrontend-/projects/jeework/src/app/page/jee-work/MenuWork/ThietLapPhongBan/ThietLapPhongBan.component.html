@@ -1,0 +1,162 @@
+<div style="
+    width: 100%;
+    height: 100vh;
+    background: #EBEBEB;
+    overflow: hidden;
+  ">
+   <div class="panel-left-v2" style="height: 100%;">
+      <!-- #region header -->
+      <div>
+         <div class="header title1"
+            style="display: flex;justify-content: space-between;border-bottom: 1px solid #d3d3d3de;font-size: 18pt;font-weight: 500;">
+            <span>Thiết lập {{DanhMucChungService.ts_duan}}</span>
+            <div class="fle">
+               <button *ngIf="selectedTab!=0" mat-button mat-raised-button
+                  style="background-color: #3699ff; color: #f2fcfb;margin-right:10px" (click)="subMit()">{{ "COMMOM.LUU"
+                  | translate }}</button>
+               <button mat-button mat-raised-bjeeworkutton (click)="close()">{{ "COMMOM.TROLAI" | translate }}</button>
+            </div>
+         </div>
+      </div>
+      <!-- #endregion -->
+
+      <div style="height:90%;display: flex;">
+         <div style="overflow: auto;width: 30%;height: 100%;" class="pn-left">
+            <div>
+
+               <div>
+                  <div class="fle menuChose"
+                     [ngStyle]="{'background-color': selectedTab == 0? 'rgba(10, 133, 255, 0.25)':''}">
+                     <div class="choses click" (click)="selectNhiemVu(0)" style="width: 100%; text-align: left;">
+                        {{ "jeework.thietlaphienthiphamvi" | translate }}
+                     </div>
+
+                  </div>
+                  <div class="fle menuChose"
+                     [ngStyle]="{'background-color': selectedTab == 1? 'rgba(10, 133, 255, 0.25)':''}">
+                     <div class="choses click" (click)="selectNhiemVu(1)" style="width: 100%; text-align: left;">
+                        Thiết lập số lượng nhắc nhở
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <div style="width: 70%;height: 100%" *ngIf="selectedTab==0" class="pn-right">
+
+            <!-- #region list option -->
+            <div>
+               <div class="row" style="margin:0; padding-top:10px">
+                  <mat-form-field style="width: 300px">
+                     <mat-label>{{this.DanhMucChungService.ts_phongban_ToUpper}}</mat-label>
+                     <mat-select (selectionChange)="changeDepartment($event.value)" [(value)]="selectedDepartment">
+                        <mat-option *ngFor="let dt of listDepartment" [value]="dt.id_row">
+                           {{dt.title}}
+                        </mat-option>
+                     </mat-select>
+                  </mat-form-field>
+               </div>
+               <ng-container *ngIf="this.listDepartment.length>0">
+                  <div  class="option" (click)="LuuPhamVi(item)" *ngFor="let item of _data">
+                     <div class="choses">
+                        <span style="margin-left:20px">{{item.Title}} </span>
+                     </div>
+                     <div class="fle">
+                        <mat-slide-toggle class="example-margin" [checked]="checkedPhamVi(item)"
+                           [disabled]="item.isDisabled">
+                        </mat-slide-toggle>
+                     </div>
+   
+                  </div>
+               </ng-container>
+
+
+            </div>
+            <!-- #endregion -->
+         </div>
+         <div style="width: 75%;height: 100%" *ngIf="selectedTab==1" class="pn-right">
+
+            <!-- #region list option -->
+            <div>
+               <!-- <div class="option" (click)="chageOptionNumber(0)">
+               <div class="choses">
+                  <span style="margin-left:20px">{{ "jeework.tongnhiemvu" | translate }}</span>
+               </div>
+               <div class="fle">
+                  <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                  [checked]="optionNumberSelected(0)" >
+                  </mat-slide-toggle>
+               </div>
+
+            </div> -->
+               <div class="option" (click)="chageOptionNumber(1)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.hoanthanhtronghan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(1)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+               <div class="option" (click)="chageOptionNumber(2)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.hoanthanhquahan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(2)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+               <div class="option" (click)="chageOptionNumber(3)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.contronghan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(3)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+               <div class="option" (click)="chageOptionNumber(4)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.saptoihan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(4)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+               <div class="option" (click)="chageOptionNumber(5)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.toihan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(5)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+               <div class="option" (click)="chageOptionNumber(6)">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ "jeework.quahan" | translate }}</span>
+                  </div>
+                  <div class="fle">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [checked]="optionNumberSelected(6)">
+                     </mat-slide-toggle>
+                  </div>
+
+               </div>
+            </div>
+            <!-- #endregion -->
+         </div>
+      </div>
+   </div>

@@ -1,0 +1,123 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Quản lý câu hỏi khảo sát</span>
+        </div>
+
+        <div class="card-toolbar">
+            <button class="jee-btn-addnew" (click)="Add()" mat-raised-button matTooltip="Thêm Mới" type="button">
+                Thêm Mới
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (menuOpened)="menuChange($event, 0)" (menuClosed)="menuChange($event, 1)" matTooltip="Hiển thị cột">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="$event.stopPropagation()">
+						<mat-checkbox
+							#ckAll (change)="$event ? CheckAllColumns() : null"
+							[checked]=" selectedColumns.hasValue() && IsAllColumnsChecked()"
+							[indeterminate]="	selectedColumns.hasValue() && !IsAllColumnsChecked()"
+							>{{ "COMMON.ALL" | translate }}</mat-checkbox
+						>
+					</button>
+                <button mat-menu-item *ngFor="let col of availableColumns" (click)="$event.stopPropagation()">
+						<mat-checkbox
+							[disabled]="col.alwaysChecked"
+							(click)="$event.stopPropagation()"
+              (change)="
+              $event ? selectedColumns.toggle(col) : null
+            "
+            [checked]="selectedColumns.isSelected(col)"
+						>
+							{{ col.displayname }}
+						</mat-checkbox>
+					</button>
+                <button mat-menu-item (click)="applySelectedColumns()">
+						<mat-icon>autorenew</mat-icon>
+						<span>{{ "COMMON.APDUNG" | translate }}</span>
+					</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form form-label-right">
+            <div class="form-group row p-filter">
+                <div class="col-lg-12">
+                    <small class="form-text text-muted"><b>{{'MENU_CAUHOIKHAOSAT.SEARCH' | translate}}</b></small>
+                    <input type="text" class="form-control" name="searchText" placeholder="" (input)="changeSelection()" [(ngModel)]="keyword" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Danh sách câu hỏi khảo sát</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- start::FILTERS & GROUP ACTIONS -->
+        <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th class=" text-center" style="min-width: 30px">
+                            <span>STT</span>
+                        </th>
+                        <th style="min-width: 50px">
+                            <span>Nội dung câu hỏi</span>
+                        </th>
+
+                        <th style="min-width: 50px;">
+                            <span>Ngày tạo</span>
+                        </th>
+
+                        <th style="min-width: 100px">
+                            <span>Kiểu câu trả lời</span>
+                        </th>
+
+                        <th style="min-width: 100px; text-align: center">
+                            <span>Tác vụ</span>
+                        </th>
+
+                    </thead>
+                    <tbody *ngIf="khoaHopService.items$ | async">
+                        <tr *ngFor="let item of (khoaHopService.items$ | async); let i = index;">
+                            <td class="text-center">
+                                {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                            </td>
+                            <td>
+
+                                <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname" (click)="xemchitietQuanLyCauHoiKhaoSat(item)">
+                          {{item.NoiDungCauHoi}}</span>
+                            </td>
+
+                            <td>
+                                <span>{{item.CreatedDate}}</span>
+                            </td>
+
+                            <td>
+                                <span>{{item.TitleType}}</span>
+                            </td>
+                            <td style="text-align: center">
+                                <button mat-icon-button type="button" matTooltip="{{ 'MENU_KHOAHOP.UPDATE' | translate}}" (click)="Update(item)">
+                                <mat-icon color="primary">create</mat-icon><span></span>
+                            </button>
+                                <button mat-icon-button type="button" matTooltip="{{ 'MENU_KHOAHOP.DELETE' | translate}}" (click)="Delete(item)">
+                                <mat-icon color="warn">delete</mat-icon><span></span>
+                              </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+        </div>
+    </div>

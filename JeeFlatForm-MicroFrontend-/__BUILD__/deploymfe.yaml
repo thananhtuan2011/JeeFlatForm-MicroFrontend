@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${PROJECT_NAME}
+  namespace: ${STACK_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${PROJECT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${PROJECT_NAME}
+    spec:
+      imagePullSecrets:
+      - name: docker-registry-secret
+      containers:
+      - name: ${PROJECT_NAME}
+        image: ${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest
+        ports:
+        - containerPort: 80
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: secure-${PROJECT_NAME}
+  namespace: ${STACK_NAME}
+spec:
+  secretName: "secure-${PROJECT_NAME}-tls"
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: ${SUBDOMAIN}.${DOMAIN}
+  dnsNames:
+  - ${SUBDOMAIN}.${DOMAIN}
+  - ${SUBDOMAIN}.${DOMAIN_CSS}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${PROJECT_NAME}-service
+  namespace: ${STACK_NAME}
+spec:
+  selector:
+    app: ${PROJECT_NAME}
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-ingress
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`${SUBDOMAIN}.${DOMAIN}`)  || Host(`${SUBDOMAIN}.jee.vn`)  || Host(`${SUBDOMAIN}.${DOMAIN_CSS}`)
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service
+          port: 80
+  tls:
+    secretName: secure-${PROJECT_NAME}-tls
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
+  namespace: ${STACK_NAME}
+spec:
+  redirectScheme:
+    scheme: https
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-ingress-http
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`${SUBDOMAIN}.${DOMAIN}`) || Host(`${SUBDOMAIN}.jee.vn`) || Host(`${SUBDOMAIN}.${DOMAIN_CSS}`)
+      middlewares:
+        - name: https-only
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service
+          port: 80

@@ -1,0 +1,97 @@
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Danh sách lượt xem
+            </h3>
+        </div>
+
+
+        <div class="card-toolbar">
+            <button mat-icon-button class="close-button" [mat-dialog-close]="data.animal" matTooltip="Đóng">
+                <mat-icon class="close-icon" color="warn">close</mat-icon>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="card-body">
+        <div class="kt-form" *ngIf="dataSource.length>0">
+            <!-- <div class="kt-portlet__body" #scrollMe style="height: calc(50vh - 137px); max-height: unset;">
+                <div class="noi-dung">
+                    <table class="table-file table table-bordered">
+                        <ng-container>
+                            <tr style="background-color:rgba(128, 128, 128, 0.288);">
+                                <th style="width:10%">STT</th>
+                                <th style="width:30%">Họ và tên</th>
+                                <th style="width:20%">Chức vụ</th>
+                                <th style="width:20%">Đơn vị</th>
+                                <th style="width:20%">Thời gian xem</th>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let it of dataSource; let i=index">
+                            <tr class="p-file-ex">
+                                <td style="width:10%;">{{i+1}}</td>
+                                <td style="width:30%">
+                                    {{it.FullName}}
+                                </td>
+                                <td style="width:20%">
+                                    {{it.JobTitle}}
+                                </td>
+                                <td style="width:20%">
+                                    {{it.Department}}
+                                </td>
+                                <td style="width:20%">
+                                    {{it.CreatedDate}}
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div> -->
+            <div class="nav-expansion-panel-donvi mr-t10">
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let panel of dataSource ; let i=index" #panelthanhphanxem
+                        [expanded]="i === 0" hideToggle>
+                        <mat-expansion-panel-header [ngClass]="{'bg-active-donvi': panelthanhphanxem.expanded}">
+                            <mat-panel-title>
+                                <span class="title">{{panel.DepartmentName}}</span>
+                                <a>({{panel.listUser.length}})</a>
+                            </mat-panel-title>
+                            <mat-icon *ngIf="panelthanhphanxem.expanded" class="icon-arrow">arrow_drop_down</mat-icon>
+                            <mat-icon *ngIf="!panelthanhphanxem.expanded"
+                                class="icon-arrow-90">arrow_drop_down</mat-icon>
+                        </mat-expansion-panel-header>
+                        <div *ngFor="let ob of panel.listUser" class="item-thanh-vien">
+                            <div class="thanh-phan">
+                                <div class="avatar-thanh-phan">
+                                    <ngx-avatar size="32" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}"
+                                        *ngIf="ob.Image;else bindText">
+                                    </ngx-avatar>
+                                    <ng-template #bindText>
+                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="32"
+                                            [name]="QLCuocHopService.getNameUser(ob.HoTen)"
+                                            bgColor="{{QLCuocHopService.getColorNameUser(ob.HoTen)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </div>
+                                <div class="thong-tin-thanh-phan">
+                                    <span class="value d-block">{{ob.HoTen}}&nbsp;<a *ngIf="ob.isHost">(Chủ
+                                            trì)</a></span>
+                                    <span class="chucvu d-block text-muted HienDauBaChamChucVu"
+                                        matTooltip="{{ob.ChucVu}}">({{ob.ChucVu}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+            </div>
+        </div>
+
+        <div class="kt-form" *ngIf="dataSource.length==0">
+            <div class="kt-portlet__body">
+                <h3 class="text-center">Không có dữ liệu</h3>
+            </div>
+        </div>
+    </div>
+</div>

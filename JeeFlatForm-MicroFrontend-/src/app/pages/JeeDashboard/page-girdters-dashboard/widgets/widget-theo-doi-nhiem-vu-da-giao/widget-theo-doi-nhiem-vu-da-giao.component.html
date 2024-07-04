@@ -1,0 +1,126 @@
+<style>
+    .item-text {
+        text-align: center;
+        font-weight: bold;
+        font-size: 11pt;
+    }
+
+    .item-text-title {
+        padding-left: 15px;
+        font-size: 11pt;
+    }
+</style>
+<div class="table-responsive" [ngStyle]="{'height': getHeight()}">
+    <table
+        class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid table-vertical-center">
+        <thead>
+            <tr class="text-left">
+                <th class="pr-0 pl-7" style="min-width: 250px"><span
+                        style="font-weight: bold !important; font-size: 13pt !important;"
+                        >{{_WorkGeneralService.ts_duan_ToUpper}}</span>
+                </th>
+                <th style="min-width: 120px; text-align: center;" class="pd-0"><span
+                        >Tổng số {{_WorkGeneralService.ts_congviec}}</span></th>
+                <th style="min-width: 160px; text-align: center;" class="pd-0"><span>Hoàn thành đúng hạn</span></th>
+                <th style="min-width: 160px; text-align: center;" class="pd-0"><span>Hoàn thành quá hạn</span></th>
+                <th style="min-width: 120px; text-align: center;" class="pd-0"><span translate="widgets.conhan"></span>
+                </th>
+                <th style="min-width: 120px; text-align: center;" class="pd-0"><span
+                        translate="widgets.saptoihan"></span></th>
+                <th style="min-width: 120px; text-align: center;" class="pd-0"><span translate="widgets.toihan"></span>
+                </th>
+                <th style="min-width: 120px; text-align: center;" class="pd-0"><span translate="widgets.quahan"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf="is_loading">
+            <tr class="mat-row-widget" *ngFor="let item of _itemsTheoDoi$ | async"
+                [ngClass]="{hovered: item.hovered, highlighted: item.highlighted}" (mouseover)="item.hovered = true"
+                (mouseout)="item.hovered = false">
+                <td>
+                    <div class="it item-text-title">
+                        <span class="url -hover name-title">{{item.title}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text">
+                        <span class="name-title">{{item.num_work}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+                        <span style="cursor: pointer;" (click)="view(1,item)"
+                            matTooltip="Xem chi tiết">{{item.hoanthanh_dunghan}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+                        <span style="cursor: pointer;" (click)="view(2,item)"
+                            matTooltip="Xem chi tiết">{{item.hoanthanh_quahan}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[4]}">
+                        <span style="cursor: pointer;" (click)="view(3,item)"
+                            matTooltip="Xem chi tiết">{{item.conhan}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+                        <span style="cursor: pointer;" (click)="view(4,item)"
+                            matTooltip="Xem chi tiết">{{item.saptoihan}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[2]}">
+                        <span style="cursor: pointer;" (click)="view(5,item)"
+                            matTooltip="Xem chi tiết">{{item.toihan}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[3]}">
+                        <span style="cursor: pointer;" (click)="view(6,item)"
+                            matTooltip="Xem chi tiết">{{item.quahan}}</span>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngFor="let item of _s_itemsTheoDoi$ | async">
+                <td>
+                    <div class="it item-text-title">
+                        <span class="url -hover name-title"
+                            style="font-weight: bold !important; font-size: 13pt !important;">Tổng cộng</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text">
+                        <span class="name-title">{{item.s_num_work}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+                        {{item.s_hoanthanh_dunghan}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[0]}">
+                        {{item.s_hoanthanh_quahan}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[4]}">
+                        {{item.s_conhan}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[1]}">
+                        {{item.s_saptoihan}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[2]}">
+                        {{item.s_toihan}} </div>
+                </td>
+                <td>
+                    <div class="it item-text" [ngStyle]="{'color': colorCrossbar[3]}">
+                        {{item.s_quahan}} </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

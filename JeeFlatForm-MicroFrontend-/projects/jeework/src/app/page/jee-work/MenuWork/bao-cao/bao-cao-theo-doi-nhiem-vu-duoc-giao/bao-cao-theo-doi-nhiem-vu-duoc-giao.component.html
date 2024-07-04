@@ -1,0 +1,127 @@
+<div>
+
+  <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th rowspan="3" class="css-stickyheader-col0"
+          style="min-width: 50px; text-align: center;color: white !important;">
+          STT
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0"
+          style="min-width: 50px; text-align: center;color: white !important;">
+          Số, ký hiệu văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0"
+          style="min-width: 50px; text-align: center;color: white !important;">
+          Ngày văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col1"
+          style="min-width: 120px; text-align: center;color: white !important;">
+          Trích yếu văn bản
+        </th>
+        <th rowspan="3" class="css-stickyheader-col2"
+          style="min-width: 115px; text-align: center;color: white !important;">
+          Đơn vị theo dõi/Lãnh đạo văn phòng phụ trách
+        </th>
+        <th rowspan="3" class="css-stickyheader-col1"
+          style="min-width: 120px; text-align: center;color: white !important;">
+          Nội dung {{BaoCaoService.ts_congviec}} được giao
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0"
+        style="min-width: 40px; text-align: center;color: white !important;">
+        Người xử lý
+      </th>
+        <th rowspan="3" class="css-stickyheader-col0"
+          style="min-width: 40px; text-align: center;color: white !important;">
+          {{BaoCaoService.ts_phongban_ToUpper}}
+        </th>
+        <th rowspan="3" class="css-stickyheader-col4"
+          style="min-width: 40px; text-align: center;color: white !important;">
+          Hạn xử lý
+        </th>
+
+        <th class="css-stickyheader-col5" colspan="4"
+          style="min-width: 120px; text-align: center;color: white !important;">
+          Tình hình thực hiện
+        </th>
+        <!-- <th class="css-stickyheader-col6" style="min-width: 80px; text-align: center;color: white !important;"
+          rowspan="3">
+          Diễn giải tình hình thực hiện
+        </th> -->
+      </tr>
+      <tr class="css-stickyheader-col0">
+
+        <th class="css-sticky-row2-cus" style="width: 40px; text-align: center;color: white !important;" rowspan="1"
+          colspan="2">
+          Chưa hoàn thành</th>
+        <th class="css-sticky-row2-cus1" style="width: 40px; text-align: center;color: white !important;" rowspan="1"
+          colspan="2">
+          Đã hoàn thành</th>
+
+      </tr>
+      <tr class="css-stickyheader-col0">
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 60px;color: white !important;">
+          Còn hạn</td>
+        <td class="css-sticky-row3-1" style=" text-align: center; min-width: 60px;color: white !important;">
+          Quá hạn</td>
+        <td class="css-sticky-row3-2" style=" text-align: center; min-width: 60px;color: white !important;">
+          Còn hạn</td>
+        <td class="css-sticky-row3-3" style=" text-align: center; min-width: 60px;color: white !important;">
+          Quá hạn</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="mat-row-baocao" *ngFor="let data of listData; let i = index"
+        [ngClass]="{hovered: data.hovered, highlighted: data.highlighted}" (mouseover)="data.hovered = true"
+        (mouseout)="data.hovered = false">
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{i+1}}</td>
+        <td class="css-sticky-col1" style="text-align: left; height: 22px;">
+          {{data.so_hieu_vb}}</td>
+        <td class="css-sticky-col2" style="text-align: left; height: 22px;">
+          {{formatdate(data.ngay_vb)}}</td>
+
+        <td style="text-align: left; height: 22px;">
+          <span style="padding-left: 10px;">
+            {{data.trich_yeu_vb}}
+          </span>
+        </td>
+        <td style="text-align: left; height: 22px;">
+          <span style="padding-left: 10px;">
+            {{data.dsfollower}}
+          </span>
+        </td>
+        <td style="height: 22px;">
+          {{data.noi_dung}}
+        </td>
+        <td style="height: 22px;">
+          <span *ngIf="data.Users" style="padding-left: 10px;">
+            {{data.Users.hoten}}
+          </span>
+        </td>
+        <td style="height: 22px;">
+          {{data.don_vi_giao}}
+        </td>
+        <td style="text-align: center; height: 22px;">
+          {{formatdate(data.han_xu_ly)}}
+        </td>
+
+        <td style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_cht_ch)}}
+        </td>
+        <td style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_cht_qh)}}
+        </td>
+        <td style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_ht_dh)}}
+        </td>
+        <td style="text-align: center; height: 22px;">
+          {{ChangeResult(data.is_ht_qh)}}
+        </td>
+        <!-- <td class="css-sticky-col6" style="text-align: center; height: 22px;">
+
+        </td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>

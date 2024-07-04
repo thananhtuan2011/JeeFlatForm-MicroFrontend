@@ -1,0 +1,35 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-nested-tree-node *matTreeNodeDef="let node">
+        <li>
+            <div class="mat-tree-node" (click)="!IsMulti ? clickNode(node) : null" [id]="node.id" [class.selected]="selectedNode === node.id">
+                <!-- <mat-icon *ngIf="node.type === 1" matSuffix color="primary">home</mat-icon> -->
+                <mat-icon *ngIf="node.type === 2" matSuffix color="primary">account_box</mat-icon>
+                <mat-checkbox class="checkbox-leaf-node" [checked]="checklistSelection.isSelected(node)" (change)="todoLeafItemSelectionToggle(node)">
+                    {{node.title}}
+                </mat-checkbox>
+            </div>
+        </li>
+    </mat-nested-tree-node>
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
+        <li class="tree-container">
+            <div class="mat-tree-node" (click)="!IsMulti ? clickNode(node) : null" [id]="node.id" [class.selected]="selectedNode === node.id">
+                <button mat-icon-button matTreeNodeToggle [matTreeNodeToggleRecursive]="recursive" [attr.aria-label]="'toggle ' + node.title" (click)="expandItem(node)">
+                    <mat-icon >
+                        {{node.expanded ?  'chevron_right':'expand_more' }}
+                    </mat-icon>
+                </button>
+                <!-- <mat-icon matSuffix color="primary">home</mat-icon> -->
+
+                <mat-checkbox class="checklist-leaf-node" [checked]="descendantsAllSelected(node)" [indeterminate]="descendantsPartiallySelected(node)" (change)="todoItemSelectionToggle(node)">
+                    {{node.title}}
+                    <mat-label *ngIf="node.type === 1 && node.internal_tree && iddonvi === node.id" style="color: #cb3131;padding-left:1px">( Nội bộ )</mat-label>
+                </mat-checkbox>
+            </div>
+            <ul class="tree-nested-node">
+                <div *ngIf="!node.expanded">
+                    <ng-container matTreeNodeOutlet></ng-container>
+                </div>
+            </ul>
+        </li>
+    </mat-nested-tree-node>
+</mat-tree>

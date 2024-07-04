@@ -1,0 +1,233 @@
+<style>
+    #diagramEventsControlSection .sb-mobile-palette {
+        width: 180px;
+        height: 900px;
+        float: left;
+        border: none;
+    }
+    
+    #diagramEventsControlSection .sb-mobile-diagram {
+        width: calc(100% - 180px);
+        height: 900px;
+        float: left;
+        border: none
+    }
+    
+    .status {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+    
+     ::ng-deep .e-acrdn-panel {
+        height: 100% !important;
+        position: inherit !important;
+    }
+    
+    @media (max-width: 550px) {
+        #diagramEventsControlSection .sb-mobile-palette {
+            z-index: 19;
+            position: absolute;
+            display: none;
+            transition: transform 300ms linear, visibility 0s linear 300ms;
+            width: 29%;
+            height: 100%;
+        }
+        #diagramEventsControlSection .sb-mobile-diagram {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12,
+    .col,
+    .col-auto,
+    .col-sm-1,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm,
+    .col-sm-auto,
+    .col-md-1,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md,
+    .col-md-auto,
+    .col-lg-1,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg,
+    .col-lg-auto,
+    .col-xl-1,
+    .col-xl-2,
+    .col-xl-3,
+    .col-xl-4,
+    .col-xl-5,
+    .col-xl-6,
+    .col-xl-7,
+    .col-xl-8,
+    .col-xl-9,
+    .col-xl-10,
+    .col-xl-11,
+    .col-xl-12,
+    .col-xl,
+    .col-xl-auto {
+        position: relative;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        ;
+    }
+    
+    .pb-2 {
+        padding-left: 5px !important;
+    }
+</style>
+
+<!-- <div class="kt-portlet" [ngClass]="{
+		'kt-portlet--body-progress kt-portlet--body-progress-overlay':
+			viewLoading
+	}" style="height: 100%;">
+	<div> -->
+<!-- <button mat-icon-button class="close-button" [mat-dialog-close]="data.animal"
+			matTooltip="{{'ComMon.BTN_CLOSE' | translate}}">
+			<mat-icon class="close-icon" color="warn">close</mat-icon>
+		</button> -->
+<!-- </div> -->
+
+<div class="card card-custom card-sticky gutter-b" [ngStyle]="{'height': getHeight()}">
+    <div class="card-header">
+        <div class="col-md-6" style="margin-top: 0.5cm;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{ getTitle()}}
+            </h3>
+        </div>
+        <div class="col-md-6 " style="text-align: right;">
+            <button *ngIf="isSecretary && viewO !== 1" (click)="saveDiagram()" mat-raised-button color="primary" matTooltip="Lưu sơ đồ phòng họp" [disabled]="viewLoading">
+            Lưu
+          </button>&nbsp;&nbsp;
+            <button type="button" style="margin-top: 0.3cm;" class="button-cancel" mat-raised-button (click)="close()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+                {{'COMMON.BACK' | translate}}
+              </button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="kt-form" style="overflow: auto;">
+        <div class="kt-portlet__body" style="overflow: auto;">
+            <div class="col-lg-12 text-center" *ngIf="viewO === 1">
+                <img width="1200" id="img_icon" src="" />
+            </div>
+            <div class="row" [hidden]="viewO === 1">
+                <div class="col-lg-10">
+                    <div id="diagramEventsControlSection">
+                        <div id="palette-space" class="sb-mobile-palette" [hidden]="!isSecretary">
+                            <ejs-symbolpalette #symbolpalette id="symbolpalette" [expandMode]="expandMode" [palettes]="palettes" width="100%" height="900px" [symbolHeight]=60 [symbolWidth]=60 [symbolMargin]="symbolMargin" [getNodeDefaults]="getSymbolDefaults" [getSymbolInfo]="getSymbolInfo">
+                            </ejs-symbolpalette>
+                        </div>
+                        <div id="diagram-space" class="sb-mobile-diagram">
+                            <ejs-diagram #diagram id="diagram" width="100%" height="900px" [contextMenuSettings]="contextMenu" [snapSettings]='snapSettings' (dragEnter)="dragEnter($event)" (dragLeave)="dragLeave($event)" (dragOver)="dragOver($event)" (click)="click($event)" (historyChange)="historyChange($event)"
+                                (doubleClick)="doubleClick($event)" (textEdit)="textEdit($event)" (scrollChange)="scrollChange($event)" (selectionChange)="selectionChange($event)" (sizeChange)="sizeChange($event)" (connectionChange)="connectionChange($event)"
+                                (sourcePointChange)="sourcePointChange($event)" (targetPointChange)="targetPointChange($event)" (propertyChange)="propertyChange($event)" (positionChange)="positionChange($event)" (rotateChange)="rotateChange($event)" (collectionChange)="collectionChange($event)"
+                                (mouseEnter)="mouseEnter($event)" (mouseLeave)="mouseLeave($event)" (mouseOver)="mouseOver($event)" (contextMenuOpen)="contextMenuOpen($event)" (contextMenuBeforeItemRender)="contextMenuBeforeItemRender($event)" (contextMenuClick)="contextMenuClick($event)"
+                                (created)="created()">
+                            </ejs-diagram>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2" *ngIf="listParticipants">
+                    <span class="text-center" style="font-size: 16px;" *ngIf="listParticipants.length === 0">Không có thành viên tham dự cuộc họp</span>
+                    <div class="noi-dung" *ngIf="listParticipants.length !== 0">
+                        <ng-container>
+                            <div style="padding-bottom: 5px;" *ngFor="let ob of listParticipants">
+                                <div class="row pb-2">
+                                    <div class="col-1" style="margin: auto;">
+                                        <div class="status" matTooltip="{{getInfoBackgroundText(ob.idUser)}}" [ngStyle]="{'background-color':getInfoBackgroundColor(ob.idUser)}"> </div>
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <ngx-avatar size="40" [matMenuTriggerFor]="Participants" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="Participants" matTooltip="{{ob.HoTen}}" size="40" [name]="service.getNameUser(ob.HoTen)" bgColor="{{service.getColorNameUser(ob.HoTen)}}">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-10" style="padding-left: 15px !important;">
+                                                <span class="value d-block">{{ob.HoTen}}</span>
+                                                <span class="chucvu d-block text-muted">{{ob.ChucVu}}</span>
+                                            </div>
+                                        </div>
+                                        <mat-menu #Participants="matMenu">
+                                            <div class="d-flex pb-2 m-2">
+                                                <div>
+                                                    <ngx-avatar size="40" matTooltip="{{ob.HoTen}}" src="{{ob.Image}}" *ngIf="ob.Image;else bindText1">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText1>
+                                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{ob.HoTen}}" size="40" [name]="service.getNameUser(ob.HoTen)" bgColor="{{service.getColorNameUser(ob.HoTen)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <div class="col-md-12" style="font-weight: bold;">
+                                                        <span>{{ob.HoTen}}</span>
+                                                    </div>
+                                                    <div class="col-md-12"><span>{{ob.ChucVu}}</span></div>
+                                                </div>
+                                            </div>
+                                        </mat-menu>
+                                    </div>
+                                    <div class="col-1" style="display: flex; align-items: center; justify-content: flex-end;">
+                                        <div style="align-items: flex-end;">
+                                            <button mat-icon-button color="primary" type="button" matTooltip="Thêm" (click)="change(ob.idUser)" *ngIf="!isDelete(ob.idUser)">
+												<mat-icon>add_circle</mat-icon>
+											</button>
+                                            <button mat-icon-button color="warn" type="button" matTooltip="Xóa" (click)="change(ob.idUser)" *ngIf="isDelete(ob.idUser)">
+												<mat-icon>delete</mat-icon>
+											</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

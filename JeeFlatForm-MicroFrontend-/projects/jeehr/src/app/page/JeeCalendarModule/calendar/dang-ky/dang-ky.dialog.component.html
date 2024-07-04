@@ -1,0 +1,1133 @@
+<style>
+	:host>>>mat-tab-body[id *='-5'][aria-labelledby *='-5'] {
+		width: 100%;
+		overflow-y: hidden;
+	}
+
+	:host>>>m-ql-vi-pham-list .kt-portlet__head.kt-portlet__head--fit {
+		display: none;
+	}
+
+	:host>>>m-ql-vi-pham-list .kt-portlet--rounded-force {
+		box-shadow: none;
+	}
+</style>
+<!-- <h1 mat-dialog-title mat-dialog-draggable-title></h1> -->
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title" mat-dialog-draggable-title>
+			<h3 class="dialog-title"><span>Lịch của tôi</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body dl-tabs">
+		<mat-tab-group class="dl-tabs-custom" [(selectedIndex)]="selectedTab"
+			(selectedTabChange)="onLinkClick(changeTab, $event)">
+			<mat-tab label="Nghỉ phép - Công tác" [disabled]="!showTabNP">
+				<ng-template matTabContent>
+					<form [formGroup]="itemFormPhep" *ngIf="itemPhep" class="m-form m-form--group-seperator-dashed">
+						<div class="m-form__section m-form__section--first">
+							<div class="m-form__group">
+								<div class="row">
+									<div class="col-md-6 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="{{ 'phepcanhan.hinhthuc' | translate}}" required
+												(selectionChange)="ChangeHinhThuc($event.value)" id="hinhthucnghiphep"
+												formControlName="hinhThuc">
+												<mat-option>
+													<ngx-mat-select-search [formControl]="bankFilterCtrl"
+														[placeholderLabel]="''" [noEntriesFoundLabel]="''">
+													</ngx-mat-select-search>
+												</mat-option>
+												<mat-option value="{{itemCate.ID_type}}"
+													*ngFor="let itemCate of filteredBanks | async">
+													{{ itemCate.title }}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile"
+										style="font-size: 13pt; align-self: center;" *ngIf="ShowText">
+										<span translate="phepcanhan.songaysudung"></span>&nbsp;<span>{{SoNgay |
+											number : '1.2-2'}}</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid ">
+											<!-- [min]="ngayBatDauNghiToiThieu"  -->
+											<input matInput [matDatepicker]="dp1" (dateChange)="loadNgayNghi()"
+												class="input-batbuoc"
+												placeholder="{{ 'phepcanhan.ngaybdnghi' | translate}}"
+												formControlName="ngayBatDauNghi" required>
+											<mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+											<mat-datepicker #dp1></mat-datepicker>
+										</mat-form-field>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile" *ngIf="showGio">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="{{ 'phepcanhan.gionghi' | translate}}" required
+												*ngIf="!ShowShipper && !ShowVienChuc" (selectionChange)="loadNgayNghi()"
+												formControlName="gioNghi">
+												<mat-option>
+													<ngx-mat-select-search [formControl]="bankTuGio"
+														[placeholderLabel]="''" [noEntriesFoundLabel]="''">
+													</ngx-mat-select-search>
+												</mat-option>
+												<mat-option value="{{itemCate.Gio}}"
+													*ngFor="let itemCate of filteredBanksTuGio | async">
+													{{ itemCate.Gio }}
+												</mat-option>
+											</mat-select>
+											<mat-select placeholder="{{ 'phepcanhan.buoi1' | translate}}" required
+												*ngIf="ShowShipper || ShowVienChuc" (selectionChange)="loadNgayNghi()"
+												formControlName="buoi1">
+												<mat-option value="AM">
+													<span *ngIf="ShowShipper" translate="phepcanhan.daubuoi"></span>
+													<span *ngIf="ShowVienChuc" translate="phepcanhan.sang"></span>
+												</mat-option>
+												<mat-option value="PM">
+													<span *ngIf="ShowShipper" translate="phepcanhan.cuoibuoi"></span>
+													<span *ngIf="ShowVienChuc" translate="phepcanhan.chieu"></span>
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput [matDatepicker]="dp2" (dateChange)="loadNgayNghi()"
+												class="input-batbuoc"
+												placeholder="{{ 'phepcanhan.denngay' | translate}}"
+												formControlName="denNgay" required>
+											<mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+											<mat-datepicker #dp2></mat-datepicker>
+										</mat-form-field>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile" *ngIf="showGio">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="{{ 'phepcanhan.dengio' | translate}}" required
+												*ngIf="!ShowShipper && !ShowVienChuc" (selectionChange)="loadNgayNghi()"
+												formControlName="denGio">
+												<mat-option>
+													<ngx-mat-select-search [formControl]="bankDenGio"
+														[placeholderLabel]="''" [noEntriesFoundLabel]="''">
+													</ngx-mat-select-search>
+												</mat-option>
+												<mat-option value="{{itemCate.Gio}}"
+													*ngFor="let itemCate of filteredBanksDenGio | async">
+													{{ itemCate.Gio }}
+												</mat-option>
+											</mat-select>
+											<mat-select placeholder="{{ 'phepcanhan.buoi2' | translate}}" required
+												*ngIf="ShowShipper || ShowVienChuc" (selectionChange)="loadNgayNghi()"
+												formControlName="buoi2">
+												<mat-option value="AM">
+													<span *ngIf="ShowShipper" translate="phepcanhan.daubuoi"></span>
+													<span *ngIf="ShowVienChuc" translate="phepcanhan.sang"></span>
+												</mat-option>
+												<mat-option value="PM">
+													<span *ngIf="ShowShipper" translate="phepcanhan.cuoibuoi"></span>
+													<span *ngIf="ShowVienChuc" translate="phepcanhan.chieu"></span>
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-2 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput type="number"
+												placeholder="{{ 'phepcanhan.songay' | translate }}" autocomplete="off"
+												formControlName="soNgay" readonly />
+										</mat-form-field>
+									</div>
+									<div class="col-md-10 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid ">
+											<input class="input-batbuoc" matInput
+												placeholder="{{ 'phepcanhan.lydo' | translate }}" required
+												autocomplete="off" formControlName="ghiChu" />
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row" *ngIf="CustemerID == 1219">
+									<div class="col-md-4 m--margin-bottom-10-mobile" *ngIf="IsDuLich">
+										<mat-checkbox formControlName="nghididulich">
+											<span translate="phepcanhan.nghididulich"></span>
+										</mat-checkbox>
+									</div>
+									<div class="col-md-12 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid ">
+											<input matInput class="input-batbuoc" required
+												placeholder="{{ 'phepcanhan.diadiem' | translate }}" autocomplete="off"
+												formControlName="diadiem" />
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Tăng ca" [disabled]="!showTabTC">
+				<ng-template matTabContent>
+					<form [formGroup]="itemFormTC" *ngIf="itemTangCa" class="m-form m-form--group-seperator-dashed">
+						<div class="m-form__section m-form__section--first">
+							<div class="m-form__group">
+								<div class="row">
+									<div class="col-md-6 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid ">
+											<input matInput [matDatepicker]="dptc"
+												(dateChange)="TinhSoGioOTCanCuVaoGioOT()" id="ngaytangca"
+												placeholder="{{ 'overtimeregister.ngaytangca' | translate}}"
+												formControlName="NgayTangCa" class="input-batbuoc" required>
+											<mat-datepicker-toggle matSuffix [for]="dptc"></mat-datepicker-toggle>
+											<mat-datepicker #dptc></mat-datepicker>
+										</mat-form-field>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile"
+										style="text-align: left; padding-top: 15px;">
+										<mat-checkbox (change)=TinhSoGioOTCanCuVaoGioOT() formControlName="OverTime">
+											<span translate="overtimeregister.Overtimeinbreaktime"></span>
+										</mat-checkbox>
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile">
+									</div>
+									<div class="col-md-6 m--margin-bottom-10-mobile"
+										style="text-align: left; padding-bottom: 10px;">
+										<mat-checkbox formControlName="IsFixHours"><span
+												translate="overtimeregister.IsFixHours"></span>
+										</mat-checkbox>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3 m--margin-bottom-10-mobile" *ngIf="showGio">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="{{ 'phepcanhan.gionghi' | translate}}" required
+												(selectionChange)="TinhSoGioOTCanCuVaoGioOT()" formControlName="tugio">
+												<mat-option>
+													<ngx-mat-select-search [formControl]="bankTuGio"
+														[placeholderLabel]="''" [noEntriesFoundLabel]="''">
+													</ngx-mat-select-search>
+												</mat-option>
+												<mat-option value="{{itemCate.Gio}}"
+													*ngFor="let itemCate of filteredBanksTuGio | async">
+													{{ itemCate.Gio }}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-md-3 m--margin-bottom-10-mobile" *ngIf="showGio">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="{{ 'phepcanhan.dengio' | translate}}" required
+												(selectionChange)="TinhSoGioOTCanCuVaoGioOT()" formControlName="dengio">
+												<mat-option>
+													<ngx-mat-select-search [formControl]="bankDenGio"
+														[placeholderLabel]="''" [noEntriesFoundLabel]="''">
+													</ngx-mat-select-search>
+												</mat-option>
+												<mat-option value="{{itemCate.Gio}}"
+													*ngFor="let itemCate of filteredBanksDenGio | async">
+													{{ itemCate.Gio }}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-md-4 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="{{ 'overtimeregister.sogio' | translate }}"
+												autocomplete="off" formControlName="Hours" readonly />
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 m--margin-bottom-10-mobile">
+										<mat-form-field class="mat-form-field-fluid ">
+											<input matInput placeholder="{{ 'overtimeregister.congviec' | translate }}"
+												class="input-batbuoc" required autocomplete="off"
+												formControlName="ghiChu" />
+										</mat-form-field>
+									</div>
+									<div *ngIf="false">
+										<button mat-raised-button type="button" (click)="ChonCongViec()"
+											style="border:1px solid #3699ff; background: transparent;">
+											<span style="font-weight: 500; color: #3699ff;">Chọn công việc</span>
+										</button>
+									</div>
+								</div>
+								<ng-container *ngFor="let item of listChon">
+									<div style="padding-bottom: 5px;" class="row-item" *ngIf="item.type == 1">
+										<div>
+											<div class="item-detail-info" style="display: flex;">
+												<div class="col-2 pd-0" style="display: contents;">
+													<mat-icon mat-icon-button (click)="removeWork(item)"
+														style="cursor: pointer; padding: 5px 0 0 10px;" color="warn">
+														delete
+													</mat-icon>
+													<div class="item-right-show-content cu-task-row-assignee">
+														<ng-container *ngIf="item.UsersInfo?.length > 0;else chuagiao">
+															<div class="user url"
+																*ngFor="let us of item.UsersInfo;let last = last"
+																style="justify-content: flex-end;">
+																<ng-container>
+																	<ngx-avatar size="30" matTooltip="{{us.hoten}}"
+																		src="{{us.image}}"
+																		*ngIf="us.image;else bindText">
+																	</ngx-avatar>
+																	<ng-template #bindText>
+																		<ngx-avatar textSizeRatio="2.5"
+																			matTooltip="{{us.hoten}}" size="30"
+																			[name]="us.hoten | avatar"
+																			bgColor="{{ us.hoten |avatar:'color' }}">
+																		</ngx-avatar>
+																	</ng-template>
+																</ng-container>
+															</div>
+														</ng-container>
+														<ng-template #chuagiao>
+															<div class="user bg-white mr-2"
+																style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+																<i class="fas fa-user-plus ml-1 pd-0"
+																	matTooltip="Chưa có người làm"
+																	style="font-size: 13px; "></i>
+															</div>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-10 pd-0" style="align-self: center;">
+													<div class="row h-100 ">
+														<div class="item-detail-title">
+															{{item.title}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row-item" *ngIf="item.type == 2">
+										<div style="padding-bottom: 5px;">
+											<div class="item-detail-info" style="display: flex;">
+												<div class="col-2 pd-0" style="display: contents;">
+													<mat-icon mat-icon-button (click)="removeWork(item)"
+														style="cursor: pointer; padding: 5px 0 0 10px;" color="warn">
+														delete
+													</mat-icon>
+													<div class="item-right-show-content cu-task-row-assignee">
+														<ng-container
+															*ngIf="item.stage_implementer?.length > 0;else chuagiao">
+															<div class="row" *ngIf="item.stage_implementer.length == 1">
+																<ngx-avatar size="30"
+																	src="{{item.stage_implementer[0].AvartarImgURL}}"
+																	matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+																	*ngIf="item.stage_implementer[0].AvartarImgURL;else bindText">
+																</ngx-avatar>
+																<ng-template #bindText>
+																	<ngx-avatar textSizeRatio="2.5" size="30"
+																		matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+																		bgColor="{{danhMucChungService.getColorNameUser(item.stage_implementer[0].FirstName)}}"
+																		[name]="danhMucChungService.getNameUser(item.stage_implementer[0].FirstName.slice(0, 1))">
+																	</ngx-avatar>
+																</ng-template>
+															</div>
+															<div class="row" *ngIf="item.stage_implementer.length > 1">
+																<div class="users">
+																	<div class="user url"
+																		*ngFor="let img of item.Manager1,let vi = index"
+																		style="justify-content: flex-end;">
+																		<ngx-avatar [size]="30"
+																			src="{{img.AvartarImgURL}}"
+																			*ngIf="img.AvartarImgURL; else bindText"
+																			[matMenuTriggerFor]="menu">
+																		</ngx-avatar>
+																		<ng-template #bindText>
+																			<ngx-avatar textSizeRatio="2.5" [size]="30"
+																				[name]="img.FirstName.slice(0, 1)"
+																				bgColor="{{ danhMucChungService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+																				[matMenuTriggerFor]="menu">
+																			</ngx-avatar>
+																		</ng-template>
+																		<mat-menu #menu="matMenu">
+																			<div class="row">
+																				<div class="col-md-3">
+																					<ngx-avatar [size]="50"
+																						src="{{img.AvartarImgURL}}"
+																						*ngIf="img.AvartarImgURL; else bindText">
+																					</ngx-avatar>
+																					<ng-template #bindText>
+																						<ngx-avatar textSizeRatio="2.5"
+																							[size]="50"
+																							[name]="img.FirstName.slice(0, 1)"
+																							bgColor="{{ danhMucChungService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+																						</ngx-avatar>
+																					</ng-template>
+																				</div>
+																				<div class="col-md-9 font-chu">
+																					<div class="col-md-12"
+																						style="font-weight: bold;">
+																						<span>{{img.FullName}}</span>
+																					</div>
+																					<div class="col-md-12">
+																						<span>{{img.Jobtitle}}</span>
+																					</div>
+																				</div>
+																			</div>
+																		</mat-menu>
+																	</div>
+																	<div class="user url"
+																		[ngStyle]="{'display' : item.Manager2_count > 0 ? '' : 'none'}"
+																		style="text-align: center; width: 30px; height: 30px;">
+																		<span class="manager2"
+																			style="border-radius: 50%; font-size: 15px; cursor: pointer;text-align: center;"
+																			alt=""
+																			[matMenuTriggerFor]="menu">{{item.Manager2_count}}</span>
+																		<mat-menu #menu="matMenu">
+																			<div class="row"
+																				*ngFor="let img of item.Manager2">
+																				<div class="col-md-2"
+																					style="padding: 5px;">
+																					<ngx-avatar [size]="30"
+																						src="{{img.AvartarImgURL}}"
+																						*ngIf="img.AvartarImgURL; else bindText">
+																					</ngx-avatar>
+																					<ng-template #bindText>
+																						<ngx-avatar textSizeRatio="2.5"
+																							[size]="30"
+																							[name]="img.FirstName.slice(0, 1)"
+																							bgColor="{{ danhMucChungService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+																						</ngx-avatar>
+																					</ng-template>
+																				</div>
+																				<div class="col-md-10 font-chu">
+																					<div class="col-md-12"
+																						style="font-weight: bold;">
+																						<span>{{img.FullName}}</span>
+																					</div>
+																					<div class="col-md-12">
+																						<span>{{img.Jobtitle}}</span>
+																					</div>
+																				</div>
+																			</div>
+																		</mat-menu>
+																	</div>
+																</div>
+															</div>
+														</ng-container>
+														<ng-template #chuagiao>
+															<div class="user bg-white mr-2"
+																style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+																<i class="fas fa-user-plus ml-1 pd-0"
+																	matTooltip="Chưa có người làm"
+																	style="font-size: 13px; "></i>
+															</div>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-10 pd-0" style="align-self: center;">
+													<div class="row h-100 ">
+														<div class="item-detail-title">
+															<span>{{item.task}}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row-item" *ngIf="item.type == 3">
+										<div style="padding-bottom: 5px;">
+											<div class="item-detail-info" style="display: flex;">
+												<div class="col-2 pd-0" style="display: contents;">
+													<mat-icon mat-icon-button (click)="removeWork(item)"
+														style="cursor: pointer; padding: 5px 0 0 10px;" color="warn">
+														delete
+													</mat-icon>
+													<div class="item-right-show-content cu-task-row-assignee">
+														<ng-container
+															*ngIf="item.stage_implementer?.length > 0;else chuagiao">
+															<div class="row" *ngIf="item.stage_implementer.length == 1">
+																<ngx-avatar size="30"
+																	src="{{item.stage_implementer[0].AvartarImgURL}}"
+																	matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+																	*ngIf="item.stage_implementer[0].AvartarImgURL;else bindText">
+																</ngx-avatar>
+																<ng-template #bindText>
+																	<ngx-avatar textSizeRatio="2.5" size="30"
+																		matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+																		bgColor="{{danhMucChungService.getColorNameUser(item.stage_implementer[0].FirstName)}}"
+																		[name]="danhMucChungService.getNameUser(item.stage_implementer[0].FirstName.slice(0, 1))">
+																	</ngx-avatar>
+																</ng-template>
+															</div>
+															<div class="row" *ngIf="item.stage_implementer.length > 1">
+																<div class="users">
+																	<div class="user url"
+																		style="text-align: center; width: 30px; height: 30px;">
+																		<span class="manager2"
+																			style="border-radius: 50%; font-size: 15px; cursor: pointer;text-align: center;"
+																			alt=""
+																			[matMenuTriggerFor]="menu">{{item.stage_implementer.length}}</span>
+																		<mat-menu #menu="matMenu">
+																			<div class="row"
+																				*ngFor="let img of item.stage_implementer">
+																				<div class="col-md-2"
+																					style="padding: 5px;">
+																					<ngx-avatar [size]="30"
+																						src="{{img.AvartarImgURL}}"
+																						*ngIf="img.AvartarImgURL; else bindText">
+																					</ngx-avatar>
+																					<ng-template #bindText>
+																						<ngx-avatar textSizeRatio="2.5"
+																							[size]="30"
+																							[name]="img.FirstName.slice(0, 1)"
+																							bgColor="{{ danhMucChungService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+																						</ngx-avatar>
+																					</ng-template>
+																				</div>
+																				<div class="col-md-10 font-chu">
+																					<div class="col-md-12"
+																						style="font-weight: bold;">
+																						<span>{{img.FullName}}</span>
+																					</div>
+																					<div class="col-md-12">
+																						<span>{{img.Jobtitle}}</span>
+																					</div>
+																				</div>
+																			</div>
+																		</mat-menu>
+																	</div>
+																</div>
+															</div>
+														</ng-container>
+														<ng-template #chuagiao>
+															<div class="user bg-white mr-2"
+																style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+																<i class="fas fa-user-plus ml-1 pd-0"
+																	matTooltip="Chưa có người làm"
+																	style="font-size: 13px; "></i>
+															</div>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-10 pd-0" style="align-self: center;">
+													<div class="row h-100 ">
+														<div class="item-detail-title">
+															<span>{{item.stage}}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-container>
+							</div>
+						</div>
+					</form>
+				</ng-template>
+			</mat-tab>
+			<!-- <mat-tab label="{{isgov ? 'Nhiệm vụ' : 'Công việc'}}" [disabled]="!showTabTask">
+				<ng-template matTabContent>
+					<div class="jeework-calendar" *ngIf="isgov">
+						<div class="card-body" [ngStyle]="{'height': getHeight()}" style="overflow-y: scroll;">
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center;">
+									<div>Nhiệm vụ&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-9">
+									<input style="margin: 0;" id="txttitle" type="text"
+										class="form-input-title row  w-100">
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center; padding-right: 0;">
+									<div>Người giao nhiệm vụ&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-9" style="display: flex;">
+									<div ngbDropdown class="d-inline-block" style="width: 100%;">
+										<button class="btn btn-list" mat-button ngbDropdownToggle style="width: 100%;">
+											<div style="float: left;">{{labelNGNV}}</div>
+											<div style="text-align: right;">
+												<mat-icon style="height: 0px; width: 5px; vertical-align: sub">
+													keyboard_arrow_down </mat-icon>
+											</div>
+										</button>
+										<div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+											<mat-form-field class="mat-form-field-fluid ">
+												<input matInput [formControl]="bankFilterCtrlNGNV"
+													placeholder="Tìm kiếm" autocomplete="off" />
+											</mat-form-field>
+											<button class="dropdown-item" *ngFor="let p of filteredBanksNGNV | async"
+												(click)="changeNGNV(p)">
+												{{p.tenchucdanh}} - {{p.hoten}}
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center;">
+									<div>Số, ký hiệu văn bản&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-3">
+									<input style="margin: 0;" id="txtsokyhieu" type="text"
+										class="form-input-title row  w-100">
+								</div>
+								<div class="col-md-3" style="align-self: center; text-align: right;">
+									<div>Ngày văn bản&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-3">
+									<input style="margin: 0;" id="txtngayvanban" type="date"
+										class="form-input-title row  w-100">
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center;">
+									<div>Trích yêu văn bản&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-9">
+									<input style="margin: 0;" id="txttrichyeu" type="text"
+										class="form-input-title row  w-100">
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="padding-top: 10px;">
+									<div>Giao cho</div>
+								</div>
+								<div class="col-md-9">
+									<div class="row" style="padding-bottom: 10px;">
+										<div class="col-md-6 pd-0">
+											<div ngbDropdown class="d-inline-block">
+												<button class="btn btn-list" mat-button ngbDropdownToggle>
+													{{labelDuAn}}
+													<mat-icon style="height: 0px; width: 5px; vertical-align: sub">
+														keyboard_arrow_down </mat-icon>
+												</button>
+												<div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+													<mat-form-field class="mat-form-field-fluid ">
+														<input matInput [formControl]="bankFilterCtrlDuAn"
+															placeholder="Tìm kiếm" autocomplete="off" />
+													</mat-form-field>
+													<button class="dropdown-item"
+														*ngFor="let p of filteredBanksDuAn | async"
+														(click)="changeDuAn(p)">
+														{{p.title_full}}
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6 pd-0" style="align-self: center;">
+											<ng-container [ngTemplateOutlet]="AssigneeGOV"></ng-container>
+										</div>
+									</div>
+									<div class="row" *ngFor="let data of listGiaoCho;let vi = index"
+										style="padding-bottom: 10px;">
+										<div class="col-md-6 pd-0" style="display: flex;">
+											<div ngbDropdown class="d-inline-block">
+												<button class="btn btn-list" mat-button ngbDropdownToggle>
+													{{data.labelDuAn}}
+													<mat-icon style="height: 0px; width: 5px; vertical-align: sub">
+														keyboard_arrow_down </mat-icon>
+												</button>
+												<div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+													<mat-form-field class="mat-form-field-fluid ">
+														<input matInput [formControl]="bankFilterCtrlDuAn"
+															placeholder="Tìm kiếm" autocomplete="off" />
+													</mat-form-field>
+													<button class="dropdown-item"
+														*ngFor="let p of filteredBanksDuAn | async"
+														(click)="changeDuAnDynamic(p,data,vi)">
+														{{p.title_full}}
+													</button>
+												</div>
+											</div>
+											<div style="padding: 0 0 0 5px; align-self: center;">
+												<i class="fas fa-trash-alt" style="cursor: pointer; color:red"
+													(click)="deleteRow(vi)"></i>
+											</div>
+										</div>
+										<div class="col-md-6 pd-0" style="align-self: center;">
+											<ng-container [ngTemplateOutlet]="AssigneeDynamicGOV"
+												[ngTemplateOutletContext]="{data: data, vi: vi}">
+											</ng-container>
+										</div>
+									</div>
+									<div class="row">
+										<button style="margin-left: 0;" type="button" mat-raised-button
+											class="ja_button ja_btn-addnew" (click)="Them()">
+											<span>+ Thêm</span>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center;">
+									<div>Độ ưu tiên</div>
+								</div>
+								<div class="col-md-9">
+									<ng-container [ngTemplateOutlet]="setPriorityGOV" *ngIf="roleprioritize">
+									</ng-container>
+								</div>
+							</div>
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="col-md-3" style="align-self: center;">
+									<div>Hạn xử lý&nbsp;<span style="color: red;">(*)</span></div>
+								</div>
+								<div class="col-md-9" style="display: flex;">
+									<span style="align-self: center;">{{viewdateDynamic()}}</span>
+									<ng-container [ngTemplateOutlet]="setDateGOV" *ngIf="roledeadline"></ng-container>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<h4 class="title mt-7" style="color: #42b814; font-weight: 700;">Mô tả</h4>
+									<editor apiKey="lvp9xf6bvvm3nkaupm67ffzf50ve8femuaztgg7rkgkmsws3"
+										[(ngModel)]="description_tiny" [init]="tinyMCE" style="margin-bottom: 15px;">
+									</editor>
+								</div>
+							</div>
+							<div style="padding-top: 10px;">
+								<table style="width: 100%;">
+									<tr>
+										<td style="width: 70%;">
+											<div class="title">
+												<span
+													style="text-transform: uppercase; color: #42b814;; font-weight: bold;"
+													translate="work.tailieudinhkem"></span>
+											</div>
+										</td>
+										<td style="width: 30%; text-align: end;">
+											<a class="action" (click)="selectFile()">
+												<i matTooltip="{{ 'topic.upload' | translate }}"
+													class="las la-paperclip"></i>&nbsp;
+												<span translate="work.themtailieu"></span>
+											</a>
+											<input #myInput placeholder="Chọn file" id="imgInpdd1" type="file"
+												name="myInput" multiple style="display: none;"
+												(change)="FileSelected($event)">
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 100%;" colspan="2" class="color-tieude">
+											<div class="row comment-box">
+												<div class="col-md-12 kt-margin-bottom-10-mobile"
+													*ngFor="let att2 of AttFile;">
+													<div class="attach-item show-action">
+														<div class="attach-item-icon">
+															<img src="{{getIcon(att2.type)}}" />
+														</div>
+														<div class="attach-item-name">
+															<p>{{att2.filename}}</p>
+														</div>
+														<div class="attach-item-del d-flex">
+															<a class="url" matTooltip="Xóa" (click)="deleteFile(att2)">
+																<i class="fas fa-trash-alt"></i>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="jeework-calendar" *ngIf="!isgov">
+						<div class="card-body" [ngStyle]="{'height': getHeight()}" style="overflow-y: scroll;">
+							<div
+								class="cu-task-row-new ng-tns-c79-35 cu-task-row-new_subtask ng-star-inserted cu-task-row-new_active">
+								<div class="cu-add-new-task pd-0">
+									<div class="cu-task-row-new__container row">
+										<div class="cu-task-row-new__options ng-star-inserted">
+											<ng-container [ngTemplateOutlet]="Assignee"></ng-container>
+
+											<ng-container [ngTemplateOutlet]="Follower" *ngIf="roleassign">
+											</ng-container>
+
+											<ng-container [ngTemplateOutlet]="setPriority" *ngIf="roleprioritize">
+											</ng-container>
+
+											<div class=" border-tag url" *ngIf="CheckRoles(20);else templatetags"
+												[matMenuTriggerFor]="tag" (menuOpened)="loadTags = true"
+												(menuClosed)="loadTags = false"
+												matTooltip="{{ 'work.chinhsuatag' | translate}}">
+												<i class="fas fa-tags"></i>
+											</div>
+											<ng-template #templatetags>
+												<div class="border-tag url">
+													<i class="fas fa-tags"></i>
+												</div>
+											</ng-template>
+											<ng-container *ngFor="let tag of listTagChoose">
+												<kt-cu-tag-create [tag]="tag" [detail]="true" [role]="CheckRoles(20)"
+													(RemoveTag)="RemoveTag(tag)">
+												</kt-cu-tag-create>
+											</ng-container>
+											<mat-menu #tag="matMenu">
+												<ng-container *ngIf="loadTags">
+													<kt-choose-milestone-and-tags-create [options]="list_Tag"
+														[project_team]="project_team"
+														(Noclick)="stopPropagation($event)" [id_project_Team]="idDuAn"
+														[Id]="" [Id_key]="9" [Loai]="'Tags'"
+														(ItemSelected)="ReloadDatasTag($event)">
+													</kt-choose-milestone-and-tags-create>
+												</ng-container>
+											</mat-menu>
+
+											<div class="cu-task-info cu-task-info_row cu-task-info_task-created pd-0-20 pr-0"
+												style="padding-left: 5px;">
+												<div>
+													<time-estimates-view [role]="CheckRoles(19)" [time]="estimates"
+														(submit)="Updateestimates($event)">
+													</time-estimates-view>
+												</div>
+											</div>
+
+											<ng-container [ngTemplateOutlet]="setDate" *ngIf="roledeadline">
+											</ng-container>
+
+											<div ngbDropdown class="d-inline-block" style="padding-left: 5px;">
+												<button class="btn btn-list" mat-button ngbDropdownToggle>
+													{{labelDuAn}}
+													<mat-icon style="height: 0px; width: 5px; vertical-align: sub">
+														keyboard_arrow_down </mat-icon>
+												</button>
+												<div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+													<mat-form-field class="mat-form-field-fluid ">
+														<input matInput [formControl]="bankFilterCtrlDuAn"
+															placeholder="Tìm kiếm" autocomplete="off" />
+													</mat-form-field>
+													<button class="dropdown-item"
+														*ngFor="let p of filteredBanksDuAn | async"
+														(click)="changeDuAn(p)">
+														{{p.title_full}}
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input id="txttitle" type="text" class="form-input-title row  w-100"
+								placeholder="Tên công việc">
+							<div style="padding-top: 10px;">
+								<h5><span style="text-transform: uppercase;color: #42b814;font-weight: bold;">Mô tả công
+										việc</span></h5>
+								<editor apiKey="lvp9xf6bvvm3nkaupm67ffzf50ve8femuaztgg7rkgkmsws3"
+									[(ngModel)]="description_tiny" [init]="tinyMCE" style="margin-bottom: 15px;">
+								</editor>
+							</div>
+							<div style="padding-top: 10px;">
+								<table style="width: 100%;">
+									<tr>
+										<td style="width: 70%;">
+											<div class="title">
+												<span
+													style="text-transform: uppercase; color: #42b814;; font-weight: bold;"
+													translate="work.tailieudinhkem"></span>
+											</div>
+										</td>
+										<td style="width: 30%; text-align: end;">
+											<a class="action" (click)="selectFile()">
+												<i matTooltip="{{ 'topic.upload' | translate }}"
+													class="las la-paperclip"></i>&nbsp;
+												<span translate="work.themtailieu"></span>
+											</a>
+											<input #myInput placeholder="Chọn file" id="imgInpdd1" type="file"
+												name="myInput" multiple style="display: none;"
+												(change)="FileSelected($event)">
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 100%;" colspan="2" class="color-tieude">
+											<div class="row comment-box">
+												<div class="col-md-12 kt-margin-bottom-10-mobile"
+													*ngFor="let att2 of AttFile;">
+													<div class="attach-item show-action">
+														<div class="attach-item-icon">
+															<img src="{{getIcon(att2.type)}}" />
+														</div>
+														<div class="attach-item-name">
+															<p>{{att2.filename}}</p>
+														</div>
+														<div class="attach-item-del d-flex">
+															<a class="url" matTooltip="Xóa" (click)="deleteFile(att2)">
+																<i class="fas fa-trash-alt"></i>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</mat-tab> -->
+		</mat-tab-group>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" *ngIf="data._item.extendedProps.type == '0'" (click)="dialogRef.close({ isDeleted:true })"
+			mat-raised-button color="warn"><span translate="landingpagekey.xoa"></span></button>
+		<span *ngIf="data._item.extendedProps.type == '0'">&nbsp;</span>
+		<button type="button" (click)="goBack()" mat-raised-button><span
+				translate="landingpagekey.trolai"></span></button><span>&nbsp;</span>
+		<button type="button" (click)="onSumbit(true,'0')" mat-raised-button color="accent"
+			*ngIf="showButton && selectedTab == 0" [disabled]="disableBt || disabledBtnPhep">
+			<span>{{ getTieuDeButton() }}</span>&nbsp;&nbsp;<div *ngIf="disabledBtnPhep" class="spinner-button-pad">
+			</div>
+		</button><span *ngIf="showButton && selectedTab == 0">&nbsp;</span>
+		<button type="button" (click)="onSumbit(true,'1')" mat-raised-button color="accent"
+			*ngIf="showButton && selectedTab == 1" [disabled]="(disableBtTC || disabledBtnTC) || !isSaiGio">
+			<span>{{ TenNguoiDuyet() }}</span>&nbsp;&nbsp;<div *ngIf="disabledBtnTC" class="spinner-button-pad"></div>
+		</button><span *ngIf="showButton && selectedTab == 1">&nbsp;</span>
+		<!-- <button type="button" class="ja_btn-addnew" (click)="onSubmitGOV(true)" mat-raised-button
+			*ngIf="((showButton && selectedTab == 2) || (data._item.extendedProps.type == '0')) && isgov"
+			[disabled]="disabledBtn">
+			<span translate="landingpagekey.luudong"></span>
+		</button> -->
+		<!-- <button type="button" class="ja_btn-addnew" (click)="onSubmit(true)" mat-raised-button
+			*ngIf="((showButton && selectedTab == 2) || (data._item.extendedProps.type == '0')) && !isgov"
+			[disabled]="disabledBtn">
+			<span translate="landingpagekey.luudong"></span>
+		</button><span *ngIf="(showButton && selectedTab == 2) || (data._item.extendedProps.type == '0')">&nbsp;</span> -->
+		<button type="button" (click)="onUpdate(false,data._item.extendedProps.type)" mat-raised-button
+			class="ja_btn-addnew"
+			*ngIf="(!showButton && Status == '0' && data._item.extendedProps.type != '2' && data._item.extendedProps.type != '3')"
+			matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>
+	</div>
+</div>
+<!-- Sử dụng cho isgov = false -->
+<!-- <ng-template #Assignee>
+	<div class="cu-task-row-assignee row">
+		<div class="cu-user-group url scale-hover-02 position-relative" style="padding-top: 5px;"
+			*ngFor="let user of getAssignees()">
+			<i class="far fa-times-circle url view-hover text-dark bg-white" *ngIf="roleassign"
+				style="position: absolute;top:0;right:0;border-radius: 50%;" (click)="ItemSelected(user,1)"></i>
+			<kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+			</kt-avatar-user>
+		</div>
+		<div class="cu-user-group" *ngIf="roleassign">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{Assign.id_nv>0?Assign.hoten: 'work.assignee' | translate}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+							<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #assign="matMenu">
+			<div class="page-work-detail">
+				<kt-choose-users [options]="options_assign" (IsSearch)="stopPropagation($event)"
+					(ItemSelected)="ItemSelected($event,1)">
+				</kt-choose-users>
+			</div>
+		</mat-menu>
+	</div>
+</ng-template>
+<ng-template #Follower>
+	<div class="cu-task-row-assignee row">
+		<div class="cu-user-group url scale-hover-02 position-relative" style="padding-top: 5px;"
+			*ngFor="let user of getFollowers()">
+			<i class="far fa-times-circle url view-hover text-dark bg-white"
+				style="position: absolute;top:0;right:0;border-radius: 50%;" (click)="ItemSelected(user,2)"></i>
+			<kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+			</kt-avatar-user>
+		</div>
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{Assign.id_nv>0?Assign.hoten: 'work.follower' | translate}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+							<i class="fas fa-users pd-0" style="font-size: 13px;"></i>
+
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #assign="matMenu">
+			<div class="page-work-detail">
+				<kt-choose-users [options]="options_assign" (IsSearch)="stopPropagation($event)"
+					(ItemSelected)="ItemSelected($event,2)">
+				</kt-choose-users>
+			</div>
+		</mat-menu>
+
+	</div>
+</ng-template>
+<ng-template #setPriority>
+	<div class="cu-task-row-assignee">
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{ 'work.gandouutien' | translate }}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="priority1">
+							<i class="{{getPriority(priority)}} pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #priority1="matMenu">
+			<button mat-menu-item *ngFor="let prio of list_priority" (click)="priority=prio.value">
+				<i class="{{prio.icon}} pd-r-10"></i>
+				{{ 'priority.'+prio.name | translate }}
+			</button>
+		</mat-menu>
+	</div>
+</ng-template>
+<ng-template #setDate>
+	<div class="cu-task-row-assignee">
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{viewdate()}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button
+							class="btn -hover {{(this.selectedDate.startDate =='' && this.selectedDate.endDate=='')?'text-muted':'text-success'}}"
+							(click)="Selectdate()">
+							<i class="far fa-calendar-check pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template> -->
+<!-- Sử dụng cho is gov = true -->
+<!-- <ng-template #AssigneeGOV>
+	<div class="cu-task-row-assignee row" style="width: 100%; justify-content: end;">
+		<div class="cu-user-group url position-relative" *ngFor="let user of getAssigneesGOV()">
+			<span style="font-weight: bold; padding-right: 5px; font-size: 9pt;">{{user.hoten}}</span>
+		</div>
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{AssignGOV.id_nv>0?AssignGOV.hoten: 'work.assignee' | translate}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+							<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #assign="matMenu">
+			<div class="page-work-detail">
+				<kt-choose-users [options]="options_assign" (IsSearch)="stopPropagation($event)"
+					(ItemSelected)="ItemSelectedGOV($event,1)">
+				</kt-choose-users>
+			</div>
+		</mat-menu>
+	</div>
+</ng-template>
+<ng-template #setPriorityGOV>
+	<div class="cu-task-row-assignee" style="justify-content: left;">
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{ 'work.gandouutien' | translate }}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="priority1">
+							<i class="{{getPriority(priority)}} pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #priority1="matMenu">
+			<button mat-menu-item *ngFor="let prio of list_priority" (click)="priority=prio.value">
+				<i class="{{prio.icon}} pd-r-10"></i>
+				{{ 'priority.'+prio.name | translate }}
+			</button>
+		</mat-menu>
+	</div>
+</ng-template>
+<ng-template #setDateGOV>
+	<div class="cu-task-row-assignee" style="justify-content: left;">
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{viewdate()}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button
+							class="btn -hover {{(this.selectedDate.startDate =='' && this.selectedDate.endDate=='')?'text-muted':'text-success'}}"
+							(click)="Selectdate()">
+							<i class="far fa-calendar-check pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+<ng-template #AssigneeDynamicGOV let-data="data" let-vi="vi">
+	<div class="cu-task-row-assignee row" style="width: 100%; justify-content: end;">
+		<div class="cu-user-group url position-relative" *ngFor="let user of data.Assign">
+			<span style="font-weight: bold; padding-right: 5px; font-size: 9pt;">{{user.hoten}}</span>
+		</div>
+		<div class="cu-user-group">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+				matTooltip="{{data.Assign.id_nv>0?data.Assign.hoten: 'work.assignee' | translate}}">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="assign">
+							<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #assign="matMenu">
+			<div class="page-work-detail">
+				<kt-choose-users2 [options]="data.options_assign" (IsSearch)="stopPropagation($event)"
+					(ItemSelected)="ItemSelectedDynamic($event,1,vi,data)">
+				</kt-choose-users2>
+			</div>
+		</mat-menu>
+	</div>
+</ng-template>
+<ng-template #NguoiGiaoViec>
+	<div class="cu-task-row-assignee row" style="justify-content: left;">
+		<div class="cu-user-group url scale-hover-02 position-relative" *ngFor="let user of getNguoiGiaoViec()">
+			<kt-avatar-user [image]="user.image" size="26" [name]="user.hoten">
+			</kt-avatar-user>
+		</div>
+		<div class="cu-user-group" *ngIf="roleassign">
+			<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above">
+				<div
+					class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+					<div class="cu-user-group__icon-mono">
+						<button class="btn -hover text-muted" [matMenuTriggerFor]="nguoigiaoviec">
+							<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-menu #nguoigiaoviec="matMenu">
+			<div class="page-work-detail">
+				<kt-choose-users [options]="options_nguoigiaoviec" (IsSearch)="stopPropagation($event)"
+					(ItemSelected)="ItemSelectedGOV($event,3)">
+				</kt-choose-users>
+			</div>
+		</mat-menu>
+	</div>
+</ng-template> -->

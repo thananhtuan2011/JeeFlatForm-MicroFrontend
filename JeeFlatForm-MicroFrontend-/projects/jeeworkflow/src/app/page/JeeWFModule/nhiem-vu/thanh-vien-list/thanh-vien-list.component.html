@@ -1,0 +1,22 @@
+<div class="row workflow-thanhvien">
+	<div class="row hoatdong-child" *ngFor="let dt of ListData">
+		<div class="row hoatdong-header">
+			{{dt.Title}}
+		</div>
+		<div class="row hoatdong-body" *ngFor="let child of dt.Data" style="justify-content: center; margin: 1.5rem 0 1.5rem 1.5rem !important;">
+			<div class="image">
+				<ngx-avatar [size]="50" src="{{child.Image}}" *ngIf="child.Image; else bindText">
+				</ngx-avatar>
+				<ng-template #bindText>
+					<ngx-avatar [size]="50" [name]="child.Ten.slice(0, 1)"
+						bgColor="{{ _ProcessWorkService.getColorNameUser(child.Ten.slice(0, 1)) }}">
+					</ngx-avatar>
+				</ng-template>
+			</div>
+			<div class="info">
+				<span class="info-child">{{child.HoTen}}</span>
+				<span class="info-child">{{child.ChucVu}}</span>
+			</div>
+		</div>
+	</div>
+</div>

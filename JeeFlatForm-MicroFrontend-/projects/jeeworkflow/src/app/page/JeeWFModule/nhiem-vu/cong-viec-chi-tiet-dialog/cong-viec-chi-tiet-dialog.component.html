@@ -1,0 +1,192 @@
+<div class="card card-custom font-chu">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{getTitle()}}</span></h3>
+		</div>
+	</div>
+	<div class="card-body">
+		<form class="m-form" [formGroup]="itemForm">
+			<div class="form-group m-form__group row">
+				<div class="col-md-9 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid ">
+						<input matInput placeholder="{{ 'process.tencongviec' | translate }}" #focusInput
+							formControlName="tencongviec" class="input-batbuoc" required />
+					</mat-form-field>
+				</div>
+				<div class="col-md-3 m--margin-bottom-10-mobile" style="display: flex; align-items: center;">
+					<div *ngIf="item.RowID == 0">
+						<div class="time-estimates-view" [matMenuTriggerFor]="estimates" #menuTrigger="matMenuTrigger">
+							<div class="time-estimates-view__toogle">
+								<ng-container *ngIf="+this.time > 0;else settime">
+									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+										matTooltip="Thời gian hoàn thành">
+										<path
+											d="M18.513 7.119c.958-1.143 1.487-2.577 1.487-4.036v-3.083h-16v3.083c0 1.459.528 2.892 1.487 4.035l3.086 3.68c.567.677.571 1.625.009 2.306l-3.13 3.794c-.936 1.136-1.452 2.555-1.452 3.995v3.107h16v-3.107c0-1.44-.517-2.858-1.453-3.994l-3.13-3.794c-.562-.681-.558-1.629.009-2.306l3.087-3.68zm-4.639 7.257l3.13 3.794c.652.792.996 1.726.996 2.83h-12c0-1.104.343-2.039.996-2.829l3.129-3.793c1.167-1.414 1.159-3.459-.019-4.864l-3.086-3.681c-.66-.785-1.02-1.736-1.02-2.834h12c0 1.101-.363 2.05-1.02 2.834l-3.087 3.68c-1.177 1.405-1.185 3.451-.019 4.863z" />
+									</svg>
+									{{time}} giờ
+								</ng-container>
+								<ng-template #settime>
+									<div class="icon time-estimates-view__icon ng-star-inserted">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											viewBox="0 0 24 24" matTooltip="Thời gian hoàn thành">
+											<path
+												d="M18.513 7.119c.958-1.143 1.487-2.577 1.487-4.036v-3.083h-16v3.083c0 1.459.528 2.892 1.487 4.035l3.086 3.68c.567.677.571 1.625.009 2.306l-3.13 3.794c-.936 1.136-1.452 2.555-1.452 3.995v3.107h16v-3.107c0-1.44-.517-2.858-1.453-3.994l-3.13-3.794c-.562-.681-.558-1.629.009-2.306l3.087-3.68zm-4.639 7.257l3.13 3.794c.652.792.996 1.726.996 2.83h-12c0-1.104.343-2.039.996-2.829l3.129-3.793c1.167-1.414 1.159-3.459-.019-4.864l-3.086-3.681c-.66-.785-1.02-1.736-1.02-2.834h12c0 1.101-.363 2.05-1.02 2.834l-3.087 3.68c-1.177 1.405-1.185 3.451-.019 4.863z" />
+										</svg>
+									</div>
+								</ng-template>
+							</div>
+						</div>
+						<mat-menu #estimates="matMenu">
+							<div class="page-work-detail" style="width:300px" (click)="$event.stopPropagation();">
+								<div class="row">
+									<input placeholder="Thời gian hoàn thành" type="number" [value]="time" #times
+										(keyup.enter)="submitOut();menuTrigger.closeMenu()" class="form-control">
+								</div>
+							</div>
+						</mat-menu>
+					</div>
+					<div class="cu-task-row-assignee">
+						<div class="cu-user-group">
+							<div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print"
+								matTooltipPosition="above" matTooltip="{{ 'process.gandouutien' | translate }}">
+								<div
+									class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+									<div class="cu-user-group__icon-mono">
+										<button class="btn -hover text-muted" [matMenuTriggerFor]="priority1">
+											<i class="{{getPriority(priority)}} pd-0" style="font-size: 13px;"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<mat-menu #priority1="matMenu">
+							<button mat-menu-item *ngFor="let prio of list_priority" (click)="priority=prio.value">
+								<i class="{{prio.icon}} pd-r-10"></i>
+								{{ 'priority.'+prio.name | translate }}
+							</button>
+						</mat-menu>
+					</div>
+				</div>
+				<br />
+				<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+					<div class="col-md-2 m--margin-bottom-10-mobile" style="padding: 0;align-self: center;">
+						<span>{{ 'process.nguoithuchien' | translate }}</span>
+					</div>
+					<div class="col-md-10 m--margin-bottom-10-mobile">
+						<div class="row">
+							<div class="users">
+								<div class="user url" *ngFor="let img of ListNguoiThucHien,let vi = index"
+									style="justify-content: flex-end;">
+									<ngx-avatar [size]="26" src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText"
+										[matMenuTriggerFor]="menu">
+									</ngx-avatar>
+									<ng-template #bindText>
+										<ngx-avatar textSizeRatio="2.5" [size]="26" [name]="img.FirstName.slice(0, 1)"
+											bgColor="{{ dynamicFormService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+											[matMenuTriggerFor]="menu">
+										</ngx-avatar>
+									</ng-template>
+									<mat-menu #menu="matMenu">
+										<div class="row">
+											<div class="col-md-3">
+												<ngx-avatar [size]="50" src="{{img.AvartarImgURL}}"
+													*ngIf="img.AvartarImgURL; else bindText">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar textSizeRatio="2.5" [size]="50"
+														[name]="img.FirstName.slice(0, 1)"
+														bgColor="{{ dynamicFormService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+													</ngx-avatar>
+												</ng-template>
+											</div>
+											<div class="col-md-9 font-chu">
+												<div class="col-md-12" style="font-weight: bold;">
+													<span>{{img.ObjectName}}</span>
+												</div>
+												<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+											</div>
+										</div>
+									</mat-menu>
+								</div>
+							</div>
+							<div class="icon-add" (click)="AddNguoiThucHien()" *ngIf="item.RowID == 0">
+								<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+					<div class="col-md-2 m--margin-bottom-10-mobile" style="padding: 0;align-self: center;">
+						<span>{{ 'process.theodoi' | translate }}</span>
+					</div>
+					<div class="col-md-10 m--margin-bottom-10-mobile">
+						<div class="row">
+							<div class="users">
+								<div class="user url" *ngFor="let img of ListNguoiTheoDoi,let vi = index"
+									style="justify-content: flex-end;">
+									<ngx-avatar [size]="26" src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText"
+										[matMenuTriggerFor]="menu">
+									</ngx-avatar>
+									<ng-template #bindText>
+										<ngx-avatar textSizeRatio="2.5" [size]="26" [name]="img.FirstName.slice(0, 1)"
+											bgColor="{{ dynamicFormService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+											[matMenuTriggerFor]="menu">
+										</ngx-avatar>
+									</ng-template>
+									<mat-menu #menu="matMenu">
+										<div class="row">
+											<div class="col-md-3">
+												<ngx-avatar [size]="50" src="{{img.AvartarImgURL}}"
+													*ngIf="img.AvartarImgURL; else bindText">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar textSizeRatio="2.5" [size]="50"
+														[name]="img.FirstName.slice(0, 1)"
+														bgColor="{{ dynamicFormService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+													</ngx-avatar>
+												</ng-template>
+											</div>
+											<div class="col-md-9 font-chu">
+												<div class="col-md-12" style="font-weight: bold;">
+													<span>{{img.ObjectName}}</span>
+												</div>
+												<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+											</div>
+										</div>
+									</mat-menu>
+								</div>
+							</div>
+							<div class="icon-add" (click)="AddNguoiTheoDoi()" *ngIf="item.RowID == 0">
+								<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<span>{{ 'process.mota' | translate }}</span>
+					<editor apiKey="lvp9xf6bvvm3nkaupm67ffzf50ve8femuaztgg7rkgkmsws3" formControlName="mota"
+						[init]="tinyMCE" style="margin-bottom: 15px;">
+					</editor>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true)"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+			<span translate="landingpagekey.luudong"></span>
+		</button>
+		&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn"
+			matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<mat-icon class="icon-repeat">repeat</mat-icon><span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

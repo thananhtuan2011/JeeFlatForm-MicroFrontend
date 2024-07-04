@@ -1,0 +1,63 @@
+<style>
+    .left {
+        height: 100vh;
+        position: absolute;
+        width: 14%;
+        display: block;
+        border-right: 1px solid #0000001a;
+    }
+
+    .menu {
+        margin: 30px;
+        line-height: 2;
+        font-weight: 400;
+        font-size: 1.2rem;
+        --bs-gutter-x: 0;
+    }
+
+    .submenu {
+        padding-left: 20px;
+        cursor: pointer;
+    }
+</style>
+<div class="sky-scroll-work left">
+    <div class="row menu">
+        <div class="col-md-12">
+            <span>1. Thiết lập thông tin chung</span>
+        </div>
+        <div class="col-md-12">
+            <span>2. Thiết lập chấm công</span>
+            <div class="col-md-12 submenu">
+                <span>- Thiết lập lịch làm việc</span>
+            </div>
+            <div class="col-md-12 submenu">
+                <span>- Thiết bị chấm công</span>
+            </div>
+            <div class="col-md-12 submenu">
+                <span>- Cách trừ vào trễ/về sớm</span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <span>3. Quản lý nghỉ phép</span>
+            <div class="col-md-12 submenu">
+                <span>- Các hình thức nghỉ phép</span>
+            </div>
+            <div class="col-md-12 submenu">
+                <span>- Số ngày phép được nghỉ</span>
+            </div>
+            <div class="col-md-12 submenu">
+                <span>- Cách cấp phép tự động</span>
+            </div>
+            <div class="col-md-12 submenu">
+                <span>- Quy trình phê duyệt</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div style="height: 98%;">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

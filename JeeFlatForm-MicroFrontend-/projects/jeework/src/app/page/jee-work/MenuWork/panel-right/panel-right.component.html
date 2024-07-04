@@ -1,0 +1,21 @@
+<ng-container *ngIf="+idMenu!=11 && +idMenu!=12">
+    <app-nhac-nho-nhiem-vu *ngIf="+idMenu!=6" [id_menu]="idMenu"
+        [ngClass]="{'top_item': idMenu!=0, 'top_item_home' : idMenu==0 }"></app-nhac-nho-nhiem-vu>
+    <app-danh-sach-nhiem-vu *ngIf="!showVTS"
+        [ngClass]="{'bottom_item': idMenu!=0 && +idMenu!=6, 'bottom_item_home' : idMenu==0 }"></app-danh-sach-nhiem-vu>
+    <!-- Start - Dùng cho giao diện mới Bình Thuận -->
+    <app-danh-sach-nhiem-vu-v2 *ngIf="showVTS"
+        [ngClass]="{'bottom_item': idMenu!=0 && +idMenu!=6, 'bottom_item_home' : idMenu==0 }"></app-danh-sach-nhiem-vu-v2>
+    <!-- End - Dùng cho giao diện mới Bình Thuận -->
+</ng-container>
+<!-- Học thêm ngày 22/12/2023 , dùng cho menu chờ duyệt kết quả -->
+<ng-container *ngIf="+idMenu==12">
+    <app-danh-sach-nhiem-vu-v2 *ngIf="showVTS"
+        [ngClass]="{'bottom_item2': idMenu!=0 && +idMenu!=6, 'bottom_item_home' : idMenu==0 }"></app-danh-sach-nhiem-vu-v2>
+</ng-container>
+<!-- Học thêm ngày 22/12/2023 , dùng cho menu chờ duyệt kết quả -->
+<ng-container *ngIf="+idMenu==11">
+    <app-danh-sach-nhiem-vu-lap-lai></app-danh-sach-nhiem-vu-lap-lai>
+</ng-container>
+<!-- Start - Danh sách nhiệm vụ lặp lại -->
+<!-- End - Danh sách nhiệm vụ lặp lại -->

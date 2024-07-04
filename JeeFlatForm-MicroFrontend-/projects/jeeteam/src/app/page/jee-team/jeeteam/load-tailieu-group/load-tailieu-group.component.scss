@@ -1,0 +1,45 @@
+#search_tailieu {
+    font-weight: 300;
+}
+
+#search_tailieu label {
+    position: absolute;
+    margin: 7px 0 0 20px;
+}
+
+#search_tailieu input {
+    border: 1px solid #d4d0d0;
+    padding: 5px 0 5px 46px;
+    width: 100%;
+    height: 40px;
+    // border: none;
+    margin-bottom: 0px !important;
+    color: #65676B;
+    border-radius: 5px;
+}
+
+#search_tailieu input:focus {
+    outline: none;
+    // background: #435f7a;
+    // click vào thì sẽ đổi bg search
+}
+
+#search_tailieu input::-webkit-input-placeholder {
+    color: #65676B;
+    font-size: 15px;
+}
+
+#search_tailieu input::-moz-placeholder {
+    color: #65676B;
+    font-size: 15px;
+}
+
+#search_tailieu input:-ms-input-placeholder {
+    color: #65676B;
+    font-size: 15px;
+}
+
+#search_tailieu input:-moz-placeholder {
+    color: #65676B;
+    font-size: 15px;
+}

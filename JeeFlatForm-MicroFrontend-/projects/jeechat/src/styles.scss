@@ -1,0 +1,17 @@
+@import "./assets/style-css/css-general.scss";
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "./assets/plugins/flaticon/flaticon.css";
+@import "./assets/plugins/flaticon2/flaticon.css";
+@import '~font-awesome/css/font-awesome.css';
+@import "./assets/sass/style.scss";
+
+.chat-bg-preview .mat-dialog-container {
+    padding: 0 !important;
+
+    background: #151313 !important;
+}
+
+// @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// @import "./assets/sass/style.scss";

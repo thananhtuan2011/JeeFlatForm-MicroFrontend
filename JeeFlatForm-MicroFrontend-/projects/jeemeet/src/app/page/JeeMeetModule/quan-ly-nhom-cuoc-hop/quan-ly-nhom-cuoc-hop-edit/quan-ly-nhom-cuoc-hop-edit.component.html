@@ -1,0 +1,81 @@
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{getTitle()}}
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body" style="padding-top:10px">
+        <div [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+            <div class="row align-items-center">
+                <div class="col-md-12 m--margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput class="input-batbuoc mat-focused" placeholder="Tên nhóm" formControlName="TenNhom" required #focusInput>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 kt-margin-bottom-20-mobile">
+                    <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                        <div style="padding-top: 5px; margin-right: 15px;">Danh sách người trong nhóm:
+                        </div>
+                        <div class="cu-user-group url scale-hover-01 position-relative" *ngFor="let user of listNguoi || [];let i = index">
+                            <div style="padding-right: 5px;" *ngIf="i<10">
+                                <i *ngIf="!IsXem" class="far fa-times-circle url view-hover text-dark bg-white" style="position: absolute;top:0;right:0;border-radius: 50%;" (click)="deleteUser(user)"></i>
+                                <app-avatar-user [image]="user.Image" size="29" [name]="user.HoTen">
+                                </app-avatar-user>
+                            </div>
+                        </div>
+                        <div *ngIf="listNguoi.length>10 && !IsXem" style="cursor: pointer;" (click)="AddThanhVien(1)" class="symbol symbol-30  symbol-circle symbol-light" matTooltip="Chọn người">
+                            <span class="symbol-label font-weight-bold">{{listNguoi.length-10}}+</span>
+                        </div>
+                        <div *ngIf="listNguoi.length<=10 && !IsXem" (click)="AddThanhVien(1)" matTooltip="Chọn người" class="url user" style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-md-12 kt-margin-bottom-20-mobile">
+                    <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                        <div style="padding-top: 5px; margin-right: 15px;">Danh sách đơn vị:
+                        </div>
+                        <div class="cu-user-group url scale-hover-01 position-relative" *ngFor="let user of listNguoi_dept || [];let i = index">
+                            <div style="padding-right: 5px;" *ngIf="i<10">
+                                <i *ngIf="!IsXem" class="far fa-times-circle url view-hover text-dark bg-white" style="position: absolute;top:0;right:0;border-radius: 50%;" (click)="deleteUser(user,1)"></i>
+                                <app-avatar-user-dept [image]="user.Image" size="29" [name]="user.DepartmentName">
+                                </app-avatar-user-dept>
+                            </div>
+                        </div>
+                        <div *ngIf="listNguoi_dept.length>10 && !IsXem" style="cursor: pointer;" (click)="AddThanhVien(1)" class="symbol symbol-30  symbol-circle symbol-light" matTooltip="Chọn người">
+                            <span class="symbol-label font-weight-bold">{{listNguoi_dept.length-10}}+</span>
+                        </div>
+                        <div *ngIf="listNguoi_dept.length<=10 && !IsXem" (click)="AddThanhVien(1)" matTooltip="Chọn người" class="url user" style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" *ngIf="!IsXem" type="button" class="mat-raised-button" (click)="close_ask()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+      {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+    <button class="jee_button jee_btn-goback" *ngIf="IsXem" type="button" class="mat-raised-button" (click)="close()" [disabled]="disabledBtn" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+      {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+
+
+
+    <button class="jee_button jee_btn-addcontinue" *ngIf="!IsXem" type="button" mat-raised-button (click)="onSubmit(true)" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+      {{'COMMON.LUU_DONG' | translate}}
+    </button> &nbsp;&nbsp;
+
+    <!-- <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit(false)" *ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'COMMON.LUU_TIEPTUC' | translate }}">
+    {{'COMMON.LUU_TIEPTUC' | translate}}
+    </button> -->
+</div>

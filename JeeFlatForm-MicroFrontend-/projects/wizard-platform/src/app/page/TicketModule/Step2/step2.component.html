@@ -1,0 +1,80 @@
+<style>
+  .tieude_table {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #ebebeb;
+      font-weight: 500;
+      vertical-align: middle;
+  }
+  .form-input-wizard {
+    flex-grow: 1;
+    border: none;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+    border: 1px solid #e4e6ef;
+    background-color: #ffffff;
+    &:focus{
+      border: none;
+      background-color: #ffffff;
+
+    }
+  }
+</style>
+<div *ngIf="isloadding" class="card card-custom">
+  <div class="card-header" style="    padding: 1px 1.25rem;">
+    <div class="card-title">
+      <h3 class="title">{{wizard.title}}</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div  class="card-body" >
+    <div style="padding: 20px 15px;">
+      <span class="class-text" [innerHTML]="wizard.description">
+        
+      </span>
+      <div style="font-size: 1.2rem;font-weight: 500;margin-bottom: 10px;" >Danh sách lĩnh vực</div>
+      <div class="row" >
+        <div class="col-md-12 kt--margin-bottom-10-mobile" style="margin-top: 15px !important;margin-bottom: 15px !important;">   
+            <ng-container *ngIf="data && this.data.length>0;else notdata">
+                <div class="color-picker-box">
+                    <div class="colors " style="flex-wrap:wrap">
+                        <ng-container *ngFor="let r of data">
+                            <div class="d-flex tag-color" style="background-color: #cdcdcd;border-radius: 20px;">
+                                <div  class="tag" style="color: black;" >{{r.Title}}</div>
+                                <div (click)="delete(r.RowID)"class="close-tag">
+                                    <i class="fas fa-times text-white icon-close"></i>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="d-flex tag-color" style="width: max-content;">
+                          <div  class="tag" style="color: black;">
+                            <input [(ngModel)]="title" type="text" id="txttitle" placeholder="Nhập tên và enter ..."
+                            class="form-input-wizard row w-100" style="border: none !important"   (keyup.enter)="create()"/>        
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #notdata>
+              <div  class="color-picker-box">
+                <div class="colors " style="flex-wrap:wrap">
+                    <div class="d-flex tag-color" style="width: max-content;">
+                      <div  class="tag" style="color: black;">
+                        <input [(ngModel)]="title" type="text" id="txttitle" placeholder="Nhập tên và enter ..."
+                        class="form-input-wizard row w-100" style="border: none !important"   (keyup.enter)="create()"/>        
+                      </div>
+                  </div>
+                </div>
+            </div>
+            </ng-template>
+        </div>
+    </div>
+
+    </div>
+  </div>
+
+</div>

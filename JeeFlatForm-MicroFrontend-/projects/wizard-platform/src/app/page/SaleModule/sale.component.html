@@ -1,0 +1,81 @@
+<style>
+    .left {
+        height: 596px;
+        position: absolute;
+        width: 270px;
+        display: block;
+        border-right: 1px solid #0000001a;
+    }
+
+    .menu {
+        margin: 30px;
+        line-height: 2;
+        font-weight: 400;
+        font-size: 1.2rem;
+        --bs-gutter-x: 0;
+    }
+
+    .submenu {
+        padding-left: 20px;
+        /* cursor: pointer; */
+    }
+
+    .right {
+        float: right;
+    }
+
+    .panel-sale {
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        padding-top: 10px;
+    }
+
+    .wizard-sale {
+        width: 1360px;
+    }
+</style>
+<div class="panel-sale">
+    <div class="wizard-sale">
+        <div class="m-sale sky-scroll-work left">
+            <div class="row menu">
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Introduce')}">1. Giới thiệu chung</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Store')}">2. Danh mục chi nhánh</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Depot')}">3. Danh mục kho hàng</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Supplier')}">4. Danh mục nhà cung cấp</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('GroupItems')}">5. Danh mục - loại hàng hóa</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Unit')}">6. Danh mục đơn vị hàng hóa</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Items')}">7. Danh mục hàng hóa</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('GroupCustomer')}">8. Danh mục nhóm khách hàng</span>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Customer')}">9. Danh mục khách hàng</span>
+                </div>
+            </div>
+        </div>
+        <div class=" m-sale right" [ngStyle]="{'width': getWidth()}">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

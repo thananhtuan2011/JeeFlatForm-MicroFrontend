@@ -1,0 +1,398 @@
+// Login Vinh Long
+.btn-login {
+  background: #008000 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+
+.fancyTable thead tr th {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: #E8AB52 !important;
+}
+
+.fancyTable thead tr td {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: black !important;
+}
+
+.fancyTable td,
+.fancyTable th {
+  border: 1px solid #cdcdcd !important;
+  padding: 3px !important;
+}
+
+.fancyTable tbody tr td {
+  // background-color: #E0FFFF !important;
+  background-color: white !important;
+}
+
+.fullname {
+  color: black !important;
+  font-weight: 300;
+
+}
+
+.fancyTable tbody tr td.chuavaocty {
+  background-color: lightgrey;
+}
+
+.fancyTable tbody tr td.chunhat {
+  font-weight: bold;
+  color: red !important;
+  background-color: gainsboro;
+}
+
+.fancyTable tbody tr td.ngayle {
+  font-weight: bold;
+  color: black !important;
+  background-color: red;
+}
+
+.fancyTable tbody tr td.thu7 {
+  font-weight: bold;
+  color: green !important;
+  background-color: #ffff99;
+}
+
+.thoiviec {
+  background-color: gray;
+}
+
+:host>>>.m-portlet.m-portlet--rounded-force {
+  overflow: visible;
+}
+
+.css-stickyheader-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col2 {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-sticky-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: red;
+  font-size: 15px;
+}
+
+.css-sticky-col-htdh {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  background: #0071B7;
+  color: #0071B7 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-htqh {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: #0071B7 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-ch {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: green !important;
+  z-index: 2;
+}
+
+.css-sticky-col-sth {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: orange !important;
+  z-index: 2;
+}
+
+.css-sticky-col-red {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: red !important;
+  z-index: 2;
+}
+
+.css-sticky-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-col2 {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  background: #0071B7;
+  color: black !important;
+  z-index: 2;
+}
+
+.css-sticky-row1 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-row2 {
+  position: sticky;
+  left: 0;
+  top: 26px;
+  z-index: 2;
+}
+
+.css-sticky-row2-cus {
+  position: sticky;
+  left: 0;
+  top: 56px;
+  z-index: 2;
+}
+
+.css-sticky-row3 {
+  position: sticky;
+  left: 0;
+  top: 82px;
+  z-index: 2;
+}
+
+
+
+.fancyTable thead tr th {
+  background-color: #0071B7 !important;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+  color: #E8AB52 !important;
+}
+
+.fancyTable thead tr td {
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+  vertical-align: middle;
+}
+
+.fancyTable td,
+.fancyTable th {
+  border: 1px solid #cdcdcd !important;
+  padding: 3px !important;
+}
+
+.fancyTable tbody tr td.chunhat {
+  font-weight: bold;
+  color: red !important;
+  background-color: gainsboro;
+}
+
+.fancyTable tbody tr td.ngayle {
+  font-weight: bold;
+  color: black !important;
+  background-color: red;
+}
+
+.fancyTable tbody tr td.thu7 {
+  font-weight: bold;
+  color: green !important;
+  background-color: #ffff99;
+}
+
+.thoiviec {
+  background-color: gray;
+}
+
+.css-stickyheader-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col2 {
+  position: sticky;
+  left: 100px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-stickyheader-col3 {
+  position: sticky;
+  left: 300px;
+  top: 0;
+  color: black;
+  z-index: 5;
+}
+
+.css-sticky-col0 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: red;
+  font-size: 15px;
+}
+
+.css-sticky-col-htdh {
+  position: sticky;
+  left: 250px;
+  top: 0;
+  background: #0071B7;
+  color: #0071B7 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-htqh {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: #0071B7 !important;
+  z-index: 2;
+}
+
+.css-sticky-col-ch {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: green !important;
+  z-index: 2;
+}
+
+.css-sticky-col-sth {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: #0071B7;
+  color: orange !important;
+  z-index: 2;
+}
+
+.css-sticky-col1 {
+  position: sticky;
+  left: 50px;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-col2 {
+  position: sticky;
+  left: 100px;
+  top: 0;
+  background: #0071B7;
+  color: black !important;
+  z-index: 2;
+}
+
+.css-sticky-col3 {
+  position: sticky;
+  left: 300px;
+  top: 0;
+  background: #0071B7;
+  color: black !important;
+  z-index: 2;
+}
+
+.css-sticky-row1 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.css-sticky-row2 {
+  position: sticky;
+  left: 0;
+  top: 26px;
+  z-index: 2;
+}
+
+.css-sticky-row2-cus {
+  position: sticky;
+  left: 0;
+  top: 25px;
+  z-index: 2;
+}
+
+.css-sticky-row3 {
+  position: sticky;
+  left: 0;
+  top: 50px;
+  z-index: 2;
+}
+
+.css-btn-excel {
+  margin-left: 1300px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.box-trang-thai {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  margin: auto;
+  cursor: pointer;
+  height: 100%;
+}
+
+.user {
+  overflow: hidden;
+  float: left;
+  box-sizing: border-box;
+  border-radius: 50%;
+  margin-left: -8px;
+  background: rgba(0, 0, 0, .1);
+  border: 2px solid #f3f3f3;
+}
+
+.url {
+  cursor: pointer;
+}

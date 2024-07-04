@@ -1,0 +1,24 @@
+<div class="cu-tags-badge">
+    <div class="cu-tags-badge__inner position-relative" type="badge">
+        <div placement="right" [ngClass]="{'cu-tags-select__badge_readonly': !role}"
+            class="cu-tags-select__badge list-view ng-star-inserted"
+            [ngStyle]="{'backgroundColor': Opaciti_color(tag.color)}">
+            <div class="cu-tags-select__click">
+                <div class="cu-tags-select__name  hide-more-text" [ngStyle]="{'color': getColorText(tag.color)}"> {{tag.title}} </div>
+                <!-- <div *ngIf="isRename" class="cu-tags-select__name" [ngStyle]="{'color': tag.color}">  -->
+                <!-- <input type="text" value="{{tag.title}}"> -->
+                <!-- </div> -->
+                <div class="cu-tags-select__name-shadow"> {{tag.title}} </div>
+
+                <div  *ngIf="no_update" icon="close-bold" class="cu-tags-select__badge-icon-close icon ng-star-inserted" [hidden]="!role"
+                    [ngStyle]="{'backgroundColor': getbackgroundColor(tag.color)}" style="padding-top: 5px;">
+                    <i class="fas fa-times icon-close" (click)="RemoveTags()"></i>
+                </div>
+
+            </div>
+            <input type="text" autocomplete="off" class="input_renname {{isRename?'':'d-none'}}"
+                [ngStyle]="{'border-color': tag.color}" id="renameText{{tag.id_row}}{{node.id_row}}{{detail?'1':'0'}}"
+                (keyup.enter)="checkUpdate()" (focusout)="checkUpdate()">
+        </div>
+    </div>
+</div>

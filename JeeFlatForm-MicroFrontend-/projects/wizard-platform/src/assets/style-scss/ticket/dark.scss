@@ -1,0 +1,285 @@
+m-ticket {
+    .m-ticket {
+        background-color: #1e1e2d;
+
+      }
+
+
+      .class-text {
+        font-size: 1.2rem;
+        //text-align: center;
+        line-height: 1.5;
+        margin-top: 10px;
+      }
+    .color-picker-box {
+        .colors {
+            display: flex;
+    
+            .tag-color {
+                min-width: 40px;
+                line-height: 25px;
+                color: #fff;
+                position: relative;
+                margin-right: 10px;
+                opacity: .8;
+                margin-bottom: 5px;
+                cursor: pointer;
+    
+                .tag {
+                    padding: 0 10px;
+    
+                }
+    
+                .close-tag {
+                    padding-right: 5px;
+                }
+    
+                &.bg1 {
+                    background-color: #aaa;
+                }
+    
+                &.bg2 {
+                    background-color: #267cde;
+                }
+    
+                &.bg3 {
+                    background-color: #7c32a1;
+                }
+    
+                &.bg4 {
+                    background-color: #11bdbf;
+                }
+    
+                &.bg5 {
+                    background-color: #4CAF50;
+                }
+    
+                &.bg6 {
+                    background-color: #5969c5;
+                }
+    
+                &.bg7 {
+                    background-color: #dbaa07;
+                }
+    
+                &.bg8 {
+                    background-color: #FF6F22;
+                }
+    
+                &.bg9 {
+                    background-color: #CF5555;
+                }
+    
+                &.bg10 {
+                    background-color: #ee59ba;
+                }
+            }
+        }
+    
+        .color {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            cursor: pointer;
+            color: #fff;
+            margin-right: 10px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            opacity: 0.8;
+    
+            /*background-color: #267cde;*/
+            &.active:before {
+                font-family: ap;
+                content: "\2713";
+                display: block;
+                position: absolute;
+                font-size: 20px;
+                left: 6px;
+            }
+    
+            &.bg1 {
+                background-color: #aaa;
+            }
+    
+            &.bg2 {
+                background-color: #267cde;
+            }
+    
+            &.bg3 {
+                background-color: #7c32a1;
+            }
+    
+            &.bg4 {
+                background-color: #11bdbf;
+            }
+    
+            &.bg5 {
+                background-color: #4CAF50;
+            }
+    
+            &.bg6 {
+                background-color: #5969c5;
+            }
+    
+            &.bg7 {
+                background-color: #dbaa07;
+            }
+    
+            &.bg8 {
+                background-color: #FF6F22;
+            }
+    
+            &.bg9 {
+                background-color: #CF5555;
+            }
+    
+            &.bg10 {
+                background-color: #ee59ba;
+            }
+        }
+    }
+     /* --- Tạo khung cho table */
+  .mat-table__wrapper .mat-table .mat-header-cell {
+    padding-right: 10px !important;
+    ;
+    border-top: 0.5px solid #1e1e2d !important;
+    padding-left: 10px !important;
+    font-size: 14px !important;
+    color: #cdcdcd !important;
+    ;
+    background: #151521;
+  }
+  .borer-p{
+    border-bottom: 1px solid  #3f4254;
+  }
+  .left {
+    height: 596px;
+    position: absolute;
+    width: 270px;
+    display: block;
+    border-right: 1px solid #3f4254;
+}
+  .mat-table__wrapper .mat-table .mat-cell {
+    color: #cdcdcd;
+    font-size: 14px !important;
+    background: #1e1e2d;
+  }
+  .icon-xoa {
+    color: #f4516c;
+  }
+
+  .icon-sua {
+    color: #716aca;
+  }
+  .user {
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin-left: -8px;
+    background: rgba(0, 0, 0, .1);
+    border: 2px solid #f3f3f3;
+  }
+  .scale-hover-02 {
+    &:hover {
+        z-index: 10;
+        transform: scale(1.05);
+        transition: all .05s;
+        border: 0;
+        .view-hover {
+            display: block;
+        }
+        &.user {
+            border-radius: 0;
+            background: rgba(253, 253, 253, 0)
+        }
+    }
+}
+.choose-users-box {
+	margin: -15px;
+	margin-top: 0;
+	min-width: 260px;
+
+	.users-container {
+		max-height: 200px;
+		overflow-y: auto;
+
+		.user-item {
+            overflow: hidden;
+            float: left;
+            box-sizing: border-box;
+            border-radius: 50%;
+            margin-left: -8px;
+            background: rgba(0, 0, 0, .1);
+            border: 2px solid #f3f3f3;
+
+			label {
+				padding: 3px 5px 3px 5px;
+				position: absolute;
+				top: -24px;
+				right: 0px;
+				border-radius: 10px;
+				font-size: 11px;
+				color: #FFF;
+				background: #333;
+				visibility: hidden;
+			}
+
+			&:hover {
+				background-color: #1e1e2d;
+
+				label {
+					visibility: visible;
+				}
+			}
+
+			img {
+				height: 35px;
+				width: 35px;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+		}
+	}
+}
+.panel-ticket {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    padding-top: 10px;
+    background-color: #151521;
+}
+
+.wizard-ticket {
+    width: 1360px;
+    height: 596px !important;
+    color: #cdcdcd;
+}
+
+
+}
+
+.modal-content{
+    background-color: #1e1e2d;
+}
+.card{
+    background-color: #1e1e2d !important;
+    color: #cdcdcd !important;
+    .card-header{
+        border-bottom: 1px solid #3f4254;
+        .card-title h3{
+            color: #cdcdcd !important;
+            font-size: 1.5rem;
+            line-height: 25px;
+            font-weight: 500;
+        }
+    }
+}
+.mat-dialog-container{
+    background-color: #1e1e2d !important;
+
+}

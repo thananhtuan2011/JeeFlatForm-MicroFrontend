@@ -1,0 +1,158 @@
+<style>
+    .post {
+        text-align: center;
+        width: 480px;
+        height: 35px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        border-radius: 5px;
+        /* background-color:lightgreen;
+            color:#FFf; */
+            color: white;
+        background-color:green;
+        border: none;
+
+
+    }
+    /* ::placeholder {
+        color: black;
+       
+    } */
+</style>
+<div   class="__dialogwrapper" 
+    >
+    <div class="__dialogwrapper-inner">
+        <div class="__dialogmain">
+
+            <div class="__dialogcontent simple-form">
+                <div id="post-status" class="__apdialog" title="">
+                    <div class="title">
+
+
+                        <span style="font-size:20px;text-align:center;">Tạo Bình Chọn </span>
+                        
+                        <button style="float: right;margin-top: -5px;" (click)="closeDilog()" mat-button
+                            mat-icon-button>
+                            <i style="font-size: 15px;" class="flaticon2-cancel-music"></i>
+                        </button>
+                    </div>
+                      
+                        <form action="api/update/create" id="post-create-fly"> 
+                            <div class="textarea " style=" position: relative">
+                              
+                            
+                                    <div style="padding-top: 15px;" class="form-group">
+        
+        
+                                        <div  style="display: flex;
+                                        align-items: center;">
+        
+        
+        <ngx-avatar  [size]="40" src="{{listTT_user.Avatar }}" *ngIf="listTT_user.Avatar"></ngx-avatar>
+        <ngx-avatar   [size]="40" [name]="listTT_user.Name" bgColor="{{listTT_user.BgColor }}" *ngIf="!listTT_user.Avatar"></ngx-avatar>
+     
+                                          
+                                            <div class="custom-center" 
+                                          >
+                                            <span style="font-weight: bold; margin-left: 12px;">{{fullname}}</span>
+                                           
+                                            <div *ngFor="let gr of listTT_Group" class="custom-center">
+                                              
+                                                <mat-icon style="font-size: 20px;">play_arrow</mat-icon> 
+                                                <span>{{gr.Ten_Group}}</span>
+                                            </div>
+                                        </div>
+                                           
+                                        </div>
+        
+        
+                                    </div>
+                                   
+        
+                                    <div class="form-group">
+        
+                                        <!-- <mat-form-field style="width: 100%;" > -->
+                                            <mat-label>Chủ đề bình chọn</mat-label> 
+                                        <textarea matInput placeholder="Đặt câu hỏi bình chọn"  style="background: #F0F3F6; padding: 5px;margin-top: 5px;font-size: 15px;"
+                                            class="form-control" name="noidung" [(ngModel)]="tin" required #noidungInput="ngModel" cdkTextareaAutosize
+                                            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                                            cdkAutosizeMaxRows="10"></textarea>
+        <!-- </mat-form-field> -->
+        
+                                    </div>
+                                    <div>
+                                        <mat-label>Các lựa chọn</mat-label> 
+                                        <div    style=" max-height: 40vh;position: relative;padding: 0px 10px 0px 10px; overflow-x: hidden;
+                                        overflow-y: auto;" >
+                                        <div class="row" *ngFor="let product of products; let vi=index" style=" padding-bottom: 10px;">
+                                            <br>
+                                            <div class="col-md-11" >
+
+                                          <div style="display: flex;">
+
+                                         
+                                              <input style="  width: 18px;
+                                              margin-right: 10px;"
+                                           type="checkbox" name="vehicle1" value="Bike" [(ngModel)]="vehicle[product.id]">
+                                              <!-- <input type="text" [(ngModel)]="newPrice[product.id]"> -->
+                                              <!-- <input style="height: 30px;
+                                              background: rgb(240 243 246 / 52%);
+                                              border: 1px solid;
+                                              width: 100%;
+                                              border-radius: 4px;" name="luachon{{vi}}" placeholder="Lựa chọn {{vi+1}}" type="text" [(ngModel)]="newPrice[product.id]"> -->
+                                              <textarea matInput placeholder="Lựa chọn {{vi+1}}"  style="background: #F0F3F6; padding: 7px;margin-top: 5px;"
+                                              class="form-control" name="luachon{{vi}}" [(ngModel)]="newPrice[product.id]"  cdkTextareaAutosize
+                                              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                                              cdkAutosizeMaxRows="10"></textarea>
+                                            </div>
+                                            </div>
+                                              <div class="col-md-1" style="margin-top:5px ;">
+                                                <mat-icon (click)="Remove(vi)"  style="font-size: 20px;
+                                                cursor: pointer;
+                                               ">clear</mat-icon>
+                                            </div>
+                                            </div>
+                                           
+                                            </div>
+                                            <button (click)="AddBinhChon()" mat-button color="primary">
+                                                <mat-icon>playlist_add</mat-icon>
+                                                Thêm bình chọn</button>
+                                    </div>
+                                
+                                  
+
+
+                                    <div style=" max-height: 30vh;position: relative;right: 0;"  [perfectScrollbar]="{wheelPropagation: false}">
+
+                                    
+                                    
+                                </div>
+                                
+                                 
+        
+                            </div>
+                         
+
+                           
+                          
+
+                        
+                        </form>
+                       
+                   
+                    <div class="is-disabled" style="text-align: center;">
+        
+        
+                        <button mat-raised-button [disabled]="noidungInput.errors?.required" (click)="submit()"
+                            class="post">
+                            <span *ngIf="active" style="    margin-right: 10px;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span style="font-size:18px;">Tạo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

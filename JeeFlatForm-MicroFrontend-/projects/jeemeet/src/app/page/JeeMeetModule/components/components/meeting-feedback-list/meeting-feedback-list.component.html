@@ -1,0 +1,120 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+    
+    .badge {
+        color: #ffffff;
+        border-radius: 15px;
+        padding: 2px 10px;
+        font-weight: 500;
+        background-color: #ff7300;
+        cursor: pointer;
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label card-label-dialog">Quản lý ý kiến/góp ý
+            </h3>
+        </div>
+
+        <div class="card-toolbar">
+            <div class="text-right" style="text-align: right;" *ngIf="(productsService.items$ | async).length>0">
+                <a href="javascript:void(0)" class="btn-export excel" mat-raised-button color="primary" matTooltip="{{'GeneralKey.xuatexcel' | translate}}" (click)="xuatExcel()">
+                    <!-- (click)="xuatExcel()" -->
+                    <span>{{'GeneralKey.xuatexcel' | translate}}</span>
+                </a>
+                <a href="" id="downloadFile" style="display: none;"></a>
+            </div>&nbsp;&nbsp;
+            <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" [mat-dialog-close]="data.animal" matTooltip="Đóng" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+              {{'COMMON.BACK' | translate}}
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div [ngStyle]="{'height': getHeight()}" style="overflow-y: auto;" class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th class=" text-center" style=" text-align: center" style="flex: 0 0 5%; width: 5%">
+                        <span>STT</span>
+                    </th>
+                    <th style=" text-align: center" style="flex: 0 0 30%; width: 30%">
+                        <span>
+              Nội dung góp ý
+            </span>
+                    </th>
+                    <th style=" text-align: center" style="flex: 0 0 20%; width: 20%">
+                        <span>
+              Người góp ý
+            </span>
+                    </th>
+                    <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                        <span>
+              Thời gian góp ý
+            </span>
+                    </th>
+                    <th style="flex: 0 0 20%; width: 20%;text-align: center">
+                        <span>
+              Thao tác
+            </span>
+                    </th>
+
+                </thead>
+                <tbody *ngIf="productsService.items$ | async">
+
+                    <tr *ngFor="let item of QuanLyKhaoSatResult; let i = index;">
+                        <td class="text-center" style="flex: 0 0 5%; width: 5%">
+                            {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                        </td>
+                        <td style="text-align: center" style="flex: 0 0 30%; width: 30%">
+                            <span class="text-colorname" (click)="viewDetail(item)"> {{ getMetaDescription(item.NoiDung) }} </span>
+                        </td>
+                        <td style="text-align: center" style="flex: 0 0 20%; width: 20%">
+                            {{ item.FullName}}
+                        </td>
+                        <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                            {{ item.NgayTao}}
+                        </td>
+                        <td style="flex: 0 0 20%; width: 20%;text-align: center">
+                            <button type="button" (click)="editMeetingFeedback(item)" mat-icon-button color="primary" matTooltip="{{ 'ComMon.Edit' | translate }}" *ngIf="item.AllowDelEdit && item.IsFeedback && !isCompleted && !item.ExitsVote">
+                <mat-icon>create</mat-icon>
+              </button>
+                            <button mat-icon-button color="warn" type="button" (click)="deleteMeetingFeedback(item)" matTooltip="{{ 'ComMon.Delete' | translate }}" *ngIf="item.AllowDelEdit && item.IsFeedback && !isCompleted && !item.ExitsVote">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+                            <button type="button" mat-icon-button color="primary" matTooltip="{{ 'QL_CUOCHOP.CUOCHOP.VOTEYES' | translate }}" (click)="voteYesMeetingFeedback(item)" [disabled]="viewLoading" *ngIf="!item.AllowDelEdit && !item.IsFeedback && (item.VoteStatus===2 || item.VoteStatus===0)">
+                <i class="far fa-thumbs-up" style='font-size: 16px;'></i>
+              </button>
+                            <span *ngIf="item.AllowDelEdit && !item.IsFeedback">Đồng ý: &nbsp;&nbsp;</span>
+                            <a (click)="viewDetailVoteYes(item)" *ngIf="!item.IsFeedback && (item.VoteStatus===2 || item.VoteStatus===0)"><span
+                  class="badge">{{item.SumVoteYes}}</span></a>
+                            <button type="button" mat-icon-button color="primary" matTooltip="{{ 'QL_CUOCHOP.CUOCHOP.VOTEYES' | translate }}" (click)="voteYesMeetingFeedback(item)" [disabled]="viewLoading" *ngIf="!item.AllowDelEdit && !item.IsFeedback && item.VoteStatus===1">
+                <i class="fas fa-thumbs-up" style='font-size: 16px;'></i>
+              </button>
+                            <a (click)="viewDetailVoteYes(item)" *ngIf="!item.IsFeedback && item.VoteStatus===1"><span
+                  class="badge">{{item.SumVoteYes}}</span></a>&nbsp;&nbsp;
+                            <button mat-icon-button color="primary" type="button" matTooltip="{{ 'QL_CUOCHOP.CUOCHOP.VOTENO' | translate }}" (click)="voteNoMeetingFeedback(item)" [disabled]="viewLoading" *ngIf="!item.AllowDelEdit && !item.IsFeedback && (item.VoteStatus===2 || item.VoteStatus===1)">
+                <i class="far fa-thumbs-down" style='font-size: 16px;'></i>
+              </button>
+                            <span *ngIf="item.AllowDelEdit && !item.IsFeedback">Không đồng ý: &nbsp;&nbsp;</span>
+                            <a (click)="viewDetailVoteNo(item)" *ngIf="!item.IsFeedback && (item.VoteStatus===2 || item.VoteStatus===1)"><span
+                  class="badge">{{item.SumVoteNo}}</span></a>
+                            <button mat-icon-button color="primary" type="button" matTooltip="{{ 'QL_CUOCHOP.CUOCHOP.VOTENO' | translate }}" (click)="voteNoMeetingFeedback(item)" [disabled]="viewLoading" *ngIf="!item.AllowDelEdit && !item.IsFeedback && item.VoteStatus===0">
+                <i class="fas fa-thumbs-down" style='font-size: 16px;'></i>
+              </button>
+                            <a (click)="viewDetailVoteNo(item)" *ngIf="!item.IsFeedback && item.VoteStatus===0"><span
+                  class="badge">{{item.SumVoteNo}}</span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(productsService.items$ | async).length === 0">
+                <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu
+            </div>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

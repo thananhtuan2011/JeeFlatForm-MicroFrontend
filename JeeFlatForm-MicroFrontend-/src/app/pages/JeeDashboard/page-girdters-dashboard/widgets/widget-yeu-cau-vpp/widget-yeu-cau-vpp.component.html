@@ -1,0 +1,67 @@
+<style>
+    .flow-y{
+        height: 78%; 
+        overflow-y:auto
+    }
+</style>
+<!--begin::Table-->
+<div class="table-responsive flow-y">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left">
+                <th style="min-width: 80px;">
+                    <span class="text-dark-75">{{'widgets_admin.month_year' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;">
+                    <span class="text-dark-75">{{'widgets_admin.request_date' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.over_limit' | translate}}</span>
+                </th>
+                <th style="min-width: 150px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.reason' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.status' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.receive_date' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.received' | translate}}</span>
+                </th>
+                <th style="min-width: 80px;" class="text-center">
+                    <span class="text-dark-75">{{'widgets_admin.thaotac' | translate}}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="hover-row" *ngFor="let item of dataLazyLoad" (scroll)="onScroll($event)">
+                <td>{{item.ThangNam}}</td>
+                <td>{{f_date(item.NgayYeuCau)}}</td>
+                <td>
+                    <mat-checkbox [checked]="item.IsVuotHM" [disabled]="true"></mat-checkbox>
+                </td>
+                <td>{{item.LyDo}}</td>
+                <td>
+                    <div class="fixed-column status-new style-status" [ngStyle]="{'background-color' : getBackgroundByStatus(item.TrangThai), 
+                                'color': getFontByStatus(item.TrangThai)}">
+                        {{getItemStatusString(item.TrangThai)}}
+                    </div>
+                </td>
+                <td>{{f_date(item.NgayNhan)}}</td>
+                <td>
+                    <mat-checkbox [checked]="item.IsDaNhan" [disabled]="item.TrangThai==4?false:true"
+                        (change)="xacNhan(item)">
+                    </mat-checkbox>
+                </td>
+                <td>
+                    <button type="button" (click)="editYC(item.IdPhieuYC, 1)" mat-icon-button
+                        matTooltip="{{'widgets_admin.xemphieu' | translate}}">
+                        <mat-icon class="color_info">info</mat-icon>
+                    </button>
+                </td>
+            </tr> 
+        </tbody>
+    </table>
+</div>

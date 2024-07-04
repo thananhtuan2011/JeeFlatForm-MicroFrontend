@@ -1,0 +1,177 @@
+<style>
+    .reset-width {
+        width: auto !important;
+        margin-right: 0 !important;
+    }
+</style>
+<div class="panel-left-v2 body-panel-left-v2 reset-width" style="height: 5%; display: block;height:40px;"
+    [ngClass]="{setcolor: getMainPage(1)}">
+    <div class=" click" style="position: absolute;
+    padding-top: 8px;
+    padding-left: 10px;">
+
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="20" rx="3" fill="#0A85FF" />
+            <g clip-path="url(#clip0_2562_66213)">
+                <path
+                    d="M17.8184 9.38791L11.3062 2.83281C11.2978 2.82438 11.2892 2.81619 11.2804 2.80825C10.5693 2.16978 9.49475 2.1675 8.78093 2.80297C8.77206 2.81088 8.76343 2.81903 8.75503 2.82741L2.1835 9.386C1.93918 9.62988 1.93878 10.0256 2.18262 10.2699C2.4265 10.5142 2.82222 10.5146 3.0665 10.2708L3.5625 9.77575V15.1721C3.5625 16.5506 4.684 17.6721 6.0625 17.6721H8.3125C8.65768 17.6721 8.9375 17.3923 8.9375 17.0471V11.9534H11.125V17.0471C11.125 17.3923 11.4048 17.6721 11.75 17.6721H13.9375C15.316 17.6721 16.4375 16.5506 16.4375 15.1721C16.4375 14.8269 16.1577 14.5471 15.8125 14.5471C15.4673 14.5471 15.1875 14.8269 15.1875 15.1721C15.1875 15.8614 14.6267 16.4221 13.9375 16.4221H12.375V11.3284C12.375 10.9832 12.0952 10.7034 11.75 10.7034H8.3125C7.96731 10.7034 7.6875 10.9832 7.6875 11.3284V16.4221H6.0625C5.37325 16.4221 4.8125 15.8614 4.8125 15.1721V8.54713C4.8125 8.54088 4.8124 8.53466 4.81222 8.52847L9.62331 3.72688C9.85746 3.52803 10.2009 3.52878 10.4342 3.7286L15.1875 8.51328V12.0471C15.1875 12.3923 15.4673 12.6721 15.8125 12.6721C16.1577 12.6721 16.4375 12.3923 16.4375 12.0471V9.7715L16.9316 10.2689C17.0538 10.3919 17.2143 10.4534 17.375 10.4534C17.5343 10.4534 17.6936 10.3929 17.8155 10.2718C18.0604 10.0285 18.0617 9.63278 17.8184 9.38791Z"
+                    fill="white" />
+            </g>
+            <defs>
+                <clipPath id="clip0_2562_66213">
+                    <rect width="16" height="16" fill="white" transform="translate(2 2)" />
+                </clipPath>
+            </defs>
+        </svg>
+
+    </div>
+    <a class="title-left click" style="padding-left: 30px;font-size: 12pt;font-weight: 400;"
+        (click)="onClickMainPage()">{{ 'jeework.trangchu' |
+        translate}}</a>
+    <div *ngIf="listTemplate.length > 0" style="float:right; margin-top: 6px;margin-right: 10px;"
+        matTooltip="Chọn mẫu có sẵn" (click)="openTemplate()">
+        <span
+            class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Design/Interselect.svg--><svg
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <rect x="0" y="0" width="20" height="20" />
+                    <path
+                        d="M6,9 L6,15 C6,16.6568542 7.34314575,18 9,18 L15,18 L15,18.8181818 C15,20.2324881 14.2324881,21 12.8181818,21 L5.18181818,21 C3.76751186,21 3,20.2324881 3,18.8181818 L3,11.1818182 C3,9.76751186 3.76751186,9 5.18181818,9 L6,9 Z M17,16 L17,10 C17,8.34314575 15.6568542,7 14,7 L8,7 L8,6.18181818 C8,4.76751186 8.76751186,4 10.1818182,4 L17.8181818,4 C19.2324881,4 20,4.76751186 20,6.18181818 L20,13.8181818 C20,15.2324881 19.2324881,16 17.8181818,16 L17,16 Z"
+                        fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                    <path
+                        d="M9.27272727,9 L13.7272727,9 C14.5522847,9 15,9.44771525 15,10.2727273 L15,14.7272727 C15,15.5522847 14.5522847,16 13.7272727,16 L9.27272727,16 C8.44771525,16 8,15.5522847 8,14.7272727 L8,10.2727273 C8,9.44771525 8.44771525,9 9.27272727,9 Z"
+                        fill="#000000" />
+                </g>
+            </svg><!--end::Svg Icon--></span>
+    </div>
+    <div style="float:right; margin-top: 10px;margin-right: 10px;" matTooltip="Thiết lập nhiệm vụ"
+        (click)="openSetting()">
+        <img src="" alt="" class="size-icon-20 default click">
+    </div>
+</div>
+<div class="panel-left-v2 reset-width">
+    <mat-list class="body-panel-left-v2" style="padding:0">
+        <mat-list-item class="menuborder listitem click" *ngIf="RuleBaoCao"
+            style="border-top-left-radius: 10px; border-top-right-radius: 10px;" [ngClass]="{setcolor: getMainPage(2)}"
+            (click)="onClickReport()">
+            <div class=" click" style="position: absolute;">
+                <img src="" alt="" class="baocao" />
+            </div>
+            <a class="title-left click" style="padding-left: 30px; margin:0;font-size: 12pt;font-weight: 400;">{{
+                'jeework.baocao' |
+                translate}}</a>
+        </mat-list-item>
+        <mat-list-item class="listitem click" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"
+            [ngClass]="{setcolor: getMainPage(3)}" (click)="onClickNew()">
+            <div class=" click" style="position: absolute;">
+                <img src="" alt="" class="new" />
+            </div>
+            <a class="title-left click"
+                style="padding-left: 30px; margin:0; width:90%;font-size: 12pt;font-weight: 400;">{{
+                'jeework.cocapnhatmoi' |
+                translate}}&nbsp; <span *ngIf="+count_new > 0" class="badge" style="float:right;">
+                    <!-- {{count_new}} -->N
+                </span></a>
+        </mat-list-item>
+    </mat-list>
+</div>
+<div class="panel-left-v2 reset-width" *ngFor="let mn of listMenu">
+    <div *ngIf="!mn.IsHidden">
+        <div *ngIf="mn.Langkey != 'donvithuchiennhiemvu' && mn.Langkey != 'tags'; else donvithuchienortags">
+
+            <div class="title-panel-left-v2">
+                <div style="width:90%; align-self: center;">
+                    <a class="title-left-dm">{{ mn.LoaiNhiemVu }}</a>
+                </div>
+                <div style="float:right; margin-top: 10px;margin-right: 10px;">
+                    <img src="" alt="" class="size-icon-20  default click" (click)="openNhiemVuCuaDonVi()"
+                        *ngIf="mn.Langkey == 'nhiemvucuadonvi'">
+                    <img src="" alt="" class="size-icon-20  default click" (click)="openNhiemVuPhoiHop()"
+                        *ngIf="mn.Langkey == 'nhiemvuphoihop'">
+                </div>
+            </div>
+            <mat-list class="body-panel-left-v2">
+                <mat-list-item *ngFor="let item of mn.ListFillter" class="listitem click "
+                    [ngClass]="{setcolor: getNhiemVu(mn, item),menuborder: item!=mn.ListFillter[mn.ListFillter.length-1]}"
+                    (click)="onClick(item, mn.Langkey)">
+                    <div class="icon-nv">
+                        <img src="" alt="" class="{{item.image}}">
+                    </div>
+                    &nbsp;
+                    <div class="divmenu">
+                        <span>
+                            {{ item.title }}
+                        </span>
+                        &nbsp;
+                        <span *ngIf="item.sum_works > 0" class="badge">
+                            {{item.sum_works}}
+                        </span>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+        <ng-template #donvithuchienortags>
+            <ng-container *ngIf="mn.Langkey != 'tags'; else tags">
+                <div class="title-panel-left-v2" style="display: flex;">
+                    <div style="width:90%; align-self: center;">
+                        <a style="position: inherit;" class="title-left-dm">{{mn.LoaiNhiemVu}}</a>
+                    </div>
+                    <div style="float:right; margin-top: 10px;margin-right: 10px;" (click)="openSettingDept()">
+                        <img src="" alt="" class="size-icon-20  default click">
+                    </div>
+                </div>
+                <div class="scrollable body-panel-left-v2" style="height:fit-content">
+                    <div *ngFor="let dv of DonViThucHien; let index">
+                        <div class="dvth click" (click)="onClickForProject(dv)"
+                            [ngClass]="{setcolor: getCSSDuAn(dv.id_row),menuborder:CheckwwRole('3501')?dv!=DonViThucHien[DonViThucHien.length]:dv!=DonViThucHien[DonViThucHien.length-1]}">
+                            <div style="max-width: 80%;">
+                                <span class="dvth-font">{{dv.title}}</span>
+                            </div>
+                            <div *ngIf="dv.sum!=0" class="al-circle">
+                                <span class="al-number">{{dv.sum}}</span>
+                            </div>
+
+                        </div>
+                        <!-- 123 -->
+                    </div>
+                    <div class="dvth click"*ngIf="CheckwwRole('3501')" (click)="AddProject(true)" [ngClass]="{setcolor:false,menuborder:false}">
+                        <div style="width: 100%;justify-content: center;display: flex;" >
+                            <span class="dvth-font" style="display: flex;justify-content: center;color: #0981d0;"> + Thêm</span>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+            <ng-template #tags>
+                <div class="title-panel-left-v2">
+                    <a class="title-left-dm">{{mn.LoaiNhiemVu}}</a>
+                    <div style="float:right; margin-top: 10px;margin-right: 10px;" (click)="openTags()">
+                        <img src="" alt="" class="size-icon-20  default click">
+                    </div>
+                </div>
+                <div class="scrollable body-panel-left-v2" style="height:fit-content">
+                    <div *ngFor="let tag of Tags; let index">
+                        <div class="dvth click" (click)="onClickForTags(tag)" matTooltip="{{tag.ProjectName}}"
+                            [ngClass]="{setcolor: getCSSThe(tag.rowid),menuborder: tag!=Tags[Tags.length-1]}">
+                            <div style="max-width: 80%;">
+                                <span class="dvth-font" [ngStyle]="{'color': tag.color}">{{tag.title}}</span>
+                            </div>
+                            <div *ngIf="tag.sum!=0" class="al-circle">
+                                <span class="al-number">{{tag.sum}}</span>
+                            </div>
+
+                        </div>
+                        <!-- 123 -->
+                    </div>
+
+                </div>
+            </ng-template>
+
+        </ng-template>
+
+
+
+    </div>
+</div>

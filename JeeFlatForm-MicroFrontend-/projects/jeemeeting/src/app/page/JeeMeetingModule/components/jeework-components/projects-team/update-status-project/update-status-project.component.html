@@ -1,0 +1,58 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 2rem 2.25rem 0 2.25rem;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="dialog-title">{{getTitle()}}</h3>
+        </div>
+    </div>
+    <div class="card-body" [perfectScrollbar]="{wheelPropagation: false}" [ngStyle]="{'max-height': '65vh', 'position': 'relative'}">
+        <form class="kt-form" [formGroup]="itemForm">
+            <div class="kt-portlet__body">
+                <div class="row">
+                    <div class="col-md-12 kt--margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput placeholder="{{ 'projects.duanphongban' | translate }}" class="require" required readonly formControlName="title" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-select formControlName="status" class="require" required placeholder="{{ 'projects.trangthaiduan' | translate }}">
+                                <mat-option value="1">
+                                    <span translate="filter.dungtiendo"></span>
+                                </mat-option>
+                                <mat-option value="2">
+                                    <span translate="filter.chamtiendo"></span>
+                                </mat-option>
+                                <mat-option value="3">
+                                    <span translate="filter.ruirocao"></span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 kt--margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <textarea matInput placeholder="{{ 'projects.motathem' | translate }}" rows="2" formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="ja_button ja_btn-goback" mat-raised-button type="button" (click)="close()" [disabled]="disabledBtn">
+            <span translate="GeneralKey.trolai"></span>
+        </button> &nbsp;
+        <button mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(true)" [disabled]="disabledBtn"><span>Lưu đóng</span></button>
+    </div>
+</div>

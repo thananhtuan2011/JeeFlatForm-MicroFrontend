@@ -1,0 +1,399 @@
+<style>
+	::ng-deep>>>.row {
+		margin-right: 0;
+	}
+
+	:host>>>mat-form-field{
+		width: 100%;
+	}
+</style>
+<div class="card card-custom" *ngIf="showPW && !showND">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>Cập nhật mật khẩu</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemFormPW" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="row align-items-center">
+					<div class="col-lg-12 m--margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="Tài khoản" class="input-batbuoc" required #focusInput
+								formControlName="tendangnhap" readonly />
+						</mat-form-field>
+					</div>
+					<div class="col-lg-12 m--margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="Mật khẩu" [type]="fieldTextType ? 'text' : 'password'"
+								class="input-batbuoc" required formControlName="matkhau" (input)="checkPass()" />
+							<span matSuffix><i style="color: #5867dd;" class="fa"
+									[ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}"
+									(click)="toggleFieldTextType()"></i></span>
+						</mat-form-field>
+					</div>
+					<div class="col-lg-12 m--margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="Nhập lại mật khẩu"
+								[type]="fieldTextType_new ? 'text' : 'password'" class="input-batbuoc" required
+								formControlName="Retype_new_password" (input)="checkPass()" />
+							<span matSuffix><i style="color: #5867dd;" class="fa"
+									[ngClass]="{'fa-eye-slash': !fieldTextType_new,'fa-eye': fieldTextType_new}"
+									(click)="toggleFieldTextType_new()"></i></span>
+							<mat-hint style="color: red;" *ngIf="dis">
+								<strong><span>Mật khẩu không khớp</span></strong>
+							</mat-hint>
+						</mat-form-field>
+					</div>
+					<div class="col-lg-12 m--margin-bottom-20-mobile">
+						<label>
+							1. Mật khẩu tối thiểu 6 ký tự
+							<br />2. Đạt ít nhất 3 trong các tiêu chuẩn sau:
+							<br /> <span style="padding-left: 20px"> + Có từ 8 ký tự trở lên</span>
+							<br /> <span style="padding-left: 20px"> + Có từ 12 ký tự trở lên</span>
+							<br /> <span style="padding-left: 20px"> + Mật khẩu có chứa các chữ số từ 0-9</span>
+							<br /> <span style="padding-left: 20px"> + Mật khẩu có chứa cả chữ hoa và chữ thường</span>
+							<br /> <span style="padding-left: 20px"> + Mật khẩu có chứa các ký tự đặc biệt như
+								!,@,#...</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding: 10px;">
+		<div class="row text-right">
+			<div class="col-lg-12">
+				<button type="button" (click)="TiepTuc()" mat-raised-button color="accent" [disabled]="dis"
+					matTooltip="Tiếp tục"><span>Tiếp tục</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card card-custom" *ngIf="!showPW && !showND">
+	<div class="card-body" style="overflow-y: auto;" [ngStyle]="{'max-height': getHeight()}">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="row align-items-center">
+					<div class="col-md-12 m--margin-bottom-10-mobile" style="justify-content: center;">
+						<h3 class="m-form__section" style="text-align: center; text-transform: uppercase;">
+							<span style="color: black;" translate="thongtincanhan.thongtincanhan"></span>
+						</h3>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input class="input-batbuoc" matInput placeholder="{{'thongtincanhan.hoten' | translate}}"
+								id="hoten" formControlName="hoTen" required>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.gioitinh' | translate}}"
+								formControlName="gioiTinh" required>
+								<mat-option value="0">
+									<span>Nam</span>
+								</mat-option>
+								<mat-option value="1">
+									<span>Nữ</span>
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput [matDatepicker]="dpns" required class="input-batbuoc"
+								placeholder="{{ 'thongtincanhan.ngaysinh' | translate}}" formControlName="ngaySinh"
+								(dateChange)="CheckAge()" [max]="mindate">
+							<mat-datepicker-toggle matSuffix [for]="dpns"></mat-datepicker-toggle>
+							<mat-datepicker #dpns></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<mat-select placeholder="{{'thongtincanhan.noisinh' | translate}}" formControlName="noiSinh"
+								required>
+								<mat-option value="{{noisinh.id_row}}" *ngFor="let noisinh of listNoiSinh">
+									{{noisinh.Province}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.sodienthoai' | translate }}" required
+								class="input-batbuoc" formControlName="diDong" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.email' | translate }}" required
+								class="input-batbuoc" formControlName="email" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.quoctich' | translate }}"
+								formControlName="quoctich" class="input-batbuoc" required />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input class="input-batbuoc" matInput placeholder="{{ 'thongtincanhan.cmnd' | translate }}"
+								required formControlName="cmnd" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input class="input-batbuoc" matInput [matDatepicker]="dp1" formControlName="ngayCapCMND"
+								required [max]="mindate" class="input-batbuoc"
+								placeholder="{{ 'thongtincanhan.ngaycap' | translate}}">
+							<mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+							<mat-datepicker #dp1></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.noicap' | translate}}"
+								formControlName="noiCapCMND" required>
+								<mat-option value="{{hv.id_row}}" *ngFor="let hv of listNoiCapCMND">
+									{{hv.Province}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<span style="padding: 0 15px; font-size: 12pt; color: gray;"
+						translate="thongtincanhan.diachithuongtru"></span>
+				</div>
+				<hr style="margin: 0 1rem;">
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile" style="padding-top: 12px;">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.sonha' | translate }}" required
+								class="input-batbuoc" formControlName="sonha" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-8 m--margin-bottom-10-mobile">
+						<m-dropdown-province-token formControlName="Province" [token]="token"
+							placeholder="{{ 'thongtincanhan.tinhhuyenxa' | translate }} *" class="input-batbuoc">
+						</m-dropdown-province-token>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.diachitamtru' | translate }}"
+								formControlName="diaChiTamTru" />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.dantoc' | translate}}" required
+								formControlName="danToc">
+								<mat-option value="{{hv.rowid}}" *ngFor="let hv of listDanToc">
+									{{hv.title}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.tongiao' | translate}}" required
+								formControlName="tonGiao">
+								<mat-option value="{{hv.rowid}}" *ngFor="let hv of listTonGiao">
+									{{hv.title}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select formControlName="bangCap"
+								placeholder="{{ 'thongtincanhan.bangcap' | translate}}" required>
+								<mat-option value="{{hv.rowid}}" *ngFor="let hv of listBangCap">
+									{{hv.title}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.tinhtranghonnhan' | translate}}" required
+								formControlName="tinhTrangHonNhan">
+								<mat-option value="{{hv.rowid}}" *ngFor="let hv of listHonNhan">
+									{{hv.title}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.mst' | translate }}"
+								formControlName="mst" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput [matDatepicker]="dp4" formControlName="ngayCapMST" [max]="maxdate_cur"
+								placeholder="{{ 'thongtincanhan.ngaycapmst' | translate}}">
+							<mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+							<mat-datepicker #dp4></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.noicapmst' | translate }}"
+								formControlName="noicapmst" />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.sohochieu' | translate }}"
+								formControlName="soHoChieu" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.noicaphochieu' | translate }}"
+								formControlName="noicaphochieu" />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput [matDatepicker]="dp2"
+								placeholder="{{ 'thongtincanhan.ngaycaphochieu' | translate}}" [max]="maxdate_pp"
+								(dateChange)="DateChangeMinHoChieu($event)" formControlName="ngayCapHoChieu">
+							<mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+							<mat-datepicker #dp2></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput [matDatepicker]="dp3"
+								placeholder="{{ 'thongtincanhan.ngayhethanhochieu' | translate}}" [min]="mindate_pp"
+								(dateChange)="DateChangeMaxHoChieu($event)" formControlName="ngayHetHan">
+							<mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+							<mat-datepicker #dp3></mat-datepicker>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.sotk' | translate }}"
+								formControlName="soTK" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.chutk' | translate }}"
+								formControlName="chuTK" />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.nganhang' | translate }}"
+								formControlName="nganHang" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.chinhanhnganhang' | translate }}"
+								formControlName="chinhanhnganHang" />
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="{{'thongtincanhan.sosoBHXH' | translate}}"
+								formControlName="SoSo">
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput [matDatepicker]="dpnc" formControlName="ngaycapsoBHXH" [max]="maxdate_cur"
+								placeholder="{{ 'thongtincanhan.ngaycapsoBHXH' | translate }}">
+							<mat-datepicker-toggle matSuffix [for]="dpnc"></mat-datepicker-toggle>
+							<mat-datepicker #dpnc></mat-datepicker>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<span style="padding: 0 15px; font-size: 12pt; color: black;"
+						translate="thongtincanhan.lienhekhancap"></span>
+				</div>
+				<hr style="margin: 0 1rem 1rem; background-color: black;">
+				<div class="row align-items-center">
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.hoten' | translate }}"
+								formControlName="nguoiLienHe" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.sodienthoai' | translate }}"
+								formControlName="soDienThoaiNguoiLienHe" />
+						</mat-form-field>
+					</div>
+					<div class="col-md-4 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'thongtincanhan.moiquanhe' | translate }}"
+								formControlName="quanHeNguoiLienHe" />
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding: 10px;">
+		<button type="button" (click)="goBack()" class="mat-raised-button btn-trolai"
+			matTooltip="Trở lại">Trở lại</button>&nbsp;
+		<button type="button" (click)="onSubmit()" mat-raised-button color="accent"
+			matTooltip="Gửi"><span>Gửi</span></button>
+	</div>
+</div>
+<div class="card card-custom" *ngIf="showND">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>Nội dung hướng dẫn</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<div style="overflow-x: auto; display: flex; width: 100%; padding: 10px;" class="row" #TABLE>
+			<label [innerHtml]="lstItem | safeHtml"></label>
+		</div>
+	</div>
+	<div class="dialog-footer" style="padding: 10px;">
+		<div class="row text-right">
+			<div class="col-lg-12">
+				<button type="button" (click)="Dong()" mat-raised-button class="mat-raised-button btn-trolai"
+					matTooltip="Đóng"><span>Đóng</span></button>
+			</div>
+		</div>
+	</div>
+</div><div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

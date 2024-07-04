@@ -1,0 +1,82 @@
+<div class="card card-custom">
+  <div class="card-header">
+      <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+          <h3 class="card-label card-label-dialog">{{getTitle()}}
+          </h3>
+      </div>
+  </div>
+
+  <div class="card-body">
+      <div [formGroup]="QuanLyYKienGopYForm" class="m-form m-form--group-seperator-dashed">
+          <div class="row align-items-center">
+              <div class="col-md-12 kt-margin-bottom-30-mobile">
+
+                  <table class="table table-bordered">
+                      <tbody>
+                          <tr>
+                              <td>{{ "common.stt" | translate }}</td>
+                              <td>{{ "MENU_YKIENGOPY.NOIDUNG" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.FULLNAME" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.ADMINISTRATIVEDIVISIONNAME" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.FILEDINHKEM" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.DATEACTION" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.VOTEYES" | translate }} </td>
+                              <td>{{ "MENU_STCUOCHOP.VOTENO" | translate }} </td>
+                              <td *ngIf="isEdit">{{ "COMMON.THAOTAC" | translate }}</td>
+                          </tr>
+                          <tr *ngFor="let que of dataSource ; let k = index">
+                              <td style="width: 5%; text-align: center;">{{k+1}}</td>
+                              <td style="width: 30%;">{{que.NoiDung}}</td>
+
+                              <td style="width: 20%;">
+                                  {{que.FullName}}</td>
+
+                              <td style="width: 10%;">
+                                  {{que.TenPhuongXa}}</td>
+
+                              <td style="width: 20%;">
+                                  <ng-container *ngFor="let item of que.DanhSachFile ; let i = index">
+                                     <a href="{{domain+'\\'+item.Path }}" target="_blank">{{item.NameFile}}</a><br/>
+                                  </ng-container>
+
+
+                              </td>
+
+                              <td style="width: 12%;">
+                                  {{que.NgayTao}}</td>
+
+
+                              <td style="width: 10%;"><a (click)="viewDetailVoteYes(que)">
+                {{que.SumVoteYes}}</a></td>
+
+                              <td style="width: 15%;"><a (click)="viewDetailVoteNo(que)">
+                {{que.SumVoteNo}}</a></td>
+
+                              <td style="width: 5%;" *ngIf="isEdit" style="align-items: center;">
+                                  <button type="button" (click)="editAcTive(que)" mat-menu-item matTooltip="{{'MENU_STCUOCHOP.DM_CM_HOATDONG_' | translate}}" *ngIf="que.IsActive" color="primary">
+                  <mat-icon color="primary">visibility</mat-icon>
+                </button>&nbsp;
+                                  <button type="button" (click)="editAcTive(que)" mat-menu-item matTooltip="{{'MENU_STCUOCHOP.DM_CM_HOATDONG' | translate}}" *ngIf="!que.IsActive" color="primary">
+                  <mat-icon color="primary">visibility_off</mat-icon>
+                </button>&nbsp;
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="dialog-footer">
+  <div class="col-md-12 " style="text-align: center;">
+      <button type="button" style="margin-top: 0.3cm;" class="button-cancel" mat-raised-button (click)="close()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+    {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+
+  </div>
+  <!-- <button type="button" class="button-cancel" mat-raised-button  (click)="close()"  cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+    {{'COMMON.BACK' | translate}}
+  </button>&nbsp;&nbsp; -->
+
+</div>

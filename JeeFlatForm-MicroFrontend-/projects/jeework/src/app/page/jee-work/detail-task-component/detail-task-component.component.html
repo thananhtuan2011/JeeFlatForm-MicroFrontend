@@ -1,0 +1,1342 @@
+<div style="
+    width: 100%;
+    height: 100%;
+    display: flex;
+    height: 100vh;
+  ">
+  <div class="panel-left-v2" style="width: 100%; height: 100%;padding:10px">
+    <div class="header-title" style="display: flex; justify-content: space-between; padding-bottom: 10px !important;">
+      <span class="detail-title">Chi tiết {{_danhmucChungServices.ts_congviec}}</span>
+      <div>
+        <!-- <button *ngFor="let status of _data.DataStatus, index as vi" style="margin-right: 10px; color:white"
+          [ngStyle]="{ background: status.color, display: vi == 0 ? 'none' : 'content' }" mat-button mat-raised-button
+          (click)="update('status', status)"> {{
+          status.statusname }}</button>
+        <button *ngIf="checkIsComplete() && _data.isgov && this.CheckRule('assign')" mat-button
+          mat-raised-button style="margin-right: 10px; background-color: #7B3AF5; color:white" (click)="chuyenXuLy()">
+          <i class="fa fa-share" style="padding-right: 5px; color:white"></i>
+          <span>Chuyển xử lý</span>
+        </button> -->
+        <button type="button" mat-icon-button (click)="onclickReturn()"><mat-icon
+            class="icon-close">close</mat-icon></button>
+      </div>
+    </div>
+    <div style="display: flex;">
+      <div style="width: 75%; height: 100%;">
+        <div [ngStyle]="{'height': getHeightRight()}"
+          style="margin-left: 10px; padding-top: 10px;overflow-x:hidden;overflow-y: auto;">
+          <!-- #region tiêu đề task -->
+          <div>
+            <span style="font-size:15px" class="dt-title color-dart1"
+              style="font-size:17px">{{dataDetailTask.department}}/{{dataDetailTask.project_team}}
+              <span *ngIf="dataDetailTask.title_parent!=null"> / </span>
+              <span *ngIf="dataDetailTask.title_parent!=null" style="color:#3699FF;font-size:17px">
+                {{dataDetailTask.title_parent}}
+              </span>
+            </span>
+            <textarea *ngIf="editTitle"
+              style="font-weight: 600; font-size: 18px; border-style: hidden;margin-top:1%;display: flex;"
+              [value]="_data.title" type="text" class="form-input-title w-100 dark-title"
+              [readonly]="!CheckRule('title')" (focusout)="UpdateTitle($event)"></textarea>
+            <span *ngIf="!editTitle" class="form-input-title row w-100 dark-title" (click)="changeTitle()"
+              style="font-weight: 600; font-size: 18px; border-style: hidden;margin:1% 0 0 1%">
+              {{
+              _data.title
+              }}</span>
+
+            <div class="dt-title-descreption">
+              <span>
+                {{ "work.taoboi" | translate
+                }}<b>{{ " " + _data.nguoitao.hoten }} </b></span>
+              <span>( {{ _data.nguoitao.jobtitle }} -
+                {{ _data.nguoitao.department }} )</span>
+              <span style="margin-left: 20px">
+                {{ _data.createddate | timezone }}
+              </span>
+            </div>
+          </div>
+          <!-- #endregion -->
+
+          <div class="dt-div">
+            <div style="display: flex">
+              <!-- #region trạng thái -->
+              <div class="status1" [ngStyle]="{ backgroundColor: _data.status.color }"
+                matTooltip="{{ _data.status.statusname }}" [matMenuTriggerFor]="menu">
+                {{ minimizeTextTag(_data.status.statusname) }}
+              </div>
+              <ng-template #notRolestatus>
+                <div class="status1" [ngStyle]="{ backgroundColor: _data.status.color }"
+                  matTooltip="{{ _data.status.statusname }}">
+                  {{ minimizeTextTag(_data.status.statusname) }}
+                </div>
+              </ng-template>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item style="line-height: 30px !important; height: 100% !important"
+                  *ngFor="let status of _data.DataStatus" (click)="update('status', status)">
+                  <div class="row" [ngStyle]="{ color: status.color }">
+                    <div class="cu-task-row-status1" style="padding-top: 10px">
+                      <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                    </div>
+                    {{ status.statusname }}
+                  </div>
+                </button>
+              </mat-menu>
+              <div style="padding-left: 5px">
+                <div class="ellipse" style="cursor: pointer;" (click)="XemTuChoi()" matTooltip="Xem lịch sử từ chối">
+                  <img class="ban" style="height: 22px; width: 22px" />
+                </div>
+              </div>
+
+              <!-- #endregion -->
+              <!-- #region cờ ưu tiên -->
+              <div style="padding-left: 30px">
+                <div *ngIf="!this.CheckRule('clickup_prioritize')" class="ellipse" style="cursor: pointer;">
+                  <img [ngClass]="get_flag_color()" class="size-flag-detail" />
+                </div>
+                <div *ngIf="this.CheckRule('clickup_prioritize')" class="ellipse" style="cursor: pointer;"
+                  [matMenuTriggerFor]="priority">
+                  <img [ngClass]="get_flag_color()" class="size-flag-detail" />
+                </div>
+                <mat-menu #priority="matMenu">
+                  <button mat-menu-item *ngFor="let prio of list_priority"
+                    (click)="update('clickup_prioritize', prio.value)">
+                    <img class="{{ prio.icon }} size-flag-detail-18" />
+                    <span style="padding-left: 10px">{{
+                      "priority." + prio.name | translate
+                      }}</span>
+                  </button>
+                </mat-menu>
+              </div>
+              <!-- #endregion -->
+              <div style="padding-left: 20px; display: flex">
+                <div class="div-center">
+                  <span class="dt-fnt2 custom">
+                    {{ "work.giaocho" | translate }}
+                  </span>
+                </div>
+                <!-- #region avartar nguoi duoc giao -->
+                <div style="padding: 0px 10px 0px 10px">
+                  <div class="item-image">
+                    <div class="user click scale-hover-02 position-relative hover-to-show"
+                      style="justify-content: flex-end">
+                      <i *ngIf="_data.nguoiduocgiao.hoten != '' && this.CheckRule('assign')"
+                        class="far fa-times-circle click view-hover text-dark bg-white" style="
+                          position: absolute;
+                          top: 0;
+                          right: 0;
+                          border-radius: 50%;
+                          font-size: 10pt;
+                        " (click)="RemoveAssign(_data.nguoiduocgiao.id_nv)">
+                      </i>
+                      <div *ngIf="_data.nguoiduocgiao.hoten !== ''">
+                        <div *ngIf="this.CheckRule('assign'); else notAsi1">
+                          <ngx-avatar *ngIf="_data.nguoiduocgiao.image !== ''; else bindText1"
+                            matTooltipClass="br-tooltip" matTooltip="{{ getMoreInformation(_data.nguoiduocgiao) }}"
+                            size="40" (click)="clickmenu1.click()" src="{{ _data.nguoiduocgiao.image }}">
+                          </ngx-avatar>
+                        </div>
+                        <ng-template #notAsi1>
+                          <ngx-avatar *ngIf="_data.nguoiduocgiao.image !== ''; else bindText2"
+                            matTooltipClass="br-tooltip" matTooltip="{{ getMoreInformation(_data.nguoiduocgiao) }}"
+                            size="40" src="{{ _data.nguoiduocgiao.image }}">
+                          </ngx-avatar>
+                        </ng-template>
+                        <ng-template #bindText2>
+                          <ngx-avatar textSizeRatio="2.5" matTooltip="{{ _data.nguoiduocgiao.hoten }}" size="40" [name]="
+                              _danhmucChungServices.getNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            " bgColor="{{
+                              _danhmucChungServices.getColorNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            }}">
+                          </ngx-avatar>
+                        </ng-template>
+                        <ng-template #bindText1>
+                          <ngx-avatar textSizeRatio="2.5" matTooltip="{{ _data.nguoiduocgiao.hoten }}" size="40" [name]="
+                              _danhmucChungServices.getNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            " (click)="clickmenu1.click()" bgColor="{{
+                              _danhmucChungServices.getColorNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            }}">
+                          </ngx-avatar>
+                        </ng-template>
+                      </div>
+                      <div *ngIf="_data.nguoiduocgiao.hoten == ''" class="item-image">
+                        <img *ngIf="this.CheckRule('assign'); else notAsHT" class="user-add click"
+                          (click)="clickmenu.click()" />
+                        <div class="date-picker" [matMenuTriggerFor]="assignee2" #clickmenu></div>
+                        <ng-template #notAsHT>
+                          <img class="user-add" />
+                        </ng-template>
+                        <mat-menu #assignee2="matMenu">
+                          <div class="page-work-detail">
+                            <kt-choose-users [options]="options_assign" [idDept]="_data.id_project_team"
+                              (IsSearch)="stopPropagation($event)"
+                              (ItemSelected)="ItemSelected($event, 'nguoiduocgiao')">
+                              >
+                            </kt-choose-users>
+                          </div>
+                        </mat-menu>
+                      </div>
+
+                      <div class="date-picker" [matMenuTriggerFor]="assignee1" #clickmenu1></div>
+                      <mat-menu #assignee1="matMenu">
+                        <div class="page-work-detail">
+                          <kt-choose-users [options]="options_assign" [idDept]="_data.id_project_team"
+                            *ngIf="this.CheckRule('assign')" (IsSearch)="stopPropagation($event)"
+                            (ItemSelected)="ItemSelected($event, 'nguoiduocgiao')">
+                            >
+                          </kt-choose-users>
+                        </div>
+                      </mat-menu>
+                    </div>
+                  </div>
+                </div>
+                <!-- #endregion -->
+                <div class="dt-fnt-1 custom1" style="display: inline-grid">
+                  <span>
+                    {{ _data.nguoiduocgiao.hoten }}
+                  </span>
+                  <span>{{ _data.nguoiduocgiao.tenchucdanh }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="dt-div">
+              <div style="display: flex">
+                <!-- #region thẻ và icon chọn thẻ -->
+                <div class="div-center">
+                  <span class="dt-fnt-1 custom2">{{ "work.the" | translate }}</span>
+                </div>
+                <div style="padding-left: 30px; display: flex; align-items: center">
+                  <img *ngIf="this.CheckRule('Tags');else notTag" src="" alt="" class="tag-sgv click"
+                    [matMenuTriggerFor]="menu_tag" />
+                  <ng-template #notTag>
+                    <img src="" alt="" class="tag-sgv click" />
+                  </ng-template>
+                  <mat-menu #menu_tag="matMenu">
+                    <kt-choose-milestone-and-tags (IsSearch)="stopPropagation($event)"
+                      (ItemSelected)="ItemSelected1($event)" (RemoveTag)="RemoveTag($event)"
+                      [idDept]="this._data.id_project_team">
+                    </kt-choose-milestone-and-tags>
+                  </mat-menu>
+                </div>
+                <!-- #endregion -->
+                <div class="div-center" style="
+                    justify-content: space-between;
+                    width: 100%;
+                    padding-right: 30px;
+                  ">
+                  <!-- #region danh sách tag của task -->
+                  <div class="div-center" style="margin-left: 10px; display: inline-block">
+                    <!-- <div
+                      class="tag cu-tags-select__badge"
+                      *ngFor="let tag of _data.Tags"
+                      [ngStyle]="{ backgroundColor: get_bg_tag_color(tag.color) }"
+                    >
+                      <div class="cu-tags-select__name hide-more-text">
+                        <span
+                          class="dt-fnt-1 tag-text"
+                          [ngStyle]="{ color: tag.color }"
+                          >{{ tag.title }}
+                        </span>
+                      </div>
+    
+                      <div
+                        cupreventdefault=""
+                        class="cu-tags-select__badge-ellipsis"
+                      >
+                        <div
+                          cudropdown=""
+                          class="cu-dropdown menu-options nav-menu"
+                        >
+                          <div
+                            cudropdowntoggle=""
+                            class="cu-dropdown__toggle click"
+                          >
+                            <div
+                              icon="ellipsis"
+                              class="cu-tags-select__badge-ellipsis-icon icon ng-star-inserted"
+                              [ngStyle]="{ fill: tag.color }"
+                            >
+                              <i
+                                class="fas fa-ellipsis-h"
+                                [ngStyle]="{ color: getColorText(tag.color) }"
+                                [matMenuTriggerFor]="tags"
+                              ></i>
+                            </div>
+                          </div>
+                        </div>
+                        <mat-menu #tags="matMenu">
+                          <button mat-menu-item (click)="Rename()">
+                            <i
+                              class="far fa-edit text-muted"
+                              style="width: 20px"
+                            ></i>
+                            {{ "department.doiten" | translate }}
+                          </button>
+                          <button mat-menu-item [matMenuTriggerFor]="setColor">
+                            <i
+                              class="fas fa-brush text-muted"
+                              style="width: 20px"
+                            ></i>
+                            {{ "department.doimau" | translate }}
+                          </button>
+                          <button mat-menu-item (click)="RemoveTags(tag)">
+                            <i
+                              class="far fa-trash-alt text-danger"
+                              style="width: 20px"
+                            ></i>
+                            {{ "GeneralKey.xoa" | translate }}
+                          </button>
+                          <mat-menu #setColor="matMenu">
+                            <kt-color-picker2
+                              [selected]="tag.color"
+                              (ItemSelected)="ColorPickerStatus($event)"
+                            >
+                            </kt-color-picker2>
+                          </mat-menu>
+                        </mat-menu>
+                      </div>
+    
+                      <div
+                        icon="close-bold"
+                        style="align-items: center"
+                        class="cu-tags-select__badge-icon-close icon ng-star-inserted"
+                        [ngStyle]="{
+                          backgroundColor: getbackgroundColor(tag.color)
+                        }"
+                      >
+                        <i
+                          class="fas fa-times icon-close"
+                          (click)="RemoveTags(tag)"
+                        ></i>
+                      </div>
+                    </div> -->
+                    <ng-container *ngFor="let tag of this.dataDetailTask.Tags">
+                      <kt-cu-tag [node]="this.dataDetailTask" [tag]="tag" [Rule]="
+                          
+                          CheckClosedTask(this.dataDetailTask) && CheckRule('Tags')
+                        " (RemoveTag)="RemoveTag(tag)">
+                      </kt-cu-tag>
+                    </ng-container>
+                  </div>
+                  <!-- #endregion -->
+                  <!-- #region người theo dõi  -->
+                  <div class="div-center">
+                    <div style="padding-right: 30px">
+                      <span class="dt-fnt-1 custom2">{{ "work.nguoitheodoi" | translate }}:</span>
+                    </div>
+                    <div class="div-center">
+                      <div style="padding-right: 10px" *ngFor="let flw of _data.Followers">
+                        <div class="user click scale-hover-02 position-relative hover-to-show"
+                          style="justify-content: flex-end">
+                          <i class="far fa-times-circle click view-hover text-dark bg-white" style="
+                              position: absolute;
+                              top: 0;
+                              right: 0;
+                              border-radius: 50%;
+                              font-size: 10pt;
+                            " (click)="Selected_Assign(flw.id_nv)" *ngIf="this.CheckRule('follower')"></i>
+                          <ngx-avatar size="40" matTooltip="{{ flw.hoten }}" src="{{ flw.image }}"
+                            *ngIf="flw.image; else bindText">
+                          </ngx-avatar>
+                          <ng-template #bindText>
+                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{ flw.hoten }}" size="40"
+                              [name]="_danhmucChungServices.getNameUser(flw.hoten)" bgColor="{{
+                                _danhmucChungServices.getColorNameUser(flw.hoten)
+                              }}">
+                            </ngx-avatar>
+                          </ng-template>
+                        </div>
+                      </div>
+
+                      <div>
+                        <img class="user-add click" *ngIf="!this.CheckRule('follower')">
+                        <img *ngIf="this.CheckRule('follower')" class="user-add click"
+                          (click)="getoptions_assign(_data.id_project_team);clickmenu.click()" />
+                        <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                        <mat-menu #assignee="matMenu">
+                          <div class="page-work-detail">
+                            <!-- <kt-choose-users [options]="options_assign" [idDept]="_data.id_project_team"
+                              (IsSearch)="stopPropagation($event)" (ItemSelected)="ItemSelected($event, 'nguoitheodoi')">
+                              >
+                            </kt-choose-users> -->
+                            <app-choose-users [data]="options_assign" [options]="options_assign"
+                              [idDept]="_data.id_project_team" (IsSearch)="stopPropagation($event)"
+                              (ItemSelected)="ItemSelected($event, 'nguoitheodoi')">
+                              >
+                            </app-choose-users>
+                          </div>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="div-center">
+                    <span>{{ "work.tiendothuchien" | translate }}</span>
+                    <div style="display:flex; align-items: center;">
+                      <div
+                        style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width:5vw; font-weight: 500;"
+                        *ngIf="_data.progress != '' && _data.progress != null" matTooltip="{{_data.progress}}">
+                        {{_data.progress}}
+                      </div>&nbsp;&nbsp;&nbsp;
+                      <button type="button" style="width: auto;" mat-icon-button matTooltip="Nhập tiến độ thực hiện"
+                        (click)="UpdateTienDo('progress')" *ngIf="CheckRule('Attachments_result')">
+                        <img src="" alt="" class="edit-sgv" /></button>&nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="div-center">
+                  </div>
+                  <!-- #endregion -->
+                </div>
+              </div>
+              <div *ngIf="!_data.isgov" style="padding-top: 10px; border-bottom: 1px solid #d3d3d3de">
+                <table style="width: 100%">
+                  <tr style="padding-bottom: 30px">
+                    <td class="dt-fnt-1 custom2" style="width: 7vw; height: 5vh">
+                      {{ "work.ngaybatdau" | translate }}
+                    </td>
+                    <td class="dt-fnt-2 custom3" style="width:10vw">
+                      <div>
+                        <span class="trigger" *ngIf="_data.start_date&&_data.start_date!=''">
+                          <a>{{ this.formatdatedate(_data.start_date) }}</a>
+                        </span>
+                        <input [style.visibility]="'hidden'" style="border: none;text-align: center;position: absolute;"
+                          readonly class="dt-fnt-2 custom3 no-border-input dark-title" [owlDateTime]="dt3"
+                          (ngModelChange)="updateDate2($event)" [(ngModel)]="_data.start_date"
+                          [value]="_data.start_date" />
+
+                        <span class="trigger" style="cursor: pointer;padding-left: 15%;" [owlDateTimeTrigger]="dt3"
+                          *ngIf="_showIconChangeDeadline">
+                          <img class="calender size-flag-detail" />
+                        </span>
+                        <owl-date-time #dt3></owl-date-time>
+                      </div>
+                    </td>
+                    <td class="dt-fnt-1 custom2" style="width: 5vw; height: 5vh">
+                      {{ "work.hanxuly" | translate }}
+                    </td>
+                    <td class="dt-fnt-2 custom3" style="width:10vw">
+                      <div>
+                        <span class="trigger" *ngIf="_data.deadline&&_data.deadline!=''">
+                          <a>{{ this.formatdatedate(_data.deadline) }}</a>
+                        </span>
+                        <input [style.visibility]="'hidden'" style="border: none;text-align: center;position: absolute;"
+                          readonly class="dt-fnt-2 custom3 no-border-input dark-title" [owlDateTime]="dt2"
+                          (ngModelChange)="updateDate($event)" [(ngModel)]="_data.deadline" [value]="_data.deadline" />
+                        <!-- <input readonly class="dt-fnt-2 custom3 no-border-input dark-title" [owlDateTime]="dt2"
+                          (ngModelChange)="updateDate($event)" [(ngModel)]="_data.deadline" [value]="_data.deadline" /> -->
+                        <span class="trigger" style="cursor: pointer;padding-left: 15%;" [owlDateTimeTrigger]="dt2"
+                          *ngIf="_showIconChangeDeadline">
+                          <img class="calender size-flag-detail" />
+                        </span>
+                        <owl-date-time #dt2></owl-date-time>
+                      </div>
+                    </td>
+                    <!-- <td class="dt-fnt-1 custom2" style="width: 7vw; height: 5vh">
+                      {{ "work.tiendothuchien" | translate }}
+                    </td>
+                    <td class="dt-fnt-2 custom3" style="width:10vw">
+                      
+                    </td> -->
+                    <td style="float:right;width: 14vw;">
+                      <time-estimates-view [role]="(CheckRule('estimates') && CheckClosedTask(_data))"
+                        [time]="_data.estimates" (submit)="Updateestimates($event)">
+                      </time-estimates-view>
+                    </td>
+                    <td style="width: 3vw;">
+                      <div class="col-1" style="text-align:right;right: 5px;">
+                        <a [matMenuTriggerFor]="taskview" class="button"
+                          matTooltip="Danh sách đã xem {{this.DanhMucChungService.ts_congviec }}">
+                          <i class="far fa-eye"></i>
+                        </a>
+                        <mat-menu #taskview="matMenu">
+                          <div class="row row-class item-users" style="padding-left:10px">
+                            <div class="col-md-12 show-more-people">
+                              <div class="user url" *ngFor="let us of _data.TaskView; let index = index"
+                                style="justify-content: flex-end;">
+                                <ng-container *ngIf="index < 6">
+                                  <ngx-avatar size="25" [matMenuTriggerFor]="menu"
+                                    matTooltip="{{us.fullname}} đã xem lúc {{us.CreatedDate | timezone:' HH:mm DD/MM/YYYY'}}"
+                                    src="{{us.image}}" *ngIf="us.image;else bindText">
+                                  </ngx-avatar>
+                                  <ng-template #bindText>
+                                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu"
+                                      matTooltip="{{us.fullname}} đã xem lúc {{us.CreatedDate | timezone:' HH:mm DD/MM/YYYY'}}"
+                                      size="25" [name]="DanhMucChungService.getNameUser(us.fullname)"
+                                      bgColor="{{DanhMucChungService.getColorNameUser(us.fullname)}}">
+                                    </ngx-avatar>
+                                  </ng-template>
+                                  <mat-menu #menu="matMenu">
+                                    <div class="row">
+                                      <div class="col-md-3">
+                                        <ngx-avatar size="50"
+                                          matTooltip="{{us.fullname}} đã xem lúc {{us.CreatedDate | timezone:' HH:mm DD/MM/YYYY'}}"
+                                          src="{{us.image}}" *ngIf="us.image;else bindText1">
+                                        </ngx-avatar>
+                                        <ng-template #bindText1>
+                                          <ngx-avatar textSizeRatio="2.5"
+                                            matTooltip="{{us.fullname}} đã xem lúc {{us.CreatedDate | timezone:' HH:mm DD/MM/YYYY'}}"
+                                            size="50" [name]="DanhMucChungService.getNameUser(us.fullname)"
+                                            bgColor="{{DanhMucChungService.getColorNameUser(us.fullname)}}">
+                                          </ngx-avatar>
+                                        </ng-template>
+                                      </div>
+                                      <div class="col-md-9 font-chu">
+                                        <div class="col-md-12" style="font-weight: bold;">
+                                          <span>{{us.fullname}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                          <span>@{{us.CreatedDate |
+                                            timezone:' HH:mm
+                                            DD/MM/YYYY'}}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </mat-menu>
+                                </ng-container>
+                              </div>
+                              <div class="user url" *ngIf="_data.TaskView.length > 6"
+                                style="justify-content: flex-end;">
+                                <div class="m--img-rounded m--marginless m--img-centered background"
+                                  style="width: 25px; height: 25px;">
+                                  <div
+                                    style="opacity: 1;color:white;padding-top:3px;text-align: center;    font-size: 14px;">
+                                    +{{_data.TaskView.length-6}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </mat-menu>
+                      </div>
+                    </td>
+                    <td style="width: 4vw;">
+                      <div *ngIf="this.CheckRule('update_storage')">
+                        <div class="border-tag url" *ngIf="!this.dataDetailTask.isStorage;else templatedeletesave"
+                          (click)="SaveWork()" matTooltip="Lưu {{this.DanhMucChungService.ts_congviec }}">
+                          <mat-icon style="padding-right: 5px;">save_alt
+                          </mat-icon>
+                        </div>
+                        <ng-template #templatedeletesave>
+                          <div class="border-tag url"
+                              (click)="DeleteUnSavedWork()"
+                              matTooltip="Bỏ lưu trữ công việc">
+                              <mat-icon
+                                  style="padding-right: 5px; padding-top: 2px;">
+                                  cancel_presentation</mat-icon>
+                          </div>
+                      </ng-template>
+                      </div>
+
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- #region  thông tin task người giao nv, số hiệu vb, ngày vb, trích yếu, deadline-->
+          <div *ngIf="_data.isgov" style="padding-top: 30px; border-bottom: 1px solid #d3d3d3de">
+            <table>
+              <tr style="padding-bottom: 30px">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  Người giao {{_danhmucChungServices.ts_congviec}}
+                </td>
+                <td class="dt-fnt-2 custom3">
+                  {{ _data.nguoigiao.jobtitle }} - {{ _data.nguoigiao.hoten }}
+                </td>
+              </tr>
+              <tr style="padding-bottom: 30px">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  {{ "work.sokyhieuvanban" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3">{{ _data.Gov_SoHieuVB }}</td>
+                <td class="dt-fnt-1 custom2" style="width: 23vw; height: 5vh">
+                  {{ "jeework.ngaybanhanh" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3">
+                  <div>
+                    <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="_data.Gov_NgayVB">
+                      <a>{{ this.formatdatedate(_data.Gov_NgayVB) }}</a>
+                    </span>
+                    <input [style.visibility]="'hidden'" style="border: none;text-align: center;position: absolute;"
+                      readonly class="dt-fnt-2 custom3 no-border-input dark-title" [owlDateTime]="dt1"
+                      [(ngModel)]="_data.Gov_NgayVB" *ngIf="ngaybanhanh" />
+                    <owl-date-time #dt1></owl-date-time>
+                  </div>
+                </td>
+              </tr>
+              <tr style="padding-bottom: 30px">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  {{ "jeework.nguoiky" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3">{{ _data.Gov_Nguoiky }}</td>
+                <td class="dt-fnt-1 custom2" style="width: 23vw; height: 5vh">
+                  {{ "jeework.donvitrinhbanhanh" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3">
+                  {{ _data.Gov_Donvibanhanh }}
+                </td>
+              </tr>
+              <tr style="padding-bottom: 30px">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  {{ "work.hanxuly" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3">
+                  <span class="trigger" *ngIf="_data.deadline&&_data.deadline!=''">
+                    <a>{{ this.formatdatedate(_data.deadline) }}</a>
+                  </span>
+                  <input [style.visibility]="'hidden'" style="border: none;text-align: center;position: absolute;"
+                    readonly class="dt-fnt-2 custom3 no-border-input dark-title" [owlDateTime]="dt2"
+                    (ngModelChange)="updateDate($event)" [(ngModel)]="_data.deadline" [value]="_data.deadline" />
+                  <span class="trigger" style="cursor: pointer;padding-left: 30%;" [owlDateTimeTrigger]="dt2"
+                    *ngIf="_showIconChangeDeadline">
+                    <img class="calender size-flag-detail" />
+                  </span>
+                  <owl-date-time #dt2></owl-date-time>
+                </td>
+                <td class="dt-fnt-1 custom2" style="width: 9vw; height: 5vh">
+                  {{ "work.tiendothuchien" | translate }}
+                </td>
+                <td>
+                  <!-- Xem tiến độ -->
+                  <div style="display:flex; align-items: center;">
+                    <div
+                      style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width:90px; font-weight: 500;"
+                      *ngIf="_data.progress != '' && _data.progress != null" matTooltip="{{_data.progress}}">
+                      {{_data.progress}}
+                    </div>&nbsp;&nbsp;&nbsp;
+                    <button type="button" style="width: auto;" mat-icon-button matTooltip="Nhập tiến độ thực hiện"
+                      (click)="UpdateTienDo('progress')" *ngIf="CheckRule('Attachments_result')">
+                      <img src="" alt="" class="edit-sgv" /></button>&nbsp;&nbsp;
+                    <!-- *ngIf="this.CheckRule('progress')" -->
+                    <!-- <div style="padding-left: 10px;width: 10vw;">
+                      <div class="ellipse" style="cursor: pointer;" (click)="XemLuongTienDo()"
+                        matTooltip="Xem lịch sử cập nhật tiến độ">
+                        <img class="progress" style="height: 22px; width: 22px" />
+                      </div>
+                    </div> -->
+                  </div>
+                </td>
+              </tr>
+              <tr style="padding-bottom: 30px">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  {{ "work.trichyeuvanban" | translate }}
+                </td>
+                <td class="dt-fnt-2 custom3" style="width: 45vw">
+                  {{ _data.Gov_TrichYeuVB }}
+                </td>
+              </tr>
+              <tr style="padding-bottom: 30px" *ngIf="titleDonViPhoiHop && titleDonViPhoiHop != ''">
+                <td class="dt-fnt-1 custom2" style="width: 26vw; height: 5vh">
+                  Đơn vị phối hợp
+                </td>
+                <td class="dt-fnt-2 custom3" style="width: 45vw">
+                  {{ titleDonViPhoiHop }}
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- #endregion -->
+          <!-- #region chỉ đạo và bút phê -->
+          <div *ngIf="_data.isgov" style="padding: 15px 15px 15px 0px; border-bottom: 1px solid #d3d3d3de">
+            <div class="dt-chidao-butphe">
+              <div style="display: flex; justify-content: space-between; padding: 15px 0">
+                <div>
+                  <span>Chỉ đạo / Bút phê</span>
+                </div>
+                <div style="display:flex">
+                  <button *ngIf="!_chinhsua && this.CheckRule('description')" style="margin-right: 30px"
+                    class="btn btn-round-1 btn-primary btn-text" (click)="ChinhSuaMoTa()">
+                    Chỉnh sửa {{ _danhmucChungServices.ts_description }}
+                  </button>
+                  <div *ngIf="_chinhsua" style="display: flex">
+                    <button style="margin-right: 30px" class="btn btn-round-1 btn-primary btn-text"
+                      (click)="LuuThayDoi()">
+                      Lưu
+                    </button>
+                    <button style="margin-right: 30px;background:white;
+                    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                     0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;" class="btn btn-round-1 btn-text btn-normal"
+                      (click)="HuyThayDoi()">
+                      Hủy
+                    </button>
+                  </div>
+                  <button class="btn -hover text-muted" (click)="View_Log_Description();">
+                    <i class="fas fa-history pd-0" style="font-size: 16px; color: rgb(23, 75, 245);"></i>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!_chinhsua" class="dt-fnt-1 custom3" style="padding: 0; max-height: 300px; overflow: auto">
+                <span [innerHTML]="_data.description | safeHtmlWF"></span>
+              </div>
+              <div *ngIf="_chinhsua">
+                <quill-editor id="quillCustom" [modules]="quillConfig" (ngModelChange)="onChangeNote($event)"
+                  [placeholder]="'Nhập nội dung ...'" [(ngModel)]="_data.description" [styles]="editorStyles">
+                </quill-editor>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!_data.isgov" style="padding: 15px 15px 15px 0px; border-bottom: 1px solid #d3d3d3de">
+            <div class="dt-chidao-butphe">
+              <div style="display: flex; justify-content: space-between; padding: 15px">
+                <div>
+                  <span>Mô tả</span>
+                </div>
+                <div style="display: flex;">
+                  <button *ngIf="!_chinhsua" style="margin-right: 30px" class="btn btn-round-1 btn-primary btn-text"
+                    (click)="ChinhSuaMoTa()">
+                    Chỉnh sửa {{ _danhmucChungServices.ts_description }}
+                  </button>
+                  <div *ngIf="_chinhsua" style="display: flex">
+                    <button style="margin-right: 30px" class="btn btn-round-1 btn-primary btn-text"
+                      (click)="LuuThayDoi()">
+                      Lưu
+                    </button>
+                    <button style="margin-right: 30px;background:white;
+                    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                     0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;" class="btn btn-round-1 btn-text btn-normal"
+                      (click)="HuyThayDoi()">
+                      Hủy
+                    </button>
+                  </div>
+                  <button class="btn -hover text-muted" (click)="View_Log_Description();">
+                    <i class="fas fa-history pd-0" style="font-size: 16px; color: rgb(23, 75, 245);"></i>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!_chinhsua" class="dt-fnt-1 custom3" style="padding: 10px; max-height: 200px; overflow: auto">
+                <span [innerHTML]="_data.description | safeHtmlWF"></span>
+              </div>
+              <div *ngIf="_chinhsua">
+                <quill-editor id="quillCustom" [modules]="quillConfig" (ngModelChange)="onChangeNote($event)"
+                  [placeholder]="'Nhập nội dung ...'" [(ngModel)]="_data.description" [styles]="editorStyles">
+                </quill-editor>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- #endregion -->
+          <!-- #region  add task và xem luồng-->
+          <div style="padding: 15px 30px 15px 0px; border-bottom: 1px solid #d3d3d3de">
+            <div style="display: grid">
+              <div style="display: flex">
+                <span class="dt-fnt-2 custom4" style="align-items: center; display: flex; margin-right: 30px">
+                  Giao {{_danhmucChungServices.ts_congviec}} cho cấp dưới
+                </span>
+                <button style="margin-right: 15px !important" type="button" mat-raised-button
+                  class="ja_button ja_btn-addnew"
+                  *ngIf="checkAddCVCD() && checkIsComplete() && this.CheckRule('createchart') && dataDetailTask.id_parent==null"
+                  (click)="themMoiNhiemVu()">
+                  <span>+</span>&nbsp;<span translate="landingpagekey.them"></span>
+                </button>
+                <button type="button" mat-raised-button class="ja_button btn-add-plus" (click)="XemLuongNhiemVu()">
+                  <span>Xem luồng</span>
+                </button>
+              </div>
+              <span class="dt-fnt-1 custom1">
+                {{ soNhiemVuCon }} {{_danhmucChungServices.ts_congviec}} đã giao cho cấp dưới
+              </span>
+            </div>
+            <div *ngIf="listCongViecCon" style="margin-top: 10px">
+              <div *ngFor="let item of listCongViecCon" style="width: 100%; margin-bottom: 10px;">
+                <!-- trang thai -->
+                <span [ngStyle]="{ backgroundColor: item.StatusInfo[0].color }" [matMenuTriggerFor]="menuChild"
+                  *ngIf="this.isgov" style="width: 100px; height: 30px; display: inline-block; cursor: pointer;"
+                  matTooltip="{{ item.StatusInfo[0].statusname}}"><a
+                    style="display: flex; justify-content: center; padding-top: 4px;color: white;">{{
+                    minimizeTextTag(item.StatusInfo[0].statusname)
+                    }}</a></span>
+                <span [ngStyle]="{ backgroundColor: item.StatusInfo.color }" [matMenuTriggerFor]="menuChild"
+                  *ngIf="!this.isgov" style="width: 100px; height: 30px; display: inline-block; cursor: pointer;"
+                  matTooltip="{{ item.StatusInfo.statusname}}"><a
+                    style="display: flex; justify-content: center; padding-top: 4px;color: white;">{{
+                    minimizeTextTag(item.StatusInfo.statusname)
+                    }}</a></span>
+                <mat-menu #menuChild="matMenu">
+                  <button mat-menu-item style="line-height: 30px !important; height: 100% !important"
+                    *ngFor="let status of item.statusList" (click)="updateStatusChild(item, status)">
+                    <div class="row" [ngStyle]="{ color: status.color }">
+                      <div class="cu-task-row-status1" style="padding-top: 10px">
+                        <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                      </div>
+                      {{ status.statusname }}
+                    </div>
+                  </button>
+                </mat-menu>
+                <!-- nguoi duoc giao -->
+                <span style="margin-left: 1vw">
+                  <div ngbDropdown style="display: inline-flex !important" *ngIf="isgov">
+                    <ng-template [ngIf]="
+                        item.id_nv &&
+                        item.id_nv.hoten != undefined &&
+                        item.id_nv.hoten != ''
+                      ">
+                      <div class="item-image">
+                        <div class="user click scale-hover-02 position-relative hover-to-show"
+                          style="justify-content: flex-end">
+                          <i class="far fa-times-circle click view-hover text-dark bg-white" style="
+                              position: absolute;
+                              top: 0;
+                              right: 0;
+                              border-radius: 50%;
+                              font-size: 10pt;
+                            " (click)="RemoveAssignForChild(item)" *ngIf="this.CheckRule('assign')">
+                          </i>
+
+                          <ngx-avatar *ngIf="item.id_nv.image; else bindText" (click)="clickmenu.click()"
+                            matTooltipClass="br-tooltip" matTooltip="{{ item.id_nv.hoten }}" size="40"
+                            src="{{ item.id_nv.image }}">
+                          </ngx-avatar>
+
+                          <ng-template #bindText>
+                            <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                              matTooltip="{{ item.id_nv.hoten }}" size="30" bgColor="{{
+                                _danhmucChungServices.getColorNameUser(
+                                  item.id_nv.hoten
+                                )
+                              }}" [name]="
+                                this._danhmucChungServices.getName(item.id_nv.hoten)
+                              "></ngx-avatar>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template [ngIf]="
+                        item.id_nv == undefined ||
+                        item.id_nv.hoten == undefined ||
+                        item.id_nv.hoten == ''
+                      ">
+                      <div class="item-image" matTooltip="Thêm người" style="text-align: center"
+                        (click)="clickmenu.click()">
+                        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path opacity="0.4"
+                            d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                            fill="#7E8299" />
+                          <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                            fill="#B5B5C3" />
+                        </svg>
+                      </div>
+                    </ng-template>
+                    <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                    <mat-menu #assignee="matMenu">
+                      <div class="page-work-detail">
+                        <kt-choose-users [idDept]="item.id_project_team" (IsSearch)="stopPropagation($event)"
+                          (ItemSelected)="ItemSelected2($event, item)">
+                        </kt-choose-users>
+                      </div>
+                    </mat-menu>
+                  </div>
+                  <div ngbDropdown style="display: inline-flex !important" *ngIf="!isgov">
+                    <ng-template [ngIf]="
+                        item.Users &&
+                        item.Users.hoten != undefined &&
+                        item.Users.hoten != ''
+                      ">
+                      <div class="item-image">
+                        <div class="user click scale-hover-02 position-relative hover-to-show"
+                          style="justify-content: flex-end">
+                          <i class="far fa-times-circle click view-hover text-dark bg-white" style="
+                              position: absolute;
+                              top: 0;
+                              right: 0;
+                              border-radius: 50%;
+                              font-size: 10pt;
+                            " (click)="RemoveAssignForChild(item)" *ngIf="this.CheckRule('assign')">
+                          </i>
+
+                          <ngx-avatar *ngIf="item.Users.image; else bindText" (click)="clickmenu.click()"
+                            matTooltipClass="br-tooltip" matTooltip="{{ item.Users.hoten }}" size="40"
+                            src="{{ item.Users.image }}">
+                          </ngx-avatar>
+
+                          <ng-template #bindText>
+                            <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                              matTooltip="{{ item.Users.hoten }}" size="30" bgColor="{{
+                                _danhmucChungServices.getColorNameUser(
+                                  item.Users.hoten
+                                )
+                              }}" [name]="
+                                this._danhmucChungServices.getName(item.Users.hoten)
+                              "></ngx-avatar>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template [ngIf]="
+                        item.Users == undefined ||
+                        item.Users.hoten == undefined ||
+                        item.Users.hoten == ''
+                      ">
+                      <div class="item-image" matTooltip="Thêm người" style="text-align: center"
+                        (click)="clickmenu.click()">
+                        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path opacity="0.4"
+                            d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                            fill="#7E8299" />
+                          <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                            fill="#B5B5C3" />
+                        </svg>
+                      </div>
+                    </ng-template>
+                    <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                    <mat-menu #assignee="matMenu">
+                      <div class="page-work-detail">
+                        <kt-choose-users [idDept]="item.id_project_team" (IsSearch)="stopPropagation($event)"
+                          (ItemSelected)="ItemSelected2($event, item)">
+                        </kt-choose-users>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </span>
+                <!-- ten nhiem vu -->
+                <span style="margin-left: 1vw; cursor: pointer;" matTooltip="Xem chi tiết nhiệm vụ"><a style="
+                      font-family: 'Roboto';
+                      font-style: normal;
+                      font-weight: 400;
+                      font-size: 14px;" (click)="onClickOpenChildTask(item)">
+                    {{ minimizeText(item.title) }}
+                  </a></span>
+              </div>
+            </div>
+            <!-- <div style="padding: 15px 0px 15px 0px">
+                        <div class="add-task">
+                            <input class="add-task-input" type="text" placeholder="Tên công việc">
+                            <button style="margin-right: 30px;" class="btn btn-round-1 btn-success btn-text"
+                                (click)="back()">Lưu</button>
+                        </div>
+                    </div> -->
+          </div>
+          <!-- #endregion -->
+          <!-- #region bình luận -->
+          <div style="padding: 15px 0px 15px 0px; max-height: 100%">
+            <div>
+              <ng-container *ngIf="topicObjectID$.asObservable() | async">
+                <app-jee-comment [appCode]="'WORK'" [showCommentDefault]="true"
+                  [objectID]="topicObjectID$.asObservable() | async" (changeValue)="CountComment()"
+                  [isviewcomment]="checkRule(17)" [iscomment]="checkRule(18)">
+                </app-jee-comment>
+              </ng-container>
+            </div>
+          </div>
+          <!-- #endregion -->
+        </div>
+      </div>
+      <div style="width: 25%; overflow-y: auto;overflow-x: hidden;" class="panel-bg"
+        [ngStyle]="{'height': getHeightRight()}">
+        <!-- #region tài liệu đính kèm -->
+        <div class="panel-left-v2" style="width: 94%;margin:10px">
+          <div class="fnt-hei-500 fnt-size-14 fnt-cl-black header1">
+            <span style="
+                font-size: 14px;
+                text-transform: uppercase;
+                color: #42b814;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+              " translate="work.tailieu">
+            </span>
+            <button type="button" mat-icon-button matTooltip="Thêm tài liệu đính kèm"
+              *ngIf="this.CheckRule('Attachments')" (click)="ThemTaiLieu(resultInput1,1)">
+              <img src="" alt="" class="link-sgv" />
+            </button>
+          </div>
+          <input #resultInput1 hidden="true" type="file" onclick="this.value=null"
+            (change)="UploadFileForm($event)" />
+          <div class="card-body">
+            <ng-container *ngTemplateOutlet="tabtailieu"></ng-container>
+          </div>
+        </div>
+        <!-- #endregion -->
+        <!-- #region đính kèm kết quả  -->
+        <div class="panel-left-v2" style="width: 94%; height: 11%; height: fit-content;margin:10px">
+          <!-- <div class="fnt-hei-500 fnt-size-14 fnt-cl-black header1">
+                    <span>Đính kèm kết quả</span>
+                    <img src="" alt="" class="edit-sgv">
+                </div> -->
+          <div class="title" style="
+              display: grid;
+              padding-left: 10px;
+              padding-top: 0px;
+              padding-right: 0px;
+              width: 100%;
+              flex-grow: 1;
+              text-align: left;
+              margin: 10px 0;
+              align-self: center;
+              display: flex;
+              justify-content: space-between;
+              height: fit-content;
+            ">
+            <span style="
+                text-transform: uppercase;
+                font-size: 14px;
+                color: #42b814;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+              " translate="work.capnhatketqua_result">
+            </span>
+            <div style="padding-right: 5px">
+              <button type="button" mat-icon-button matTooltip="Cập nhật kết quả" (click)="UpdateTienDo('ketqua')"
+                *ngIf="this.CheckRule('Attachments_result')">
+                <img src alt class="edit-sgv" />
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <ng-container *ngTemplateOutlet="tabketqua"></ng-container>
+          </div>
+        </div>
+        <!-- #endregion -->
+        <!-- #region cv liên quan -->
+        <!-- <div class="panel-left-v2" style="width: 94%; max-width: 100%; overflow: auto; padding: 10px;margin:10px">
+          <div>
+            <span style="
+                text-transform: uppercase;
+                font-size: 14px;
+                color: #42b814;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+              ">
+              {{_danhmucChungServices.ts_congviec_ToUpper}} liên quan
+            </span>
+          </div>
+          <div *ngIf="listCongViecLienQuan.length > 0" style="margin-top: 10px">
+            <div *ngFor="let item of listCongViecLienQuan" style="width: 100%; margin-bottom: 10px;display: flex;">
+              <span [ngStyle]="{ backgroundColor: item.StatusInfo[0].color }" [matMenuTriggerFor]="menuChild1" style="    border-radius: 10px;
+                width: 20px; margin-top: 6px; cursor: pointer;
+                height: 20px; display: inline-block;" matTooltip="{{ item.StatusInfo[0].statusname}}"><a
+                  style="display: flex; justify-content: center; padding-top: 4px; color:white"></a></span>
+              <mat-menu #menuChild1="matMenu">
+                <button mat-menu-item style="line-height: 30px !important; height: 100% !important"
+                  *ngFor="let status of item.statusList" (click)="updateStatusChild(item, status)">
+                  <div class="row" [ngStyle]="{ color: status.color }">
+                    <div class="cu-task-row-status1" style="padding-top: 10px">
+                      <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                    </div>
+                    {{ status.statusname }}
+                  </div>
+                </button>
+              </mat-menu>
+              <span style="margin-left: 1vw">
+                <div ngbDropdown style="display: inline-flex !important">
+                  <ng-template [ngIf]="
+                      item.id_nv &&
+                      item.id_nv.hoten != undefined &&
+                      item.id_nv.hoten != ''
+                    ">
+                    <div class="item-image">
+                      <div class="user click scale-hover-02 position-relative hover-to-show"
+                        style="justify-content: flex-end">
+                        <i class="far fa-times-circle click view-hover text-dark bg-white" style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            border-radius: 50%;
+                            font-size: 10pt;
+                          " (click)="RemoveAssignForChild(item)" *ngIf="this.CheckRule('assign')">
+                        </i>
+
+                        <ngx-avatar *ngIf="item.id_nv.image; else bindText" (click)="clickmenu.click()"
+                          matTooltipClass="br-tooltip" matTooltip="{{ item.id_nv.hoten }}" size="40"
+                          src="{{ item.id_nv.image }}">
+                        </ngx-avatar>
+
+                        <ng-template #bindText>
+                          <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                            matTooltip="{{ item.id_nv.hoten }}" size="30" bgColor="{{
+                              _danhmucChungServices.getColorNameUser(
+                                item.id_nv.hoten
+                              )
+                            }}" [name]="
+                              this._danhmucChungServices.getName(item.id_nv.hoten)
+                            "></ngx-avatar>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template [ngIf]="
+                      item.id_nv == undefined ||
+                      item.id_nv.hoten == undefined ||
+                      item.id_nv.hoten == ''
+                    ">
+                    <div class="item-image" matTooltip="Thêm người" style="text-align: center"
+                      (click)="clickmenu.click()">
+                      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.4"
+                          d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                          fill="#7E8299" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                          fill="#B5B5C3" />
+                      </svg>
+                    </div>
+                  </ng-template>
+                  <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                  <mat-menu #assignee="matMenu">
+                    <div class="page-work-detail">
+                      <kt-choose-users [idDept]="item.id_project_team" (IsSearch)="stopPropagation($event)"
+                        (ItemSelected)="ItemSelected2($event, item)">
+                      </kt-choose-users>
+                    </div>
+                  </mat-menu>
+                </div>
+              </span>
+              <span style="margin-left: 1vw; cursor: pointer;" matTooltip="Xem chi tiết nhiệm vụ"><a style="
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;" (click)="onClickOpenChildTask(item)">
+                  {{ minimizeText(item.title) }}
+                </a></span>
+            </div>
+          </div>
+          <div class="color-tieude pt-4" *ngIf="listCongViecLienQuan.length <= 0" style="text-align:center">
+            <span style="font-size: 10pt">
+              Không có {{_danhmucChungServices.ts_congviec}} liên quan
+            </span>
+          </div>
+        </div> -->
+        <!-- #region kết quả công việc  -->
+        <!-- <div class="panel-left-v2" style="width: 94%; height: 11%; height: fit-content;margin:10px">
+          <div class="title" style="
+              display: grid;
+              padding-left: 10px;
+              padding-top: 0px;
+              padding-right: 0px;
+              width: 100%;
+              flex-grow: 1;
+              text-align: left;
+              margin: 10px 0;
+              align-self: center;
+              display: flex;
+              justify-content: space-between;
+              height: fit-content;
+            ">
+            <span style="
+                text-transform: uppercase;
+                font-size: 14px;
+                color: #42b814;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+              ">
+              Tiến độ {{_danhmucChungServices.ts_congviec}}
+            </span>
+            <div style="padding-right: 5px">
+              <button type="button" mat-icon-button matTooltip="Cập nhật tiến độ {{_danhmucChungServices.ts_congviec}}"
+                (click)="UpdateTienDo('progress')" *ngIf="this.CheckRule('Attachments_result')">
+                <img src alt class="edit-sgv" />
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <ng-container *ngTemplateOutlet="tabketquacongviec"></ng-container>
+          </div>
+        </div> -->
+        <!-- #endregion -->
+        <div class="panel-left-v2" style="width: 94%; max-width: 100%; overflow: auto; padding: 10px;margin:10px">
+          <div>
+            <span style="
+                text-transform: uppercase;
+                font-size: 14px;
+                color: #42b814;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+              " translate="workprocess.hoatdong">
+            </span>
+          </div>
+          <div>
+            <div style="flex-direction: column-reverse; display: flex" class="pt-4">
+              <ng-container *ngFor="let log of LogDetail">
+                <div class="cu-task-history-item dark-text1" *ngIf="log.id_action != 39">
+                  <div class="task-history-item">
+                    <ng-container *ngIf="log.id_action != 39 && log.id_action != 16; else comment">
+                      <div class="task-history-item__content">
+                        <div style="font-size: 13px !important;" [innerHTML]="this.transformHtml(log.LogContent)">
+
+                        </div>
+                      </div>
+                      <div class="task-history-item__date">
+                        {{ log.CreatedDate | timezone }}
+                      </div>
+                    </ng-container>
+                    <ng-template #comment> </ng-template>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- #region cách tab tài liệu, kết quả -->
+<ng-template #tabtailieu>
+  <div class="row align-items-center">
+    <table style="width: 100%">
+      <tr>
+        <td style="width: 100%; text-align: center" colspan="2" class="color-tieude pt-4">
+          <div class="row comment-box" *ngIf="_data.Attachments?.length > 0; else noattach">
+            <div class="col-md-12 kt-margin-bottom-10-mobile pd-0" *ngFor="let att2 of _data.Attachments">
+              <div class="attach-item show-action">
+                <div class="attach-item-icon">
+                  <img src="{{ att2.icon }}" />
+                </div>
+                <div class="attach-item-name" style="word-break: break-all;">
+                  <p>{{ att2.filename }}</p>
+                </div>
+                <div class="attach-item-del d-flex">
+                  <a class="click" (click)="preview(att2)" *ngIf="ShowXemTruoc(att2)" matTooltip="Xem trước">
+                    <i class="far fa-eye"></i>
+                  </a>
+                  <a class="click" (click)="DownloadFile(att2.path)" matTooltip="Tải xuống">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <a *ngIf="att2.isDelete==1 && this.CheckRule('Attachments')" class="click"
+                    (click)="Delete_File(att2.id_row,1)" matTooltip="Xóa">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <ng-template #noattach>
+        <span style="font-size: 10pt">
+          {{ "landingpagekey.khongcotailieudinhkem" | translate }}
+        </span>
+      </ng-template>
+    </table>
+  </div>
+</ng-template>
+<ng-template #tabketqua>
+  <div class="align-items-center" style="justify-content: center; width: 100%">
+    <table *ngIf="data_progress?.length>0;else noattach_Result"
+      class="table_Detail table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+      <thead>
+        <tr class="text-left">
+          <th style="width: 65%"><span>Tiến độ</span>
+          </th>
+          <th style="width: 35%"><span>Ngày cập nhật</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let progress of data_progress;let index=index"
+          matTooltip="{{progress ? this._FormatTimeService.f_date_thuso2(progress.deadline + 'Z') : ''}}">
+          <td class="pl-3" [ngClass]="getCssprogress(index)">
+            {{progress?.progressText}}
+          </td>
+          <td class="pl-2" [ngClass]="getCssprogress(index)">
+            <p>{{progress ?
+              this._FormatTimeService.format_convertDate(progress.deadline + 'Z',2,false)
+              : ''}}</p>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noattach_Result>
+      <div style="
+          font-size: 10pt;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        ">
+        <span style="font-size: 10pt;padding-top:15px">Không có đính kèm kết quả
+        </span>
+
+      </div>
+    </ng-template>
+  </div>
+
+</ng-template>
+<ng-template #tabketquacongviec>
+  <div class="align-items-center" style="justify-content: center; width: 100%">
+    <div *ngIf="_data?.result;else no_Result">
+      <span [innerHTML]="_data.result"></span>
+
+    </div>
+    <ng-template #no_Result>
+      <div style="
+          font-size: 10pt;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        ">
+        <span style="font-size: 10pt;padding-top:15px">Chưa có tiến độ {{_danhmucChungServices.ts_congviec}}
+        </span>
+
+      </div>
+    </ng-template>
+  </div>
+  <div *ngIf="_data.Attachments_Result?.length > 0" class="row align-items-center">
+    <table style="width: 100%">
+      <tr>
+        <td style="width: 100%; text-align: center;padding-top: 0 !important;" colspan="2" class="color-tieude">
+          <div class="row comment-box">
+            <div class="col-md-12 kt-margin-bottom-10-mobile pd-0" *ngFor="let att2 of _data.Attachments_Result">
+              <div class="attach-item show-action">
+                <div class="attach-item-icon">
+                  <img src="{{ att2.icon }}" />
+                </div>
+                <div class="attach-item-name" style="word-break: break-all;">
+                  <p>{{ att2.filename }}</p>
+                </div>
+                <div class="attach-item-del d-flex">
+                  <a class="click" (click)="preview(att2)" *ngIf="ShowXemTruoc(att2)" matTooltip="Xem trước">
+                    <i class="far fa-eye"></i>
+                  </a>
+                  <a class="click" (click)="DownloadFile(att2.path)" matTooltip="Tải xuống">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <a *ngIf="att2.isDelete==1 && this.CheckRule('Attachments_Result')" class="click"
+                    (click)="Delete_File(att2.id_row,1)" matTooltip="Xóa">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
+<!-- #endregion -->
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

@@ -1,0 +1,64 @@
+<div [ngStyle]="{'height': getHeight()}">
+    <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <div class="loader-new"></div>
+    </ng-template>
+    <ng-template #elseBlock>
+        <div class="hover-row paddingDiv" routerLinkActive="active" [routerLink]="['/Meeting/',item.RowID]" [queryParams]="{ Type: TypeRouter}" [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of dangKyCuocHopService.items$ | async">
+            <div class="border-item-yc"></div>
+            <div class="item-yeucau">
+                <table class="table" style="margin: 15px 0 15px 0;">
+                    <thead style="visibility: collapse;">
+                        <tr>
+                            <th style="width: 40px"></th>
+                            <th style="width: 215px"></th>
+                            <th style="width: 95px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3">
+                                <div *ngIf="item.Status != 2" class="tinhtrang" [ngStyle]="{'background-color':getColor2(item.Status)}"></div>
+                            </td>
+                            <td>
+                                <div class="HienDauBaCham"><span *ngIf="item.Status == 0" [ngStyle]="{'color':getColor2(item.Status)}">{{convertDateExpired(item.FromTime,item.TimeLimit) == 1? "Đang diễn ra" : (item.FromTime) | timeAgoCus}} - </span>
+                                    <span [ngClass]="item.Status == 2 ? 'da-dong' : 'ten-ch'">{{item.MeetingContent}}</span>
+                                    <span class="da-dong" *ngIf="item.Status == 2"> đã đóng</span>
+                                </div>
+                            </td>
+                            <td rowspan="2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div style="width: fit-content; margin: 0px 9px 0 auto;display: flex;">
+                                            <app-list-users-custom [item]="item.NguoiTao" MaxSize="1" iconSize="45"></app-list-users-custom>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="ten-loai-yc" *ngIf="item.ZoomMeeting">Họp online qua zoom</span>
+                                <span class="ten-loai-yc" *ngIf="item.GoogleMeet">Họp online qua google meet</span>
+                                <span class="ten-loai-yc" *ngIf="item.WebexMeet">Họp online qua google webex meet</span>
+                                <span class="ten-loai-yc" *ngIf="item.TeamsMeet">Họp online qua MS Teams</span>
+                                <span class="ten-loai-yc" *ngIf="item.DiaDiem">{{item.DiaDiem}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="mo-ta-ch">{{item.MeetingNote}}
+                                </span>
+                            </td>
+                            <td>
+                                <div style="text-align: center;cursor: pointer;">
+                                    <span class="mo-ta-ch" matTooltip="{{item.FromTime | timeAgoCus}}">{{convertDateExpired(item.FromTime,item.TimeLimit) == 1? "Đang diễn ra" : (item.FromTime) | timeAgoCus}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+</div>

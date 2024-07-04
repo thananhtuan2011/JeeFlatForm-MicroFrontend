@@ -1,0 +1,36 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { TranslateModule } from '@ngx-translate/core';
+import { AvatarModule } from 'ngx-avatar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { AvatarWorkFlowComponent } from './avatar-wf.component';
+
+@NgModule({
+    declarations: [
+        AvatarWorkFlowComponent,
+    ],
+    imports: [CommonModule, MatChipsModule, NgxMatSelectSearchModule, InlineSVGModule, MatIconModule, MatInputModule,
+        MatFormFieldModule, MatTooltipModule, FormsModule, PickerModule, TranslateModule, MatChipsModule, ReactiveFormsModule, AvatarModule,
+        NgbModule, PerfectScrollbarModule, MatMenuModule, AvatarModule
+    ],
+    providers: [
+    ],
+    entryComponents: [
+        AvatarWorkFlowComponent,
+    ],
+    exports: [
+        AvatarWorkFlowComponent,
+    ],
+})
+export class AvatarWorkFlowModule { }

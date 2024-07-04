@@ -1,0 +1,30 @@
+<style>
+	:host>>>.mat-tab-body.mat-tab-body-active {
+		overflow-y: hidden !important;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title" style="text-transform: uppercase;">
+				Kết quả công việc</h3>
+		</div>
+	</div>
+	<div class="card-body" style="padding: 10px 0;">
+		<div class="form-group m-form__group row">
+			<div class="col-md-12 kt--margin-bottom-10-mobile">
+				<quill-editor placeholder="" [styles]="editorStyles1" [(ngModel)]="Value">
+				</quill-editor>
+			</div>
+		</div>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true)"
+			[disabled]="disabledBtn">
+			<span translate="landingpagekey.luudong"></span>
+		</button>
+	</div>
+</div>

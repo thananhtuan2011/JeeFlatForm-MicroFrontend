@@ -1,0 +1,953 @@
+<div class="focus-none" id="template-center">
+    <div class="template-center-header">
+        <div class="cu-template-center-header__back" (click)="PrevStep()">
+            <div icon="cu2-arrow-left2" class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M0 12l9-8v6h15v4h-15v6z" />
+                </svg>
+            </div>
+            <div data-test="template-center-header__back-text" class="cu-template-center-header__back-text">
+                {{'GeneralKey.trolai'| translate}} </div>
+        </div>
+        <div class="cu-template-center-header__type-container" *ngIf="buocthuchien > 1">
+            <div class="cu-template-center-header__type">
+                <div class="icon">
+                    <img width="24" height="24" src="{{getIconTemplate(TemplateDetail)}}" alt="">
+                </div>
+            </div>
+            <div class="cu-template-center-header__type-text">
+                {{getTypesName(TemplateDetail)}}
+            </div>
+        </div>
+
+        <div class="template-center-header__title">
+            <ng-container *ngIf="buocthuchien > 1">
+                <img width="24" height="24" src="../../../../assets/images/Jee_Work.png" alt="logo jeework">
+            </ng-container>
+            {{ getTitle() }}
+        </div>
+        <div data-test="template-center-header__close" icon="cu2-close" class="cu-template-center-header__close icon"
+            (click)="this.dialogRef.close();">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path
+                    d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
+            </svg>
+        </div>
+    </div>
+    <ng-container [ngSwitch]="buocthuchien">
+        <!-- [ngTemplateOutletContext]="{ item: child }" -->
+        <ng-container *ngSwitchCase="1" [ngTemplateOutlet]="step1">
+
+        </ng-container>
+        <ng-container *ngSwitchCase="2" [ngTemplateOutlet]="step2">
+
+        </ng-container>
+        <ng-container *ngSwitchCase="3" [ngTemplateOutlet]="step3">
+
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+        </ng-container>
+    </ng-container>
+
+
+
+</div>
+
+<ng-template #step1>
+    <div class="cu-template-center__body ">
+        <div class="cu-template-center-sidebar ps">
+            <div class="cu-template-center-sidebar__header"> {{ 'template.templates' | translate }} </div>
+            <div class="cu-template-center-sidebar__choices ">
+                <div class="cu-template-center-sidebar__choice  cu-template-center-sidebar__choice-active">
+                    <div class="cu-template-center-sidebar__choice-icon"
+                        style="background-color: rgba(0, 0, 0, 0.14)!important;">
+                        <div icon="clickup-symbol" class="icon">
+                            <img width="12" height="12" src="../../../../assets/images/Jee_Work.png" alt="">
+                        </div>
+                    </div>
+                    <div class="cu-template-center-sidebar__choice-name"> {{ 'template.mauhethong' | translate }} </div>
+                </div>
+            </div>
+            <div class="cu-template-center-sidebar__header"> {{ 'template.types' | translate }} </div>
+            <div class="cu-template-center-sidebar__types ">
+                <ng-container *ngFor="let item of Types">
+                    <!-- {{item.countitem > 0 ?'':'cu-template-center-sidebar__type-disabled'}} -->
+                    <div (click)="CheckedType(item)" class="cu-template-center-sidebar__type "
+                        [ngClass]="{'cu-template-center-sidebar__type-active': item.checked}" style="display: flex;">
+                        <div class="cu-template-center-sidebar__type-checkbox">
+                            <div icon="cu2-check-3" class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                                    <path d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="cu-template-center-sidebar__type-name"> {{item.name}}
+                        </div>
+                        <!-- <div class="cu-template-center-sidebar__type-count"> ({{item.countitem}}) </div> -->
+                    </div>
+                </ng-container>
+
+            </div>
+            <div class="cu-template-center-sidebar__header "> {{ 'template.levels' | translate }} </div>
+            <div class="cu-template-center-sidebar__types ">
+                <ng-container *ngFor="let item of Levels">
+                    <div class="cu-template-center-sidebar__type" (click)="item.checked = !item.checked;LoadTC()"
+                        [ngClass]="{'cu-template-center-sidebar__type-active': item.checked}">
+                        <div class="cu-template-center-sidebar__type-checkbox">
+                            <div icon="cu2-check-3" class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                                    <path d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="cu-template-center-sidebar__type-name"> {{item.name}} </div>
+                        <!-- <div class="cu-template-center-sidebar__type-count"> ({{item.countitem}}) </div> -->
+                    </div>
+
+                </ng-container>
+
+            </div>
+
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+            </div>
+        </div>
+        <div class="cu-template-center-main">
+            <div class="cu-template-center-main__header">
+                <div class="cu-template-center-main__header-item cu-template-center-main__header-search">
+                    <div icon="cu2-search2" class="icon"><svg class="">
+                            <use
+                                xlink:href="https://app.clickup.com/map.c8036d241969bb12be88.svg#svg-sprite-cu2-search2">
+                            </use>
+                        </svg>
+
+                    </div>
+                    <input type="text" [(ngModel)]="TemplateKeyWorks" (keyup.enter)="LoadTC()"
+                        placeholder=" {{ 'template.search' | translate }}...">
+
+                </div>
+                <div class="cu-dropdown-list url" [matMenuTriggerFor]="menu">
+                    <div cudropdown="" class="cu-dropdown">
+                        <div cudropdowntoggle="" class="cu-dropdown__toggle">
+                            <div class="cu-template-center-main__header-item cu-template-center-main__header-cases ">
+                                <div icon="cu2-briefcase-2" class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M22 9v1.528c-.476.69-3.815 1.971-9.77 1.971-6.239 0-9.736-1.358-10.23-2.088v-1.411h20zm2-2h-24v3.491c0 2.657 6.154 4.009 12.23 4.009 5.922 0 11.77-1.284 11.77-3.895v-3.605zm-2 8.074v4.926h-20v-5.001c-.823-.337-1.478-.711-2-1.096v8.097h24v-7.949c-.583.402-1.262.741-2 1.023zm-8 1.958c0 1.087-.896 1.968-2 1.968s-2-.881-2-1.968v-1.032h4v1.032zm-5-15.032c-1.104 0-2 .896-2 2v2h2v-1.5c0-.276.224-.5.5-.5h5c.276 0 .5.224.5.5v1.5h2v-2c0-1.104-.896-2-2-2h-6z" />
+                                    </svg>
+                                </div>
+                                <div class="cu-template-center-main__header-item-text"> {{ 'template.usecase' |
+                                    translate }} </div>
+                                <div icon="cu2-angle-down-2"
+                                    class="cu-template-center-main__header-item-down-arrow icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <mat-form-field class="mat-form-field-fluid " (click)="$event.stopPropagation()">
+                        <input matInput [formControl]="userFilterCtrl"
+                            placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}" autocomplete="off" />
+                        <mat-icon matPrefix> search</mat-icon>
+                    </mat-form-field>
+                    <div class="view-mat-menu" (click)="$event.stopPropagation();">
+                        <mat-checkbox [(ngModel)]="item.isdefault" (change)="LoadTC()"
+                            *ngFor="let item of filteredUsecase | async" class="w-100 hide-more-text text-dark">
+                            {{item.title}}
+                        </mat-checkbox>
+                    </div>
+                </mat-menu>
+
+            </div>
+
+            <div class="cu-template-center-main__template-section">
+
+                <div class="cu-template-center-main__section">
+                    <div class="cu-template-center-main__section-header">
+                        <div class="cu-template-center-main__section-header-text">
+                            {{'thamso.mau'|translate }} {{this._WorkwizardChungService.ts_congviec}}
+                            {{'thamso.duocsudung'|translate }} </div>
+                        <div class="cu-template-center-main__section-header-line"></div>
+                    </div>
+
+                    <div class="cu-template-center-main__rows" *ngFor="let Template of DanhSachTC">
+                        <div class="cu-template-center-main__row-container" *ngIf="Template.Data_Templates.length > 0">
+
+
+                            <div class="cu-template-center-main__row-header">
+                                <div class="cu-template-center-main__row-header-text">
+                                    {{Template.title}}
+                                </div>
+                                <div class="cu-template-center-main__row-controls"
+                                    *ngIf="Template.Data_Templates.length > 3"
+                                    (click)="Template.expandeduser = !Template.expandeduser">
+                                    <div
+                                        class="cu-template-center-main__row-controls-more cu-template-center-main__row-controls-more-no-border">
+                                        {{ 'template.' + (!Template.expandeduser?'collapse':'seeall') | translate}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cu-template-center-main__row"
+                                [ngClass]="{'cu-template-center-main__row-expanded': !Template.expandeduser}">
+                                <ng-container *ngFor="let item of Template.Data_Templates">
+                                    <div
+                                        class="cu-template-center-template cu-template-center-template__clickup getTemplateCenterTemplate(item)">
+                                        <div class="cu-template-center-template__container"
+                                            (click)="SelectedTemplate(item)">
+                                            <div class="cu-template-center-template__cu-icon">
+                                                <img width="12" height="12" src="../../../../assets/images/Jee_Work.png"
+                                                    alt="">
+                                            </div>
+
+                                            <div class="cu-template-center-template__quick-use"> {{ 'template.quickuse'
+                                                | translate }}
+                                            </div>
+
+
+                                            <div class="cu-template-center-template__top">
+                                                <div class="cu-template-center-template__image"
+                                                    style="background-image: url(&quot;{{item.img_temp}}&quot;);">
+                                                    <!-- https://attachments.clickup.com/73ce570e-588f-4c2e-82de-31c526efef19/6JryduvCY3.png -->
+                                                </div>
+                                            </div>
+                                            <div class="cu-template-center-template__bot">
+                                                <div class="cu-template-center-template__bot-left">
+                                                    <div class="icon">
+                                                        <img width="24" height="24" src="{{getIconTemplate(item)}}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="cu-template-center-template__bot-right"> {{item.title}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-test="template-center-main__section" class="cu-template-center-main__section">
+                    <div class="cu-template-center-main__section-header">
+                        <div class="cu-template-center-main__section-header-text"> JeeWork </div>
+                        <div class="cu-template-center-main__section-header-line"></div>
+                    </div>
+
+                    <ng-container *ngFor="let Template of DanhSachTC">
+                        <div class="cu-template-center-main__rows"
+                            *ngIf="Template.Data_Templates_Default && Template.Data_Templates_Default.length > 0">
+                            <div class="cu-template-center-main__row-container">
+
+
+                                <div class="cu-template-center-main__row-header">
+                                    <div class="cu-template-center-main__row-header-text">
+                                        {{Template.title}}
+                                    </div>
+                                    <div class="cu-template-center-main__row-controls"
+                                        *ngIf="Template.Data_Templates_Default.length > 3"
+                                        (click)="Template.expanded = !Template.expanded">
+                                        <div
+                                            class="cu-template-center-main__row-controls-more cu-template-center-main__row-controls-more-no-border">
+                                            {{ 'template.' + (Template.expanded?'collapse':'seeall') | translate}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cu-template-center-main__row"
+                                    [ngClass]="{'cu-template-center-main__row-expanded': Template.expanded}">
+                                    <ng-container *ngFor="let item of Template.Data_Templates_Default">
+                                        <div
+                                            class="cu-template-center-template cu-template-center-template__clickup getTemplateCenterTemplate(item)">
+                                            <div class="cu-template-center-template__container"
+                                                (click)="SelectedTemplate(item,true)">
+                                                <div class="cu-template-center-template__cu-icon">
+                                                    <img width="12" height="12"
+                                                        src="../../../../assets/images/Jee_Work.png" alt="">
+                                                </div>
+
+                                                <div class="cu-template-center-template__quick-use"> {{
+                                                    'template.quickuse'
+                                                    | translate }}
+                                                </div>
+
+                                                <div class="cu-template-center-template__top">
+                                                    <div class="cu-template-center-template__image"
+                                                        style="background-image: url(&quot;{{item.img_temp}}&quot;);">
+                                                    </div>
+                                                </div>
+                                                <div class="cu-template-center-template__bot">
+                                                    <div class="cu-template-center-template__bot-left">
+                                                        <div class="icon">
+                                                            <img width="24" height="24" src="{{getIconTemplate(item)}}"
+                                                                alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="cu-template-center-template__bot-right"> {{item.title}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #step2>
+    <div
+        class="cu-template-center-selected-template cu-template-center-selected-template__clickup cu-template-center-selected-template__space ">
+        <div class="cu-template-center-selected-template__top">
+            <div cudroparea="" cudropuploader=""
+                class="cu-template-center-selected-template__image cu-template-center-selected-template__image-clickup">
+                <div class="cu-template-center-selected-template__image-controls ">
+                </div>
+                <div class="cu-template-center-selected-template__image-cover " (click)="inputIcon.click()"
+                    style="background-image: url(&quot;{{TemplateDetail.img_temp}}&quot;);">
+                </div>
+                <input type="file" hidden accept=".png, .jpg, .jpeg" #inputIcon (change)="onSelectFile($event)" />
+            </div>
+            <div class="cu-template-center-selected-template__info">
+                <div class="cu-template-center-selected-template__info-top">
+                    <div class="cu-template-center-selected-template__info-type">
+                        <div class="ng-tns-c370-39 icon">
+                            <img width="24" height="24" src="{{getIconTemplate(TemplateDetail)}}" alt="">
+                            <span>
+                                huhu
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cu-template-center-selected-template__info-type-text">
+                        {{getTypesName(TemplateDetail)}}
+                    </div>
+                </div>
+                <div
+                    class="cu-template-center-selected-template__info-name cu-template-center-selected-template__info-name-clickup ">
+                    {{ TemplateDetail.title }} </div>
+
+                <!-- <div class="cu-template-center-selected-template__info-experience-level ">
+                    <div class="ng-tns-c370-39 icon"><svg class="">
+                            <use
+                                xlink:href="https://app.clickup.com/map.c8036d241969bb12be88.svg#svg-sprite-template-center-experience-intermediate">
+                            </use>
+                        </svg>
+
+                    </div>
+                    <div class="ng-tns-c370-39">Intermediate</div>
+                </div> -->
+
+
+                <div
+                    class="cu-template-center-selected-template__info-desc cu-template-center-selected-template__info-desc-clickup ">
+                    {{ TemplateDetail.description?TemplateDetail.description:'Không có mô tả chi tiết'}}
+
+                </div>
+
+                <div class="cu-template-center-selected-template__info-actions">
+                    <div class="cu-template-center-selected-template__info-use-template"
+                        (click)="NextStep();LoadInfoStep3()"> {{ 'template.usetemp' | translate }}
+                    </div>
+                    <div *ngIf="TemplateDetail.istemplatelist && !isAddsuccess"
+                        class="cu-template-center-selected-template__info-use-template cu-template-center-selected-template__info-use-template-clickup "
+                        (click)="add_template_library()">
+                        {{ 'template.addtolib' | translate }}
+                    </div>
+                    <div *ngIf="!TemplateDetail.istemplatelist"
+                        class="cu-template-center-selected-template__info-use-template cu-template-center-selected-template__info-use-template-clickup "
+                        (click)="delete_library()" style="color:red!important">
+                        {{ 'template.deletelib' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cu-template-center-selected-template__bot">
+            <div class="cu-template-center-selected-template__includes ps">
+                <div class="cu-template-center-selected-template__includes-header"> {{ 'template.includes' | translate
+                    }}
+                </div>
+                <mat-accordion class="example-headers-align" multi>
+                    <!-- ẩn group -->
+                    <mat-expansion-panel
+                        *ngIf="TemplateDetail.data_status && TemplateDetail.data_status.length > 0 && false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div class="text-uppercase" *ngIf="TemplateDetail.data_status">
+                                    {{ TemplateDetail.data_status.length }} {{ 'template.statusgroup' | translate }}
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="cu-template-center-selected-template__includes-item-bot">
+                            <div class="cu-template-center-selected-template__includes-item-bot-items">
+                                <ng-container *ngFor="let status of TemplateDetail.data_status">
+                                    <div matTooltip="{{ getTooltipStatus(status)}}"
+                                        class="cu-template-center-selected-template__includes-item-bot-item cu-template-center-selected-template__includes-item-bot-item-status-group">
+                                        <ng-container *ngFor="let item of status.status_list">
+                                            <div class="cu-template-center-selected-template__includes-item-bot-item-status-group-bubble"
+                                                [ngStyle]="{'backgroundColor': item.color}"></div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel *ngIf="TemplateDetail.data_fields && TemplateDetail.data_fields.length > 0">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div class="text-uppercase" *ngIf="TemplateDetail.data_fields">
+                                    {{TemplateDetail.data_fields.length}} {{ 'template.customfield' | translate }}
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="cu-template-center-selected-template__includes-item-bot">
+                            <div class="cu-template-center-selected-template__includes-item-bot-items">
+                                <ng-container *ngFor="let field of TemplateDetail.data_fields">
+                                    <div
+                                        class="cu-template-center-selected-template__includes-item-bot-item cu-template-center-selected-template__includes-item-bot-item-view not-show-lasted">
+                                        <div class="cu-template-center-selected-template__includes-item-bot-item-name">
+                                            <!-- {{field.fieldname}}  -->
+                                            {{ 'filter.'+field.title | translate }}
+                                        </div>
+                                        <div
+                                            class="cu-template-center-selected-template__includes-item-bot-item-spacer">
+                                            <div class="hide">•</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="TemplateDetail.data_fields && TemplateDetail.data_fields.length == 0">
+                                    <h4>Không có dữ liệu</h4>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel *ngIf="TemplateDetail.data_views && TemplateDetail.data_views.length > 0">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div class="text-uppercase" *ngIf="TemplateDetail.data_views">
+                                    {{TemplateDetail.data_views.length}} {{ 'template.viewtype' | translate }}
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="cu-template-center-selected-template__includes-item-bot">
+                            <div class="cu-template-center-selected-template__includes-item-bot-items">
+                                <ng-container *ngFor="let view of TemplateDetail.data_views">
+                                    <div
+                                        class="cu-template-center-selected-template__includes-item-bot-item cu-template-center-selected-template__includes-item-bot-item-view not-show-lasted">
+                                        <div
+                                            class="cu-template-center-selected-template__includes-item-bot-item-icon icon">
+                                            <img width="16" height="16" [src]="view.icon" alt="">
+                                        </div>
+                                        <div class="cu-template-center-selected-template__includes-item-bot-item-name">
+                                            {{view.view_name}} </div>
+                                        <div
+                                            class="cu-template-center-selected-template__includes-item-bot-item-spacer">
+                                            <div class="hide">•</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+
+
+                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                </div>
+            </div>
+            <div class="cu-template-center-selected-template__data ps" style="overflow-y: auto !important;">
+                <div class="cu-template-center-selected-template__data-item ">
+                    <div class="cu-template-center-selected-template__data-label ">
+                        {{'GeneralKey.taoboi'| translate}} </div>
+
+                    <div class="cu-template-center-selected-template__data-creator "><img
+                            src="assets/images/Jee_Work.png" class="ng-tns-c370-39">
+                        <div class="cu-template-center-selected-template__data-text"> JEEWORK </div>
+                    </div>
+
+                </div>
+
+                <div class="cu-template-center-selected-template__data-item ">
+                    <div class="cu-template-center-selected-template__data-label"> {{'GeneralKey.ngaytao'| translate}}
+                    </div>
+                    <div class="cu-template-center-selected-template__data-text"> December 19, 2020
+                    </div>
+                </div>
+
+                <div class="cu-template-center-selected-template__data-item ">
+                    <div class="cu-template-center-selected-template__data-label"> {{'template.used'| translate}} </div>
+                    <div class="cu-template-center-selected-template__data-text"> 17.7K times
+
+                    </div>
+                </div>
+
+                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #step3>
+    <div class="cu-template-center-use-template__folder ">
+
+        <div class="cu-template-center-use-template ps  ps--active-y"
+            style="max-height: 76% !important; overflow-y: auto !important;">
+            <div class="cu-template-center-use-template__container">
+                <div class="cu-template-center__option-section ">
+                    <div class="cu-template-center__option-label">
+                        {{infoStep3.name}}
+                    </div>
+                    <div class="cu-template-center__option-input ng-untouched ng-pristine ng-valid">
+                        <input id="titleTemplate" type="text" placeholder="{{ TemplateDetail.title }}">
+                    </div>
+                </div>
+
+                <div class="cu-template-center__option-section " *ngIf="this.TemplateDetail.types != 1">
+                    <div class="cu-template-center__option-label">
+                        {{ infoStep3.selectFolder }}
+                    </div>
+                    <div class="cu-category-list-dropdown" [matMenuTriggerFor]="DF" #menuTrigger="matMenuTrigger">
+                        <div
+                            class="cu-template-center__option-input cu-template-center-use-template__select-location-input-invalid ">
+                            {{ ParentName }}
+                        </div>
+                    </div>
+
+                    <mat-menu #DF="matMenu">
+                        <div class="view-mat-menu-df" (click)="$event.stopPropagation();">
+                            <ng-container *ngFor="let space of ListDepartmentFolder">
+                                <div class="cu2-space-row__item cu2-space-row__item_expanded"
+                                    (click)="space.expanded = !space.expanded">
+                                    <div class="cu-project-avatar_20 cu-project-avatar">
+                                        <div class="cu-project-avatar__item cu-avatar cu-project-avatar__text cu-project-avatar__text_bg"
+                                            style="color: rgb(191, 74, 204);">
+                                            <span style="margin-top:-1px"> {{space.Title[0]}} </span>
+                                        </div>
+                                    </div>
+                                    <div tooltipdelay="300" class="cu2-space-row__item-name"> {{space.Title}} </div>
+                                    <div class="cu2-space-row__item-multi">
+                                        <div class="cu-template-center-sidebar__type pd-0"
+                                            [ngClass]="{'cu-template-center-sidebar__type-active': IsChecked(space)}"
+                                            style="display: flex;"
+                                            (click)="selectedParent(space);menuTrigger.closeMenu()">
+                                            <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                                <div icon="cu2-check-3" class="icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                        viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <ng-container *ngIf="space.expanded">
+                                    <ng-container *ngFor="let folder of space.folder">
+                                        <div class="cu2-space-row__item_1 cu2-space-row__item_expanded"
+                                            (click)="folder.expanded = !folder.expanded">
+                                            <div class="cu-project-avatar_20 cu-project-avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M6.083 4c1.38 1.612 2.578 3 4.917 3h11v13h-20v-16h4.083zm.917-2h-7v20h24v-17h-13c-1.629 0-2.305-1.058-4-3z" />
+                                                </svg>
+                                            </div>
+                                            &nbsp;
+                                            <div tooltipdelay="300" class="cu2-space-row__item-name"> {{folder.title}}
+                                            </div>
+                                            <div class="cu2-space-row__item-multi">
+                                                <div class="cu-template-center-sidebar__type pd-0"
+                                                    [ngClass]="{'cu-template-center-sidebar__type-active': IsChecked(folder)}"
+                                                    style="display: flex;"
+                                                    (click)="selectedParent(folder);menuTrigger.closeMenu()">
+                                                    <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                                        <div icon="cu2-check-3" class="icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="14" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ng-container *ngIf="folder.expanded">
+                                            <div *ngFor="let project of folder.project"
+                                                class="cu2-space-row__item_2 cu2-space-row__item_expanded"
+                                                (click)="project.expanded = !project.expanded">
+                                                <div class="cu-project-avatar_20 cu-project-avatar">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                        viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" />
+                                                    </svg>
+                                                </div>
+                                                &nbsp;
+                                                <div tooltipdelay="300" class="cu2-space-row__item-name">
+                                                    {{project.title}}
+                                                </div>
+                                                <div class="cu2-space-row__item-multi">
+                                                    <div class="cu-template-center-sidebar__type pd-0"
+                                                        [ngClass]="{'cu-template-center-sidebar__type-active': IsChecked(project)}"
+                                                        style="display: flex;"
+                                                        (click)="selectedParent(project);menuTrigger.closeMenu()">
+                                                        <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                                            <div icon="cu2-check-3" class="icon">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                    height="14" viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+
+                                    </ng-container>
+                                    <div *ngFor="let project of space.project"
+                                        class="cu2-space-row__item_1 cu2-space-row__item_expanded"
+                                        (click)="project.expanded = !project.expanded">
+                                        <div class="cu-project-avatar_20 cu-project-avatar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" />
+                                            </svg>
+                                        </div>
+                                        &nbsp;
+                                        <div tooltipdelay="300" class="cu2-space-row__item-name"> {{project.title}}
+                                        </div>
+                                        <div class="cu2-space-row__item-multi">
+                                            <div class="cu-template-center-sidebar__type pd-0"
+                                                [ngClass]="{'cu-template-center-sidebar__type-active': IsChecked(project)}"
+                                                style="display: flex;"
+                                                (click)="selectedParent(project);menuTrigger.closeMenu()">
+                                                <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                                    <div icon="cu2-check-3" class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                            viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </ng-container> -->
+                            </ng-container>
+                        </div>
+                    </mat-menu>
+                </div>
+
+                <div class="cu-template-center__option-section ">
+                    <div class="cu-template-center__option-label"> {{ 'template.importoptions' | translate }} </div>
+                    <div class="cu-template-center__dual-options">
+                        <div class="cu-template-center__dual-options-header">
+
+                            <!-- <div class="cu-template-center__dual-options-header-tab {{importall?'':'cu-template-center__dual-options-header-tab-disabled'}}"
+                                (click)="importall = true">
+                                <div
+                                    class="cu-template-center__radio-item cu-template-center__radio-item-no-margin {{importall?'cu-template-center__radio-item-active':''}}">
+                                    {{ 'template.importeverything' | translate }} </div>
+                            </div>
+                            <div (click)="importall = false"
+                                class="cu-template-center__dual-options-header-tab {{!importall?'':'cu-template-center__dual-options-header-tab-disabled'}}">
+                                <div
+                                    class="cu-template-center__radio-item cu-template-center__radio-item-no-margin {{!importall?'cu-template-center__radio-item-active':''}}">
+                                    {{ 'template.customnizeimportitems' | translate }} </div>
+                            </div> -->
+
+                            <div (click)="importall = false"
+                                class="cu-template-center__dual-options-header-tab {{!importall?'':'cu-template-center__dual-options-header-tab-disabled'}}">
+                                <div
+                                    class="cu-template-center__radio-item cu-template-center__radio-item-no-margin {{!importall?'cu-template-center__radio-item-active':''}}">
+                                    {{ 'template.customnizeimportitems' | translate }} </div>
+                            </div>
+
+                        </div>
+                        <div class="cu-template-center__dual-options-body">
+
+                            <!-- <ng-container *ngIf="importall;else selectimport">
+                                <div class="cu-template-center__dual-options-body-header "> {{ 'template.itemstoimport'
+                                    | translate }}:
+                                </div>
+                                <div class="cu-template-center__dual-options-body-text "> {{ 'template.importall' |
+                                    translate }} {{LoadFieldName()}}.
+                                </div>
+                            </ng-container> -->
+
+                            <ng-container>
+                                <div class="cu-template-center__dual-options-body-header"> {{
+                                    'template.selecteitemstoimport' | translate }}:
+                                </div>
+                                <div
+                                    class="cu-template-center__radio-container cu-template-center__radio-container-squares cu-template-center__radio-container-unbordered">
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isAddTask}"
+                                        (click)="isAddTask = !isAddTask">
+                                        {{ 'template.task' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': AllView}"
+                                        (click)="AllView = !AllView">
+                                        {{ 'template.views' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isConfigNotify}"
+                                        (click)="isConfigNotify = !isConfigNotify">
+                                        {{ 'template.thietlapthongbao' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isConfigStatus}"
+                                        (click)="isConfigStatus = !isConfigStatus">
+                                        {{ 'template.thietlapthaydoitrangthai' | translate }} </div>
+                                    <!-- <div class="cu-template-center__radio-item cu-template-center__radio-item-disabled">
+                                        {{ 'template.automations' | translate }} </div>      -->
+                                </div>
+
+                                <div
+                                    class="cu-template-center__radio-container cu-template-center__radio-container-squares">
+                                    <div class="cu-template-center__radio-item " (click)="item.checked = !item.checked"
+                                        [ngClass]="{'cu-template-center__radio-item-active': item.checked}"
+                                        *ngFor="let item of ListField">
+                                        {{ 'filter.'+item.title | translate }} </div>
+                                    <!-- <div class="cu-template-center__radio-item cu-template-center__radio-item-active">
+                                        Due dates </div>
+                                    <div class="cu-template-center__radio-item ">
+                                        Assignees </div>
+                                    <div class="cu-template-center__radio-item cu-template-center__radio-item-disabled">
+                                        Start date </div> -->
+                                </div>
+                            </ng-container>
+
+                            <ng-template #selectimport>
+                                <div class="cu-template-center__dual-options-body-header"> {{
+                                    'template.selecteitemstoimport' | translate }}:
+                                </div>
+                                <div
+                                    class="cu-template-center__radio-container cu-template-center__radio-container-squares cu-template-center__radio-container-unbordered">
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isAddTask}"
+                                        (click)="isAddTask = !isAddTask">
+                                        {{ 'template.task' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': AllView}"
+                                        (click)="AllView = !AllView">
+                                        {{ 'template.views' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isConfigNotify}"
+                                        (click)="isConfigNotify = !isConfigNotify">
+                                        {{ 'template.thietlapthongbao' | translate }} </div>
+                                    <div class="cu-template-center__radio-item "
+                                        [ngClass]="{'cu-template-center__radio-item-active': isConfigStatus}"
+                                        (click)="isConfigStatus = !isConfigStatus">
+                                        {{ 'template.thietlapthaydoitrangthai' | translate }} </div>
+                                    <!-- <div class="cu-template-center__radio-item cu-template-center__radio-item-disabled">
+                                        {{ 'template.automations' | translate }} </div> -->
+                                </div>
+
+                                <div
+                                    class="cu-template-center__radio-container cu-template-center__radio-container-squares">
+                                    <div class="cu-template-center__radio-item " (click)="item.checked = !item.checked"
+                                        [ngClass]="{'cu-template-center__radio-item-active': item.checked}"
+                                        *ngFor="let item of ListField">
+                                        {{ 'filter.'+item.title | translate }} </div>
+                                    <!-- <div class="cu-template-center__radio-item cu-template-center__radio-item-active">
+                                        Due dates </div>
+                                    <div class="cu-template-center__radio-item ">
+                                        Assignees </div>
+                                    <div class="cu-template-center__radio-item cu-template-center__radio-item-disabled">
+                                        Start date </div> -->
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cu-template-center__option-section ">
+                    <div class="cu-template-center__option-label "> {{ 'template.projectdate' | translate }} </div>
+
+                    <div class="cu-template-center__dual-options">
+                        <div class="cu-template-center__dual-options-header">
+                            <div class="cu-template-center__dual-options-header-tab {{ProjectDatesDefault?'':'cu-template-center__dual-options-header-tab-disabled'}}"
+                                (click)="ProjectDatesDefault = true">
+                                <div
+                                    class="cu-template-center__radio-item cu-template-center__radio-item-no-margin {{ProjectDatesDefault?'cu-template-center__radio-item-active':''}}">
+                                    {{ 'template.importasis' | translate }} </div>
+                            </div>
+                            <div (click)="ProjectDatesDefault = false"
+                                class="cu-template-center__dual-options-header-tab {{!ProjectDatesDefault?'':'cu-template-center__dual-options-header-tab-disabled'}}">
+                                <div
+                                    class="cu-template-center__radio-item cu-template-center__radio-item-no-margin {{!ProjectDatesDefault?'cu-template-center__radio-item-active':''}}">
+                                    {{ 'template.remapdates' | translate }} </div>
+                                <!-- <a href="https://docs.clickup.com/en/articles/1201565-remapping-dates-in-templates"
+                                    target="_blank" class="cu-template-center__dual-options-header-tab-link"> How it
+                                    works </a> -->
+                            </div>
+                        </div>
+                        <div class="cu-template-center__dual-options-body">
+                            <ng-container *ngIf="ProjectDatesDefault;else setupDate">
+                                <div class="cu-template-center__dual-options-body-text ">
+                                    {{ 'template.nosetdate' | translate }}
+                                </div>
+                            </ng-container>
+                            <ng-template #setupDate>
+                                <div class="template__duedate-tab-body">
+
+                                    <div class="template__duedate-tab-body-new">
+                                        <div class="template__duedate-tab-body-new-left">
+                                            <div class="template__duedate-tab-body-new-date active">
+                                                <div class="template__duedate-tab-body-new-date-top">
+                                                    <div icon="calendar-1" class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M20 20h-4v-4h4v4zm-6-10h-4v4h4v-4zm6 0h-4v4h4v-4zm-12 6h-4v4h4v-4zm6 0h-4v4h4v-4zm-6-6h-4v4h4v-4zm16-8v22h-24v-22h3v1c0 1.103.897 2 2 2s2-.897 2-2v-1h10v1c0 1.103.897 2 2 2s2-.897 2-2v-1h3zm-2 6h-20v14h20v-14zm-2-7c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2zm-14 2c0 .552-.447 1-1 1s-1-.448-1-1v-2c0-.552.447-1 1-1s1 .448 1 1v2z" />
+                                                        </svg>
+                                                    </div> {{ 'template.startdate' | translate }}
+                                                </div>
+                                                <div class="template__duedate-tab-body-new-date-bot">
+                                                    {{ 'template.usingstartdate' | translate }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="template__duedate-tab-body-new-right">
+                                            <div class="template__duedate-tab-body-new-date">
+                                                <div class="template__duedate-tab-body-new-date-top">
+                                                    <div icon="calendar-31" class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M20 20h-4v-4h4v4zm-6-10h-4v4h4v-4zm6 0h-4v4h4v-4zm-12 6h-4v4h4v-4zm6 0h-4v4h4v-4zm-6-6h-4v4h4v-4zm16-8v22h-24v-22h3v1c0 1.103.897 2 2 2s2-.897 2-2v-1h10v1c0 1.103.897 2 2 2s2-.897 2-2v-1h3zm-2 6h-20v14h20v-14zm-2-7c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2zm-14 2c0 .552-.447 1-1 1s-1-.448-1-1v-2c0-.552.447-1 1-1s1 .448 1 1v2z" />
+                                                        </svg>
+                                                    </div> {{ 'template.enddate' | translate }}
+                                                </div>
+                                                <div class="template__duedate-tab-body-new-date-bot">
+                                                    {{ 'template.usingenddate' | translate }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="template__duedate-tab-body-new-bot">
+                                        <div class="template__duedate-tab-body-new-bot-left">
+                                            <div class="template__duedate-tab-body-new-bot-date">
+                                                <div class="template__duedate-tab-body-new-bot-date-header"> {{
+                                                    'template.startdate' | translate }}
+                                                </div>
+                                                <div class="template__duedate-tab-body-new-bot-date-picker">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>{{ 'template.chooseadate' | translate }}</mat-label>
+                                                        <input [(ngModel)]="start_date" [max]="end_date" matInput
+                                                            [matDatepicker]="picker" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="template__duedate-tab-body-new-bot-right">
+                                            <div class="template__duedate-tab-body-new-bot-date">
+                                                <div class="template__duedate-tab-body-new-bot-date-header"> {{
+                                                    'template.enddate' | translate }}
+                                                </div>
+                                                <div class="template__duedate-tab-body-new-bot-date-picker">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>{{ 'template.chooseadate' | translate }}</mat-label>
+                                                        <input [(ngModel)]="end_date" [min]="start_date" matInput
+                                                            [matDatepicker]="picker1" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker1></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="cu-template-center__option-section ">
+                    <div class="cu-template-center__option-label"> Do you want to include archived tasks? </div>
+                    <div class="cu-template-center__radio-container cu-template-center__radio-container-space-between">
+                        <div class="cu-template-center__radio-item"
+                            [ngClass]="{'cu-template-center__radio-item-active': chontacvu == 1}"
+                            (click)="chontacvu = 1"> Nope </div>
+                        <div class="cu-template-center__radio-item"
+                            [ngClass]="{'cu-template-center__radio-item-active': chontacvu == 2}"
+                            (click)="chontacvu = 2"> Yes, but make them unarchived </div>
+                        <div class="cu-template-center__radio-item"
+                            [ngClass]="{'cu-template-center__radio-item-active': chontacvu == 3}"
+                            (click)="chontacvu = 3"> Yes (keep them archived) </div>
+                    </div>
+                </div> -->
+
+            </div>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <!-- <div class="ps__rail-y" style="top: 0px; right: 0px; height: 693px;">
+                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 559px;"></div>
+            </div> -->
+        </div>
+
+        <div class="cu-template-center-use-template__footer">
+            <div class="cu-template-center-use-template__footer-text ">
+                {{ 'template.notifycreate' | translate }}
+            </div>
+
+            <div class="cu-template-center-use-template__footer-buttons">
+                <button [disabled]="disabledBtn" (click)="goBack()"
+                    class="btn cu-template-center-use-template__footer-button cu-template-center-use-template__footer-button-cancel">
+                    {{ 'template.cancel' | translate }}
+                </button>
+                <button class="btn cu-template-center-use-template__footer-button " [disabled]="disabledBtn"
+                    (click)="Onsubmit()">
+                    <!-- cu-template-center-use-template__footer-button-disabled -->
+                    {{ 'template.usetemp' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

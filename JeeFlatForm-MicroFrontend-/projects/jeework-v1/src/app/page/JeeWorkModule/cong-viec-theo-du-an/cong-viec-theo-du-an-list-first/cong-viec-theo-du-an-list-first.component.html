@@ -1,0 +1,736 @@
+<style>
+    #filter-icon {
+        background-image: url(https://cdn.jee.vn/jee-comment/icons/facebook-comment-header/filter.png);
+        background-position: -17px -467px;
+        background-size: auto;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .title-duan {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .title-duan:hover {
+        background-color: #f3f6f9;
+    }
+
+    .dropdown-item {
+        width: 100%;
+    }
+
+    .dropdown-text {
+        display: flex;
+    }
+
+    .ellipse {
+        display: block;
+        width: 90px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background: none;
+        height: auto;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header" style="padding:0">
+        <div style="display: flex; align-self: center;">
+            <div style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <button class="btn btn-pd" mat-button ngbDropdownToggle>
+                    {{labelCongViec}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" *ngFor="let dt of listDropDown"
+                        (click)="changeDropDown(dt.id,dt.name)">
+                        {{dt.name}}
+                    </button>
+                </div>
+            </div>
+            <div style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <button class="btn btn-pd check-view-first" mat-button ngbDropdownToggle style="padding-left: 0;"
+                    (click)="checkViewAll()">
+                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Double-check.svg--><svg
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <polygon points="0 0 24 0 24 24 0 24" />
+                                <path
+                                    d="M9.26193932,16.6476484 C8.90425297,17.0684559 8.27315905,17.1196257 7.85235158,16.7619393 C7.43154411,16.404253 7.38037434,15.773159 7.73806068,15.3523516 L16.2380607,5.35235158 C16.6013618,4.92493855 17.2451015,4.87991302 17.6643638,5.25259068 L22.1643638,9.25259068 C22.5771466,9.6195087 22.6143273,10.2515811 22.2474093,10.6643638 C21.8804913,11.0771466 21.2484189,11.1143273 20.8356362,10.7474093 L17.0997854,7.42665306 L9.26193932,16.6476484 Z"
+                                    fill="#000000" fill-rule="nonzero" opacity="0.3"
+                                    transform="translate(14.999995, 11.000002) rotate(-180.000000) translate(-14.999995, -11.000002) " />
+                                <path
+                                    d="M4.26193932,17.6476484 C3.90425297,18.0684559 3.27315905,18.1196257 2.85235158,17.7619393 C2.43154411,17.404253 2.38037434,16.773159 2.73806068,16.3523516 L11.2380607,6.35235158 C11.6013618,5.92493855 12.2451015,5.87991302 12.6643638,6.25259068 L17.1643638,10.2525907 C17.5771466,10.6195087 17.6143273,11.2515811 17.2474093,11.6643638 C16.8804913,12.0771466 16.2484189,12.1143273 15.8356362,11.7474093 L12.0997854,8.42665306 L4.26193932,17.6476484 Z"
+                                    fill="#000000" fill-rule="nonzero"
+                                    transform="translate(9.999995, 12.000002) rotate(-180.000000) translate(-9.999995, -12.000002) " />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>
+                    Đánh dấu đã xem
+                </button>
+            </div>
+
+            <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '4' && listDuAn.length > 0">
+                <button style="overflow: hidden; 
+                text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                    class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{labelDuAn}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm" autocomplete="off" />
+                    </mat-form-field>
+                    <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async" (click)="changeDuAn(p)">
+                        {{p.title_full}}
+                    </button>
+                </div>
+            </div>
+
+            <div style="padding-right: 10px" ngbDropdown class="d-inline-block"
+                *ngIf="(IDDrop == '6' || IDDrop == '7') && listPhongBan.length > 0">
+                <button style="overflow: hidden; 
+                text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                    class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{labelPhongBan}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput [formControl]="bankFilterCtrlPhongBan" placeholder="Tìm kiếm"
+                            autocomplete="off" />
+                    </mat-form-field>
+                    <button class="dropdown-item" *ngFor="let p of filteredBanksPhongBan | async"
+                        (click)="changePhongBan(p)">
+                        {{p.title}}
+                    </button>
+                </div>
+            </div>
+
+            <div ngbDropdown class="d-inline-block"
+                *ngIf="(IDDrop == '6' || IDDrop == '7') && +idDuAn <= 0 && listNhanVienPB.length > 0">
+                <button style="overflow: hidden; 
+                text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                    class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{labelNhanVienPB}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput [formControl]="bankFilterCtrlNhanVienPB" placeholder="Tìm kiếm"
+                            autocomplete="off" />
+                    </mat-form-field>
+                    <button class="dropdown-item" *ngFor="let p of filteredBanksNhanVienPB | async"
+                        (click)="changeNhanVienPB(p)">
+                        {{p.fullname}}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Start Thiên bổ sung ngày 6/1/23 -->
+            <div ngbDropdown class="d-inline-block"
+                *ngIf="(IDDrop == '6' || IDDrop == '7') && +idDuAn >= 0  && listDuAn.length > 0">
+                <button style="overflow: hidden; 
+                text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                    class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{labelDuAn}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm" autocomplete="off" />
+                    </mat-form-field>
+                    <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async"
+                        (click)="changeDuAnTheoPhongBan(p)">
+                        {{p.title}}
+                    </button>
+                </div>
+            </div>
+            <!-- End Thiên bổ sung ngày 6/1/23 -->
+
+            <div ngbDropdown class="d-inline-block"
+                *ngIf="(IDDrop == '4' && +idDuAn > 0) || (IDDrop == '6' || IDDrop == '7')" style="padding-left: 10px;">
+                <button style="overflow: hidden; 
+                text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                    class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{labelTienDo}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <button class="dropdown-item" (click)="changeTienDo('0','Tất cả')">
+                        Tất cả
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('6','Hoàn thành đúng hạn')">
+                        Hoàn thành đúng hạn
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('7','Hoàn thành quá hạn')">
+                        Hoàn thành quá hạn
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('2','Đang thực hiện trong hạn')">
+                        Đang thực hiện trong hạn
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('3',' Sắp tới hạn')">
+                        Sắp tới hạn
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('4','Tới hạn')">
+                        Tới hạn
+                    </button>
+                    <button class="dropdown-item" (click)="changeTienDo('5','Quá hạn')">
+                        Quá hạn
+                    </button>
+                </div>
+            </div>
+
+            <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '3' && listNhanVien.length > 0">
+                <button class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                    {{label_NV}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                    <mat-form-field class="mat-form-field-fluid ">
+                        <input matInput [formControl]="bankFilterCtrlNhanVien" placeholder="Tìm kiếm"
+                            autocomplete="off" />
+                    </mat-form-field>
+                    <button class="dropdown-item" (click)="changeNhanVienAll()">
+                        Tất cả
+                    </button>
+                    <button class="dropdown-item" *ngFor="let p of filteredBanksNhanVien | async"
+                        (click)="changeNhanVien(p)">
+                        {{p.fullname}}
+                    </button>
+                </div>
+            </div>
+            <div class="d-inline-block" *ngIf="IDDrop == '2'">
+                <button class="btn btn-pd btn-list" mat-button [matMenuTriggerFor]="assigne">
+                    {{label_NV}}
+                    <i class="mat-select-arrow" style="padding: 0;"></i>
+                </button>
+                <mat-menu #assigne="matMenu">
+                    <div class="page-work-detail">
+                        <kt-choose-users  [options]="options" (IsSearch)="stopPropagation($event)"
+                            (ItemSelected)="ItemSelected2($event)">
+                        </kt-choose-users>
+                    </div>
+                </mat-menu>
+            </div>
+
+            <div style="padding-left: 5px; border: none; display: flex;">
+                <m-dynamic-search-form style="width: 290px; padding: 0 5px;"></m-dynamic-search-form>&nbsp;
+            </div>
+            <div style="align-self: center;">
+                <button class="btn-add-plus" mat-raised-button type="button" [disabled]="btnAdd" (click)="Add()"
+                    style="min-width: 37px;">
+                    <i class="fa fas fa-plus icon-add-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-toolbar">
+            <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '3' || IDDrop == '5'">
+                <button class="btn btn-pd" mat-button ngbDropdownToggle>
+                    <span class="dropdown-text"><span class="ellipse">{{labelTinhTrang}}</span>
+                        <i class="mat-select-arrow" style="padding: 0; float: right; margin-top: 10px;"></i></span>
+                </button>
+                <div ngbDropdownMenu>
+                    <div class="row" style="display: grid; margin-left: 5px !important;">
+                        <mat-checkbox value="New" (change)="changeStatus($event, 'New', 'Mới')">
+                            <span>Mới</span>
+                        </mat-checkbox><br>
+                        <mat-checkbox value="Doing" (change)="changeStatus($event, 'Doing', 'Đang làm')"
+                            *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '5'">
+                            <span>Đang làm</span>
+                        </mat-checkbox><br *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '5'">
+                        <mat-checkbox value="Doing" (change)="changeStatus($event, 'Doing', 'Đang thực hiện')"
+                            *ngIf="IDDrop == '3'">
+                            <span>Đang thực hiện</span>
+                        </mat-checkbox><br *ngIf="IDDrop == '3'">
+                        <mat-checkbox value="Done" (change)="changeStatus($event, 'Done', 'Hoàn thành')">
+                            <span>Hoàn thành</span>
+                        </mat-checkbox><br>
+                    </div>
+                    <button (click)="changeStatusAll()" class="dropdown-item">
+                        <span>Tìm kiếm</span>
+                    </button>
+                </div>               
+            </div>
+            <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '4'">
+                <button class="btn btn-pd" mat-button ngbDropdownToggle>
+                    <span class="dropdown-text"><span class="ellipse">{{labelTinhTrangDuAn}}</span>
+                        <i class="mat-select-arrow" style="padding: 0; float: right; margin-top: 15px;"></i></span>
+                </button>
+                <div ngbDropdownMenu>
+                    <div class="row" style="display: grid; margin-left: 5px !important;">
+                        <mat-checkbox *ngFor="let p of listTinhTrang"
+                            (change)="changeStatusDuAn($event, p.id_row, p.statusname)">
+                            <span>{{p.statusname}}</span><br>
+                        </mat-checkbox>
+                    </div>
+                    <button (click)="changeStatusDuAnAll()" class="dropdown-item">
+                        <span>Tìm kiếm</span>
+                    </button>
+                </div>
+            </div>
+            <span class="btn-pd svg-icon svg-icon-primary svg-icon-2x" [matMenuTriggerFor]="menu">
+                <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Other2.svg--><svg
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                    height="24px" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect x="0" y="0" width="24" height="24" />
+                        <circle fill="#000000" cx="5" cy="12" r="2" />
+                        <circle fill="#000000" cx="12" cy="12" r="2" />
+                        <circle fill="#000000" cx="19" cy="12" r="2" />
+                    </g>
+                </svg>
+                <!--end::Svg Icon-->
+            </span>
+            <mat-menu #menu="matMenu">
+                <div class="row" (click)="$event.stopPropagation();"
+                    style="width: 250px; margin: 10px 0; align-items: center;">
+                    <div class="col-md-8">Hiển thị nhiệm vụ con</div>
+                    <div class="col-4">
+                        <mat-slide-toggle [(ngModel)]="filterCongvieccon" (click)="changedCongViecCon()">
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row" (click)="$event.stopPropagation();thietlap()"
+                    style="cursor: pointer;width: 250px; margin: 10px 0; align-items: center;">
+                    <div class="col-md-12"><span>Thiết lập danh sách</span></div>
+                </div>
+                <div class="row" (click)="$event.stopPropagation();"
+                    style="width: 250px; margin: 10px 0; align-items: center;">
+                    <div class="col-md-8">Lưu tùy chọn xem</div>
+                    <div class="col-4">
+                        <!-- <mat-slide-toggle [(ngModel)]="isSearchLog" (click)="changedLog(!isSearchLog)">
+                        </mat-slide-toggle> -->
+                        <mat-checkbox [(ngModel)]="isSearchLog" (change)="changedLog($event.checked)">
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+    <div [ngStyle]="{'height': getHeight()}" style="overflow: auto;" (scroll)="onScroll($event)">
+        <!-- <div class="kt-form__filtration">
+            <div class="form-group kt-form__group row">
+                <div style="flex-grow: 1;">
+                    <div class="cong-viec-theo-du-an-list-group">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="cong-viec-theo-du-an-list cong-viec-theo-du-an-list-first">
+            <div class="task-list-header text-dark">
+                <div class="task-list-header__item task-list-header__item_main" style="flex-grow: 1;">
+                    <div class="cu-task-list-header__item-label ng-star-inserted">
+                        <span>NHIỆM VỤ</span>
+                    </div>
+                </div>
+                <div class=" cu-task-list-header__items">
+                    <div class="cu-task-list-header-field" *ngFor="let item of listField">
+                        <div class="cu-dropdown-head" style="width:100px">
+                            <div class="cu-task-list-header-field__title">
+                                <div class="cu-task-list-header-field__title-text text-center">
+                                    {{ 'filter.' + item.fieldname | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- -----------------Doan nay de tao khoang cach----------------------------- -->
+                    <div class="cu-task-list-header-field">
+                        <div class="cu-dropdown-head" style="width:100px">
+                            <div class="cu-task-list-header-field__title">
+                                <div class="cu-task-list-header-field__title-text text-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -----------------Doan nay de tao khoang cach----------------------------- -->
+
+                </div>
+            </div>
+
+            <div class="cu-task-row row" *ngFor="let node of dataLazyLoad">
+                <div class="node-item">
+                    <div class="node-title">
+                        <div class="cu-task-row__container work-flex">
+                            <div class="cu-task-row__main url ">
+                                <div class="cu-task-row-status_dot cu-task-row-status">
+                                    <div cudropdown="" class="cu-dropdown ng-star-inserted"
+                                        *ngIf="CheckRoleskeypermit('status',node.id_project_team) && CheckClosedTask(node);else norolestatus1"
+                                        [matMenuTriggerFor]="status1" (click)="statusChange(node)">
+                                        <div class="cu-task-row-status__item cu-dropdown__toggle" cudropdowntoggle=""
+                                            cupreventdefault="" tooltipmargin="10"
+                                            [ngStyle]="{'color': getColorStatus(node.id_project_team,node.status)}">
+                                        </div>
+                                    </div>
+                                    <ng-template #norolestatus1>
+                                        <div cudropdown="" class="cu-dropdown ng-star-inserted url-disabled">
+                                            <div class="cu-task-row-status__item cu-dropdown__toggle"
+                                                cudropdowntoggle="" cupreventdefault="" tooltipmargin="10"
+                                                [ngStyle]="{'color': getColorStatus(node.id_project_team,node.status)}">
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <mat-menu #status1="matMenu">
+                                        <button mat-menu-item *ngFor="let status of listDataStatus"
+                                            (click)="UpdateStatus(node,status)" [ngStyle]="{color: status.color}">
+                                            <div class="row">
+                                                <div class="jeeworkv1-row-status">
+                                                    <div class="jeeworkv1-point"
+                                                        [ngStyle]="{'backgroundColor': status.color}">
+                                                    </div>
+                                                </div>
+                                                {{status.statusname}}
+                                            </div>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                                <div class="cu-task-row-status_new" *ngIf="node.isnewchange">
+                                    <div class="icon-new-finish">
+                                        <span style="font-weight: bold; font-size: 11pt;">N</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="node.isRead" style="padding-top: 3px;margin-right: 10px;">
+                                    <div *ngFor="let uss of node.isRead_info;let index = index" class="row">
+
+                                        <div class="myDIV">
+                                            <i style="color: #DC732A;" class="far fa-eye"></i>
+                                        </div>
+                                        <div class="hide">
+                                            {{uss.fullname}} đã xem lúc
+                                            {{uss.CreatedDate}} </div>
+                                    </div>
+                                </div>
+                                <div class="cu-task-row-main">
+                                    <a class="cu-task-row-main__link hover-show-action">
+                                        <div class="cu-task-row-main__link-container row">
+                                            <div class="cu-task-row-main__link-text">
+
+                                                <input id="task{{node.id_row}}" type="text" class="form-control"
+                                                    [ngStyle]="{'display': isEdittitle == node.id_row?'block':'none'}"
+                                                    (keyup.enter)="focusOutFunction($event,node)"
+                                                    (focusout)="focusOutFunction($event,node)" [value]="node.title">
+                                                <ng-container *ngIf="isEdittitle != node.id_row">
+                                                    <span
+                                                        class=" cu-task-row-main__link-text-inner position-relative  url">
+                                                        <span class="-hover"
+                                                            (click)="OpenDetail(node)">{{node.title}}</span>
+                                                        <span class="action-inline text-muted">
+                                                            <i class="fas fa-pencil-alt" style="color: #B5B5C3;"
+                                                                *ngIf="CheckRoles(7,node.id_project_team) && CheckClosedTask(node)"
+                                                                (click)="editTitle(node.id_row)"
+                                                                matTooltip="{{ 'work.renametask' | translate }}"></i>
+                                                            <i class="fas fa-tags" style="color: #B5B5C3;"
+                                                                *ngIf="CheckRoles(20,node.id_project_team) && CheckClosedTask(node)"
+                                                                matTooltip="{{ 'work.chinhsuatag' | translate }}"
+                                                                [matMenuTriggerFor]="selecedtag"
+                                                                (menuOpened)="node.showtag = true"
+                                                                (menuClosed)="node.showtag = false"></i>
+                                                            <i class="fas flaticon2-menu-1" style="color: #B5B5C3;"
+                                                                (click)="popupTask(node)" matTooltip="Xem nhiệm vụ"></i>
+                                                        </span>
+                                                    </span>
+
+                                                    <ng-container *ngFor="let tag of node.Tags">
+                                                        <kt-cu-tag [node]="node" [tag]="tag"
+                                                            [role]="CheckRoles(20,node.id_project_team) && CheckClosedTask(node)"
+                                                            (RemoveTag)="RemoveTag(tag,node)">
+                                                        </kt-cu-tag>
+                                                    </ng-container>
+
+                                                    <mat-menu #selecedtag="matMenu">
+                                                        <ng-container *ngIf="node.showtag">
+                                                            <kt-choose-milestone-and-tags
+                                                                (click)="$event.stopPropagation()" [options]="list_Tag"
+                                                                [project_team]="project_team"
+                                                                [id_project_Team]="node.id_project_team"
+                                                                [Id]="node.id_row" [Id_key]="9" [Loai]="'Tags'"
+                                                                (ItemSelected)="ReloadData($event)">
+                                                            </kt-choose-milestone-and-tags>
+                                                        </ng-container>
+                                                    </mat-menu>
+
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <ng-container *ngFor="let item of listField">
+                                <div class="text-center url -hover box-shadow-v1" style="color: #646c9a;">
+                                    <ng-container *ngIf="item.type == 'datetime';else nosetdatetime">
+                                        <app-task-datetime-pc (valueChange)="updateDate(node,$event,item.fieldname)"
+                                            [fieldname]="item.fieldname" [value]="node[item.fieldname]"
+                                            [role]="CheckRoles(10,node.id_project_team) && CheckClosedTask(node)">
+                                        </app-task-datetime-pc>
+                                    </ng-container>
+                                    <ng-template #nosetdatetime>
+                                        <ng-container *ngIf="item.type == 'code';else noestcode">
+                                            <span class="hide-more-text item-field">
+                                                {{node[item.fieldname] ? '#' + node[item.fieldname]
+                                                : ''}}
+                                            </span>
+                                        </ng-container>
+
+                                        <ng-template #noestcode>
+                                            <ng-container [ngSwitch]="item.fieldname">
+                                                <ng-container *ngSwitchCase="'estimates'">
+                                                    <div class="w-100px h-100 d-flex" style="align-items: center;">
+                                                        <time-estimates-view style="margin:auto"
+                                                            [role]="CheckRoles(19,node.id_project_team) && CheckClosedTask(node)"
+                                                            [time]="node[item.fieldname]"
+                                                            (submit)="Updateestimates(node,$event)">
+                                                        </time-estimates-view>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'status'">
+                                                    <div class="w-100 h-100"
+                                                        *ngIf="CheckRoleskeypermit(item.fieldname,node.id_project_team) && CheckClosedTask(node); else norolestatus"
+                                                        [ngStyle]="{'backgroundColor': getColorStatus(node.id_project_team,node.status)}"
+                                                        [matMenuTriggerFor]="status" (click)="statusChange(node)">
+                                                        <div class="text-white text-uppercase cu-task-row-status-v1"
+                                                            matTooltip="{{bindStatus(node.id_project_team,node[item.fieldname])}}">
+                                                            <span
+                                                                class="hide-more-text">{{bindStatus(node.id_project_team,
+                                                                node[item.fieldname])}}</span>
+
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #norolestatus>
+                                                        <div class="w-100 h-100 url-disabled"
+                                                            [ngStyle]="{'backgroundColor': getColorStatus(node.id_project_team,node.status)}">
+                                                            <div class="text-white text-uppercase cu-task-row-status-v1"
+                                                                matTooltip="{{bindStatus(node.id_project_team,node[item.fieldname])}}">
+                                                                <span
+                                                                    class="hide-more-text">{{bindStatus(node.id_project_team,
+                                                                    node[item.fieldname])}}</span>
+
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <mat-menu #status="matMenu">
+                                                        <button mat-menu-item *ngFor="let status of listDataStatus"
+                                                            (click)="UpdateStatus(node,status)"
+                                                            [ngStyle]="{color: status.color}">
+                                                            <div class="row">
+                                                                <div class="jeeworkv1-row-status">
+                                                                    <div class="jeeworkv1-point"
+                                                                        [ngStyle]="{'backgroundColor': status.color}">
+                                                                    </div>
+                                                                </div>
+                                                                {{status.statusname}}
+                                                            </div>
+                                                        </button>
+                                                    </mat-menu>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'id_nv'">
+                                                    <div class="item-field"
+                                                        *ngIf="CheckRoleskeypermit(item.fieldname,node.id_project_team) && CheckClosedTask(node); else noroleuser">
+                                                        <ng-container
+                                                            *ngFor="let us of node.UsersInfo;let index = index">
+                                                            <div *ngIf="index < 3"
+                                                                class="user url scale-hover-02 position-relative"
+                                                                style="justify-content: flex-end;">
+                                                                <i class="far fa-times-circle url view-hover bg-white"
+                                                                    style="position: absolute;top:0;right:0;border-radius: 50%;font-size: 8pt;"
+                                                                    (click)="ItemSelected(us,node)"></i>
+                                                                <ng-container>
+                                                                    <kt-avatar-user
+                                                                        (click)="clickmenu.click();loadOptionprojectteam(node)"
+                                                                        [image]="us.image" size="25" [name]="us.hoten"
+                                                                        [chucvu]="us.jobtitle">
+                                                                    </kt-avatar-user>
+                                                                </ng-container>
+                                                            </div>
+                                                        </ng-container>
+                                                        <div matTooltip="{{ 'work.assignee' | translate }}"
+                                                            *ngIf="!node.UsersInfo || ( node.UsersInfo && node.UsersInfo.length == 0) "
+                                                            (click)="clickmenu.click();loadOptionprojectteam(node)"
+                                                            matTooltipPosition="above"
+                                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                                            <i class="fas fa-user-plus pd-0"
+                                                                style="font-size: 13px; "></i>
+                                                        </div>
+                                                        <div class="date-picker position-picker"
+                                                        [matMenuTriggerFor]="assignee" #clickmenu>
+                                                    </div>
+                                                    <mat-menu #assignee="matMenu">
+                                                        <div class="page-work-detail">
+                                                            <kt-choose-users [options]="options_assign"
+                                                                (IsSearch)="stopPropagation($event)"
+                                                                (ItemSelected)="ItemSelected($event,node)">
+                                                            </kt-choose-users>
+                                                        </div>
+                                                    </mat-menu>
+                                                    </div>
+                                                    <ng-template #noroleuser>
+                                                        <div class="item-field url-disabled">
+                                                            <ng-container
+                                                                *ngFor="let us of node.UsersInfo;let index = index">
+                                                                <div *ngIf="index < 3" class="user url-disabled"
+                                                                    style="justify-content: flex-end;">
+                                                                    <!-- <span *ngIf="node.isRead"
+                                                                    class="online"><i style="color: #DC732A;" class="far fa-eye"></i></span> -->
+                                                                    <ng-container>
+                                                                        <kt-avatar-user [image]="us.image" size="25"
+                                                                            [name]="us.hoten" [chucvu]="us.jobtitle">
+                                                                        </kt-avatar-user>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </ng-container>
+                                                            <div matTooltip="{{ 'work.assignee' | translate }}"
+                                                                *ngIf="!node.UsersInfo || ( node.UsersInfo && node.UsersInfo.length == 0) "
+                                                                matTooltipPosition="above"
+                                                                style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                                                <i class="fas fa-user-plus pd-0"
+                                                                    style="font-size: 13px; "></i>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                    
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'clickup_prioritize'">
+                                                    <div class="item-field"
+                                                        *ngIf="CheckRoleskeypermit(item.fieldname,node.id_project_team) && CheckClosedTask(node);else noroleprio"
+                                                        [matMenuTriggerFor]="priority">
+                                                        <ng-container *ngIf="node[item.fieldname]>0;else nosetprio">
+                                                            <img style="cursor: pointer;height: 20px"
+                                                                [ngClass]="get_flag_color(node[item.fieldname])">
+                                                            <!-- <i class="{{getPriority(node[item.fieldname]).icon}}"></i> -->
+                                                        </ng-container>
+                                                        <ng-template #nosetprio>
+                                                            <img class="grey-flag_list"
+                                                                style="cursor: pointer;height: 20px">
+                                                            <!-- <i class="far fa-flag pd-0" style="font-size: 13px;"></i> -->
+                                                        </ng-template>
+                                                    </div>
+                                                    <ng-template #noroleprio>
+                                                        <div class="item-field url-disabled">
+                                                            <ng-container *ngIf="node[item.fieldname]>0;else nosetprio">
+                                                                <img style="cursor: pointer;height: 20px"
+                                                                    [ngClass]="get_flag_color(node[item.fieldname])">
+                                                                <!-- <i
+                                                                    class="{{getPriority(node[item.fieldname]).icon}}"></i> -->
+                                                            </ng-container>
+                                                            <ng-template #nosetprio>
+                                                                <img class="grey-flag_list"
+                                                                    style="cursor: pointer;height: 20px">
+                                                                <!-- <i class="far fa-flag pd-0"
+                                                                    style="font-size: 13px;"></i> -->
+                                                            </ng-template>
+                                                        </div>
+                                                    </ng-template>
+                                                    <mat-menu #priority="matMenu">
+                                                        <button mat-menu-item *ngFor="let prio of list_priority"
+                                                            (click)="updatePriority(node,item.fieldname,prio.value)">
+                                                            <!-- <i class="{{prio.icon}} pd-r-10"></i> -->
+                                                            <img style="cursor: pointer;height: 20px"
+                                                                [ngClass]="get_flag_color(prio.value)">
+                                                            {{ 'priority.' + prio.name |translate }}
+                                                        </button>
+                                                    </mat-menu>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'comments'">
+                                                    <div class="item-field hide-more-text">
+                                                        <app-task-comment-v1 (submit)="this.loadDataList();"
+                                                            [id_row]="node.id_row" [value]="node[item.fieldname]"
+                                                            [task]="node">
+                                                        </app-task-comment-v1>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'createdby'">
+                                                    <div class="item-field">
+                                                        <kt-avatar-user [image]=" node[item.fieldname].image" size="25"
+                                                            [name]=" node[item.fieldname].hoten"
+                                                            [chucvu]="node[item.fieldname].jobtitle">
+                                                        </kt-avatar-user>
+                                                    </div>
+                                                </ng-container>
+
+
+                                                <ng-container *ngSwitchDefault>
+                                                    <div class="item-field">
+                                                        <span class="hide-more-text">
+                                                            {{node[item.fieldname]}}
+                                                        </span>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+
+                            <div class="text-center position-relative url -hover box-shadow-v1"
+                                style="width:100px;color: #646c9a;">
+                                <div class="cu-task-row-menu">
+                                    <div class="action-task -hover url">
+                                        <i class="fas fa-ellipsis-h" *ngIf="CheckShow(node) && CheckClosedTask(node)"
+                                            style="font-size: 18px; margin-top: 10px"
+                                            [matMenuTriggerFor]="menuline"></i>
+                                        <mat-menu #menuline="matMenu" style="padding: 0;">
+                                            <div class="card" style="border:none">
+                                                <div class="card-body pd-0">
+                                                    <button mat-menu-item color="accent" (click)="DeleteTask(node)"
+                                                        *ngIf="CheckRoles(13,node.id_project_team) && CheckClosedTask(node)">
+                                                        <mat-icon>delete</mat-icon>
+                                                        &nbsp;
+                                                        <span class="icon-custom -hover" style="font-size: 9pt"> {{
+                                                            'landingpagekey.xoa'| translate }}
+                                                        </span>
+                                                    </button>
+
+                                                    <button mat-menu-item color="accent" (click)="SaveWork(node)"
+                                                        *ngIf="this.CheckRoleskeypermit('update_storage',node.id_project_team)">
+                                                        <mat-icon>save</mat-icon>
+                                                        &nbsp;
+                                                        <span class="icon-custom -hover" style="font-size: 9pt"> {{
+                                                            'landingpagekey.luu'| translate }}
+                                                        </span>
+                                                    </button>
+
+                                                    <!-- <button mat-menu-item>
+                                                        <mat-checkbox class="example-margin p-0 "
+                                                            
+                                                            [checked]="item.closed"
+                                                            (change)="ClosedTask(node,$event.checked)">
+                                                        </mat-checkbox>
+                                                        <span (click)="$event.stopPropagation();" class="pl-3"
+                                                            style="font-size: 11pt">Đóng
+                                                           </span>
+                                                    </button> -->
+
+                                                    <button mat-menu-item color="accent" (click)="ClosedTask(node,true)"
+                                                        *ngIf="CheckRoles(7,node.id_project_team) && CheckClosedTask(node)">
+                                                        <mat-icon>close</mat-icon>
+                                                        &nbsp;
+                                                        <span class="icon-custom -hover" style="font-size: 9pt"> {{
+                                                            'landingpagekey.dong'| translate }}
+                                                        </span>
+                                                    </button>
+
+
+                                                </div>
+                                            </div>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

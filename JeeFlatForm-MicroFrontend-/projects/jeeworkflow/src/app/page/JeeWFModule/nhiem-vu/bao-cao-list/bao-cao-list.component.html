@@ -1,0 +1,342 @@
+<div class="workflow-baocao" [ngStyle]="{'height': getHeight()}">
+	<div class="row" style="padding-top: 20px;">
+		<div class="col-md-4 m--margin-bottom-10-mobile" style="align-self: center;">
+			<h2 style="text-transform: uppercase;"><span translate="workprocess.baocaotonghop"></span></h2>
+		</div>
+		<div class="col-md-4 m--margin-bottom-10-mobile">
+
+		</div>
+		<div class="col-md-4 m--margin-bottom-10-mobile" style="text-align: right;">
+			<mat-form-field appearance="fill">
+				<mat-label>Khoảng thời gian</mat-label>
+				<mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+					<input matStartDate formControlName="start" placeholder="Từ ngày"
+						(dateChange)="startChange($event)">
+					<input matEndDate formControlName="end" placeholder="Đến ngày" (dateChange)="endChange($event)">
+				</mat-date-range-input>
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-date-range-picker #picker></mat-date-range-picker>
+
+				<mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+				<mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+			</mat-form-field>
+		</div>
+	</div>
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<span class="header-color" translate="workprocess.CHUYENDOI"></span>
+			</div>
+			<div class="card-toolbar">
+				<div style="cursor: pointer;" (click)="exportExcel_thoigianhoanthanh()"><i
+						class="fa flaticon-download"></i>&nbsp;<span translate="workprocess.EXPORTEXCEL"></span></div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4 m--margin-bottom-10-mobile" style="border-right: 2px solid #edeff7;">
+					<div #container *ngIf="ShowFunnelChart"></div>
+				</div>
+				<div class="col-md-8 m--margin-bottom-10-mobile">
+					<div class="row title-thoigianhoanthanh">
+						<span translate="workprocess.thoigianhoanthanhnhiemvu"></span>
+					</div>
+					<div class="row">
+						<table class="fancyTable  table-head-bg table-borderless table-vertical-center header-grid">
+							<thead>
+								<tr class="text-left">
+									<th>
+										<span translate="workprocess.giaidoan"></span>
+									</th>
+									<th>
+										<span translate="workprocess.thoigianhoanthanh"></span>
+									</th>
+									<th>
+										<span translate="workprocess.thoigianyeucau"></span>
+									</th>
+									<th>
+										<span translate="workprocess.nhiemvu"></span>
+									</th>
+									<th>
+										<span translate="workprocess.chuyendoi"></span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="hover-row" *ngFor="let item of listHoanThanh"
+									style="border-bottom: 1px solid #edeff7;">
+									<td>
+										{{item.giaidoan}}
+									</td>
+									<td>
+										{{item.tghoanthanh}}
+									</td>
+									<td>
+										{{item.tgyeucau}}
+									</td>
+									<td>
+										{{item.nhiemvu}}
+									</td>
+									<td>
+										{{item.tyle}}%
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row m-top20">
+		<div class="col-md-8 m--margin-bottom-10-mobile" style="padding-right: 20px;">
+			<div class="card card-custom m-bottom20">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="header-color"
+							translate="workprocess.BAOCAOTHEONGUOITHUCHIENTRONGTUNGGIAIDOAN"></span>
+					</div>
+					<div class="card-toolbar">
+
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<table class="fancyTable  table-head-bg table-borderless table-vertical-center header-grid">
+							<thead>
+								<tr class="text-left">
+									<th>
+										<span translate="workprocess.thanhvien"></span>
+									</th>
+									<th>
+										<span translate="workprocess.duocgiao"></span>
+									</th>
+									<th>
+										<span translate="workprocess.tgtrungbinh"></span>
+									</th>
+									<th>
+										<span translate="workprocess.thoigianyeucau"></span>
+									</th>
+									<th>
+										<span translate="workprocess.quahan"></span>
+									</th>
+									<th>
+										<span translate="workprocess.tgquahan"></span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="hover-row" *ngFor="let item of listGD_NguoiThucHien"
+									[ngStyle]="{'background': item.Type == 0 ? '#f3f6f9' : ''}"
+									style="border-bottom: 1px solid #edeff7;">
+									<td>
+										<div class="row" *ngIf="item.Type == 0" style="font-weight: bold;">
+											{{item.GiaiDoan}}
+										</div>
+										<div style="display: flex;" *ngIf="item.Type == 1">
+											<div style="text-align: center;">
+												<ngx-avatar [size]="40" src="{{item.avatar}}"
+													*ngIf="item.avatar; else bindText">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar [size]="40" [name]="item.ten.slice(0, 1)"
+														bgColor="{{ _ProcessWorkService.getColorNameUser(item.ten.slice(0, 1)) }}">
+													</ngx-avatar>
+												</ng-template>
+											</div>
+											<div class="col-md-9 m--margin-bottom-10-mobile">
+												<div class="row">
+													{{item.hoten}}
+												</div>
+												<div class="row">
+													{{item.chucdanh}}
+												</div>
+											</div>
+										</div>
+									</td>
+									<td>
+										{{item.Type == 0 ? "" : item.solanduocgiao}}
+									</td>
+									<td>
+										{{item.Type == 0 ? "" : item.tglamtrungbinh}}
+									</td>
+									<td>
+										{{item.Type == 0 ? "" : item.tgyeucau}}
+									</td>
+									<td>
+										{{item.Type == 0 ? "" : item.solanquahan}}
+									</td>
+									<td>
+										<div class="row" *ngIf="item.Type == 0">
+											<div style="cursor: pointer;"
+												(click)="exportExcel_nguoithuchientronggiaidoan(item.IDGiaiDoan)"><i
+													class="fa flaticon-download"></i>&nbsp;<span
+													translate="workprocess.EXPORTEXCEL"></span>
+											</div>
+										</div>
+										<div class="row" *ngIf="item.Type == 1">
+											{{item.tgquahantrungbinh}}
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="card card-custom m-bottom20">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="header-color" translate="workprocess.BAOCAOTHEONGUOITHUCHIEN"></span>
+					</div>
+					<div class="card-toolbar">
+						<div style="cursor: pointer;" (click)="exportExcel_nguoithuchien()"><i
+								class="fa flaticon-download"></i>&nbsp;<span translate="workprocess.EXPORTEXCEL"></span>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<table class="fancyTable  table-head-bg table-borderless table-vertical-center header-grid">
+							<thead>
+								<tr class="text-left">
+									<th>
+										<span translate="workprocess.thanhvien"></span>
+									</th>
+									<th>
+										<span translate="workprocess.duocgiao"></span>
+									</th>
+									<th>
+										<span translate="workprocess.tgtrungbinh"></span>
+									</th>
+									<th>
+										<span translate="workprocess.tongtg"></span>
+									</th>
+									<th>
+										<span translate="workprocess.quahan"></span>
+									</th>
+									<th>
+										<span translate="workprocess.tgquahan"></span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="hover-row" *ngFor="let item of listNguoiThucHien"
+									style="border-bottom: 1px solid #edeff7;">
+									<td>
+										<div style="display: flex;">
+											<div style="text-align: center;">
+												<ngx-avatar [size]="40" src="{{item.avatar}}"
+													*ngIf="item.avatar; else bindText">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar [size]="40" [name]="item.ten.slice(0, 1)"
+														bgColor="{{ _ProcessWorkService.getColorNameUser(item.ten.slice(0, 1)) }}">
+													</ngx-avatar>
+												</ng-template>
+											</div>
+											<div class="col-md-9 m--margin-bottom-10-mobile">
+												<div class="row">
+													{{item.hoten}}
+												</div>
+												<div class="row">
+													{{item.chucdanh}}
+												</div>
+											</div>
+										</div>
+									</td>
+									<td>
+										{{item.solanduocgiao}}
+									</td>
+									<td>
+										{{item.tglamtrungbinh}}
+									</td>
+									<td>
+										{{item.tglam}}
+									</td>
+									<td>
+										{{item.solanquahan}}
+									</td>
+									<td>
+										{{item.tgquahantrungbinh}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 m--margin-bottom-10-mobile">
+			<div class="card card-custom m-bottom20">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="header-color" translate="workprocess.BAOCAOTRANGTHAINHIEMVU"></span>
+					</div>
+					<div class="card-toolbar">
+						<i style="cursor: pointer;" class="fa flaticon-download" (click)="exportExcel_trangthai()"></i>
+					</div>
+				</div>
+				<div class="card-body">
+					<div id="chart-pie" style="display: block;">
+						<canvas baseChart [data]="pieChartData" [legend]="pieChartLegend" [labels]="pieChartLabel"
+							[chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColor">
+						</canvas>
+					</div>
+
+					<div class="row">
+						<div class="col-6 row" *ngFor="let item of Trangthai" style="position: sticky;">
+							<div class="circle" [ngStyle]="{'background': item.color}">
+							</div>
+							<div class="hide-text" matTooltip={{item.giaidoan}} style="padding-left:10px">
+								{{item.giaidoan}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card card-custom m-bottom20">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="header-color" translate="workprocess.BAOCAOLYDOTHATBAI"></span>
+					</div>
+					<div class="card-toolbar">
+						<i style="cursor: pointer;" class="fa flaticon-download"
+							(click)="exportExcel_lydothatbai(0)"></i>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row" *ngFor="let item of listLyDoThatBai">
+						<div class="col-md-10 m--margin-bottom-10-mobile">
+							<i class="flaticon2-line"></i><span style="padding-left: 10px;">{{item.lydo}}</span>
+						</div>
+						<div class="col-md-2 m--margin-bottom-10-mobile">
+							<span>{{item.sl}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card card-custom mg-bt10">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="header-color" translate="workprocess.BAOCAOLYDOHOANTHANH"></span>
+					</div>
+					<div class="card-toolbar">
+						<i style="cursor: pointer;" class="fa flaticon-download"
+							(click)="exportExcel_lydothatbai(1)"></i>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row" *ngFor="let item of listLyDoHoanThanh">
+						<div class="col-md-10 m--margin-bottom-10-mobile">
+							<i class="flaticon2-line"></i><span style="padding-left: 10px;">{{item.lydo}}</span>
+						</div>
+						<div class="col-md-2 m--margin-bottom-10-mobile">
+							<span>{{item.sl}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

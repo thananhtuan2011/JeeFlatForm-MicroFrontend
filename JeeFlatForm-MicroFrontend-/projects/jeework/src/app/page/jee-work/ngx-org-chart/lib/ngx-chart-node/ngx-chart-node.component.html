@@ -1,0 +1,42 @@
+<ng-container *ngIf="type == 1">
+  <div ngClass="ngx-org-connector-{{direction}}" class="ngx-org-border" *ngIf="hasParent"></div>
+  <div [ngClass]="node?.cssClass" class="ngx-org-box ngx-org-border ngx-org-background" (click)="itemClick.emit(node)"
+    [ngStyle]="{'min-width': node.trangthai != -1 ? '327px' : '170px', 
+    'justify-content': node.trangthai != -1 ? '' : 'center'}">
+    <div>
+      <div class="ngx-org-title" *ngIf="node.trangthai == -1">{{node?.title}}</div>
+      <div class="ngx-org-title" *ngIf="node.trangthai == -1">{{node?.name}}</div>
+      <div class="ngx-org-title" *ngIf="node.trangthai != -1">{{node?.project_name}}</div>
+      <div class="ngx-org-name" *ngIf="node.trangthai != -1"><span style="font-weight: bold;">{{node?.name}}</span>&nbsp;-
+        <span style="font-weight: normal;">{{node?.chucvu}}</span>
+      </div>
+      <div class="ngx-org-title" *ngIf="node.trangthai != -1">Số điện thoại:&nbsp;{{node?.PhoneNumber}}</div>
+      <div class="ngx-org-title" *ngIf="node.trangthai != -1">Nội dung nhiệm vụ:&nbsp;{{node?.title}}</div>
+      <div class="ngx-org-title" *ngIf="node.trangthai != -1">Thời hạn hoàn thành:&nbsp;{{node ?
+        this._FormatTimeService.f_date_thuso(node.deadline) : ''}}</div>
+      <div class="ngx-org-title" *ngIf="node.trangthai != -1">Trạng thái:&nbsp;{{node?.trangthaitext}}</div>
+    </div>
+  </div>
+  <div ngClass="ngx-org-connector-{{direction}}" class="ngx-org-border" *ngIf="node?.childs?.length"></div>
+</ng-container>
+
+
+<ng-container *ngIf="type == 2">
+  <div class="ngx-org-box ngx-org-border ngx-org-background" (click)="itemClick.emit(node)"
+    style="border-color: rgb(0, 132, 255);">
+    <div>
+      <!-- [ngStyle]="{'color': node.pass ? '#ffffff' : node.color}" -->
+      <div class="ngx-org-title"><span style="font-weight: bold;">{{node?.progressText}}</span></div>
+      <div class="ngx-org-name" style="font-size: 11px; color: grey"><span>{{node?.name}}</span>&nbsp;-
+        <span style="font-weight: normal;">{{node?.chucvu}}</span>
+      </div>
+      <!-- <div class="ngx-org-title">Số điện thoại:&nbsp;{{node?.PhoneNumber}}</div> -->
+      <div class="ngx-org-title" style="font-size: 11px; color: grey">Thời gian xử lý:&nbsp;
+        {{node ? this._FormatTimeService.f_date_thuso2(node.deadline + 'Z') : ''}}
+      </div>
+      <!-- <div class="ngx-org-title" style="font-weight: bold;">Nội dung:</div>
+      <div style="font-size: 12px !important;" [innerHTML]="this.transformHtml(node?.progressText)">
+      </div> -->
+    </div>
+  </div>
+</ng-container>

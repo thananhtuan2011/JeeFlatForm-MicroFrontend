@@ -1,0 +1,313 @@
+<div class="gridster-container-jeework" [ngStyle]="{'height': getHeight()}">
+  <gridster [options]="options">
+    <gridster-item [item]="widget" *ngFor="let widget of dashboard" id="gridster-height{{ widget.id }}">
+      <div class="widget-header">
+        <div class="drag-handler widget-header-child widget-header-title">
+          {{ widget.name }}
+        </div>
+        &nbsp;&nbsp;
+        <ng-container
+          *ngIf="widget.id == 4">
+          <div class="widget-header-child" *ngIf="widget.id == 4">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ itemfilter_chart.title ? itemfilter_chart.title : 'Hình cột' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filter_chart">
+                <div class="users-container">
+                  <button mat-menu-item (click)="itemfilter_chart=item;LoadChart(item);"
+                    *ngFor="let item of filter_chart">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          &nbsp;&nbsp;
+          <div class="widget-header-child" *ngIf="widget.id == 4">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterDSThoiHanCV.name ? filterDSThoiHanCV.name : 'Chọn ' + DanhMucChungService.ts_duan
+                }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <mat-form-field class="mat-form-field-fluid " style="padding-left: 10px;width: 18vw;" (click)="stopPropagation($event)">
+                <input matInput #Input4 placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+                    autocomplete="off" (blur)="onBlur4($event)" (keyup)="keyup4($event.target.value);"/>
+                <mat-icon matPrefix> search</mat-icon>
+              </mat-form-field>
+              <div style="max-height: 250px;overflow-y:auto" *ngIf="filterDSThoiHanCV && filterDSThoiHanCV.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilter(widget, item)"
+                    *ngFor="let item of filterDSThoiHanCV.list">
+                    <span ngClass="{{item.style}}">{{ item.title_full }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+            &nbsp;
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro9.name ? filterDSvaitro9.name : 'Chọn phạm vi' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px" *ngIf="filterDSvaitro9 && filterDSvaitro9.list">
+                <div class="users-container">
+                  <button mat-menu-item (click)="clickFilterVaiTro(widget, item)"
+                    *ngFor="let item of filterDSvaitro9.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          &nbsp;
+        </ng-container>
+        <ng-container>
+
+        </ng-container>
+        <ng-container *ngIf="widget.id == 3">
+          <div class="widget-header-child" *ngIf="widget.id == 3">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="team">
+              <span>{{ filterType3.name ? filterType3.name : 'Theo công việc của tôi' }}</span>
+            </div>
+            <mat-menu #team="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="loadFilterType(widget,item)"
+                    *ngFor="let item of filterType3.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 3 && filterType3.id_row==1">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="role">
+              <span>{{ filterDSvaitro3.name ? filterDSvaitro3.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #role="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadGroup(widget,item);"
+                    *ngFor="let item of filterDSvaitro3.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 3 && filterType3.id_row==2">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="teamproject">
+              <span>{{ filterDSCVHoanThanhTrongNgay.name ? filterDSCVHoanThanhTrongNgay.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #teamproject="matMenu" xPosition="before" style="overflow:hidden">
+              <mat-form-field class="mat-form-field-fluid " style="padding-left: 10px;width:16vw" (click)="stopPropagation($event)">
+                <input matInput #Input3 placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+                    autocomplete="off" (blur)="onBlur3($event)" (keyup)="keyup3($event.target.value);"/>
+                <mat-icon matPrefix> search</mat-icon>
+              </mat-form-field>
+              <div style="max-height: 250px;overflow-y: auto;">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadProject(widget,item);"
+                    *ngFor="let item of filterDSCVHoanThanhTrongNgay.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 3">
+            <div style="margin-left: 10px; cursor: pointer" ngbDropdown
+                class="d-inline-block">
+                <div (click)="SelectFilterDate(widget)" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ selectedDate.startDate | date:'dd/MM/yyyy'}} -
+                        {{ selectedDate.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="widget.id == 2">
+          <div class="widget-header-child" *ngIf="widget.id == 2">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="filterme">
+              <span>{{ filterType2.name ? filterType2.name : 'Theo công việc của tôi' }}</span>
+            </div>
+            <mat-menu #filterme="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="loadFilterTypeNew(widget,item)"
+                    *ngFor="let item of filterType2.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 2 && filterType2.id_row==1">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="role2">
+              <span>{{ filterDSvaitro2.name ? filterDSvaitro2.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #role2="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadCVTrongNgay(widget,item);"
+                    *ngFor="let item of filterDSvaitro2.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 2 && filterType2.id_row==2">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="teamproject2">
+              <span>{{ filterDSCVNew.name ? filterDSCVNew.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #teamproject2="matMenu" xPosition="before">
+              <mat-form-field class="mat-form-field-fluid " style="padding-left: 10px;width:16vw" (click)="stopPropagation($event)">
+                <input matInput #Input2 placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+                    autocomplete="off" (blur)="onBlur2($event)" (keyup)="keyup2($event.target.value);"/>
+                <mat-icon matPrefix> search</mat-icon>
+              </mat-form-field>
+              <div style="max-height: 250px;overflow-y:auto">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadProjectNew(widget,item);"
+                    *ngFor="let item of filterDSCVNew.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 2">
+            <div style="margin-left: 10px; cursor: pointer" ngbDropdown
+                class="d-inline-block">
+                <div (click)="SelectFilterDate2(widget)" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ selectedDate2.startDate | date:'dd/MM/yyyy'}} -
+                        {{ selectedDate2.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="widget.id == 1">
+          <div class="widget-header-child" *ngIf="widget.id == 1">
+            <div class="btn btn-light" style="color: #62a4ff" [matMenuTriggerFor]="filterme">
+              <span>{{ filterType1.name ? filterType1.name : 'Theo công việc của tôi' }}</span>
+            </div>
+            <mat-menu #filterme="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="loadFilterTypeTongHop(widget,item)"
+                    *ngFor="let item of filterType1.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 1 && filterType1.id_row==1">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="type_staff">
+              <span>{{ filterDSvaitro1.name ? filterDSvaitro1.name : 'Cấp dưới trực tiếp' }}</span>
+            </div>
+            <mat-menu #type_staff="matMenu" xPosition="before">
+              <div style="max-height: 250px">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadTypeStaffTongHop(widget,item);"
+                    *ngFor="let item of filterDSvaitro1.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 1 && filterType1.id_row==2">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="teamprojectTong">
+              <span>{{ filterDSTongHop.name ? filterDSTongHop.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #teamprojectTong="matMenu" xPosition="before">
+              <mat-form-field class="mat-form-field-fluid " style="padding-left: 10px;" (click)="stopPropagation($event)">
+                <input matInput #Input1 placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+                    autocomplete="off" (blur)="onBlur($event)" (keyup)="keyup1($event.target.value);"/>
+                <mat-icon matPrefix> search</mat-icon>
+              </mat-form-field>
+              <div style="max-height: 250px;overflow-y:auto">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadProjectTongHop(widget,item);"
+                    *ngFor="let item of filterDSTongHop.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 1">
+            <div style="margin-left: 10px; cursor: pointer" ngbDropdown
+                class="d-inline-block">
+                <div (click)="SelectFilterDateTongHop(widget)" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ selectedDateTongHop.startDate | date:'dd/MM/yyyy'}} -
+                        {{ selectedDateTongHop.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="widget.id == 5">
+          <div class="widget-header-child" *ngIf="widget.id == 5">
+            <div class="btn btn-light" style="margin-left: 10px;color: #62a4ff" [matMenuTriggerFor]="teamproject5">
+              <span>{{ filterProject5.name ? filterProject5.name : 'Tất cả' }}</span>
+            </div>
+            <mat-menu #teamproject5="matMenu" xPosition="before">
+              <mat-form-field class="mat-form-field-fluid " style="padding-left: 10px;width: 16vw;" (click)="stopPropagation($event)">
+                <input matInput #Input5 placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+                    autocomplete="off" (blur)="onBlur5($event)" (keyup)="keyup5($event.target.value);"/>
+                <mat-icon matPrefix> search</mat-icon>
+              </mat-form-field>
+              <div style="max-height: 250px;overflow-y:auto">
+                <div class="users-container">
+                  <button mat-menu-item (click)="LoadProject5(widget,item);"
+                    *ngFor="let item of filterProject5.list">
+                    <span>{{ item.title }}</span>
+                  </button>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+          <div class="widget-header-child" *ngIf="widget.id == 5">
+            <div style="margin-left: 10px; cursor: pointer" ngbDropdown
+                class="d-inline-block">
+                <div (click)="SelectFilterDate5(widget)" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ selectedDate5.startDate | date:'dd/MM/yyyy'}} -
+                        {{ selectedDate5.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="widget-header-child widget-header-right">
+          <button (click)="closeWidget(widget.id)" class="btn mat-icon-button" style="padding: 0; background: none;">
+            <span class="material-icons"
+              style="font-size: 2.4rem !important; font-weight: 500; padding-bottom: 5.5px; color: #707070">
+              close
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="gridster-item-content">
+        <ndc-dynamic [ndcDynamicComponent]="widget.componentType" [ndcDynamicInputs]="getInput(widget)"
+          [ndcDynamicOutputs]="outputs"></ndc-dynamic>
+      </div>
+    </gridster-item>
+    <div id="button-edit-widget">
+      <div class="example-flex-container">
+        <button (click)="AddCloseWidget()" class="mat-mini-fab bg-button-add" matTooltip="Chọn báo cáo">
+          <i class="fa fas fa-plus icon-add-plus" style="color: #FFFFFF;"></i>
+        </button>
+      </div>
+    </div>
+  </gridster>
+</div>

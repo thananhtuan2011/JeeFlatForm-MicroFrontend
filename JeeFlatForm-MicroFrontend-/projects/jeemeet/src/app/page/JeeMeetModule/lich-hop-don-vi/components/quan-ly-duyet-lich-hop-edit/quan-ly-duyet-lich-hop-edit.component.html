@@ -1,0 +1,152 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+      <h3 class="card-label card-label-dialog">{{'QL_CUOCHOP.CUOCHOP.CHITIET' | translate}}
+      </h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="m-form m-form--group-seperator-dashed">
+      <div class="row align-items-center" *ngFor="let item of CuocHop">
+        <div class="col-md-12 m--margin-bottom-10-mobile">
+          <table class="table-borderless table-vertical-center">
+            <thead>
+              <tr>
+                <th class="p-0" [style.width]="'100px'"></th>
+                <th class="p-0" [style.min-width]="'500px'"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="pl-4 pr-4 py-4">
+                  <div class="mr-1" [ngClass]="checkClass1(item.Status)">
+                    <span [ngClass]="checkClass2(item.Status)"
+                      class="d-block font-size-lg">{{LayThu(item.BookingDate)}}</span>
+                    <span class="t d-block">{{f_convertHour2(item.FromTime)}}</span>
+                    <span class="d d-block">{{converDate(item.BookingDate)}}</span>
+                  </div>
+                </td>
+                <td class="pr-7 py-4">
+                  <span style="font-size: 18px;"
+                    class="d-block font-weight-bolder text-hover-primary">{{item.MeetingContent}}</span>
+                  <span class="text-muted font-weight-bold d-block" *ngIf="item.DiaDiem">
+                    {{'QL_CUOCHOP.DIADIEM' | translate}} :{{item.DiaDiem}}
+                  </span>
+                  <span class="text-muted font-weight-bold d-block">
+                    {{item.MeetingNote}}
+                  </span>
+                  <span class="text-muted font-weight-bold d-block" *ngIf="item.TenPhongHop">
+                    {{'QL_CUOCHOP.PHONGHOP' | translate}}: {{item.TenPhongHop}}
+                  </span>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="main-right" style="max-height: 40vh; overflow: auto;">
+          <div class="col-md-12" id="example-modal-sizes-title-lg"
+            *ngIf="item.ThanhPhanThamGia.length>0 ||item.ThanhPhanTheoDoi.length>0||item.ThanhPhanKhachMoi.length>0||item.ThanhPhanNhapTTKT.length>0">
+            <span style="
+                      font-family: Arial, Helvetica, sans-serif;
+                      font-size: 16px;
+                      font-weight: bold;">Danh sách các thành phần tham dự
+            </span>
+
+          </div>
+          <div>
+            <table class="table-file table table-bordered">
+              <ng-container
+                *ngIf="item.ThanhPhanThamGia.length>0 ||item.ThanhPhanTheoDoi.length>0||item.ThanhPhanKhachMoi.length>0||item.ThanhPhanNhapTTKT.length>0">
+                <tr style="background-color:rgba(128, 128, 128, 0.288);">
+                  <th>Loại thành phần</th>
+                  <th>Người tham dự</th>
+                </tr>
+              </ng-container>
+              <ng-container>
+                <tr *ngIf="item.ThanhPhanThamGia.length>0">
+                  <td [attr.rowspan]="item.ThanhPhanThamGia.length">Thành phần tham gia</td>
+                  <td>{{ item.ThanhPhanThamGia[0].HoTen }}</td>
+                  <!-- <ng-container *ngFor="let it of item.ThanhPhanThamGia">
+                              <td>{{ it.username }}</td>
+                              </ng-container> -->
+                </tr>
+                <ng-container *ngIf="item.ThanhPhanThamGia.length>0">
+                  <tr *ngFor="let user of item.ThanhPhanThamGia.slice(1)">
+                    <td>{{ user.HoTen }}</td>
+                  </tr>
+                </ng-container>
+                <!--  -->
+                <tr *ngIf="item.ThanhPhanTheoDoi.length>0">
+                  <td [attr.rowspan]="item.ThanhPhanTheoDoi.length">Thành phần thư ký</td>
+                  <td>{{ item.ThanhPhanTheoDoi[0].HoTen }}</td>
+                </tr>
+                <ng-container *ngIf="item.ThanhPhanTheoDoi.length>0">
+                  <tr *ngFor="let user of item.ThanhPhanTheoDoi.slice(1)">
+                    <td>{{ user.HoTen }}</td>
+                  </tr>
+                </ng-container>
+                <!--  -->
+                <tr *ngIf="item.ThanhPhanKhachMoi.length>0">
+                  <td [attr.rowspan]="item.ThanhPhanKhachMoi.length">Thành phần khách mời</td>
+                  <td>{{ item.ThanhPhanKhachMoi[0].HoTen }}</td>
+                </tr>
+                <ng-container *ngIf="item.ThanhPhanKhachMoi.length>0">
+                  <tr *ngFor="let user of item.ThanhPhanKhachMoi.slice(1)">
+                    <td>{{ user.HoTen }}</td>
+                  </tr>
+                </ng-container>
+                <!--  -->
+                <tr *ngIf="item.ThanhPhanNhapTTKT.length>0">
+                  <td [attr.rowspan]="item.ThanhPhanNhapTTKT.length">Người nhập tóm tắt kết luận</td>
+                  <td>{{ item.ThanhPhanNhapTTKT[0].HoTen }}</td>
+                </tr>
+                <ng-container *ngIf="item.ThanhPhanNhapTTKT.length>0">
+                  <tr *ngFor="let user of item.ThanhPhanNhapTTKT.slice(1)">
+                    <td>{{ user.HoTen }}</td>
+                  </tr>
+                </ng-container>
+
+              </ng-container>
+
+            </table>
+          </div>
+          <div class="col-md-12" id="example-modal-sizes-title-lg" *ngIf="item.FileDinhKem.length>0">
+            <span style="
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 16px;
+                        font-weight: bold;">Danh sách tài liệu cuộc họp
+            </span>
+
+          </div>
+          <div class="noi-dung" *ngIf="item.FileDinhKem.length>0">
+            <table class="table-file table table-bordered">
+              <ng-container>
+                <tr style="background-color:rgba(128, 128, 128, 0.288);">
+                  <th style="width:10%">{{'ComMon.STT' | translate}}</th>
+                  <th>Tên file</th>
+                </tr>
+              </ng-container>
+              <ng-container *ngFor="let it of item.FileDinhKem; let i=index">
+                <tr class="p-file-ex">
+                  <td>{{i+1}}</td>
+                  <td>{{it.TenFile}}</td>
+                </tr>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dialog-footer">
+  <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="close_ask()"
+    cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+    {{'COMMON.BACK' | translate}}
+  </button>&nbsp;&nbsp;
+
+
+</div>

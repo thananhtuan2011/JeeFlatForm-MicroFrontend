@@ -1,0 +1,50 @@
+<style>
+  .m-list-search__form-wrapper {
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+  }
+
+  .border-input {
+    height: 30px;
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+    padding-left: 10px;
+  }
+
+  ::placeholder {
+    font-style: italic;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>{{ 'JeeHR.ketnoihanet' | translate }}</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row class-text" *ngIf="this._DanhMucChungService.textHR8_4 == ''">
+      <span style="padding-bottom:15px">Hệ thống cho phép kết nối để nhận dữ liệu chấm công từ camera Al của Hanet. Nếu
+        chưa có camera và tài khoản của Hanet bạn liên hệ mua và tạo tài khoản và thực hiện bước kết nối lại
+        sau</span><br />
+      <span>Nếu đã có camera và tài khoản đăng nhập của Hanet bạn <u style="color:#0399ff">bấm vào đây</u> để tiến hành
+        kết nối. Sau khi kết nối dữ liệu chấm công từ camera Hanet của bạn sẽ được Hanet gửi tự động đến hệ thống
+        DP247.</span>
+    </div>
+    <div class="row class-text" *ngIf="this._DanhMucChungService.textHR8_4 != ''">
+      <span [innerHTML]="this._DanhMucChungService.textHR8_4 | safeHtml"></span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

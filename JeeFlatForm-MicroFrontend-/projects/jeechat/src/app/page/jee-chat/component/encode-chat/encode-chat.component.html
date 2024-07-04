@@ -1,0 +1,75 @@
+
+<div>
+    <div style="text-align:center;width: 100%;">
+        <img *ngIf="sucess" style="height: 300px;" src="../../../../../../assets/media/gif/lock.gif">
+    <img *ngIf="!sucess" style="height: 300px;" src="../../../../../../assets/media/custom/mahoa1.png">
+</div>
+    <div>
+        <div style="width: 100%;text-align: center;">
+
+       
+       <span *ngIf="!isEnCode" style="font-weight: bold;font-size: 16px;">
+        Mã hóa đầu cuối 
+      
+       </span>
+       <span *ngIf="isEnCode" style="font-weight: bold;font-size: 16px;">
+       Hội thoại đã được mã hóa
+      
+       </span>
+    </div>
+    <p style="text-align:center ;">
+        <!-- <span style="color: #26b3e2;
+        font-weight: bold;
+        padding: 3px;
+        border: 1px solid #26b3e2;
+        border-radius: 5px;">
+            AES
+        </span> -->
+    </p>
+    <div class="row">
+        <div class="col-md-1" style="padding: inherit;margin-top: 5px;">
+            <button style="width: 30px;height: 30px;" mat-mini-fab disabled aria-label="Example icon button with a home icon">
+                <mat-icon style="margin-top: -8px;font-size: 20px;">lock</mat-icon>
+              </button>
+        </div>
+        <div class="col-md-10" style="padding: inherit;">
+            
+            <span style="font-weight:bold ;">
+             Mã hóa toàn bộ tin nhắn
+            </span> 
+            <br>
+            <span>
+             Tin nhắn được mã hóa xuyên suốt khi gửi và nhận
+            </span>
+         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1" style="margin-left: -10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    ">
+            <button style="width: 30px;height: 30px;" mat-mini-fab disabled aria-label="Example icon button with a home icon">
+               <i style="margin-top: -10px;" class="far fa-eye-slash"></i>
+              </button>
+        </div>
+
+        <div class="col-md-10" style="padding: inherit;">
+            <span style="font-weight:bold ;">
+         Bảo mật nội dung tin nhắn
+            </span> 
+            <br>
+            <span>
+          Người ngoài cuộc trò chuyển (kể cả Admin) không đọc được tin nhắn
+            </span>
+         </div>
+        </div>
+      
+
+    </div>
+</div>
+<div>
+    <button *ngIf="isEnCode" (click)="HuyEncode()" style="width:225px ;margin-right: 20px" mat-flat-button color="primary">Hủy mã hóa</button>
+    <button *ngIf="!isEnCode" (click)="Submit()" style="width:225px ;margin-right: 20px" mat-flat-button color="primary">Mã hóa</button>
+    <button (click)="goBack()" style="width: 225px;background: lightgrey;" mat-flat-button >Thoát</button>
+</div>
+

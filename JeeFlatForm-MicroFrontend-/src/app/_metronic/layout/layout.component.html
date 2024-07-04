@@ -1,0 +1,32 @@
+<div class="d-flex flex-column flex-root">
+  <div class="page d-flex flex-row flex-column-fluid">
+
+    <ng-container>
+      <aside-menu-left #ktAside id="kt_aside" class="aside aside-left d-flex"
+        [ngClass]="asideCSSClasses" *ngIf="getDisplay() == 0"></aside-menu-left>
+    </ng-container>
+    <div class=" d-flex flex-column flex-row-fluid" id="kt_wrapper">
+      <div id="kt_content" class="content d-flex flex-column flex-column-fluid">
+        <ng-container *ngIf="contentExtended">
+          <router-outlet></router-outlet>
+        </ng-container>
+        <ng-container *ngIf="!contentExtended">
+          <div class="d-flex flex-column-fluid">
+            <div [ngClass]="contentContainerClasses">
+              <div id="frame">
+                <div id="sidepanel">
+                  <router-outlet></router-outlet>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-scripts-init></app-scripts-init>
+<app-profile-drawer></app-profile-drawer>
+<app-notify-drawer></app-notify-drawer>
+<app-application-drawer></app-application-drawer>

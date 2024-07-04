@@ -1,0 +1,31 @@
+<mat-card *cdkPortal class="mat-elevation-z5 tour-guide-mat-card">
+	<mat-card-content class="tour-guide-content">
+		<div class="flex-row text-center" style="text-align: justify !important;">
+			{{text}}
+		</div>
+	</mat-card-content>
+	<img *ngIf="src" mat-card-image [src]="src">
+	<mat-card-actions class="tour-guide-button">
+		<div [hidden]="position !== 'left'" class="arrow-right size">
+			<p>
+				<mat-icon class="size right">keyboard_arrow_right</mat-icon>
+			</p>
+		</div>
+		<div [hidden]="position !== 'right'" class="arrow-left">
+			<p>
+				<mat-icon class="size left">keyboard_arrow_left</mat-icon>
+			</p>
+		</div>
+		<div [hidden]="position !== 'top'" class="arrow-bottom">
+			<p>
+				<mat-icon class="size bottom">keyboard_arrow_down</mat-icon>
+			</p>
+		</div>
+		<div [hidden]="position !== 'bottom'" class="arrow-top">
+			<p>
+				<mat-icon class="size top">keyboard_arrow_up</mat-icon>
+			</p>
+		</div>
+		<button mat-stroked-button (click)="hideOverlay()"><span>Đã hiểu</span></button>
+	</mat-card-actions>
+</mat-card>

@@ -1,0 +1,43 @@
+.header-st{
+    height: 12%;
+    padding: 30px 15px;
+    border-bottom: 1px solid #0000001a;
+}
+.body-st{
+    padding: 15px 15px;
+    height: 70%;
+}
+.title{
+    font-size: 1.5rem;
+    line-height: 25px;
+    font-weight: 500;
+  }
+  .class-text {
+    font-size: 1.2rem;
+    //text-align: center;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+  .user {
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin-left: -8px;
+    background: rgba(0, 0, 0, .1);
+    border: 2px solid #f3f3f3;
+  }
+  .url {
+    cursor: pointer;
+  }
+  .text-dark {
+    color: #181c32 !important;
+  }
+  .show-more-people .background:hover {
+    opacity: .8;
+    background: #16a850;
+  }
+  .show-more-people .background {
+    opacity: .5;
+    background: #111;
+  }

@@ -1,0 +1,62 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Nhóm cuộc họp</h3>
+        </div>
+        <div class="card-toolbar">
+            <button class="jee-btn-addnew" (click)="Add()" mat-raised-button matTooltip="Thêm Mới" type="button">
+              Thêm Mới
+          </button> &nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive angular-bootstrap-table " [ngStyle]="{'height': getHeight()}">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th class=" text-center" style="min-width: 30px">
+                        <span class="fw-bold">STT</span>
+                    </th>
+                    <th style="min-width: 50px">
+                        <span class="fw-bold">Tên nhóm</span>
+                    </th>
+                    <th style="min-width: 100px; text-align: center">
+                        <span class="fw-bold">Tác vụ</span>
+                    </th>
+
+                </thead>
+                <tbody *ngIf="NhomCuocHopService.items$ | async">
+                    <tr *ngFor="let item of (NhomCuocHopService.items$ | async); let i = index;">
+                        <td class="text-center">
+                            {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                        </td>
+                        <td>
+                            <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname" (click)="xemchitietQuanLyNhomCuocHop(item)">
+                {{item.TenNhom}}
+              </span>
+                        </td>
+
+                        <td style="text-align: center">
+                            <button mat-icon-button type="button" matTooltip="Chỉnh sửa nhóm họp" (click)="Update(item)">
+                <mat-icon color="primary">create</mat-icon><span></span>
+              </button>
+                            <button mat-icon-button type="button" matTooltip="Xóa nhóm họp" (click)="Delete(item)">
+                <mat-icon color="warn">delete</mat-icon><span></span>
+              </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(NhomCuocHopService.items$ | async).length === 0">
+                <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu</div>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+
+</div>

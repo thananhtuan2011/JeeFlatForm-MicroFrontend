@@ -1,0 +1,23 @@
+.top_item{
+    height: 10vw;
+    display: block;
+}
+.top_item_home{
+    height: 35%;
+    display: block;
+}
+.bottom_item{
+    height: 75vh;
+    display: block;
+}
+.bottom_item_home{
+    height: 64%;
+    display: block;
+}
+:host {
+    height: 100%;
+  }
+  .bottom_item2{
+    height: 98vh;
+    display: block;
+}

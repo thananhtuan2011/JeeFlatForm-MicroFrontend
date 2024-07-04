@@ -1,0 +1,772 @@
+m-jeeadmin {    
+    m-yeucau-vpp-list {
+    
+        .color0 {
+            color: #eb4141
+        }
+    
+        .color1 {
+            color: #c3c2c2
+        }
+    
+        .color2 {
+            color: #fcc520
+        }
+    
+        .color4 {
+            color: #3b99f8
+        }
+    
+        .color5 {
+            color: #03c962
+        }
+    
+        .bgcolor0 {
+            background-color: #eb4141
+        }
+    
+        .bgcolor1 {
+            background-color: #c3c2c2 
+        }
+    
+        .bgcolor2 {
+            background-color: #fcc520
+        }
+    
+        .bgcolor4 {
+            background-color: #3b99f8 
+        }
+    
+        .bgcolor5 {
+            background-color: #03c962 
+        }
+
+        .btn-them {
+            background-color: #ffffff;
+            color: #3699ff;
+            border: 1.3px solid #3699ff;
+            &:hover {
+                background-color: #eaecf3;
+                color: #0e72d8;
+                border: 1.4px solid #0e72d8;
+            }
+        }
+    
+        .dot {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    
+        .tag {
+            background-color: rgb(253, 216, 216) !important;
+            color: rgb(253, 27, 27) !important;
+            border-top-right-radius: 30%;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+    
+        .list-yeucau {
+            padding-right: 0;
+            border-right: 1px solid #232424;
+            background-color: #1d1d2e !important;
+        }
+    
+        .btn-add-yeucau {
+            max-height: 38.38px;
+            width: 170px;
+        }
+    
+        .text-add-yeucau {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    
+        .dl-tabs-yeu-cau {
+            .mat-tab-list .mat-tab-label {
+                min-width: auto !important;
+                padding: 0 12px !important;
+                opacity: 1;   
+                color: #808080;   
+            }
+    
+            .mat-tab-label-active {
+                color: #f3efef !important;
+                font-weight: bold;
+            }
+    
+            .mat-tab-list .mat-ink-bar {
+              height: 2px;
+              background-color:#0069FF !important;
+            }
+    
+            .mat-tab-body-wrapper {
+              margin-top: 20px;
+            }
+        }
+    
+        .item-status {
+            width: 6px;
+            height: 100%;
+        }
+    
+        .row-item:hover {
+            background-color: #151521;
+        }
+    
+        .item-active {
+            background-color: #151521;
+        }
+    
+        .item-detail {
+            height: 80px;
+            .item-detail-title {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 11pt;
+            }
+            .item-detail-content {
+                display: flex;
+                overflow: hidden;
+                align-items: end;
+          
+            }
+        }
+    
+        .item-detail-info {
+            flex: 1;
+            padding: 5px 10px 0px 10px;
+            display: flex;
+            width: calc(100% - 20px);
+            .item-title {
+                font-size: 11pt;
+                font-weight: bold;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .item-thoigian {
+                font-size: 9pt;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-left: 20px;
+            }
+            .item-mota {
+                margin-left: 20px;
+                font-size: 9pt;
+                font-style: italic;
+                color: #b9b9b9;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+    
+            .item-image {
+                min-height: 48px;
+                display: flex;
+                justify-content: flex-end; //bỏ xác nhận
+                .avatar {
+                    // margin-left: 19px;
+                    padding-right: 10px;
+                }
+                .xacnhan {
+                    margin-left: auto;
+                }
+            }
+    
+            .item-ngaygui {
+                font-size: 9pt;
+                color: #b9b9b9;
+                text-align: right;
+                text-overflow: ellipsis;
+            }
+    
+            .xacnhan {
+                color: #FFCD07;
+            }
+            
+            .chuaxacnhan {
+                color: #cccccc;
+            }
+        }
+    
+        .mat-form-field {
+            width: 100%;
+        }
+    
+        button {
+            width: auto;
+        }
+    
+        .pd-0 {
+            padding: 0;
+        }
+
+        .btn-add-plus {
+            // button add new
+            background-color: var(--btn-add-plus);
+            color: #FFFFFF;
+        
+            .icon-add-plus {
+              color: #FFFFFF;
+            }
+        }
+    }
+
+    app-dang-ky-phong-hop {
+        .calendar-left {
+            width: 15%;
+            background-color: #1E1E2D;
+    
+            .mat-calendar{
+                .mat-calendar-content .mat-calendar-body-today{
+                    border-color: #ecbe25;
+                    color: #ecbe25;
+                }
+            }
+    
+            .mat-expansion-panel {
+                background: transparent;
+                color: #cdcdde;
+            }
+    
+            .mat-form-field-underline {
+                display: none;
+            }
+    
+            .select {
+                width: 90%;
+    
+                .mat-select-value {
+                    color: #ffffff;
+                    font-size: 15px;
+                }
+    
+                .mat-select-arrow {
+                    color: #ffffff !important;
+                }
+    
+                .mat-select-arrow-wrapper {
+                    color: #ffffff !important;
+                }
+            }
+    
+            .check {
+                margin-left: 10px;
+            }
+        }
+    
+        .calendar-right {
+            overflow: auto;
+            width: 85%;
+            background-color: #151521;
+            height: 92%;
+    
+            .app-calendar .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+                margin: 1rem;
+            }
+    
+            .app-calendar td .fc-day-today {
+                background-color: #f1d2201a;
+            }
+    
+            .app-calendar .fc-timegrid .fc-col-header-cell-cushion {
+                color: #fff;
+            }
+    
+            .app-calendar .fc-col-header-cell-cushion{
+                color: #fff;
+            }
+            
+            .app-calendar .fc-daygrid-day-number{
+                color: #fff;
+            }
+    
+            .app-calendar .fc-list-day th {
+                background-color: #1E1E2D; 
+                .fc-list-day-text {
+                    color: #fff;
+                }
+                .fc-list-day-side-text {
+                    color: #fff;
+                }
+            }
+    
+            //lịch biểu
+            .app-calendar .fc .fc-list-event:hover td {
+                background-color: #1E1E2D; 
+                color: #cdcdde;
+            }
+            .app-calendar .fc .fc-list-event td {
+                color: #404040 ; 
+            }
+    
+            .app-calendar .fc-content-col .fc-event {
+                min-height: 40px;
+            }
+    
+            .fc-theme-standard {
+                .fc-daygrid td:not(.fc-axis) {
+                    text-align: center;
+                }
+            
+                .fc-event.loai0 { //chưa xác nhận
+                    .fc-event-time { 
+                        color: #fff;
+                    }
+            
+                    .fc-event-title {
+                        color: #fff;
+                        white-space: normal;
+                    }
+            
+                    background-color: #8f9199;
+                    border-color: #8f9199;
+                }
+            
+                .fc-event.loai1 { //đã xác nhận
+                    .fc-event-time {
+                        color: #fff;
+                    }
+            
+                    .fc-event-title {
+                        color: #fff;
+                        white-space: normal;
+                    }
+            
+                    background-color: #329bc8;
+                    // border-color: #329bc8;
+                }
+            
+                .fc-event.loai-1 {
+                    .fc-event-time {
+                        color: rgb(161, 160, 160);
+                    }
+            
+                    .fc-event-title {
+                        color: rgb(161, 160, 160);
+                        white-space: normal;
+                    }
+            
+                    background-color: #E1E5EC;
+                    border-color: #E1E5EC;
+                }
+    
+                .fc-event.hideEvent {
+                    display: none !important;
+                }
+            }
+        }     
+    
+        .info-dangky {
+            padding: 5px; 
+            color: white;
+        }
+    }
+    
+    app-quan-ly-phong-hop {
+        .calendar-left {
+            width: 15%;
+            background-color: #1E1E2D;
+    
+            .mat-calendar{
+                .mat-calendar-content .mat-calendar-body-today{
+                    border-color: #ecbe25;
+                    color: #ecbe25;
+                }
+            }
+    
+            .mat-expansion-panel {
+                background: transparent;
+                color: #cdcdde;
+            }
+    
+            .mat-form-field-underline {
+                display: none;
+            }
+    
+            .select {
+                width: 90%;
+    
+                .mat-select-value {
+                    color: #ffffff;
+                    font-size: 15px;
+                }
+    
+                .mat-select-arrow {
+                    color: #ffffff !important;
+                }
+    
+                .mat-select-arrow-wrapper {
+                    color: #ffffff !important;
+                }
+            }
+    
+            .check {
+                margin-left: 10px;
+            }
+        }
+    
+        .calendar-right {
+            overflow: auto;
+            width: 85%;
+            background-color: #151521;
+            height: 92%;
+    
+            .app-calendar .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+                margin: 1rem;
+            }
+    
+            .app-calendar td .fc-day-today {
+                background-color: #f1d2201a;
+            }
+    
+            .app-calendar .fc-timegrid .fc-col-header-cell-cushion {
+                color: #fff;
+            }
+    
+            .app-calendar .fc-col-header-cell-cushion{
+                color: #fff;
+            }
+            
+            .app-calendar .fc-daygrid-day-number{
+                color: #fff;
+            }
+    
+            .app-calendar .fc-list-day th{
+                background-color: #1E1E2D; 
+                .fc-list-day-text{
+                    color: #fff;
+                }
+                .fc-list-day-side-text{
+                    color: #fff;
+                }
+            }
+    
+            .app-calendar .fc .fc-list-event:hover td{
+                background-color: #1E1E2D; 
+            }
+    
+            .app-calendar .fc-content-col .fc-event {
+                min-height: 40px;
+            }
+    
+            .fc-theme-standard {
+                .fc-daygrid td:not(.fc-axis) {
+                    text-align: center;
+                }
+            
+                .fc-event.loai0 { //chưa xác nhận
+                    .fc-event-time { 
+                        color: #fff !important;
+                    }
+            
+                    .fc-event-title {
+                        color: #fff !important;
+                        white-space: normal;
+                    }
+            
+                    background-color: #8f9199;
+                    border-color: #8f9199;
+                }
+            
+                .fc-event.loai1 { //đã hủy
+                    .fc-event-time {
+                        color: #fff;
+                    }
+            
+                    .fc-event-title {
+                        color: #fff;
+                        white-space: normal;
+                    }
+            
+                    background-color: rgb(255, 118, 118);
+                    border-color: rgb(255, 118, 118);
+                }
+            
+                .fc-event.loai-1 {
+                    .fc-event-time {
+                        color: #fff !important;
+                    }
+            
+                    .fc-event-title {
+                        color: #fff !important;
+                        white-space: normal;
+                    }
+            
+                    background-color: #e8c374;
+                    border-color: #e8c374;
+                }
+    
+                .fc-event.hideEvent {
+                    display: none !important;
+                }
+            }
+        }     
+        
+        .info-dangky {
+            padding: 5px; 
+            color: white;
+        }
+    }
+    
+    .card.card-custom > .card-header .card-title, 
+    .card.card-custom > .card-header .card-title .card-label {
+        color: #cdcdde !important;
+    }
+
+    .btn.btn-menu {
+        min-height: 38.38px;
+    }
+    
+    .menu-active {
+        background-color: #151521;
+        border-color: #151521;
+        color: #3699ff !important;
+      }
+    
+    .header-menu {
+        background-color: #1e1e2d !important;
+    }
+
+    .header {
+        height: 50px;
+        border-bottom: 1px solid #323248;
+        padding-top: 10px;
+        padding-left: 10px
+    }
+
+    .mat-table .mat-header-cell {
+        padding-right: 10px;
+        border-top: 0.5px solid #23232c !important;
+        padding-left: 10px !important;
+        font-size: 14px;
+        color: #f0f0f0;
+        font-weight: 500;
+        font-weight: bold;
+    }
+
+    .mat-header-row {
+        background-color: #1e1e2d;
+        font-weight: bold;
+        min-height: 50px;
+        border-bottom-style: none;
+    }
+
+    .mat-table .mat-cell {
+        padding-right: 10px;
+        padding-left: 10px !important;
+        color: #323232;
+        font-size: 11pt;
+    }
+
+    .mat-column-STT {
+        text-align: center !important;
+    }
+
+    .mat-header-cell {
+        white-space: nowrap;
+        z-index: 1 !important;
+    }
+
+    .mat-table__message {
+        text-align: center;
+        padding: 20px;
+        font-weight: bold;
+    }
+
+    .card.card-custom > .card-body {
+        padding: 20px;
+    }
+
+    .mat-table__wrapper {
+        overflow: auto;
+        width: 100%;
+    }
+
+    .mat-table__wrapper .mat-table .mat-header-cell {
+        padding-right: 10px;
+        border-top: 0.5px solid #323248 !important;
+        padding-left: 10px !important;
+        font-size: 14px;
+        color: #f0f0f0;
+        font-weight: 500;
+        font-weight: bold;
+    }
+
+    .mat-table__wrapper .mat-table .mat-cell {
+        padding-right: 10px;
+        padding-left: 10px !important;
+        color: #f0f0f0;
+        font-size: 11pt;
+        background: #1e1e2d;
+    }
+
+    th.mat-header-cell {
+        font-size: 14px;
+        color: #fff;
+        font-weight: 500;
+    }
+}
+
+.card {
+    background-color: #1e1e2d;
+    color: #f0f0f0;
+}
+
+.ja_button {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 1.02rem;
+    border: 0.5;
+    border-color: #D1D1D1;
+    border-radius: 3px;
+    margin: 8px 8px 8px 8px;
+}
+
+.ja_btn-koduyet { //flaticon2-delete
+    background-color: #d9534f;
+    color: #ffffff;
+    &:hover {
+        background-color: #c9443f;
+    } 
+}
+    
+.ja_btn-duyet { //flaticon2-check-mark
+    background-color: #41a0ff;
+    color: #ffffff;
+    &:hover {
+        background-color: #0e76df;
+    } 
+}
+
+.btn-addcontinue {
+    background-color: #1bc5bd !important;
+    color: #ffffff !important;
+
+    &:hover {
+        background-color: #0bb7af !important;
+    }
+}
+
+.btn-addnew {
+    background-color: #3699ff !important;
+    color: #ffffff !important;
+
+    &:hover {
+        background-color: #0e72d8 !important;
+    }
+}
+
+.ja_btn-goback {
+    background-color: #323248; //màu cho theme tối
+    color: #cdcdde; //màu cho theme tối
+
+    &:hover {
+        background-color: #383854;
+    }
+}
+
+//====================CSS FOR TEXTBOX=========================
+.ja_textbox {
+    font-family: 'Roboto';
+    max-width: 300px;
+}
+
+//Đã nhập
+body .mat-form-field {
+    .input-thuong {
+        color: #808080;
+        font-family: 'Roboto';
+    }
+
+    .input-batbuoc {
+        color: #3699FF;
+        font-family: 'Roboto';
+    }
+
+    .mat-form-field-label {
+        color: #808080;
+        font-family: 'Roboto';
+        font-size: 9pt;
+        padding: 0px 0px 5px 0px;
+    }
+
+    .mat-form-field-ripple { //underline
+        background-color: #808080;
+    }
+
+    .mat-form-field-required-marker {
+        color: #808080;
+    }
+}
+
+//Đang nhập
+body .mat-form-field.mat-focused {
+    .input-thuong {
+        color: #000000;
+    }
+
+    .input-batbuoc {
+        color: #0e72d8;
+    }
+
+    .mat-form-field-label {
+        color: #3699FF;
+    }
+
+    .mat-form-field-ripple {
+        background-color: #3699FF;
+    }
+
+    .mat-form-field-required-marker {
+        color: #3699FF;
+    }
+}
+
+//Error cho textbox bắt buộc nhập
+body .mat-form-field.mat-form-field-invalid {
+    .mat-input-element {
+        color: #f64e60;
+    }
+
+    .mat-form-field-label {
+        color: #f64e60;
+
+        .mat-form-field-required-marker {
+            color: #f64e60;
+        }
+    }
+
+    .mat-form-field-ripple {
+        background-color: #f64e60;
+    }
+}
+
+//====================CSS FOR MAT SELECT =========================
+body .mat-select-required .mat-select-value {
+    color: #3699FF !important;
+}
+
+//====================CSS FOR POPUP=========================
+.dialog-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #16a850;
+}
+
+.dialog-footer {
+    //dùng với tag div, ko dùng với tag ng-container
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}

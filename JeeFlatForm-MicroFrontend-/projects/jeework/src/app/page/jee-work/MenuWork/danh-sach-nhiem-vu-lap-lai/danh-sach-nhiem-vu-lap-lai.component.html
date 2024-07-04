@@ -1,0 +1,176 @@
+<div [ngClass]="{
+    'panel-top': idMenu != 0,
+    'panel-top-home': idMenu == 0
+  }" style="width: auto; margin: 10px; height: 100%">
+  <div>
+    <div class="row" style="padding: 10px;">
+      <div class="col" style="width: 210px">
+        <a style="
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 23px;
+            width: 20vw;
+            display: flex;
+          ">{{ "jeework.danhsach" | translate }}
+        </a>
+      </div>
+
+      <div class="col">
+        <input class="cu-search-filter__input" type="text" name="userQuestion" id="userQuestions"
+          placeholder="Tìm theo tên {{DanhMucChungService.ts_congviec}}" style="width: 80% !important; float: right"
+          (keyup.enter)="searchByKeyword($event)" />
+      </div>
+
+      <div class="col-md-2" style="width: fit-content">
+        <button class="buttonchoosethemmoi click">
+          <span style="color: white; height:24px; padding-top:5px" (click)="themMoiNhiemVuNhanh()">Thêm mới</span>
+        </button>
+      </div>
+    </div>
+
+    <span style="height: 90%; display: block">
+      <div class="height-list" style="
+          margin-right: 10px;
+          margin-left: 10px;
+          margin-bottom: 10px;
+          overflow: auto;
+        " (scroll)="onScroll($event)" id="listScroll">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+
+          <!-- Tên nhiệm vụ -->
+          <ng-container matColumnDef="tennhiemvu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ DanhMucChungService.ts_congviec_ToUpper }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+                <div style="display: flex; padding-left: 5px; font-size: 15px;"
+                  class=" position-relative hover-to-show-inline-block">
+                  <div class="cu-task-row-main__link-text">
+                    <span class="cu-task-row-main__link-text-inner position-relative url ng-star-inserted textTable "
+                      matTooltip="Ngày tạo: {{ element.CreatedDate | date : 'dd/MM/yyyy'}}">
+                      {{element.Title }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Chu kỳ lặp -->
+          <ng-container matColumnDef="chukylap">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "jeework.chukylap" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div style="display: flex; padding-left: 5px; font-size: 15px; color: rgb(62, 151, 255);
+                font-weight: 500;">
+                <span>
+                  {{getTextChuKy(element.frequency) }}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Thời gian lặp -->
+          <ng-container matColumnDef="thoigianlap">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "jeework.thoigianlap" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+                <div style="display: flex; padding-left: 5px; font-size: 15px;"
+                  class=" position-relative hover-to-show-inline-block">
+                  <div class="cu-task-row-main__link-text">
+                    <span class="cu-task-row-main__link-text-inner position-relative url ng-star-inserted textTable ">
+                      {{getTextThoiGian(element.frequency,element.repeated_day)}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span style="font-size: 11px;padding-left: 5px;color: #b5b5c3; font-style: italic;">
+                  {{element.First_StartDate | date:'dd/MM/yyyy'}} -
+                  {{element.First_EndDate | date:'dd/MM/yyyy'}}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Người giao -->
+          <ng-container matColumnDef="nguoigiao">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ DanhMucChungService.ts_phongban_ToUpper }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span style="font-weight: bold; color: #62a4ff;">{{element.DepartmentName}}</span><br />
+              <span class="name-title" style="font-weight: bold;">{{element.Assigner.FullName}} -
+                {{element.Assigner.Jobtitle}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Giao cho -->
+          <ng-container matColumnDef="duocgiaocho">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ DanhMucChungService.ts_duan_ToUpper }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span style="font-weight: bold; color: #62a4ff;">{{element.ProjectName}}</span><br />
+              <span class="name-title" style="font-weight: bold;">{{element.Assignee.FullName}} -
+                {{element.Assignee.Jobtitle}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Trạng Thái -->
+          <ng-container matColumnDef="trangthai">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "jeework.trangthai" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select [(ngModel)]="''+element.IsActive"
+                  (selectionChange)="updateTrangThai($event.value, element)">
+                  <mat-option [value]="'1'">
+                    <span translate="jeework.kichhoat"></span>
+                  </mat-option>
+                  <mat-option [value]="'0'">
+                    <span translate="jeework.vohieuhoa"></span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <!-- actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: right; padding-right: 10px;">
+              <i matTooltip="Tùy chọn" class="flaticon-more-v5" style=" font-size: 1.5rem;"
+                [matMenuTriggerFor]="menu"></i>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item style="color:red;
+                height: 100% !important;" (click)="DeleteTask(element)">
+                  <mat-icon style="margin:1px; color:red;font-size: 20px;
+                  margin: 5px 5px 0px 5px;">delete</mat-icon>
+                  <span class="icon-custom -hover" style="font-size: 13px;padding-left: 2px;">
+                    Xóa {{DanhMucChungService.ts_congviec}}
+                  </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+            (mouseout)="row.hovered = false"></tr>
+        </table>
+      </div>
+    </span>
+  </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

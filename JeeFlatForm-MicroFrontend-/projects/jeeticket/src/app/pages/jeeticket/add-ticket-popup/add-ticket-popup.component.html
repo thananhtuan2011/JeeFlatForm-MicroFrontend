@@ -1,0 +1,205 @@
+<style>
+  /* .row-cbb{
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    padding: 0 5px;
+    width: auto;
+} */
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="dialog-title"><span style="font-family: sans-serif;">Thêm mới yêu cầu hỗ trợ</span></h3>
+    </div>
+  </div>
+  <div class="card-body" [ngStyle]="{'max-height': getHeight()}" style="overflow-y: scroll;" (scroll)="onScroll($event)">
+    <div class="row" style="width:100%;height: 40px;line-height: 40px;">
+      <div class="col-md-6 btn-dp"  style="color: black;font-size:10pt;font-weight: bold;padding-left: 5px;border: none;">
+        <mat-select (selectionChange)="ChangeStageCategory1($event.value)" placeholder="Lĩnh vực" #singleSelect
+          [(ngModel)]="selectCategory1">
+          <mat-form-field class="mat-form-field-fluid " >
+            <input matInput name="search_linhvuc" (ngModelChange)="this.ChangeKeyWorkCategory1($event)"
+              [(ngModel)]="search_linhvuc" placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"/>
+            <mat-icon matPrefix> search</mat-icon>
+          </mat-form-field>
+          <mat-option *ngFor="let cate1 of filteredCategory1 | async" [value]="cate1.RowID">
+            {{ cate1.Title }}
+          </mat-option>
+        </mat-select>
+      </div>
+  
+      <div class="col-md-6 btn-dp"  style="color: black;font-size:10pt;font-weight: bold;padding-left: 5px;border: none;">
+        <mat-select (selectionChange)="ChangeStage($event.value)" placeholder="Loại yêu cầu" #singleSelect
+          [(ngModel)]="selectCategory2">
+          <mat-form-field class="mat-form-field-fluid " >
+            <input matInput name="search_yc" id="search_ycs" (ngModelChange)="ChangeKeyWorkCategory2($event)"
+              [(ngModel)]="search_yc" placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}" autocomplete="off" />
+            <mat-icon matPrefix> search</mat-icon>
+          </mat-form-field>
+          <mat-option *ngFor="let cate2 of filteredCategory2  | async" [value]="cate2.RowID">
+            {{ cate2.Title }}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+
+    <form #messageForm="ngForm" autocomplete="off">
+      <div>
+        <mat-form-field appearance="outline" class="example-full-width" style="width: 100%;">
+          <input (ngModelChange)="TitleChange($event)" required matInput [(ngModel)]="Title" name="Title"
+            [ngModelOptions]="{standalone: true}" id="txttitle" type="text" class=" row  w-100 required "
+            placeholder="Tiêu đề yêu cầu hỗ trợ">
+          <mat-error *ngIf="!Title">
+            Tiêu đề hỗ trợ <strong>bắt buộc nhập</strong>
+          </mat-error>
+        </mat-form-field>
+
+
+      </div>
+
+      <div style="padding-top: 10px;">
+        <span style="text-transform: uppercase;color: #42b814;font-weight: bold;font-size: 14px;">Mô tả yêu cầu hỗ
+          trợ</span>
+      </div>
+      <div>
+        <quill-editor [modules]="quillConfig" [(ngModel)]="Message" name="message" [ngModelOptions]="{standalone: true}"
+          [styles]="{height: '200px', BackgroundColor: 'red'}" (onFocus)="focus($event)"
+          (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)">
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button type="button" class="ql-bold"></button>
+              <button type="button" class="ql-italic"></button>
+              <button type="button" class="ql-underline"></button>
+              <button type="button" class="ql-strike"></button>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-list" value="ordered"></button>
+              <button type="button" class="ql-list" value="bullet"></button>
+              <button type="button" class="ql-indent" value="-1"></button>
+              <button type="button" class="ql-indent" value="+1"></button>
+              <select class="ql-align" [title]="'Aligment'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-blockquote"></button>
+              <button type="button" class="ql-code-block"></button>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-header" value="1"></button>
+              <button type="button" class="ql-header" value="2"></button>
+              <select class="ql-color" [title]="'Color'"></select>
+              <select class="ql-background" [title]="'BackgroundColor'"></select>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-script" value="sub"></button>
+              <button type="button" class="ql-script" value="super"></button>
+            </span>
+            <span class="ql-formats" style="margin: 0;">
+              <button type="button" class="ql-direction" value="rtl"></button>
+              <select class="ql-size" [title]="'Size'">
+                <option value="small"></option>
+                <option selected></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+              </select>
+            </span>
+
+            <span class="ql-formats" style="margin:0;">
+              <button type="button" class="ql-clean"></button>
+              <button type="button" class="ql-link"></button>
+              <button type="button" class="ql-image"></button>
+              <!-- <button type="button" class="ql-video"></button> -->
+            </span>
+          </div>
+          <div quill-editor-element class="ql-container ql-snow">
+            <div class="ql-editor ql-blank" data-gramm="false" contenteditable="true"
+              data-placeholder="Insert text here...">
+              <p class="editor-chat"><br></p>
+            </div>
+          </div>
+        </quill-editor>
+      </div>
+    </form>
+    <div style="padding:10px 0 0 0">
+      <div style="float: right;right:0">
+        <a class="action" (click)="selectFile()">
+          <i matTooltip="{{ 'topic.upload'  }}" class="las la-paperclip"></i>&nbsp;
+          <span translate="work.themtailieu"></span>
+        </a>
+        <input #myInput placeholder="Chọn file" id="imgInpdd1" type="file" name="myInput" multiple
+          style="display: none;" (change)="FileSelected($event)">
+      </div>
+      <div>
+        <span style="text-transform: uppercase;color: #42b814;font-weight: bold;font-size: 14px;">TÀI LIỆU ĐÍNH
+          KÈM</span>
+
+      </div>
+    </div>
+    <div>
+      <ng-container [ngTemplateOutlet]="tabtailieu"></ng-container>
+
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    <button type="button" (click)="goBack()" class="ja_button ja_btn-goback" mat-raised-button><span>Trở
+        lại</span></button>&nbsp;
+    <button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addnew" matTooltip="" [disabled]="this.isLoadingSubmit$ | async"
+    [class.spinner]="this.isLoadingSubmit$ | async">
+      <span>Lưu đóng</span>
+    </button>&nbsp;
+    <button type="button" (click)="onSubmit(false)" mat-raised-button class="ja_button ja_btn-addcontinue" matTooltip="" [disabled]="this.isLoadingSubmit$ | async"
+    [class.spinner]="this.isLoadingSubmit$ | async">
+    <mat-icon class="icon-repeat">repeat</mat-icon><span>Lưu và tiếp tục</span>
+    </button>
+  </div>
+</div>
+
+<ng-template #tabtailieu>
+  <div *ngFor="let att2 of AttFile;">
+
+    <table style="width: 100%;">
+      <tr>
+        <td style="width:80%; ">
+          <div style="display: flex;">
+            <img src="{{getIcon(att2.type)}}" style="height: 24px;"/>
+            <div>
+              <p>{{att2.filename}}</p>
+            </div>
+          </div>
+
+        </td>
+
+        <td style="width:20%">
+          <a style="float: right;right:0" class="url" matTooltip="Xóa" (click)="deleteFile(att2)">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+          <!-- <a style="padding-right: 7px;float: right;" class="url" matTooltip="Xem trước">
+            <i class="far fa-eye"></i>
+          </a>
+          <a style="padding-right: 7px;float: right;" class="url" matTooltip="Tải xuống">
+            <i class="fas fa-download"></i>
+          </a> -->
+
+
+        </td>
+      </tr>
+
+      <!-- <ng-template #noattach>
+        <span style="font-size:10pt;">
+          Không có tài liệu đính kèm
+        </span>
+      </ng-template> -->
+
+    </table>
+  </div>
+
+</ng-template>

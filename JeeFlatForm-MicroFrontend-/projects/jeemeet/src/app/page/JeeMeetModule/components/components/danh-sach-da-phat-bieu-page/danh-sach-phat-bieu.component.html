@@ -1,0 +1,27 @@
+<table class="table-detail-meet table">
+    <thead>
+        <tr>
+            <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}
+            </th>
+            <th style="text-align: left;">Người phát biểu</th>
+            <th style="text-align: center;">Chức vụ</th>
+            <th style="text-align: left;">Đơn vị</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="_allData">
+        <tr *ngFor="let item of _allData; let i = index;">
+            <td style="width:10%;text-align: center;">{{i+1}}</td>
+            <td style="text-align: left;">
+                <span>{{item.FullName}}</span>
+            </td>
+            <td style="text-align: center;">
+                <span>{{item.ChucVu}}</span>
+            </td>
+            <td style="text-align: left;"><span>{{item.TenPhuongXa}}</span></td>
+        </tr>
+    </tbody>
+</table>
+<!-- <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="_allData.length === 0">
+    <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+    <br /> Không có dữ liệu
+</div> -->

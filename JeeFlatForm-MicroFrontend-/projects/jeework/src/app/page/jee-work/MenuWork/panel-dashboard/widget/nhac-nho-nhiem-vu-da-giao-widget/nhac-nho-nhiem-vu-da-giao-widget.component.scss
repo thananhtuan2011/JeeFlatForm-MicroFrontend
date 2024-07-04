@@ -1,0 +1,31 @@
+.css-chu {
+  font-size: 3vh;
+  font-weight: 500;
+}
+
+.css-so {
+  font-size: 6.9vh;
+  font-weight: 500;
+  // cursor: pointer;
+}
+
+.col-md-6 {
+  margin-top: 0;
+  padding: 0;
+}
+
+.container {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(30vh, 1fr));
+  grid-template-rows: repeat(2, 15vh);
+}
+
+.w-100{
+  width: 100%;
+}
+
+.h-50{
+  height: 50%;
+}
+//

@@ -1,0 +1,181 @@
+<style>
+    ::ng-deep .sky-tooltip {
+        white-space: pre-line !important;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .user-add-widget {
+        border: 1px dashed #676363;
+        border-radius: 50%;
+        padding-top: 4px;
+        height: 30px;
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+        margin-right: 5px;
+    }
+
+    .sky-point {
+        width: 10px;
+        height: 10px;
+    }
+
+    .sky-task-row-status {
+        width: 20px;
+        align-self: center;
+        margin-right: 5px;
+    }
+</style>
+<div class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left">
+                <th style="min-width: 250px;padding-left: 10px;"><span>Tên</span>
+                </th>
+                <th>
+                    <span translate="widgets.thoihan"></span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Bình Luận</span>
+                </th>
+                <th style="min-width: 150px">
+                    <div class="row row-box text-center url">
+                        <span style="flex: 1;" translate="widgets.tinhtrang"></span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataLazyLoad">
+                <td>
+                    <div class="row mg-0 pr-5">
+                        <div class="cu-task-row-main">
+                            <a class="cu-task-row-main__link hover-show-action">
+                                <div class="cu-task-row-main__link-container row ng-0">
+                                    <div class="cu-task-row-main__link-text">
+                                        <ng-container>
+                                            <span class=" cu-task-row-main__link-text-inner position-relative">
+                                                <ng-container *ngIf="item.User?.length > 0;else chuagiao">
+                                                    <div class="user url" [ngClass]="{'mr-2': last}"
+                                                        *ngFor="let us of item.User;let last = last"
+                                                        style="justify-content: flex-end;">
+                                                        <ng-container>
+                                                            <ngx-avatar size="30" matTooltipClass="sky-tooltip"
+                                                                matTooltip="{{getMoreInformation(us)}}"
+                                                                src="{{us.image}}" *ngIf="us.image;else bindText">
+                                                            </ngx-avatar>
+                                                            <ng-template #bindText>
+                                                                <ngx-avatar textSizeRatio="2.5"
+                                                                    matTooltipClass="sky-tooltip"
+                                                                    matTooltip="{{getMoreInformation(us)}}" size="30"
+                                                                    [name]="_JeeWorkLiteService.getNameUser(us.hoten)"
+                                                                    bgColor="{{_JeeWorkLiteService.getColorNameUser(us.hoten)}}">
+                                                                </ngx-avatar>
+                                                            </ng-template>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #chuagiao>
+                                                    <div class="user-add-widget bg-white mr-2">
+                                                        <i class="fas fa-user-plus ml-1 pd-0"
+                                                            style="font-size: 13px; "></i>
+                                                    </div>
+                                                </ng-template>
+                                                <span class="url" matTooltip="Xem chi tiết" style="cursor: pointer;"
+                                                    (click)="Xemchitiet(item)">{{item.title}}</span>
+                                                <span class="border-tag url pd-5" [matMenuTriggerFor]="tag"
+                                                    *ngIf="CheckRoles(20,item.id_project_team)"
+                                                    (menuOpened)="item.loadTags = true"
+                                                    (menuClosed)="item.loadTags = false" (click)="mark_tag(item)"
+                                                    matTooltip="{{ 'work.chinhsuatag' | translate}}">
+                                                    <i class="fas fa-tags"></i>
+                                                </span>
+                                                <span class="border-tag url pd-5"
+                                                    *ngIf="!CheckRoles(20,item.id_project_team)"
+                                                    matTooltip="{{ 'work.chinhsuatag' | translate}}">
+                                                    <i class="fas fa-tags"></i>
+                                                </span>
+
+                                                <ng-container *ngFor="let tag of item.Tags">
+                                                    <kt-cu-tag-v1 class="url" [node]="item" [tag]="tag" [detail]="true"
+                                                        [role]="CheckRoles(20,item.id_project_team)"
+                                                        (loadData)="loadList()" (RemoveTag)="RemoveTag(tag,item)">
+                                                    </kt-cu-tag-v1>
+                                                </ng-container>
+                                            </span>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <mat-menu #tag="matMenu" class="sky-tags-mat-menu">
+                            <ng-container *ngIf="item.loadTags">
+                                <kt-choose-milestone-and-tags-v1 (click)="$event.stopPropagation()" [options]="list_Tag"
+                                    [project_team]="item.id_project_team" [id_project_Team]="item.id_project_team"
+                                    [Id]="item.id_row" [Id_key]="9" [Loai]="'Tags'" (ItemSelected)="loadList()">
+                                </kt-choose-milestone-and-tags-v1>
+                            </ng-container>
+                        </mat-menu>
+                    </div>
+                </td>
+                <td style="vertical-align: middle;">
+                    <app-task-datetime-pc (valueChange)="updateDate(item,$event,'deadline')" [fieldname]="'deadline'"
+                        [value]="item.deadline" [role]="CheckRoles(10,item.id_project_team) && CheckClosedTask(item)">
+                    </app-task-datetime-pc>
+                </td>
+                <td>
+                    <app-task-comment-v1 (submit)="this.loadList()" [id_row]="item.id_row" [value]="item.comments">
+                    </app-task-comment-v1>
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <ng-container
+                        *ngIf="CheckRoleskeypermit('status',item.id_project_team)  && CheckClosedTask(item); else norolestatus">
+                        <div class="box-trang-thai box-absolute-auto" [matMenuTriggerFor]="status"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}" (click)="statusChange(item)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #norolestatus>
+                        <div class="box-trang-thai box-absolute-auto"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <mat-menu #status="matMenu">
+                        <button mat-menu-item *ngFor="let status of listDataStatus" (click)="UpdateStatus(item,status)"
+                            [ngStyle]="{color: status.color}">
+                            <div style="display: flex;">
+                                <div class="sky-task-row-status" style="width:20px;padding-right:5px">
+                                    <div class="sky-point" [ngStyle]="{'backgroundColor': status.color}">
+                                    </div>
+                                </div>
+                                {{status.statusname}}
+                            </div>
+                        </button>
+                    </mat-menu>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadDataList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

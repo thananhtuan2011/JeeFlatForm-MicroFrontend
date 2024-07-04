@@ -1,0 +1,25 @@
+<span style="font-size: 12pt" [matMenuTriggerFor]="commentsmenu" (menuOpened)="showcomment = true"
+  (menuClosed)="this.submit.emit(true); showcomment = false">
+  <div class="topbar-item">
+    <div class="btn btn-icon btn-icon-mobile mr-1 pulse pulse-primary" id="kt_quick_notifications_toggle">
+      <i [ngClass]="{ Notify: value > 0 }" class="far fa-comment" style="font-size: 1.5rem"></i>
+      <span class="badge" style="top: -8px;
+      right: 8px;
+      position: inherit;" *ngIf="value > 0">{{ value }}</span>
+    </div>
+  </div>
+</span>
+<mat-menu #commentsmenu="matMenu">
+  <div (click)="$event.stopPropagation()" style="max-height: 450px; 
+    min-width: 500px; 
+    min-height: 300px">
+    <ng-container *ngIf="showcomment == true">
+      <ng-container *ngIf="topicObjectID$.asObservable() | async">
+        <app-jee-comment [appCode]="'WORK'" [showCommentDefault]="true"
+          [objectID]="topicObjectID$.asObservable() | async" (changeValue)="ChangComment($event)"
+          [isviewcomment]="isviewcomment" [iscomment]="iscomment">
+        </app-jee-comment>
+      </ng-container>
+    </ng-container>
+  </div>
+</mat-menu>

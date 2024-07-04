@@ -1,0 +1,4 @@
+  font/opentype                       otf;
+    font/truetype                       ttf;
+    application/font-woff               woff;
+    font/x-woff                         woff2;

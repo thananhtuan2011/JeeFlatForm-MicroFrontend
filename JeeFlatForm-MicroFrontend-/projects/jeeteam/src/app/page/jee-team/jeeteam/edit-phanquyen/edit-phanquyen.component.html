@@ -1,0 +1,29 @@
+<div>
+    <div style="text-align: center;">
+        <h3>Phân quyền</h3>
+        </div>
+        <hr>
+
+<div style="display: inline-flex; padding: 10px 0 10px 0;" >
+                <ngx-avatar [size]="45" src="{{data.user.Avatar }}" *ngIf="data.user.Avatar"></ngx-avatar>
+                <ngx-avatar [size]="45" [name]="data.user.Fullname.slice(0, 1)" bgColor="{{data.user.BgColor }}" *ngIf="!data.user.Avatar"></ngx-avatar>
+              
+                    <div style="display: flex;flex-direction: column;  padding-left: 12px;">
+                        <p style=" margin: 0;"  class="name">{{data.user.Fullname}}</p>
+                     
+                    </div>
+                
+            </div>
+            <br>
+<div style="    padding-left: 55px;">
+
+<mat-radio-group [(ngModel)]="valueradio" name="valueradio" aria-label="Select an option">
+    <mat-radio-button value="User">User</mat-radio-button>
+    <mat-radio-button value="Admin">Quản trị</mat-radio-button>
+  </mat-radio-group>
+</div>
+  <div style="float: right;">
+    <button  (click)="submit()" class="btn btn-primary" type="submit" style="margin-right: 10px;">{{ 'JEETEAM.LUU' | translate }}</button>
+    <button (click)="goBack()" type="button" class="btn btn-light">{{ 'JEETEAM.QUAYLAI' | translate }}</button>
+</div>
+</div>

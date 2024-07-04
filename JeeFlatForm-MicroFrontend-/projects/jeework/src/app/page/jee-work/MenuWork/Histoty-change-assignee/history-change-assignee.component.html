@@ -1,0 +1,36 @@
+<div class="card card-custom dark-background">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;" class="dialog-title"><span>{{getTitle()}}</span></h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" (click)="close()"
+                class="ja_button ja_btn-goback" mat-raised-button><span
+                    translate="landingpagekey.trolai"></span></button>
+        </div>
+    </div>
+    <div class="card-body" style="overflow: auto; max-height: 80vh;">
+        <div class="card card-custom">
+                <div style="padding:15px">
+                    <table class="tableWidget table-head-custom table-head-bg table-borderless table-vertical-center header-grid"  style="width:100%">
+                        <thead>
+                            <th class="customth" style="width: 25%;">Người chuyển xử lý</th>
+                            <th class="customth" style="width: 25%;">Người thực hiện</th>
+                            <th class="customth" style="width: 20%;">Thời gian</th>
+                            <th class="customth" style="width: 30%;">Lý do</th>
+
+                        </thead>
+                        <tbody>
+                            <tr class="customw" *ngFor="let item of dt_history">
+                                <td>{{item?.hoten}} - {{item.chucvu}}</td>
+                                <td>{{item?.hoten_nguoinhan}} - {{item?.chucvu_nguoinhan}}</td>
+                                <td>{{item ? this._FormatTimeService.f_date_thuso2(item.CreatedDate + 'Z') : ''}}</td>
+                                <td>{{item?.Note_changeAssignee}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+        </div>
+    </div>
+</div>

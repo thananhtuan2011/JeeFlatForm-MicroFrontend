@@ -1,0 +1,45 @@
+app-guide-system {
+  .card.card-custom {
+    .card-header {
+      .card-title {
+        font-weight: 500;
+      }
+    }
+
+    .card-body {}
+
+    .card-footer {
+      text-align: right;
+      padding: 1rem 2rem !important;
+    }
+  }
+
+  .class-text-home {
+    font-size: 2rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 80px;
+  }
+
+  .class-text-step {
+    font-size: 1.2rem;
+    text-align: justify;
+    line-height: 1.5;
+    margin: 20px;
+  }
+
+  /* --- Tạo khung cho table */
+  .mat-table__wrapper .mat-table .mat-header-cell {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+    font-size: 14px !important;
+    color: #f0f0f0 !important;
+    background: #151521;
+  }
+
+  .mat-table__wrapper .mat-table .mat-cell {
+    color: #f0f0f0;
+    font-size: 14px !important;
+    background: #1e1e2d;
+  }
+}

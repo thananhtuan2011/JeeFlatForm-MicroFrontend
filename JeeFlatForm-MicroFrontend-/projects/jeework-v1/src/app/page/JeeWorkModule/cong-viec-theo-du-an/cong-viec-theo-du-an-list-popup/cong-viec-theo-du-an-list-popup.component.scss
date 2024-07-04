@@ -1,0 +1,37 @@
+.icon-new-finish{
+    width: 23px;
+    height: 23px;
+    border: 1px solid red;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
+  }
+
+  .hide {
+    display: none;
+  }
+  .myDIV:hover + .hide {
+    display:flex;
+    overflow: hidden;
+    position:absolute;
+    //left: 60px;
+    left:0;
+    top:0;
+    color: black;
+    background-color: #87CEFA;
+    border-radius: 10px;
+    padding: 0 5px 0 5px;
+    z-index: 1000;
+  }
+
+  .online{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 100;
+    left: 60px;
+    top: 37px;
+  }

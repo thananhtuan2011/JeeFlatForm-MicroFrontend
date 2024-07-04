@@ -1,0 +1,765 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 style="font-size: 1.2rem; font-weight: 500; color: #48465b;" class="card-label">
+			</h3>
+		</div>
+		<div class="card-toolbar">
+			<button (click)="goBack()" class="mat-raised-button btn-trolai"
+				matTooltip="{{ 'lylichnhanvien.trolai' | translate }}" type="button">
+				<span translate="lylichnhanvien.trolai"></span>
+			</button>&nbsp;&nbsp;
+			<button (click)="xuatFile()" mat-raised-button matTooltip="{{ 'lylichnhanvien.xuatfile' | translate }}"
+			class="ja_button ja_btn-addcontinue" type="button">
+				<span translate="lylichnhanvien.xuatfile"></span>
+			</button>&nbsp;&nbsp;
+		</div>
+	</div>
+	<div class="card-body" style="max-height: 85vh;">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="row align-items-center" style="justify-content: center;">
+				<h3 class="m-form__section title" style="font-size: 24pt;"><span
+						translate="lylichnhanvien.thongtinnhanvien"></span></h3>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<h3 class="tieude">I. <span translate="lylichnhanvien.thongtincanhan"></span></h3>
+				</div>
+			</div>
+			<div class="row align-items-center" style="margin: 0;">
+				<div class="col-md-8">
+					<div class="row align-items-center">
+						<div class="col-md-12 " style="padding-left: 0px;">
+							<mat-form-field class="mat-form-field-fluid">
+								<input class="lylich" matInput placeholder="{{'lylichnhanvien.manhanvien' | translate}}"
+									formControlName="maNV" readonly="true">
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 " style="padding-left: 0px;">
+							<mat-form-field class="mat-form-field-fluid">
+								<input class="lylich" matInput placeholder="{{'lylichnhanvien.hoten' | translate}}"
+									formControlName="hoTen" readonly="true">
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 " style="padding-left: 0px;">
+							<mat-form-field class="mat-form-field-fluid">
+								<input class="lylich" matInput placeholder="{{'lylichnhanvien.ngaysinh' | translate}}"
+									formControlName="ngaySinh" readonly="true">
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 " style="padding-left: 0px;">
+							<mat-form-field class="mat-form-field-fluid">
+								<input class="lylich" matInput placeholder="{{'lylichnhanvien.gioitinh' | translate}}"
+									formControlName="gioiTinh" readonly="true">
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<img id="imgIcondd1" class="img-circle" src="{{item.Image}}" />
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.noisinh' | translate}}"
+							formControlName="noiSinh" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.dienthoai' | translate}}"
+							formControlName="diDong" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-12 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput formControlName="diaChiThuongTru"
+							placeholder="{{'lylichnhanvien.diachithuongtru' | translate}}" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-12 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput formControlName="diaChiTamTru"
+							placeholder="{{'lylichnhanvien.diachitamtru' | translate}}" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput formControlName="emailCongTy"
+							placeholder="{{'lylichnhanvien.emailcongty' | translate}}" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.sosobhxh' | translate}}"
+							formControlName="sosoBHXH" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput formControlName="tinhTrangHonNhan"
+							placeholder="{{'lylichnhanvien.tinhtranghonnhan' | translate}}" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 ">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.masothue' | translate}}"
+							formControlName="maSoThue" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-4">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.cmnd' | translate}}"
+							formControlName="cmnd" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-4">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.ngaycapcmnd' | translate}}"
+							formControlName="ngayCapCMND" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-4">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.noicapcmnd' | translate}}"
+							formControlName="noiCapCMND" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.trinhdohocvan' | translate}}"
+							formControlName="trinhDoHocVan" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.truongtotnghiep' | translate}}"
+							formControlName="truongTotNghiep" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.chuyenmon' | translate}}"
+							formControlName="chuyenMon" readonly="true">
+					</mat-form-field>
+				</div>
+
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.trinhdotinhoc' | translate}}"
+							formControlName="trinhDotinHoc" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.dantoc' | translate}}"
+							formControlName="danToc" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.tongiao' | translate}}"
+							formControlName="tonGiao" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h5 class="tieude"><span translate="lylichnhanvien.trinhdongoaingu"></span></h5>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear style="width:100%;">
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="NgoaiNgu">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 30%">
+								<span translate="lylichnhanvien.ngoaingu"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgoaiNgu}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="Bang">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 30%">
+								<span translate="lylichnhanvien.bang"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.Bang}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="GhiChu">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 30%">
+								<span translate="lylichnhanvien.ghichu"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.GhiChu}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+					</table>
+
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listTrinhDoNgoaiNgu.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h5 class="tieude"><span translate="lylichnhanvien.bangcapkhac"></span></h5>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="BangCapKhac" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear style="width:100%;">
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="TenBangCap">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tenbangcap"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.TenBangCap}}
+							</td>
+						</ng-container>
+
+						<!-- <ng-container matColumnDef="ChungChi">
+								<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+									<span translate="lylichnhanvien.chungchi"></span></th>
+								<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.ChungChi}}
+								</td>
+							</ng-container> -->
+
+						<ng-container matColumnDef="TenTruong">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tentruong"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.TenTruong}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="TenNganh">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tennganh"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.TenNganh}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NamTotNghiep">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.namtotnghiep"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NamTotNghiep}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsBCK"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsBCK"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listBangCapKhac.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h5 class="tieude"><span translate="lylichnhanvien.nguoithan"></span>&nbsp;<span
+							style="font-style: italic;" translate="lylichnhanvien.nguoithan1"></span></h5>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="NguoiThan" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear style="width:100%;">
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="HoTen">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.hoten"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.HoTen}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="QuanHe">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.quanhe"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.QuanHe}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NgaySinh">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngaysinh"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgaySinh}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NoiO">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.noio"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NoiO}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="CongViec">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.congviec"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.CongViec}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsNT"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsNT"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listNguoiThan.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieude">II. <span translate="lylichnhanvien.thongtincongviec"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-6 colauto">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.cocautochuc' | translate}}"
+							formControlName="structure" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 colauto">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.chucdanh' | translate}}"
+							formControlName="chucDanh" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row align-items-center">
+				<div class="col-md-6 colauto">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.ngaybatdau' | translate}}"
+							formControlName="ngayBD" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 colauto">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.ngaychinhthuc' | translate}}"
+							formControlName="ngayCT" readonly="true">
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 colauto">
+					<mat-form-field class="mat-form-field-fluid">
+						<input class="lylich" matInput placeholder="{{'lylichnhanvien.quanly' | translate}}"
+							formControlName="quanLy" readonly="true">
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h5 class="tieude"><span translate="lylichnhanvien.hopdong"></span></h5>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="HopDong" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear>
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="SoHD">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.sohopdong"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.SoHD}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NgayKy">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngayky"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayKy}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NgayCoHieuLuc">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngaycohieuluc"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayCoHieuLuc}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NgayHetHan">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngayhethan"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayHetHan}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NguoiKy">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.nguoiky"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NguoiKy}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsHD"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsHD"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listHopDong.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<!-- <div class="form-group row">
+					<div class="col-md-3">
+						<h3 class="tieude">III. <span translate="lylichnhanvien.quatrinhdaotao"></span></h3>
+					</div>
+				</div> -->
+			<br>
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieude">III. <span translate="lylichnhanvien.quatrinhcongtac"></span></h3>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieudecongtac"><span translate="lylichnhanvien.truockhivaocongty"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="TruocKhiVaoCongTy" matSort
+						matSortActive="id" matSortDirection="asc" matSortDisableClear style="width:100%;">
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="Tu">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tu"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.Tu}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="Den">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.den"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.Den}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="CongViec">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 30%">
+								<span translate="lylichnhanvien.congviec"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.CongViec}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NoiLamViec">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 30%">
+								<span translate="lylichnhanvien.noilamviec"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NoiLamViec}}
+							</td>
+						</ng-container>
+
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsQTCT1"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsQTCT1"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listTruocKhiVaoCongTy.length == 0"><span translate="landingpagekey.khongcodulieu"></span>
+					</div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieudecongtac"><span translate="lylichnhanvien.quatrinhcongtactaicongty"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="QuaTrinhCongTac" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear>
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="TuNgay">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tungay"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.TuNgay}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="Structure">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="landingpagekey.cocautochuc"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.Structure}}
+							</td>
+						</ng-container>
+
+						<!-- <ng-container matColumnDef="PhongBan">
+								<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+									<span translate="lylichnhanvien.phongban"></span></th>
+								<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.PhongBan}}
+								</td>
+							</ng-container> -->
+
+						<ng-container matColumnDef="ChucDanh">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.chucdanh"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.ChucDanh}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="GhiChu">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ghichu"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.GhiChu}}
+							</td>
+						</ng-container>
+
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsQTCT2"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsQTCT2"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listQuaTrinhCongTac.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieude">IV. <span translate="lylichnhanvien.quatrinhnghidaihan"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="QuaTrinhNghiDaiHan" matSort
+						matSortActive="id" matSortDirection="asc" matSortDisableClear>
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="NgayXinPhep">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngayxinphep"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayXinPhep}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="NgayNghi">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngaynghi"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayNghi}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="TongThoiGianNghi">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.tongthoigiannghi"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.TongThoiGianNghi}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="LyDo">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.lydo"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.LyDo}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="GhiChu">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ghichu"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.GhiChu}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsQTNDH"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsQTNDH"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listQuaTrinhNghiDaiHan.length == 0"><span translate="landingpagekey.khongcodulieu"></span>
+					</div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieude">V. <span translate="lylichnhanvien.khenthuongkyluat"></span></h3>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieudecongtac"><span translate="lylichnhanvien.khenthuong"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="KhenThuong" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear>
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="NgayThuong">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngaythuong"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayThuong}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="LyDo">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.lydo"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.LyDo}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="HinhThuc">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.hinhthuc"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.HinhThuc}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsKT"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsKT"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listKhenThuong.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<h3 class="tieudecongtac"><span translate="lylichnhanvien.kyluat"></span></h3>
+				</div>
+			</div>
+
+			<div class="row align-items-center" style="padding-left: 15px">
+				<div class="mat-table__wrapper" style="width:100%;">
+					<!-- Checkbox Column -->
+					<!-- Table with selection -->
+					<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+					<table mat-table class="lmat-elevation-z8" [dataSource]="KyLuat" matSort matSortActive="id"
+						matSortDirection="asc" matSortDisableClear>
+						<!-- Checkbox Column -->
+						<ng-container matColumnDef="NgayQuyetDinh">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.ngayquyendinh"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NgayQuyetDinh}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="LoiViPham">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.lydo"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.LoiViPham}}
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="HinhThucXuLy">
+							<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode" style="width: 20%">
+								<span translate="lylichnhanvien.hinhthuc"></span>
+							</th>
+							<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.HinhThucXuLy}}
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsKL"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsKL"></tr>
+					</table>
+					<div style="padding: 50px;text-align: center;" class="mat-table__message"
+						*ngIf="listKyLuat.length == 0"><span translate="landingpagekey.khongcodulieu"></span></div>
+				</div>
+			</div>
+
+			<br />
+
+		</form>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+.item-status {
+    height: 45px;
+    align-items: cente;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.box-color {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin-right: 25px;
+}
+
+.row-box {
+    align-items: center;
+    // text-align: center;
+    display: flex;
+}
+
+.row {
+    margin: 0;
+}
+
+table td {
+    padding: 0;
+}
+
+.sky-point {
+    width: 10px;
+    height: 10px;
+}
+
+.sky-task-row-status {
+    width: 20px;
+    align-self: center;
+    margin-right: 5px;
+}

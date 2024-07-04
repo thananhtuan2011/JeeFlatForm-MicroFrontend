@@ -1,0 +1,36 @@
+<style>
+	.m-mat-snackbar__close {
+		justify-content: center;
+	}
+
+	.m-mat-snackbar__message {
+		font-family: Arial, Helvetica, sans-serif;
+		margin: 8px auto;
+	}
+
+	i {
+		font-size: 4.0rem;
+	}
+
+	.msg-center {
+		justify-content: center;
+	}
+</style>
+
+<div class="m-mat-snackbar swal-pad">
+
+	<i class="far fa-check-circle b-success" *ngIf="data.meanMes==1"></i>
+	<i class="fa fa-times b-fail" *ngIf="data.meanMes==0"></i>
+	<i class="fa fa-warning b-warning" *ngIf="data.meanMes==2"></i>
+	<div class="m-mat-snackbar__message msg-center" [innerHTML]="data.message"></div>
+	<div class="m-mat-snackbar__btn">
+		<button class="btn-snackbar" *ngIf="data.showUndoButton" type="button" mat-button color="primary" (click)="onDismissWithAction()">
+			Undo
+		</button>
+	</div>
+	<div class="m-mat-snackbar__close">
+		<button class="btn-snackbar" *ngIf="data.showCloseButton" style="cursor: pointer;" (click)="onDismiss()" color="warn">
+			OK
+		</button>
+	</div>
+</div>

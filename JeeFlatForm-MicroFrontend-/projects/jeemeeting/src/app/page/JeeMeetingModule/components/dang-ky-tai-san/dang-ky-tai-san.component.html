@@ -1,0 +1,58 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 2rem 2.25rem 0 2.25rem !important;
+    }
+    
+    .card-header {
+        padding: 0.75rem 1.25rem !important;
+    }
+    
+    .card {
+        margin: 15px;
+        border-radius: 5px !important
+    }
+    
+     :host>>>.row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <button (click)="goBack()" mat-icon-button type="button">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-select [(value)]="filterPhong" placeholder="Tài sản" (selectionChange)="LoadDataDangKy()">
+                    <mat-option value="{{hv.RowID}}" *ngFor="let hv of listPhongHop">
+                        {{hv.Title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngFor="let item of types">
+                <mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked" (change)="filter(item)">
+                    {{item.Title}}
+                </mat-checkbox>
+            </div>
+            <button mat-icon-button color="warn" type="button" (click)="Before()">
+                <mat-icon style="color: white; background: #6060ec;">navigate_before</mat-icon>
+            </button>
+            <h6 style="padding-top: 8px;font-size: 14px;">{{TitleCalendar}}</h6>
+            <button mat-icon-button color="warn" type="button" (click)="Next()">
+                <mat-icon style="color: white; background: #6060ec;">navigate_next</mat-icon>
+            </button>
+        </div>
+        <!-- <div class="card-toolbar">
+            <button mat-raised-button type="button" class="ja_btn-addnew" (click)="XemPhongHuy()">
+          {{'mt.danhsachhuy' | translate}}
+            </button>
+        </div> -->
+    </div>
+    <div class="dang-ky-tai-san-meeting">
+        <div class='app-calendar'>
+            <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        </div>
+    </div>
+</div>

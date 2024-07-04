@@ -1,0 +1,72 @@
+<style>
+  .body
+  {
+    height: 100vh;
+  }
+
+  @media screen and (max-width: 1200px) and (min-width: 1000px){
+    .body
+  {
+    /* padding-left:31%;  */
+    height: 100vh;
+  }
+
+  }
+
+  @media screen and (max-width: 1000px) and (min-width: 700px){
+    .body
+  {
+    /* padding-left:40%;  */
+    height: 100vh;
+  }
+
+  }
+  h3{
+    color: #007DFA;
+  }
+  .txt
+  {
+    color: black;
+  }
+</style>
+<div id="frame"  >
+  <div id="sidepanel" style="height: 100vh;" >
+<div  class="body"
+ >
+
+    <ngb-carousel style="height: 100%;">
+      <ng-template ngbSlide>
+        <div class="wrapper">
+
+          <img *ngIf="!themdark" src="assets/media/gif/slide3.gif" alt="Random first slide">
+          <img  *ngIf="themdark"src="assets/media/gif/slide3-dark.gif" alt="Random first slide">
+        </div>
+    
+
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="wrapper">
+      
+          <img *ngIf="!themdark" src="assets/media/gif/slide2.gif" alt="Random second slide">
+          <img  *ngIf="themdark"src="assets/media/gif/slide2-dark.gif" alt="Random second slide">
+        </div>
+ 
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="wrapper">
+          <img *ngIf="!themdark" src="assets/media/gif/slide1.gif" alt="Random third slide">
+          <img  *ngIf="themdark"src="assets/media/gif/slide1-dark.gif" alt="Random third slide">
+        </div>
+   
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="wrapper">
+          <img *ngIf="!themdark" src="assets/media/gif/slide4.gif" alt="Random four slide">
+          <img  *ngIf="themdark"src="assets/media/gif/slide4-dark.gif" alt="Random four slide">
+        </div>
+        
+      </ng-template>
+    </ngb-carousel>
+    </div>
+    </div>  
+    </div>  

@@ -1,0 +1,68 @@
+<style>
+	.mat-form-field {
+		width: 100%;
+	}
+
+	.card-body {
+		padding-top: 10px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ 'JeeHR.capnhat' | translate }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.ma' | translate }}" formControlName="Code"
+									class="require" required #focusInput />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.ten' | translate }}" formControlName="Title"
+									class="require" required #focusInput />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="{{'JeeHR.capcocau' | translate}}" formControlName="CapCoCau">
+									<mat-option value="{{orgstructure.RowId}}" *ngFor="let orgstructure of listorgstructure">
+										{{orgstructure.Title}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.vitri' | translate }}" pattern="(^[1-9][0-9]*$)"
+									type="number" (keypress)="text($event)" formControlName="Vitri" class="require" required
+									#focusInput />
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

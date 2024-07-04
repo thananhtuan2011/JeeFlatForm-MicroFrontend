@@ -1,0 +1,47 @@
+<style>
+  .card-headerv2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    min-height: 70px;
+    padding: 0 2.25rem;
+    background-color: transparent;
+    border-bottom: 1px solid #EFF2F5;
+  }
+
+  .card-headerv2:first-child {
+    border-radius: calc(0.475rem - 1px) calc(0.475rem - 1px) 0 0;
+  }
+</style>
+<div class="card" id="dialog-selectday" style="background: inherit">
+  <div class="card-headerv2">
+    <span style="align-items: center; display: flex; font-size: 2vw" class="text-uppercase"
+      translate="day.chonngay"></span>
+  </div>
+  <div class="card-body" style="min-height: 150px">
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>{{ "landingpagekey.ngaybatdau" | translate }}</mat-label>
+      <input matInput [(ngModel)]="data.startDate" [max]="data.endDate" [matDatepicker]="picker" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>{{ "landingpagekey.ngayketthuc" | translate }}</mat-label>
+      <input matInput [(ngModel)]="data.endDate" [min]="data.startDate" [matDatepicker]="picker1" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="card-footer text-right">
+    <button class="mat-focus-indicator mat-button mat-raised-button mat-button-base click" style="float: right;"
+      (click)="onNoClick()">
+      <span translate="work.nothanks"></span>
+    </button>
+    <button class="mat-focus-indicator mat-button mat-raised-button mat-button-base click" [mat-dialog-close]="data"
+      cdkFocusInitial style="background-color: #1bc5bd; color: #f2fcfb; margin-right: 10px;
+      float: right;">
+      <span translate="work.ok"></span>
+    </button>
+  </div>
+</div>

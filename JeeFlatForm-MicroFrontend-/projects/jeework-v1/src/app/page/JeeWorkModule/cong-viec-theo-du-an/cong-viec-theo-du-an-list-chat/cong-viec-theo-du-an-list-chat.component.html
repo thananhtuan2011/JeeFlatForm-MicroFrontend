@@ -1,0 +1,142 @@
+<style>
+    #filter-icon {
+        background-image: url(https://cdn.jee.vn/jee-comment/icons/facebook-comment-header/filter.png);
+        background-position: -17px -467px;
+        background-size: auto;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .title-duan {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .title-duan:hover {
+        background-color: #f3f6f9;
+    }
+
+    .dropdown-item {
+        width: 100%;
+    }
+</style>
+<div class="row">
+    
+    <div class="list-cong-viec-quy-trinh" style="width: 350px">
+    
+        <div 
+          
+          >
+            <virtual-scroller    (scroll)="onScroll($event)" #scroll [items]="dataLazyLoad"  [ngStyle]="{'height': getHeight(), width: '350px'}">
+                <ng-container *ngFor="let item of scroll.viewPortItems">
+
+               
+                <div class="row-item" style="width: 340px; min-height: 80px;">
+                    <div class="item-detail row" [ngClass]="{ selected : item.id_row == DataID}">
+                        <div class="item-status box-color mr-0"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color', true)}">
+                        </div>
+                         <div  
+                                            style="justify-content: flex-end; padding-right: 10px;">
+                                            <ng-container>
+                                                <ngx-avatar size="30" matTooltip="{{item.assignee.hoten}}" src="{{item.assignee.image}}"
+                                                    *ngIf="item.assignee.image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <!-- <ngx-avatar textSizeRatio="2.5" matTooltip="{{us.hoten}}" size="30"
+                                                        [name]="us.hoten | avatar"
+                                                        bgColor="{{ us.hoten |avatar:'color' }}">
+                                                    </ngx-avatar> -->
+                                                </ng-template>
+                                            </ng-container>
+                                        </div>
+                        <div class="item-detail-info" style="display: flex;
+                        width: 270px;">
+                            <div class="item-left col-9 url pd-0" (click)="changeRoute(item)" matTooltip="Xem chi tiết">
+                                <div class="row h-100 " style="display: flex;
+                                flex-direction: column;">
+                                    <div class="item-detail-title cvchat" >
+                                        {{item.title}}
+                                    </div>
+                                    <div class="item-detail-content" style="display:flex ;">
+                                        <div style="margin-right: 20px;">
+                                            <span  [ngStyle]="{'color': getTinhtrangCV(item,'color', true)}">{{item.status_info.statusname}}</span>
+                                        </div>
+                                        <div class="item-detail-comment"  [ngStyle]="{'color': getTinhtrangCV(item,'color', true)}">
+                                            <i class="far fa-comment"
+                                            [ngStyle]="{'color': getTinhtrangCV(item,'color', true)}"></i>&nbsp;
+                                            <span
+                                                [ngStyle]="{'color':item.comments > 0 ? '#FF6A00' : ''}">{{item.comments}}
+                                            </span>
+                                        </div>
+                                        <div class="item-detail-comment" *ngIf="item.Childs?.length > 0">
+                                            <svg _ngcontent-kgs-c467="" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                                                id="svg-sprite-cu2-subtask">
+                                                <path _ngcontent-kgs-c467="" fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M2 4.5a2.5 2.5 0 113 2.45V9.5A2.5 2.5 0 007.5 12h1.55a2.5 2.5 0 110 1H7.5A3.5 3.5 0 014 9.5V6.95A2.5 2.5 0 012 4.5zM4.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 8a1.5 1.5 0 100 3 1.5 1.5 0 000-3z">
+                                                </path>
+                                            </svg>
+                                            {{item.Childs.length}}
+                                        </div>
+                                       
+                                        <!-- <div class="item-detail-tags row min-item-content" *ngIf="item.Tags.length > 0"
+                                            style="padding-left: 5px;">
+                                            <div id="scroll-container">
+                                                <div id="scroll-text">
+                                                    <ng-container *ngFor="let tag of item.Tags">
+                                                        <kt-cu-tag class="url" [role]="false" [node]="item" [tag]="tag"
+                                                            [detail]="true">
+                                                        </kt-cu-tag>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="row min-item-content" style="padding-left: 5px;"
+                                            *ngIf="item.isnewchange && isnew">
+                                            <span class="label label-danger label-inline">new</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-right text-right p-0" style="width: 170px !important;">
+                                <div class="item-right-show-content cu-task-row-assignee"
+                                    style="justify-content: flex-end;">
+                                    <!-- <ng-container *ngIf="item.assignee?.length > 0;else chuagiao">
+                                       
+                                    </ng-container>
+                                    <ng-template #chuagiao>
+                                        <div class="user bg-white mr-2"
+                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                            <i class="fas fa-user-plus ml-1 pd-0" matTooltip="Chưa có người làm"
+                                                style="font-size: 13px; "></i>
+                                        </div>
+                                    </ng-template> -->
+                                    <!-- <ng-container *ngIf="item.trehan == 1">
+                                        <i class="fa fa-exclamation-circle text-danger" style="font-size: 16px;"></i>
+                                    </ng-container> -->
+                                    <span class="item-right-craeted timechat">
+                                        {{this._FormatTimeService.format_convertDateChat(item.createddate,1,false)}}
+                                    </span>
+                                   
+                                </div>
+                                <i class="{{getPriority(item.clickup_prioritize).icon}} "
+                                style="font-size: 16px;padding-right: 10px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            </virtual-scroller>
+            <ng-container *ngIf="dataLazyLoad.length <= 0">
+                <div class="row-item" style="width: 340px; min-height: 60px;text-align: center;font-size: 13pt;">
+                    <span>Không có dữ liệu</span>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+    <!-- <router-outlet></router-outlet> -->
+</div>

@@ -1,0 +1,433 @@
+<style>
+    #filter-icon {
+        background-image: url(https://cdn.jee.vn/jee-comment/icons/facebook-comment-header/filter.png);
+        background-position: -17px -467px;
+        background-size: auto;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .title-duan {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .title-duan:hover {
+        background-color: #f3f6f9;
+    }
+
+    .dropdown-item {
+        width: 100%;
+    }
+
+    .dropdown-text {
+        display: flex;
+    }
+
+    .ellipse {
+        display: block;
+        width: 90px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background: none;
+        padding-top: 8px;
+    }
+</style>
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+    <div class="list-cong-viec-quy-trinh" style="width: 350px">
+        <div class="row">
+            <div class="col-md-6 pd-0">
+                <div style="padding: 0 10px" ngbDropdown class="d-inline-block">
+                    <button class="btn btn-pd" mat-button ngbDropdownToggle style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;">
+                        {{labelCongViec}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu>
+                        <button class="dropdown-item" *ngFor="let dt of listDropDown"
+                            (click)="changeDropDown(dt.id,dt.name)">
+                            {{dt.name}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pd-0" style="align-self: center;">
+                <span style="padding: 10px" class="svg-icon svg-icon-primary svg-icon-2x check-view"
+                    (click)="checkViewAll()">
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Double-check.svg--><svg
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                            <path
+                                d="M9.26193932,16.6476484 C8.90425297,17.0684559 8.27315905,17.1196257 7.85235158,16.7619393 C7.43154411,16.404253 7.38037434,15.773159 7.73806068,15.3523516 L16.2380607,5.35235158 C16.6013618,4.92493855 17.2451015,4.87991302 17.6643638,5.25259068 L22.1643638,9.25259068 C22.5771466,9.6195087 22.6143273,10.2515811 22.2474093,10.6643638 C21.8804913,11.0771466 21.2484189,11.1143273 20.8356362,10.7474093 L17.0997854,7.42665306 L9.26193932,16.6476484 Z"
+                                fill="#000000" fill-rule="nonzero" opacity="0.3"
+                                transform="translate(14.999995, 11.000002) rotate(-180.000000) translate(-14.999995, -11.000002) " />
+                            <path
+                                d="M4.26193932,17.6476484 C3.90425297,18.0684559 3.27315905,18.1196257 2.85235158,17.7619393 C2.43154411,17.404253 2.38037434,16.773159 2.73806068,16.3523516 L11.2380607,6.35235158 C11.6013618,5.92493855 12.2451015,5.87991302 12.6643638,6.25259068 L17.1643638,10.2525907 C17.5771466,10.6195087 17.6143273,11.2515811 17.2474093,11.6643638 C16.8804913,12.0771466 16.2484189,12.1143273 15.8356362,11.7474093 L12.0997854,8.42665306 L4.26193932,17.6476484 Z"
+                                fill="#000000" fill-rule="nonzero"
+                                transform="translate(9.999995, 12.000002) rotate(-180.000000) translate(-9.999995, -12.000002) " />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                    Đánh dấu đã xem
+                </span>
+            </div>
+        </div>
+        <div class="row-flex">
+            <div style="padding-left: 5px; border: none; display: flex;">
+                <m-dynamic-search-form style="width: 290px; padding: 5px;"></m-dynamic-search-form>&nbsp;
+            </div>
+            <div style="align-self: center;">
+                <button class="btn-add-plus" mat-raised-button type="button" [disabled]="btnAdd" (click)="Add()"
+                    style="min-width: 37px;">
+                    <i class="fa fas fa-plus icon-add-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div style="width: 100%; display: flex; padding: 10px 10px 0 0;">
+            <div class="col-md-6">
+                <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '4' && listDuAn.length > 0">
+                    <button style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                        class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{labelDuAn}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm"
+                                autocomplete="off" />
+                        </mat-form-field>
+                        <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async"
+                            (click)="changeDuAn(p)">
+                            {{p.title_full}}
+                        </button>
+                    </div>
+                </div>
+                <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '3' && listNhanVien.length > 0">
+                    <button class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{label_NV}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput [formControl]="bankFilterCtrlNhanVien" placeholder="Tìm kiếm"
+                                autocomplete="off" />
+                        </mat-form-field>
+                        <button class="dropdown-item" (click)="changeNhanVienAll()">
+                            Tất cả
+                        </button>
+                        <button class="dropdown-item" *ngFor="let p of filteredBanksNhanVien | async"
+                            (click)="changeNhanVien(p)">
+                            {{p.fullname}}
+                        </button>
+                    </div>
+                </div>
+                <div ngbDropdown class="d-inline-block"
+                    *ngIf="(IDDrop == '6' || IDDrop == '7') && listPhongBan.length > 0">
+                    <button style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                        class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{labelPhongBan}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput [formControl]="bankFilterCtrlPhongBan" placeholder="Tìm kiếm"
+                                autocomplete="off" />
+                        </mat-form-field>
+                        <button class="dropdown-item" *ngFor="let p of filteredBanksPhongBan | async"
+                            (click)="changePhongBan(p)">
+                            {{p.title}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="align-self: center; text-align: right;">
+                <div ngbDropdown class="d-inline-block"
+                    *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '3' || IDDrop == '5'">
+                    <button class="btn btn-pd" mat-button ngbDropdownToggle style="padding: 0;">
+                        <span class="dropdown-text"><span class="ellipse">{{labelTinhTrang}}</span>
+                            <i class="mat-select-arrow" style="padding: 0; float: right; margin-top: 15px;"></i></span>
+                    </button>
+                    <div ngbDropdownMenu>
+                        <div class="row" style="display: grid; margin-left: 5px !important;">
+                            <mat-checkbox value="New" (change)="changeStatus($event, 'New', 'Mới')"
+                                [checked]="checkStatus('New')">
+                                <span>Mới</span>
+                            </mat-checkbox><br>
+                            <mat-checkbox value="Doing" (change)="changeStatus($event, 'Doing', 'Đang làm')"
+                                *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '5'"
+                                [checked]="checkStatus('Doing')">
+                                <span>Đang làm</span>
+                            </mat-checkbox><br *ngIf="IDDrop == '1' || IDDrop == '2' || IDDrop == '5'">
+                            <mat-checkbox value="Doing" (change)="changeStatus($event, 'Doing', 'Đang thực hiện')"
+                                [checked]="checkStatus('Doing')" *ngIf="IDDrop == '3'">
+                                <span>Đang thực hiện</span>
+                            </mat-checkbox><br *ngIf="IDDrop == '3'">
+                            <mat-checkbox value="Done" (change)="changeStatus($event, 'Done', 'Hoàn thành')"
+                                [checked]="checkStatus('Done')">
+                                <span>Hoàn thành</span>
+                            </mat-checkbox><br>
+                        </div>
+                        <button (click)="changeStatusAll()" class="dropdown-item">
+                            <span>Tìm kiếm</span>
+                        </button>
+                    </div>
+                </div>
+                <div ngbDropdown class="d-inline-block" *ngIf="IDDrop == '4'">
+                    <button class="btn btn-pd" mat-button ngbDropdownToggle style="padding: 0;">
+                        <span class="dropdown-text"><span class="ellipse">{{labelTinhTrangDuAn}}</span>
+                            <i class="mat-select-arrow" style="padding: 0; float: right; margin-top: 15px;"></i></span>
+                    </button>
+                    <div ngbDropdownMenu>
+                        <div class="row" style="display: grid; margin-left: 5px !important;">
+                            <mat-checkbox *ngFor="let p of listTinhTrang" [checked]="checkStatusDuAn(p.id_row)"
+                                (change)="changeStatusDuAn($event, p.id_row, p.statusname)">
+                                <span>{{p.statusname}}</span><br>
+                            </mat-checkbox>
+                        </div>
+                        <button (click)="changeStatusDuAnAll()" class="dropdown-item">
+                            <span>Tìm kiếm</span>
+                        </button>
+                    </div>
+                </div>
+                <span class="svg-icon svg-icon-primary svg-icon-2x" [matMenuTriggerFor]="menu">
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Other2.svg--><svg
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" cx="5" cy="12" r="2" />
+                            <circle fill="#000000" cx="12" cy="12" r="2" />
+                            <circle fill="#000000" cx="19" cy="12" r="2" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+                <mat-menu #menu="matMenu">
+                    <div class="row" (click)="$event.stopPropagation();" style="width: 250px;">
+                        <div class="col-md-8">Hiển thị nhiệm vụ con</div>
+                        <div class="col-4">
+                            <mat-slide-toggle [(ngModel)]="filterCongvieccon" (change)="changedCongViecCon($event)">
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                </mat-menu>
+            </div>
+        </div>
+
+        <div style="width: 100%; display: flex; padding: 10px 10px 0 0;"
+            *ngIf="(IDDrop == '4' && +idDuAn > 0) || (IDDrop == '6' || IDDrop == '7')">
+            <div class="col-md-6" *ngIf="(IDDrop == '6' || IDDrop == '7') && +idDuAn < 0 && listNhanVienPB.length > 0">
+                <div ngbDropdown class="d-inline-block">
+                    <button style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                        class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{labelNhanVienPB}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput [formControl]="bankFilterCtrlNhanVienPB" placeholder="Tìm kiếm"
+                                autocomplete="off" />
+                        </mat-form-field>
+                        <button class="dropdown-item" *ngFor="let p of filteredBanksNhanVienPB | async"
+                            (click)="changeNhanVienPB(p)">
+                            {{p.fullname}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Start Thiên bổ sung ngày 6/1/23 -->
+            <div class="col-md-6" *ngIf="(IDDrop == '6' || IDDrop == '7') && +idDuAn >= 0 && listDuAn.length > 0">
+                <div ngbDropdown class="d-inline-block">
+                    <button style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                        class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{labelDuAn}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <mat-form-field class="mat-form-field-fluid ">
+                            <input matInput [formControl]="bankFilterCtrlDuAn" placeholder="Tìm kiếm"
+                                autocomplete="off" />
+                        </mat-form-field>
+                        <button class="dropdown-item" *ngFor="let p of filteredBanksDuAn | async"
+                            (click)="changeDuAnTheoPhongBan(p)">
+                            {{p.title}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- End Thiên bổ sung ngày 6/1/23 -->
+            <div class="col-md-6">
+                <div ngbDropdown class="d-inline-block">
+                    <button style="overflow: hidden; 
+                    text-overflow: ellipsis;max-width: 160px; white-space: nowrap; text-align: left;"
+                        class="btn btn-pd btn-list" mat-button ngbDropdownToggle>
+                        {{labelTienDo}}
+                        <i class="mat-select-arrow" style="padding: 0;"></i>
+                    </button>
+                    <div ngbDropdownMenu style="max-height: 300px; overflow-y: scroll;">
+                        <button class="dropdown-item" (click)="changeTienDo('0','Tất cả')">
+                            Tất cả
+                        </button>
+                        <button class="dropdown-item" (click)="changeTienDo('1','Hoàn thành')">
+                            Hoàn thành
+                        </button>
+                        <button class="dropdown-item" (click)="changeTienDo('2','Đang thực hiện trong hạn')">
+                            Đang thực hiện trong hạn
+                        </button>
+                        <button class="dropdown-item" (click)="changeTienDo('3',' Sắp tới hạn')">
+                            Sắp tới hạn
+                        </button>
+                        <button class="dropdown-item" (click)="changeTienDo('4','Tới hạn')">
+                            Tới hạn
+                        </button>
+                        <button class="dropdown-item" (click)="changeTienDo('5','Quá hạn')">
+                            Quá hạn
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div [ngStyle]="{'height': getHeight()}"
+            style="width: 100%; overflow-y: auto; overflow-x: hidden;margin-top: 10px; padding-left: 5px;"
+            (scroll)="onScroll($event)">
+            <ng-container *ngFor="let item of dataLazyLoad">
+                <div class="row-item" style="width: 340px; min-height: 80px;">
+                    <div class="item-detail row" [ngClass]="{ selected : item.id_row == DataID}">
+                        <div class="item-status box-color mr-0"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color', true)}">
+                        </div>
+                        <div class="item-detail-info">
+                            <div class="item-left col-9 url pd-0" (click)="changeRoute(item)" matTooltip="Xem chi tiết">
+                                <div class="row" style="height:90%">
+                                    <div class="item-detail-title">
+                                        {{item.title}}
+                                    </div>
+                                    <div class="item-detail-content">
+                                        <div class="item-detail-comment" *ngIf="item.isRead" style="margin-right: 5px;">
+                                            <div *ngFor="let uss of item.isRead_info;let index = index" class="row">
+                                                <div class="myDIV">
+                                                    <i style="color: #DC732A;" class="far fa-eye"></i>
+                                                </div>
+                                                <div class="hide">
+                                                    {{uss.fullname}} đã xem lúc
+                                                    {{uss.CreatedDate}} </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-detail-comment">
+                                            <i class="far fa-comment"
+                                                [ngStyle]="{'color':item.comments > 0 ? '#FF6A00' : ''}"></i>&nbsp;
+                                            <span
+                                                [ngStyle]="{'color':item.comments > 0 ? '#FF6A00' : ''}">{{item.comments}}
+                                            </span>
+                                        </div>
+                                        <div class="item-detail-comment" *ngIf="item.deadline">
+                                            &nbsp;
+                                            <i class="far flaticon-clock-1"
+                                                [ngStyle]="{'color':item.hoanthanh > 0 ? '#7E8299' : getColorDeadline(item)}"></i>&nbsp;
+                                            <span
+                                                [ngStyle]="{'color':item.hoanthanh > 0 ? '#7E8299' : getColorDeadline(item)}">{{getDeadline(item)}}
+                                            </span>
+                                        </div>
+                                        <!-- <div class="item-detail-comment" *ngIf="item.Childs?.length > 0">
+                                            <svg _ngcontent-kgs-c467="" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                                                id="svg-sprite-cu2-subtask">
+                                                <path _ngcontent-kgs-c467="" fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M2 4.5a2.5 2.5 0 113 2.45V9.5A2.5 2.5 0 007.5 12h1.55a2.5 2.5 0 110 1H7.5A3.5 3.5 0 014 9.5V6.95A2.5 2.5 0 012 4.5zM4.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 8a1.5 1.5 0 100 3 1.5 1.5 0 000-3z">
+                                                </path>
+                                            </svg>
+                                            {{item.Childs.length}}
+                                        </div> -->
+                                        <!-- <div class="item-detail-tags row min-item-content" *ngIf="item.Tags.length > 0"
+                                            style="padding-left: 5px;">
+                                            <div id="scroll-container">
+                                                <div id="scroll-text">
+                                                    <ng-container *ngFor="let tag of item.Tags">
+                                                        <kt-cu-tag class="url" [role]="false" [node]="item" [tag]="tag"
+                                                            [detail]="true">
+                                                        </kt-cu-tag>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="row-flex min-item-content" style="padding-left: 5px;"
+                                            *ngIf="item.estimates">
+                                            <i style="font-size: 13px; padding-top: 2px;"
+                                                class="fa fa-hourglass-o "></i>
+                                            &nbsp;
+                                            {{item.estimates}} giờ
+                                        </div>
+                                        <div class="row min-item-content" style="padding-left: 5px;"
+                                            *ngIf="item.isnewchange && isnew">
+                                            <span class="label label-danger label-inline">new</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-right text-right p-0">
+                                <div class="item-right-show-content cu-task-row-assignee"
+                                    style="justify-content: flex-end;">
+                                    <ng-container *ngIf="item.UsersInfo?.length > 0;else chuagiao">
+                                        <div class="user url" *ngFor="let us of item.UsersInfo;let last = last"
+                                            style="justify-content: flex-end;">
+                                            <ng-container>
+                                                <ngx-avatar size="30" matTooltipClass="sky-tooltip"
+                                                    matTooltip="{{getMoreInformation(us)}}" src="{{us.image}}"
+                                                    *ngIf="us.image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" matTooltipClass="sky-tooltip"
+                                                        matTooltip="{{getMoreInformation(us)}}" size="30"
+                                                        [name]="us.hoten | avatar"
+                                                        bgColor="{{ us.hoten |avatar:'color' }}">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #chuagiao>
+                                        <div class="user bg-white mr-2"
+                                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; ">
+                                            <i class="fas fa-user-plus ml-1 pd-0" matTooltip="Chưa có người làm"
+                                                style="font-size: 13px; "></i>
+                                        </div>
+                                    </ng-template>
+                                    <!-- <ng-container *ngIf="item.trehan == 1">
+                                        <i class="fa fa-exclamation-circle text-danger" style="font-size: 16px;"></i>
+                                    </ng-container> -->
+                                    <img style="cursor: pointer;height: 20px"
+                                        [ngClass]="get_flag_color(item.clickup_prioritize)">
+                                    <!-- <i class="{{getPriority(item.clickup_prioritize).icon}} ml-3"
+                                        style="font-size: 16px;"></i> -->
+                                </div>
+                                <div class="item-right-craeted">
+                                    {{this._FormatTimeService.format_convertDate_W(item.ngaygiao,1,false)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="dataLazyLoad.length <= 0">
+                <div class="row-item" style="width: 340px; min-height: 60px;text-align: center;font-size: 13pt;">
+                    <span>Không có dữ liệu</span>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+    <router-outlet></router-outlet>
+</div>

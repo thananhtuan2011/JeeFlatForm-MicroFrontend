@@ -1,0 +1,86 @@
+<style>
+  .m-list-search__form-wrapper {
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+  }
+
+  .border-input {
+    height: 30px;
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+    padding-left: 10px;
+  }
+
+  ::placeholder {
+    font-style: italic;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>{{ 'JeeHR.cauhinhchamcongwifi' | translate }}</h3>
+    </div>
+    <div class="card-toolbar">
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row class-text" *ngIf="this._DanhMucChungService.textHR8_1 == ''">
+      <div class="col-md-6" style="line-height: 2;">
+        <div class="row buoc1">
+          <span><b>Bước 1:</b>&nbsp;<span>Kết nối điện thoại của bạn với wifi cho phép chấm công</span></span>
+        </div>
+        <div class="row buoc2">
+          <div class="col-md-12">
+            <span><b>Bước 2:</b>&nbsp;<span>Tải ứng dụng để khai báo wifi chấm công</span></span>
+          </div>
+          <div class="col-md-12" style="display: flex;">
+            <div class="col-md-6" style="text-align:center">
+              <img style="width:100px" src="https://cdn.jee.vn/jee-account/images/Wizard/Android.PNG"><br />
+              <span>Android</span>
+            </div>
+            <div class="col-md-6" style="text-align:center">
+              <img style="width:100px" src="https://cdn.jee.vn/jee-account/images/Wizard/IOS.PNG"><br />
+              <span>IOS</span>
+            </div>
+          </div>
+        </div>
+        <div class="row buoc4">
+          <span><b>Bước 4:</b>&nbsp;<span>Bấm vào chọn địa điểm (xem hình bước 3)</span></span>
+        </div>
+        <div class="row buoc5">
+          <span><b>Bước 5:</b>&nbsp;<span>Bấm "Thêm wifi" -> bấm BSSID hiện tại -> ứng dụng sẽ lấy địa chỉ và tên wifi
+              hiện
+              tại -> bấm "Thêm wifi" để lưu lại. Nếu có nhiều wifi thì bạn kết nối vào wifi cần thêm và thực hiện lại
+              bước này.</span></span>
+        </div>
+      </div>
+      <div class="col-md-6"  style="line-height: 2;">
+        <div class="row buoc3">
+          <span><b>Bước 3:</b>&nbsp;<span>Đăng nhập và mở chức năng "Quản lý chấm công"</span></span>
+          <img src="https://cdn.jee.vn/jee-account/images/Wizard/wifi.jpg">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row buoc6">
+          <span><b>Bước 6:</b>&nbsp;<span>Tại ô "NHÂN VIÊN ÁP DỤNG" bấm "Thêm" -> Chọn nhân viên được phép chấm công tại
+              địa điểm đã chọn ở bước 3 (Chọn thẻ "Tại địa
+              điểm" để xem danh sách nhân viên làm việc tại địa điểm này, hoặc chọn "Tất cả" để xem tất cả nhân
+              viên)</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row class-text" *ngIf="this._DanhMucChungService.textHR8_1 != ''"
+      [innerHTML]="this._DanhMucChungService.textHR8_1 | safeHtml">
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

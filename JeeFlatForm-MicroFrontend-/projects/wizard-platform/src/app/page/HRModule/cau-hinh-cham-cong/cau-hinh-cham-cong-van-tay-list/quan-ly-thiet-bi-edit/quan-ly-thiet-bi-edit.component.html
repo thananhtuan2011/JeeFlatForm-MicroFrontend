@@ -1,0 +1,75 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ getComponentTitle() }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row">
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.diachiform' | translate }}" id="diachi"  required class="input-batbuoc"
+									formControlName="diaChi" />
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.port' | translate }}" type="number"  required class="input-batbuoc"
+									(keypress)="text($event)" formControlName="port" />
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.tenmay' | translate }}"  required class="input-batbuoc"
+									formControlName="tenMay" />
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.madiadiem' | translate }}"  required class="input-batbuoc" autocomplete="false"
+									formControlName="madiadiem" />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.matkhau' | translate }}" [type]="fieldTextType ? 'text' : 'password'" autocomplete="false"
+									 formControlName="matkhau" pattern="[A-Za-z0-9]+"/>
+									<span matSuffix><i style="color: #5867dd;" class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}"
+										(click)="toggleFieldTextType()"></i></span>
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<mat-select formControlName="loaiMay" required
+									placeholder="{{ 'JeeHR.loaimay' | translate }}">
+									<mat-option value="ZM_TFT"><span translate="JeeHR.manhinhmau"></span>
+									</mat-option>
+									<mat-option value="BW"><span translate="JeeHR.manhinhtrangden"></span>
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

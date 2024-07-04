@@ -1,0 +1,180 @@
+<style>
+  .row {
+    margin: 0;
+  }
+</style>
+<div id="kt_drawer_profile" class="bg-white" data-kt-drawer="true" data-kt-drawer-name="profile"
+  data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="375px"
+  data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_drawer_profile_toggle"
+  data-kt-drawer-close="#kt_drawer_profile_close">
+  <div class="card w-100 rounded-0 offcanvas">
+    <!--begin::Header-->
+    <div style="padding: 15px;" class="offcanvas-header d-flex align-items-center justify-content-between">
+      <span class="title"> Thông tin tài khoản</span>
+      <a class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_drawer_profile_close">
+        <i class="ki ki-close icon-xs text-muted"></i>
+      </a>
+    </div>
+    <!--end::Header-->
+    <ng-container *ngIf="user$ as _user">
+      <!--begin::Content-->
+      <div class="offcanvas-content" style="padding-left: 10px;padding-right: 10px;">
+        <!--begin::Header-->
+        <div class="d-flex align-items-center mt-2">
+          <div class="symbol symbol-100" style="margin-right: 1rem;">
+            <ngx-avatar [size]="80" src="{{_user.user.customData.personalInfo.Avatar}}"
+              *ngIf="_user.user.customData.personalInfo.Avatar;else bindText">
+            </ngx-avatar>
+            <ng-template #bindText>
+              <ngx-avatar textSizeRatio="2.5" matTooltip="{{_user.user.customData.personalInfo.Fullname}}" [size]="80"
+                [name]="_user.user.customData.personalInfo.Name.slice(0,1)"
+                bgColor="{{_user.user.customData.personalInfo.BgColor}}">
+              </ngx-avatar>
+            </ng-template>
+          </div>
+          <div class="d-flex flex-column" style="line-height: 2;">
+            <div class="hoten">
+              {{ _user.user.customData.personalInfo.Fullname }}
+            </div>
+            <div class="chucvu">
+              {{ _user.user.customData.personalInfo.Jobtitle }}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center mt-2" style="justify-content: flex-end;">
+          <div class="symbol symbol-100 mr-5">
+
+          </div>
+          <div class="d-flex flex-column" style="padding-right: 10px;">
+            <div class="navi mt-2">
+              <a class="btn btn-sm quanlytaikhoan py-2 px-3 cursor-pointer" (click)="quanlytaikhoan()">Quản lý tài
+                khoản</a>
+              <a class="btn btn-sm dangxuat py-2 px-3 cursor-pointer" (click)="logout()">Đăng xuất</a>
+            </div>
+          </div>
+        </div>
+        <!--end::Header-->
+
+        <!--begin::Separator-->
+        <div class="separator mt-5 mb-5"></div>
+        <!--end::Separator-->
+
+        <!--begin::Nhắc nhở-->
+        <div class="pb-1" *ngIf="listNhacNho.length > 0">
+          <span class="nhacnho">Nhắc nhở</span>
+        </div>
+        <div class="row link" *ngFor="let app of listNhacNho" (click)="ChangeLink(app)">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i *ngIf="app.WebAppIcon" class="kt-menu__link-icon" [ngClass]="app.WebAppIcon"></i>
+            </span>
+            <span class="nhacnho-text">{{app.LoaiNhacNho}}</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile" style="text-align: end;">
+            <span class="soluong">{{app.Soluong}}</span>
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="ki ki-bold-arrow-next icon-xs icon-color" style="margin-left: 20px;" *ngIf="app.WebAppLink"></i>
+            </span>
+          </div>
+        </div>
+        <!--end::Nhắc nhở-->
+
+        <!--begin::Cài đặt-->
+        <div class="mt-1 pb-1">
+          <span class="caidat">Cài đặt</span>
+        </div>
+        <div class="row" style="height: 40px; align-content: center;">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="kt-menu__link-icon"></i>
+            </span>
+            <span class="caidat-text">Giao diện tối</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile">
+            <mat-slide-toggle (click)="toggleDarkMode()" [(ngModel)]="isDarkMode"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="row" style="height: 40px; align-content: center;">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="kt-menu__link-icon"></i>
+            </span>
+            <span class="caidat-text">Mở ứng dụng trong tab mới</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile">
+            <mat-slide-toggle (click)="toggleIframe()" [(ngModel)]="isIframe"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="row" style="height: 40px; align-content: center;">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="kt-menu__link-icon"></i>
+            </span>
+            <span class="caidat-text">Tự động mở khung chat</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile">
+            <mat-slide-toggle (click)="UpdateisOpen()" [(ngModel)]="isOpenchat"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="row" style="height: 40px; align-content: center;">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="kt-menu__link-icon"></i>
+            </span>
+            <span class="caidat-text">Thiết lập menu thường dùng</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile">
+            <i id="kt_drawer_profile_close" style="font-size: 20px; cursor: pointer;" class="kt-menu__link-icon flaticon-cogwheel-2" (click)="AddMenuThuongDung();"></i>
+          </div>
+        </div>
+        <div class="row" style="height: 40px; align-content: center;" *ngIf="isThietLap">
+          <div class="col-md-9 kt--margin-bottom-10-mobile">
+            <span class="svg-icon menu-icon" style="padding: 0 10px;">
+              <i class="kt-menu__link-icon"></i>
+            </span>
+            <span class="caidat-text">Cấu hình thiết lập</span>
+          </div>
+          <div class="col-md-3 kt--margin-bottom-10-mobile">
+            <i id="kt_drawer_profile_close" style="font-size: 20px; cursor: pointer;" class="kt-menu__link-icon flaticon-cogwheel-2" (click)="ThietLapPhanMem();"></i>
+          </div>
+        </div>
+        <!--end::Cài đặt-->
+        <div class="mt-1 pb-1" *ngIf="imgAndroid !='' && imgIOS!=''">
+          <span class="taiungdung">Tải ứng dụng trên điện thoại</span>
+        </div>
+        <div class="row" style="margin-bottom: 10px;" *ngIf="imgAndroid !='' || imgIOS!=''">
+          <div style="text-align: center; padding-left: 0;" class="col-md-6 kt--margin-bottom-10-mobile"
+            *ngIf="imgAndroid !=''">
+            <img style="border: 1px solid #ebedf2; padding: 4px;" src="{{imgAndroid}}" height="80" width="80"><br />
+            <span>Android</span>
+          </div>
+          <div style="text-align: center;" class="col-md-6 kt--margin-bottom-10-mobile" *ngIf="imgIOS !=''">
+            <img style="border: 1px solid #ebedf2; padding: 4px;" src="{{imgIOS}}" height="80" width="80"><br />
+            <span>IOS</span>
+          </div>
+        </div>
+        <div class="mt-1 pb-1" *ngIf="imgWindow !='' || imgMac!=''">
+          <span class="taiungdung">Tải ứng dụng cho máy tính</span>
+        </div>
+        <div class="row" style="height: 40px; align-content: center; margin-bottom: 10px;"
+          *ngIf="imgWindow !='' || imgMac!=''">
+          <div class="col-md-12 kt--margin-bottom-10-mobile" *ngIf="imgWindow !=''">
+            <span style="color:#3699ff; cursor: pointer; text-decoration: underline;font-size: 11pt;font-weight:500"
+              (click)="open(imgWindow)">Tải ứng dụng cho máy window</span>
+          </div>
+          <div class="col-md-12 kt--margin-bottom-10-mobile" *ngIf="imgMac !=''">
+            <span style="color:#3699ff; cursor: pointer; text-decoration: underline;font-size: 11pt;font-weight:500"
+              (click)="open(imgMac)">Tải ứng
+              dụng cho máy MacOS</span>
+          </div>
+        </div>
+        <!-- Đăng ký/hủy nhận thông báo từ hệ thống -->
+        <div class="row" style="height: 40px; align-content: center; text-align: center; margin: 0px 30px 0 20px;
+                border: 1px solid rgb(54, 153, 255); cursor: pointer;" (click)="nofifyJee()">
+          <span style="color:rgb(54, 153, 255);">{{text_notifyJee}}</span>
+        </div>
+      </div>
+      <!--end::Content-->
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<style>
+     :host>>>.table> :not(caption)>*>* {
+        padding: 0px !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Thêm tài liệu cuộc họp
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <form class="kt-form">
+            <div class="kt-portlet__body">
+                <div class="form-group kt-form__group row">
+                    <div class="col-lg-12" style="padding-top: 10px;">
+                        <div class="col-md-12 kt-margin-bottom-10-mobile">
+                            <label>File đính kèm:</label> <br />
+                            <mat-hint> Định dạng phù hợp: (.{{strExtensionImg}});&nbsp;&nbsp;Video (.{{strExtensionVideo}});&nbsp;&nbsp;File (.{{strExtensionFile}})</mat-hint><br /><br />
+                            <table class="table-file table table-bordered">
+                                <ng-container>
+                                    <tr style="background-color:rgba(128, 128, 128, 0.288);">
+                                        <th style="width:10%">STT</th>
+                                        <th>Tên file</th>
+                                        <th style="width:10%">Hành động</th>
+                                    </tr>
+                                </ng-container>
+                                <ng-container>
+                                    <tr>
+                                        <td colspan="2">Đính kèm file mới
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button class="jee_btn-addcontinue" style="padding: 0 10px 0 10px !important;margin-right: 10px;" mut type="button" color="primary" mat-raised-button (click)="selectFile(3333311)">
+                                    Chọn file
+                                </button>
+                                            <input #fileInput type="file" id="FileUpLoad3333311" multiple (click)="fileInput.value = null" value="" (change)="FileChooses($event,-1)" style="display: none" />
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of files; let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            &nbsp;
+                                            <button class="jee_btn-addcontinue" style="padding: 0 10px 0 10px !important;" type="button" color="primary" mat-raised-button (click)="selectFile(i)">
+                                      Chọn file khác
+                                  </button> {{item?item.name:""}}
+                                            <input #fileInput type="file" id="FileUpLoad{{i}}" (click)="fileInput.value = null" value="" (change)="FileChoose($event,i)" style="display: none" />
+                                        </td>
+                                        <td>
+                                            <button mat-icon-button (click)="remove(i)">
+                                      <mat-icon>remove</mat-icon>
+                                  </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="DongForm()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+{{'COMMON.BACK' | translate}}
+</button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit()" matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+{{'COMMON.LUU_DONG' | translate}}
+</button>
+</div>

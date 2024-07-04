@@ -1,0 +1,168 @@
+//=======================CSS THEME DARK OR LIGHT=========
+@import "~@angular/material/theming";
+@include mat-core();
+$mat-primary-scheme: (
+    100: #c5cae9,
+    500: #61699a,
+    700: #303f9f,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: #ffffff, 700: #ffffff, ),
+);
+$mat-accent-scheme: (
+    100: #ff80ab,
+    500: #ff4081,
+    700: #f50057,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: rgba(0, 0, 0, 0.87), 700: #ffffff, ),
+);
+$mat-primary-palette: mat-palette($mat-primary-scheme);
+$mat-accent-palette: mat-palette($mat-accent-scheme);
+$app-light-theme: mat-light-theme($mat-primary-palette, $mat-accent-palette);
+
+.light-mode {
+    @include angular-material-theme($app-light-theme);
+
+    //=================Kích thước thanh scroll==============
+    @media only screen and (min-width: 1028px) {
+        ::-webkit-scrollbar {
+            width: 5px;
+            opacity: 0;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    //===Start css (Thiên)===
+    .mat-option-text {
+        color: black !important;
+    }
+
+    .m-form-filter {
+        background-color: #ffffff;
+    }
+
+    .m-list-search__form-input {
+        color: black
+    }
+
+    .view-mat-menu-df {
+        .cu2-space-row__item-name {
+            color: #292d34;
+        }
+    }
+
+    .mat-raised-button.mat-accent {
+        //Dùng chung cho button có class accent
+        background-color: #0bb783;
+        color: #ffffff
+    }
+
+    /*#endregion */
+    @import "./nhan-su/light.scss";
+    @import "./lich-ca-nhan/light.scss";
+    @import "./dashboard/light.scss";
+    @import "./comment/jee-comment-light.scss";
+
+}
+
+$app-dark-theme: mat-dark-theme($mat-primary-palette, $mat-accent-palette);
+
+.dark-mode {
+    @include angular-material-theme($app-dark-theme);
+    //=================Kích thước thanh scroll==============
+    @media only screen and (min-width: 1028px) {
+        ::-webkit-scrollbar {
+            width: 5px;
+            opacity: 0;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px #c2c2c9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px #c2c2c9;
+        }
+    }
+    /*#endregion */
+    @import "./nhan-su/dark.scss";
+    @import "./lich-ca-nhan/dark.scss";
+    @import "./dashboard/dark.scss";
+    @import "./comment/jee-comment-dark.scss";
+    //===========Css popup cảnh báo và thông báo dark=================== 
+    .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane .mat-snack-bar-container {
+        background-color: #1e1e2d;
+        display: block;
+        box-shadow: 0 0 70px #80808020;
+        border-radius: 15px;
+
+        .swal-poppup {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            width: 32em;
+            max-width: 100%;
+            padding: 1.25em;
+            border-radius: .3125em;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .swal-pad {
+            display: block;
+            position: relative;
+            max-width: 100%;
+            margin: 0 0 .4em;
+            padding: 0;
+            color: #cdcdde;
+            font-size: 14pt;
+            font-weight: normal;
+            text-align: center;
+            text-transform: none;
+            word-wrap: break-word;
+        }
+
+        span {
+            color: #cdcdde;
+        }
+
+        .b-success {
+            color: #c0e48e;
+        }
+
+        .b-fail {
+            color: red;
+        }
+
+        button {
+            &.btn-snackbar {
+                border-left-color: rgb(48, 133, 214);
+                border-right-color: rgb(48, 133, 214);
+                border: 0;
+                border-radius: .25em;
+                background: initial;
+                background-color: #3085d6;
+                color: #fff;
+                font-size: 0.9em;
+                padding: 3px 38px;
+                white-space: nowrap;
+            }
+
+            span {
+                color: #F64E60;
+            }
+        }
+    }
+}

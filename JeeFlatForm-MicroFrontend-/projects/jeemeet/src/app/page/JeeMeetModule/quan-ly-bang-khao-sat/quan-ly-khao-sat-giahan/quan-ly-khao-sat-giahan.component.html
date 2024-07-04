@@ -1,0 +1,49 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+      <h3 class="card-label card-label-dialog">{{getTitle()}}
+      </h3>
+    </div>
+  </div>
+
+  <div class="card-body" style="min-height: 350px; max-height: 450px;">
+    <div [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+      <div class="row align-items-center">
+        <div class="col-md-12 kt-margin-bottom-20-mobile">
+          <div class="flex row">
+            <div class="col-lg-3 kt-margin-bottom-20-mobile defaultCol">
+              {{"MENU_MEETING.MEETING_FINISHTIME" | translate}}<sup style="color: red;">(*)</sup>
+            </div>
+            <div class="col-lg-5 kt-margin-bottom-20-mobile">
+              <mat-form-field style="width: 170px;">
+                <input matInput [matDatepicker]="denngay" placeholder="Chọn lịch" formControlName="NgayKetThuc"
+                  (dateChange)="selectEvent()" readonly>
+                <mat-datepicker-toggle matSuffix [for]="denngay" [disabled]="IsXem">
+                  <mat-icon>calendar_today</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #denngay [startAt]="startDate"></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <ngb-timepicker [spinners]="false" formControlName="DenNgayHour" (keypress)="numberOnly($event)"
+                (change)="valuechange($event)" [readonlyInputs]="IsXem">
+              </ngb-timepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dialog-footer">
+  <button class="jee_button jee_btn-addclose" type="button" mat-raised-button (click)="onSubmit(true)"
+    matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+    {{'COMMON.LUU_DONG' | translate}}
+  </button> &nbsp;&nbsp;
+
+  <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit(false)" *ngIf="!viewLoading"
+    matTooltip="{{ 'COMMON.LUU_TIEPTUC' | translate }}">
+    {{'COMMON.LUU_TIEPTUC' | translate}}
+  </button>
+</div>

@@ -1,0 +1,149 @@
+<mat-tab-group>
+    <mat-tab label="Thành viên"> 
+     
+    
+    
+      <perfect-scrollbar style="max-height: 50vh;position: relative;">
+        <div *ngFor="let item of lstThanhVien" style="padding: 0px 20px 0px 20px;">
+            <div style="display: inline-flex; padding: 10px 0 10px 0;" *ngFor="let user of item.InforUser">
+              <div  [matMenuTriggerFor]="menu"  style="cursor: pointer;">
+                <ngx-avatar [size]="45" src="{{ user.Avatar }}" *ngIf="user.Avatar"></ngx-avatar>
+                <ngx-avatar [size]="45" [name]="user.Name.slice(0, 1)" bgColor="{{ user.BgColor }}" *ngIf="!user.Avatar"></ngx-avatar>
+              </div>
+              <mat-menu #menu="matMenu">
+                <div>
+                  <div class="row">
+                    <div class="md-4">
+                      <ngx-avatar *ngIf="!user.Avatar" [size]="50" [name]="user.Name.slice(0, 1)" bgColor="{{user.BgColor }}"
+                    ></ngx-avatar>
+                      <ngx-avatar  *ngIf="user.Avatar"  [size]="50"src="{{user.Avatar}}"
+                      ></ngx-avatar>
+                    </div>
+                    <div class="md-8">
+                      <div style="padding-left: 10px;">
+                        <div style="font-size: 17px;">{{user.Fullname}}</div>
+                        <div style=" padding-top: 5px;">
+                          <span>{{user.Jobtitle}}</span>
+                          -
+                          <span>{{user.Department}}</span>
+                        </div>
+                       
+                    
+                      </div>
+                    
+                    </div>
+                  
+                   
+                  </div>
+              
+                </div>
+              
+              </mat-menu> 
+                    <div style="display: flex;flex-direction: column;  padding-left: 12px;">
+                        <p style=" margin: 0;"  class="name">{{user.Fullname}}</p>
+                        <span style="    color: #1888F2;
+                        background: #E7F3FF;" *ngIf="item.isAdmin">Quản trị viên nhóm</span>
+                    </div>
+                
+            </div>
+            <!-- <div *ngIf="item.InforUser.length==0" style="display: flex;align-items: center;margin: 20px;">
+            
+                  <span style="margin-right: 10px;">      {{item.UserName}} (đã nghỉ việc)
+                  
+                  </span>
+                  <button (click)="DeleteMember(item.UserId)" type="button" class="btn btn-danger">    <span>Xóa</span></button>
+              
+                
+            </div> -->
+       <div style="float:right">
+
+        <button (click)="CreateConverSation(item)" *ngIf="UserIdCurrent!=item.UserId&&item.InforUser.length>0" class="btn btn-light-success font-weight-bold" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+          <i style="    margin-top: -20px;
+          margin-left: -5px;" class="fa fa-comment-alt"></i>
+        </button>
+            <button *ngIf="!adminGroup&&UserIdCurrent===item.UserId"  mat-icon-button [matMenuTriggerFor]="menu1" aria-label="Example icon-button with a menu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu1="matMenu">
+              <button (click)="LeaveGroup(item.UserId)" mat-menu-item > 
+                <!-- <mat-icon>dialpad</mat-icon> -->
+                <span>Rời khỏi nhóm</span>
+              </button>
+              </mat-menu>
+            <button *ngIf="adminGroup" style="float: right;" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button *ngIf="UserIdCurrent!==item.UserId" (click)="DeleteMember(item.UserId)" mat-menu-item > 
+                  <!-- <mat-icon>dialpad</mat-icon> -->
+                  <span>Xóa thành viên khỏi nhóm</span>
+                </button>
+                <button (click)="UpdateAdmin(item.UserId,0)"  *ngIf="adminGroup&&item.isAdmin&&UserIdCurrent!==item.UserId" mat-menu-item>
+                  <!-- <mat-icon>dialpad</mat-icon> -->
+                  <span>Xóa quyền quản trị</span>
+                </button>
+                <button *ngIf="!item.isAdmin" (click)="UpdateAdmin(item.UserId,1)" mat-menu-item>
+                  <!-- <mat-icon>notifications_off</mat-icon> -->
+                  <span>Chỉ định làm quản trị viên</span>
+                </button>
+                <button *ngIf="UserIdCurrent===item.UserId" (click)="LeaveGroup(item.UserId)" mat-menu-item>
+                  <!-- <mat-icon>notifications_off</mat-icon> -->
+                  <span>Rời khỏi nhóm</span>
+                </button>
+              </mat-menu>
+
+            
+            </div>
+        </div>
+        </perfect-scrollbar>
+    </mat-tab>
+    <mat-tab label="Quản trị viên"> 
+      <div *ngFor="let item of lstThanhVien">
+        <div *ngIf="item.isAdmin">
+
+        
+        <div  style="display: inline-flex; padding: 10px 0 10px 0;" *ngFor="let user of item.InforUser">
+          <div  [matMenuTriggerFor]="menu1"  style="cursor: pointer;">
+            <ngx-avatar [size]="45" src="{{ user.Avatar }}" *ngIf="user.Avatar"></ngx-avatar>
+            <ngx-avatar [size]="45" [name]="user.Name.slice(0, 1)" bgColor="{{ user.BgColor }}" *ngIf="!user.Avatar"></ngx-avatar>
+          </div>
+          <mat-menu #menu1="matMenu">
+            <div>
+              <div class="row">
+                <div class="md-4">
+                  <ngx-avatar *ngIf="!user.Avatar" [size]="50" [name]="user.Name.slice(0, 1)" bgColor="{{user.BgColor }}"
+                ></ngx-avatar>
+                  <ngx-avatar  *ngIf="user.Avatar"  [size]="50"src="{{user.Avatar}}"
+                  ></ngx-avatar>
+                </div>
+                <div class="md-8">
+                  <div style="padding-left: 10px;">
+                    <div style="font-size: 17px;">{{user.Fullname}}</div>
+                    <div style=" padding-top: 5px;">
+                      <span>{{user.Jobtitle}}</span>
+                      -
+                      <span>{{user.Department}}</span>
+                    </div>
+                   
+                
+                  </div>
+                
+                </div>
+              
+               
+              </div>
+          
+            </div>
+          
+          </mat-menu> 
+                <div style="display: flex;flex-direction: column;  padding-left: 12px;">
+                    <p style=" margin: 0;"  class="name">{{user.Fullname}}</p>
+                    <span style="    color: #1888F2;
+                    background: #E7F3FF;" *ngIf="item.isAdmin">Quản trị viên nhóm</span>
+                </div>
+            </div>
+          </div>
+        </div>
+    
+    </mat-tab>
+  </mat-tab-group>

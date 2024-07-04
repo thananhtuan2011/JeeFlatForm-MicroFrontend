@@ -1,0 +1,326 @@
+<style>
+    :host>>>.card-body {
+        padding: 15px !important;
+    }
+
+    .color-thongtin {
+        font-weight: bold;
+    }
+
+    .color-tieude {
+        line-height: 2;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label card-label-dialog">{{getTitle()}}</h3>
+        </div>
+    </div>
+    <div class="card-body" [perfectScrollbar]="{wheelPropagation: false}"
+        [ngStyle]="{'max-height': '70vh', 'position': 'relative'}">
+        <form [formGroup]="formControls">
+            <div class="row">
+                <div class="col-lg-12">
+                    <mat-form-field class="example-full-width">
+                        <input class="input-batbuoc mat-focused" formControlName="TenCuocHop" placeholder="Tên cuộc họp"
+                            matInput required #focusInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <input [ngModel]="NgayBatDau" matInput class="input-batbuoc" required [matDatepicker]="picker"
+                            formControlName="thoigiandate" placeholder="Thời gian diễn ra">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select [ngModel]="GioBatDau" placeholder="Thời gian từ"
+                            (selectionChange)="ChangeTimeMeet($event.value)" required formControlName="thoigianbatdau">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''"
+                                    [noEntriesFoundLabel]="''">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value="{{itemCate.Gio}}" *ngFor="let itemCate of filteredBanksTuGio | async">
+                                {{ itemCate.Gio }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select [ngModel]="GioKetThuc" placeholder="Đến"
+                            (selectionChange)="ChangeTimeMeet($event.value)" required formControlName="thoigianketthuc">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''"
+                                    [noEntriesFoundLabel]="''">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value="{{itemCate.Gio}}" *ngFor="let itemCate of filteredBanksDenGio | async">
+                                {{ itemCate.Gio }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="example-full-width">
+                        <textarea rows="1" class="" formControlName="GhiChu" placeholder="Ghi chú" matInput></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div style="border-top: 2px solid rgba(0, 0, 0, 0.05); margin: 15px 0px;"></div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Sử dụng phòng họp - tài sản?</mat-label>
+                        <mat-select formControlName="taisan" multiple>
+                            <mat-optgroup *ngFor="let group of listTaiSan" [label]="group.name"
+                                [disabled]="group.disabled">
+                                <mat-option #matOption (click)="onClickTaiSan(pokemon.value, matOption.selected)"
+                                    *ngFor="let pokemon of group.taisan" [value]="pokemon.value">
+                                    {{pokemon.viewValue}}
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2">
+                    <p (click)="openJeeAdmin()"
+                        style="color:#20A1FF; font-size: 12px;cursor: pointer;font-style: italic; text-decoration: underline;margin: 15px auto;">
+                        Xem lịch đăng ký</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div style="    position: relative;padding-top: 15px;padding-bottom: 5px;padding-bottom: 15px;">
+                        <mat-radio-group style="display: inline-grid !important;width: 100%;"
+                            aria-label="Select an option">
+                            <mat-radio-button [disabled]="isLoad" style="margin: 10px 0 !important" #button1
+                                [checked]="checkedZoom" value="1" (click)="checkState(button1)">Sử dụng phòng họp trực
+                                tuyến Zoom
+
+                            </mat-radio-button>
+                            <div *ngIf="selectedZoom" class="col-md-8 kt-margin-bottom-10-mobile"
+                                style="position:absolute; top:10px;left:50%">
+                                <div class="row">
+                                    <div [ngClass]="this.checkshow()? 'col-md-6' : 'col-md-9'">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select (selectionChange)="BindListZoom($event.value)" required
+                                                placeholder="Chọn phòng họp Zoom" formControlName="IDPhongHop">
+                                                <mat-option *ngFor="let tmp of listKey" value="{{tmp.Id}}">
+                                                    {{tmp.TenPhong}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ng-container *ngIf="!isLoad">
+                                            <p *ngIf="showlienket" (click)="ketNoi(1)"
+                                                style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px auto;">
+                                                Kết nối với Zoom</p>
+                                            <p *ngIf="showreset" (click)="resetTokenZoom()"
+                                                style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px 30px;">
+                                                <mat-icon matTooltip="Xóa liên kết">sync</mat-icon>
+                                            </p>
+                                        </ng-container>
+                                        <ng-container *ngIf="isLoad && this.checkshow()">
+                                            <div style="cursor: wait; left: 25% !important;" class="loader-new"></div>
+                                        </ng-container>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-radio-button [disabled]="isLoad" style="margin: 10px 0 !important" #button2
+                                [checked]="checkedGoogle" value="2" (click)="checkState(button2)">Sử dụng phòng họp trực
+                                tuyến Google Meet
+
+
+                            </mat-radio-button>
+                            <div *ngIf="selectedGoogle" class="col-md-6 kt-margin-bottom-10-mobile"
+                                style="position:absolute; top:50px;left:55%">
+                                <ng-container *ngIf="!isLoad">
+                                    <div class="row" style="display: flex;justify-content: center;flex-wrap: nowrap;">
+                                        <div *ngIf="showreset" class="col-md-8">
+                                            <p *ngIf="showreset" style="margin: 15px auto;">{{Email}}</p>
+                                        </div>
+                                        <p *ngIf="showlienket" (click)="ketNoi(2)"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px auto;width: fit-content;">
+                                            Kết nối với Google</p>
+                                        <p *ngIf="showreset" (click)="resetTokenGoogle()"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px 30px;width: fit-content;">
+                                            <mat-icon matTooltip="Xóa liên kết">sync</mat-icon>
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="isLoad">
+                                    <div style="cursor: wait;" class="loader-new"></div>
+                                </ng-container>
+                            </div>
+                            <mat-radio-button [disabled]="isLoad" style="margin: 10px 0 !important" #button3
+                                [checked]="checkedWebex" value="3" (click)="checkState(button3)">Sử dụng phòng họp trực
+                                tuyến Cisco WebEx
+
+
+                            </mat-radio-button>
+                            <div *ngIf="selectedWebex" class="col-md-6 kt-margin-bottom-10-mobile"
+                                style="position:absolute; top:100px;left:50%">
+                                <ng-container *ngIf="!isLoad">
+                                    <div class="row" style="display: flex;justify-content: center;flex-wrap: nowrap;">
+                                        <div *ngIf="showreset" class="col-md-8">
+                                            <p *ngIf="showreset" style="margin: 15px auto;">{{Email}}</p>
+                                        </div>
+                                        <p *ngIf="showlienket" (click)="ketNoi(3)"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px auto;">
+                                            Kết nối với WebEx</p>
+                                        <p *ngIf="showreset" (click)="resetTokenWebex()"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px 30px;">
+                                            <mat-icon matTooltip="Xóa liên kết">sync</mat-icon>
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="isLoad">
+                                    <div style="cursor: wait;" class="loader-new"></div>
+                                </ng-container>
+                            </div>
+                            <mat-radio-button [disabled]="isLoad" style="margin: 10px 0 !important" #button4
+                                [checked]="checkedTeams" value="4" (click)="checkState(button4)">Sử dụng phòng họp trực
+                                tuyến MS Teams
+
+
+                            </mat-radio-button>
+                            <div *ngIf="selectedTeams" class="col-md-6 kt-margin-bottom-10-mobile"
+                                style="position:absolute; top:140px;left:50%">
+                                <ng-container *ngIf="!isLoad">
+                                    <div class="row" style="display: flex;justify-content: center;flex-wrap: nowrap;">
+                                        <div *ngIf="showreset" class="col-md-8">
+                                            <p *ngIf="showreset" style="margin: 15px auto;">{{Email}}</p>
+                                        </div>
+                                        <p *ngIf="showlienket" (click)="ketNoi(4)"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px auto;">
+                                            Kết nối với MS Teams</p>
+                                        <p *ngIf="showreset" (click)="resetTokenTeams()"
+                                            style="color:#20A1FF; font-size: 12px;cursor: pointer; text-decoration: underline;margin: 15px 30px;">
+                                            <mat-icon matTooltip="Xóa liên kết">sync</mat-icon>
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="isLoad">
+                                    <div style="cursor: wait;" class="loader-new"></div>
+                                </ng-container>
+                            </div>
+                            <mat-radio-button [disabled]="isLoad" style="margin: 10px 0 !important" #button5
+                                [checked]="checkedOther" value="5" (click)="checkState(button5)">Sử dụng link họp online
+                                được cung cấp
+                            </mat-radio-button>
+                            <div *ngIf="selectedOther" class="col-md-6 kt-margin-bottom-10-mobile"
+                                style="position:absolute; top:185px;left:50%">
+                                <mat-form-field class="example-full-width">
+                                    <input class="input-batbuoc mat-focused" formControlName="linkHopNgoai"
+                                        placeholder="Link họp online" matInput required #focusInput>
+                                </mat-form-field>
+                            </div>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <!-- <div [hidden]="true" class="row" style="padding-bottom: 10px;" *ngIf="selectedZoom">
+                <div class="col-lg-6">
+                    <mat-checkbox [checked]="true" formControlName="OpenURL">Mở cuộc họp bằng trình duyệt</mat-checkbox>
+                </div>
+            </div>
+            <div [hidden]="true" class="row" style="padding-bottom: 10px;" *ngIf="selectedZoom">
+                <div class="col-lg-6">
+                    <mat-checkbox [checked]="true" formControlName="OpenApp">Mở cuộc họp bằng ứng dụng Zoom</mat-checkbox>
+                </div>
+            </div> -->
+            <div style="border-top: 2px solid rgba(0, 0, 0, 0.05);    margin: 0px 0px 15px 0px;"></div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div style="flex-grow: 1;padding-top: 10px; display: flex;">
+                        <div style="padding-top: 5px; margin-right: 15px;">Mời tham dự:</div>
+                        <div style="padding-right: 5px;" class="cu-user-group url scale-hover-01 position-relative"
+                            *ngFor="let user of listNguoiThamGia || [];let index = index">
+                            <!-- <i class="far fa-times-circle url view-hover text-dark bg-white" style="position: absolute;top:0;right:0;border-radius: 50%;"></i> -->
+                            <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                (click)="deleteUserThamGia(user)"></i>
+                            <kt-avatar-user [image]="user.Image" size="29" [name]="user.HoTen">
+                            </kt-avatar-user>
+                        </div>
+                        <div (click)="AddThanhVien(1)" matTooltip="Chọn người" matTooltipPosition="above"
+                            class="url user"
+                            style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px;margin-left: 0px !important; ">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                        <div style="padding-top: 5px;margin-right: 15px;">Người theo dõi:</div>
+                        <div style="padding-right: 5px;" class="cu-user-group url scale-hover-01 position-relative"
+                            *ngFor="let usertd of listNguoiTheoDoi || [];let index = index">
+                            <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                            <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                (click)="deleteUserTheoDoi(usertd)"></i>
+                            <kt-avatar-user [image]="usertd.Image" size="29" [name]="usertd.HoTen">
+                            </kt-avatar-user>
+                        </div>
+                        <div (click)="AddThanhVien(2)" matTooltip="Chọn người" matTooltipPosition="above"
+                            class="url user"
+                            style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ;margin-left: 0px !important;">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-lg-12">
+                    <mat-checkbox formControlName="XacNhanThamGia">Yêu cầu xác nhận tham dự</mat-checkbox>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <mat-checkbox (change)="showOptions($event)" formControlName="NhapTomTat">Bắt buộc nhập tóm tắt, kết
+                        luận cuộc họp</mat-checkbox>
+                </div>
+                <div class="col-lg-6" style="margin-top: -12px;" *ngIf="clickNhapTomTat">
+                    <div style="flex-grow: 1;padding-top: 10px;display: flex;">
+                        <div style="padding: 5px; margin-right: 15px;">Người nhập tóm tắt:</div>
+                        <div style="padding-right: 5px;" class="cu-user-group url scale-hover-01 position-relative"
+                            *ngFor="let userTT of listNguoiTomTat || [];let index = index">
+                            <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                style="position: absolute;top:0;right:0;border-radius: 50%;"></i>
+                            <i class="far fa-times-circle url view-hover text-dark bg-white"
+                                style="position: absolute;top:0;right:0;border-radius: 50%;"
+                                (click)="deleteUserTomTat(userTT)"></i>
+                            <kt-avatar-user [image]="userTT.Image" size="29" [name]="userTT.HoTen">
+                            </kt-avatar-user>
+                        </div>
+                        <div (click)="AddThanhVien(3)" matTooltip="Chọn người" matTooltipPosition="above"
+                            class="url user"
+                            style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px;;margin-left: 0px !important; ">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="dialog-footer" style="padding-top: 20px;">
+        <button [disabled]="disabledBtn" type="button" mat-raised-button (click)="goBack()"
+            class="ja_button ja_btn-goback">
+            <span>Trở về</span>
+        </button>&nbsp;&nbsp;
+        <button [disabled]="disabledBtn" type="button" (click)="submit(1)" mat-raised-button
+            class="ja_button ja_button ja_btn-addnew">Lưu và đóng</button>&nbsp;&nbsp;
+        <!-- <button *ngIf="hiddenContinue()" [disabled]="disabledBtn" type="button" (click)="submit(2)" mat-raised-button class="ja_button ja_btn-addcontinue">Lưu và tiếp tục</button> -->
+    </div>
+</div>

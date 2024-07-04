@@ -1,0 +1,91 @@
+<style>
+    :host>>>.table> :not(caption)>*>* {
+        padding: 0px !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Thêm tài liệu hoãn cuộc họp
+
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="col-md-12 kt-margin-bottom-20-mobile">
+            <textarea class="form-control" [(ngModel)]="feedbackContent" placeholder="Nội dung hoãn họp" rows="5"
+                style=" font-size: 18px;" [readonly]="isXem" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+        <div class="col-md-12 kt-margin-bottom-10-mobile">
+            <label>File đính kèm:</label> <br />
+            <mat-hint> Định dạng phù hợp: (.{{strExtensionImg}});&nbsp;&nbsp;Video
+                (.{{strExtensionVideo}});&nbsp;&nbsp;File (.{{strExtensionFile}})</mat-hint><br /><br />
+            <table class="table-file table table-bordered">
+                <ng-container>
+                    <tr>
+                        <th style="width:10%">STT</th>
+                        <th>Tên file</th>
+                        <th *ngIf="!isXem" style="width:10%">Xóa</th>
+                    </tr>
+                </ng-container>
+                <ng-container *ngFor="let item of ListFileDinhKem; let i=index">
+                    <tr *ngIf="item.IsDel === false" class="p-file-ex">
+                        <td>{{i+1}}</td>
+                        <td><a href="{{item.Link}}" target="_blank">{{item.TenFile}}</a></td>
+                        <td *ngIf="!isXem">
+                            <button mat-icon-button (click)="removeFile(i)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+
+                <ng-container *ngIf="!isXem">
+                    <tr>
+                        <td colspan="3">Đính kèm file mới
+                        </td>
+                    </tr>
+
+                    <tr *ngFor="let item of files; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            &nbsp;
+                            <button class="jee_btn-addcontinue" style="padding: 0;" type="button" color="primary"
+                                mat-raised-button (click)="selectFile(i)">
+                                Chọn file
+                            </button> {{item.data?item.data.filename:""}}
+                            <input #fileInput type="file" id="FileUpLoad{{i}}" (click)="fileInput.value = null" value=""
+                                (change)="FileChoose($event,i)" style="display: none" />
+                        </td>
+                        <td>
+                            <button mat-icon-button (click)="remove(i)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{files.length+1}}</td>
+                        <td></td>
+                        <td>
+                            <button mat-icon-button matTooltip="Thêm dòng mới" (click)="new_row()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="DongForm()"
+        cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+        {{'COMMON.BACK' | translate}}
+    </button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" *ngIf="!isXem" mat-raised-button (click)="onSubmit()"
+        matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+        {{'COMMON.LUU_DONG' | translate}}
+    </button>
+</div>

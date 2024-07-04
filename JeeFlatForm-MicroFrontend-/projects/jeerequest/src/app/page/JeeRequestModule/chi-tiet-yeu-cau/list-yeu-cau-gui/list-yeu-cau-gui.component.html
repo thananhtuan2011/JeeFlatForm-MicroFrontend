@@ -1,0 +1,61 @@
+<div [ngStyle]="{'height': getHeight()}">
+    <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <div class="loader-new"></div>
+    </ng-template>
+    <ng-template #elseBlock>
+        <div class="hover-row paddingDiv" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of list_yeucau || [], let vitri = index " [routerLink]="['/Request/',item.RowID]" [queryParams]="{ Type:'Gui'}">
+            <div class="border-item-yc"></div>
+            <div class="item-yeucau">
+                <table class="table" style="margin: 15px 0 15px 0;">
+                    <thead style="visibility: collapse;">
+                        <tr>
+                            <th style="width: 40px"></th>
+                            <th style="width: 190px"></th>
+                            <th style="width: 120px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3">
+                                <div class="tinhtrang" [ngStyle]="{'background-color':getColor2(item.Id_TinhTrang)}"></div>
+                            </td>
+                            <td>
+                                <div class="HienDauBaCham" [ngStyle]="{'color':getColor2(item.Id_TinhTrang)}" style="font-size: 12pt;font-weight: 500;">{{item.TenYeuCau}}</div>
+                            </td>
+                            <td rowspan="2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div style="width: fit-content; margin: 0px 9px 0 auto;display: flex;">
+                                            <app-list-users-custom [item]="item.NguoiDuyet" MaxSize="1" iconSize="45"></app-list-users-custom>
+                                            <button style="z-index: 1000;" (click)="danhDauQuanTrong(item.DanhDau,item.RowID,vitri)" mat-button mat-icon-button style="height: 25px !important; width: 25px !important;  line-height: 10px;top: 13px">  
+                                            <i  class="far" [ngClass]="item.DanhDau != 0 ? 'fas fa-star danhDauQuanTrong' : 'fa-star tatDanhDauQuanTrong'"></i>
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ten-loai-yc">{{item.TenLoai}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="mo-ta-loai-yc">{{item.MoTa}}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="padding-top: 5px; text-align: center;">
+                                    <span>{{(item.NgayTao) | timeAgo}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+</div>

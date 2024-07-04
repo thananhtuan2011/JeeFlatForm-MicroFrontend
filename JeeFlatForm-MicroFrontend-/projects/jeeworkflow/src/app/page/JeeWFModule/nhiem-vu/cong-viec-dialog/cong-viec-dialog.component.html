@@ -1,0 +1,303 @@
+<style>
+	.trangthai {
+		display: flex;
+		height: 52px;
+		position: relative;
+		margin: 0 25px;
+	}
+
+	.tt-danglam-left {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		background-color: rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-left:hover {
+		background: rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-right {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-hoanthanh-left {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		background-color: rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.tt-hoanthanh-right {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.text-mieuta {
+		position: relative;
+		text-transform: uppercase;
+		color: #7abd1a;
+		font-weight: 500;
+		padding-bottom: 7px;
+	}
+
+	.text-thaotac {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		padding: 5px 8px;
+		color: rgba(42, 145, 214, 0.8);
+	}
+
+	.text-thaotac:hover {
+		text-decoration: underline;
+	}
+
+	.deadline:hover {
+		text-decoration: underline;
+		color: rgba(42, 145, 214, 0.8) !important;
+	}
+
+	.postform {
+		background: rgba(122, 189, 26, 0.15);
+		border-left: 4px solid #7abd1a;
+		padding: 15px 20px;
+	}
+
+	.upload-form {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		z-index: 999;
+	}
+
+	.upload-form input {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		z-index: 999;
+	}
+
+	.follow {
+		height: 36px;
+		font-size: 14px;
+		background-color: white;
+		border: 1px dotted;
+	}
+
+	.follow:hover {
+		color: blue;
+		border: 1px solid;
+	}
+
+	.menu-button:hover {
+		background-color: #dadef7;
+	}
+
+	.disabled-menu {
+		pointer-events: none;
+		opacity: .5;
+	}
+</style>
+<div class="card card-custom font-chu">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{TenQuyTrinh}}</span></h3>&nbsp;<span>-</span>&nbsp;
+			<h3 class="dialog-title"><span>{{TenNhiemVu}}</span></h3>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" class="mat-icon-button" (click)="goBack()"
+				matTooltip="{{ 'landingpagekey.dong' | translate }}">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="form-group kt-form__group row" *ngIf="item">
+			<div class="col-md-12 kt--margin-bottom-10-mobile" style="padding: 0 25px;">
+				<h4>{{TenCongViec}}</h4>
+			</div>
+			<div class="col-md-12 kt--margin-bottom-10-mobile" style="display: flex;padding: 0 25px;">
+				<div>
+					<mat-icon style="color: dodgerblue">info</mat-icon>&nbsp;
+				</div>
+				<div>
+					<span style="color: #bdb5b5;">Tạo bởi</span>&nbsp;<span
+						style="font-weight: bold;">{{NguoiTao}}</span>&nbsp;<span style="color: #bdb5b5;">-</span>
+					&nbsp;<span>{{ThoiGianTao | date:'dd/MM/yyyy HH:mm'}}</span>
+				</div>
+			</div>
+			<div class="col-md-12 kt--margin-bottom-10-mobile" style="display: flex;padding: 0 25px;">
+				<div>
+					<mat-icon style="color: yellowgreen;">alarm</mat-icon>&nbsp;
+				</div>
+				<div *ngIf="item.Time_Type == 3">
+					<span style="color: #bdb5b5;">Không giới hạn thời gian
+					</span>
+				</div>
+				<div style="cursor: pointer;" *ngIf="item.Time_Type != 3">
+					<span *ngIf="item.HanChot != '' && item.HanChot != null">Hạn chót:&nbsp;</span>
+					<span class="deadline" style="color: #bdb5b5;">
+						{{item.HanChot != '' && item.HanChot != null ? (item.Deadline | date:'HH:mm dd/MM/yyyy') :
+						'Không
+						có deadline'}}
+					</span>
+				</div>
+			</div>
+			<div class="col-md-12 kt--margin-bottom-10-mobile">
+				<div class="trangthai">
+					<div class="col-md-3 kt--margin-bottom-10-mobile" *ngIf="item.IsEditStatus"
+						style="text-align: center; padding-top: 10px; cursor: pointer; padding-top: 15px;"
+						[ngStyle]="{'background-color': item.Status == 0 ? '#ff0000' : item.Status == 1 ? '#5867dd' : item.Status == 2 ? '#9acd32' : '#ffb822'}"
+						[matMenuTriggerFor]="menu" [ngClass]="{ 'disabled-menu' :!item.IsEditStatus }">
+						<span style="color: white;">{{getItemStatusString(item.Status)}}</span>
+					</div>
+					<mat-menu #menu="matMenu">
+						<button mat-menu-item (click)="CapNhatCongViec(0)" *ngIf="item.Status == 1">
+							<span style="color: #ff0000;font-size: 9pt" translate="workprocess.tamdung"></span>
+						</button>
+						<button mat-menu-item (click)="CapNhatCongViec(1)" *ngIf="item.Status != 1">
+							<span style="color: #5867dd;font-size: 9pt" translate="workprocess.thuchien"></span>
+						</button>
+						<button mat-menu-item (click)="CapNhatCongViec(2)" *ngIf="item.Status == 1">
+							<span style="color: #9acd32;font-size: 9pt" translate="workprocess.hoanthanh"></span>
+						</button>
+					</mat-menu>
+					<div class="col-md-3 kt--margin-bottom-10-mobile" *ngIf="!item.IsEditStatus"
+						style="text-align: center; padding-top: 10px; cursor: pointer; padding-top: 15px;"
+						[ngStyle]="{'background-color': item.Status == 0 ? '#ff0000' : item.Status == 1 ? '#5867dd' : item.Status == 2 ? '#9acd32' : '#ffb822'}">
+						<span style="color: white;">{{getItemStatusString(item.Status)}}</span>
+					</div>
+					<div class="col-md-9 kt--margin-bottom-10-mobile" style="display: flex;"
+						[ngStyle]="{'border-top': item.Status == 0 ? '1px solid #ff0000' : item.Status == 1 ? '1px solid #5867dd' : item.Status == 2 ? '1px solid #9acd32' : '1px solid #ffb822',
+				'border-bottom': item.Status == 0 ? '1px solid #ff0000' : item.Status == 1 ? '1px solid #5867dd' : item.Status == 2 ? '1px solid #9acd32' : '1px solid #ffb822'}">
+						<div class="row" *ngFor="let img of item.Data_Implementer">
+							<img class="m--img-rounded m--marginless m--img-centered" [matMenuTriggerFor]="menu"
+								style="width: 50px; height: 50px; border-radius: 50%;" src="{{img.Image}}" alt="">
+							<mat-menu #menu="matMenu">
+								<div class="row">
+									<div class="col-md-3">
+										<img class="m--img-rounded m--marginless m--img-centered"
+											style="width: 50px; height: 50px;" src="{{img.Image}}" alt="">
+									</div>
+									<div class="col-md-9 font-chu">
+										<div class="col-md-12" style="font-weight: bold;">
+											<span>{{img.ObjectName}}</span>
+										</div>
+										<div class="col-md-12"><span>{{img.JobTile}}</span></div>
+									</div>
+								</div>
+							</mat-menu>
+						</div>
+						<div class="row">
+							<button mat-icon-button type="button" (click)="CapNhatNguoiThucHien()" style="height: 50px;"
+								matTooltip="Thêm người thực hiện">
+								<mat-icon style="color: blue;">person_add
+								</mat-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 kt--margin-bottom-10-mobile" style="padding: 20px 25px;">
+				<div class="row">
+					<div class="col-md-4 kt--margin-bottom-10-mobile font-chu text-mieuta"><span
+							translate="nhiemvu.mieuta"></span>
+					</div>
+					<div class="col-md-8 kt--margin-bottom-10-mobile font-chu" style="text-align: right;">
+						<span class="{{item.IsEdit ? 'text-thaotac' : ''}}" translate="landingpagekey.xoa"
+							(click)="XoaCongViecCT()"></span>&nbsp;&nbsp;
+						<span class="{{item.IsEdit ? 'text-thaotac' : ''}}" translate="landingpagekey.chinhsua"
+							(click)="CapNhat(2)"></span>&nbsp;&nbsp;
+						<span class="text-thaotac">{{'landingpagekey.upload' | translate}}
+							<div class="upload-form">
+								<input #myInput type="file" (change)="FileSelected($event)">
+							</div>
+						</span>
+					</div>
+					<div class="col-md-12 kt--margin-bottom-10-mobile font-chu">
+						<span style="white-space: pre-line;">{{item.Description != '' && item.Description != null ?
+							item.Description : 'Không có miêu tả'}}</span>
+					</div>
+					<br />
+					<div class="col-md-12 kt--margin-bottom-10-mobile font-chu"
+						style="display: flex; padding-top: 10px;">
+						<div class="row" *ngFor="let img of item.Data_Follower">
+							<img class="m--img-rounded m--marginless m--img-centered"
+								style="width: 50px; height: 50px;border-radius: 50%;" src="{{img.Image}}" alt=""
+								[matMenuTriggerFor]="menu">
+							<mat-menu #menu="matMenu">
+								<div class="row">
+									<div class="col-md-3">
+										<img class="m--img-rounded m--marginless m--img-centered"
+											style="width: 50px; height: 50px;" src="{{img.Image}}" alt="">
+									</div>
+									<div class="col-md-9 font-chu">
+										<div class="col-md-12" style="font-weight: bold;">
+											<span>{{img.ObjectName}}</span>
+										</div>
+										<div class="col-md-12"><span>{{img.JobTile}}</span></div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12" style="color: gray;">
+										<button mat-icon-button style="width: 100%;	border-radius: 0;text-align: left;"
+											class="menu-button" (click)="XoaNguoiTheoDoi(img)">
+											<mat-icon>delete</mat-icon>&nbsp;<span
+												translate="workprocess.xoanguoitheodoi"></span>
+										</button>
+									</div>
+								</div>
+							</mat-menu>
+						</div>
+						<div class="row">
+							<button mat-icon-button type="button" (click)="ThemNguoiTheoDoi(4)" style="height: 50px;"
+								matTooltip="Thêm người theo dõi">
+								<mat-icon style="color: blue;">person_add
+								</mat-icon>
+							</button>
+							<button mat-icon-button type="button" (click)="TheoDoi()" style="height: 50px;"
+								matTooltip="{{item.IsFollow ? 'Không theo dõi' : 'Theo dõi'}}">
+								<mat-icon style="color: yellowgreen;">{{item.IsFollow ? 'block' : 'add'}}
+								</mat-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 kt--margin-bottom-10-mobile" style="padding: 20px 25px;">
+				<div class="row font-chu">
+					<div class="col-md-12 kt--margin-bottom-10-mobile font-chu">
+						<h5>Kết quả công việc</h5>
+					</div>
+				</div>
+				<div class="row font-chu postform">
+					<div class="col-md-12 kt--margin-bottom-10-mobile font-chu">
+
+					</div>
+					<div class="col-md-12 kt--margin-bottom-10-mobile font-chu">
+						<span class="text-thaotac" translate="wf.capnhatketquacongviec"
+							(click)="CapNhat(3)"></span><span>or</span>
+						<span class="text-thaotac">{{'landingpagekey.upload' | translate}}
+							<div class="upload-form">
+								<input #myInput type="file" (change)="FileSelected($event)">
+							</div>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="topicObjectID" class="card card-custom">
+	<!-- <app-jee-comment [showCommentDefault]="true" [objectID]="topicObjectID">
+	</app-jee-comment> -->
+</div>

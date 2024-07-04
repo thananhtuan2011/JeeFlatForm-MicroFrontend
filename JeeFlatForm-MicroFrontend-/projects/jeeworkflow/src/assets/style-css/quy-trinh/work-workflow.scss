@@ -1,0 +1,59 @@
+m-jeewf {
+    .css-title-task {
+        font-weight: bold;
+        font-size: 11pt;
+        cursor: pointer;
+    }
+
+    .icon-add {
+        border: 1px dashed #676363;
+        border-radius: 50%;
+        height: 26px;
+        width: 26px;
+        text-align: center;
+        padding-top: 2px;
+        margin-top: 3px;
+    }
+
+    .pl-5 {
+        padding-left: 5px;
+    }
+
+    .pd-0{
+        padding: 0;
+    }
+
+    .m-top20 {
+        margin-top: 20px !important;
+    }
+
+    .m-bottom20{
+        margin-bottom: 20px;
+    }
+
+    .row-info{
+        display: flex;
+        align-items: center;
+    }
+    kt-add-task-wf {
+        .cu-task-row-new__container {
+            display: flex;
+        }
+
+        .cu-task-row-assignee {
+            .cu-avatar.cu-avatar_lg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .cu-avatar.cu-avatar-border {
+                border-radius: 50% !important;
+                border: 1px gray dashed !important;
+
+                &:hover {
+                    border-color: rgb(46, 205, 111) !important;
+                }
+            }
+        }
+    }
+}

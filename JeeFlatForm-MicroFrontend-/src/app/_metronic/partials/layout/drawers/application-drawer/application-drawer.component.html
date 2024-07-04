@@ -1,0 +1,60 @@
+<style>
+  .item {
+    width: 33%;
+
+    padding: 4% 4%;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 50px 0 0;
+  }
+
+  .rectangle {
+    width: 40px;
+    height: 40px;
+    background: #005fbe;
+  }
+
+  .item .text {
+    padding-top: 4px;
+    text-align: center;
+  }
+</style>
+<div id="kt_drawer_application" class="bg-white" data-kt-drawer="true" data-kt-drawer-name="application"
+  data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="375px"
+  data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_drawer_application_toggle"
+  data-kt-drawer-close="#kt_drawer_application_close">
+  <div class="card w-100 rounded-0 offcanvas">
+    <div style="padding: 15px; width: 100%;" class="offcanvas-header d-flex align-items-center justify-content-between">
+      <span class="title">Danh sách ứng dụng</span>
+      <a class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_drawer_application_close">
+        <i class="ki ki-close icon-xs text-muted"></i>
+      </a>
+    </div>
+    <div style="overflow: auto;position: relative;" [ngStyle]="{'height': getHeight()}">
+      <div style="display: flex; flex-wrap: wrap;">
+        <ng-container *ngFor="let app of listApp">
+          <div class="item" *ngIf="app.IsShowApp" [ngClass]="{hovered: app.hovered, highlighted: app.highlighted}"
+            (mouseover)="app.hovered = true" (mouseout)="app.hovered = false">
+            <div class="d-block py-3 px-3 text-center" style="height: 80px;">
+              <div *ngIf="app.Icon == '' || app.Icon == null">
+                <a class="d-block rectangle" (click)="routerLink(app)" id="kt_drawer_application_close"></a>
+              </div>
+              <div *ngIf="app.Icon != '' && app.Icon != null">
+                <a (click)="routerLink(app)" id="kt_drawer_application_close">
+                  <img src="{{app.Icon}}" height="51" width="51">
+                </a>
+              </div>
+            </div>
+            <div class=" text">{{app.AppName}}</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

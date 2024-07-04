@@ -1,0 +1,115 @@
+<style>
+	.auto_scroll {
+		max-height: 260px;
+		overflow-y: auto;
+	}
+
+	.tieude {
+		font-size: 14px;
+		font-weight: bold;
+	}
+
+	.mat-table__message {
+		text-align: center;
+		padding: 20px;
+		font-weight: bold;
+	}
+</style>
+<div class="card card-custom gutter-b">
+	<div class="card-header header">
+		<div class="card-title">
+			<span translate="datphonghop.danhsachdangkydahuy"></span>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" mat-raised-button class="ja_button btn-goback" (click)="goBack()">
+				{{'COMMON.BACK' | translate}}
+			</button>&nbsp;&nbsp;
+			<button type="button" mat-raised-button class="ja_button btn-addnew" (click)="loadDataList()">
+				{{'COMMON.SEARCH' | translate}}
+			</button>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<div class="row align-items-center">
+			<div class="col-md-6">
+				<mat-form-field class="mat-form-field-fluid">
+					<input placeholder="{{ 'datphonghop.tungay' | translate }}" matInput [matDatepicker]="dptungay"
+						#searchTuNgay>
+					<mat-datepicker-toggle matSuffix [for]="dptungay"></mat-datepicker-toggle>
+					<mat-datepicker #dptungay></mat-datepicker>
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-form-field class="mat-form-field-fluid">
+					<input placeholder="{{ 'datphonghop.denngay' | translate }}" matInput [matDatepicker]="dpdenngay"
+						 #searchDenNgay>
+					<mat-datepicker-toggle matSuffix [for]="dpdenngay"></mat-datepicker-toggle>
+					<mat-datepicker #dpdenngay></mat-datepicker>
+				</mat-form-field>
+			</div>
+		</div>
+
+		<div class="mat-table__wrapper auto_scroll">
+			<table mat-table class="lmat-elevation-z8" [dataSource]="dataSource" matSort
+				matSortActive="id1" style="width: 100%" matSortDirection="asc" matSortDisableClear>
+
+				<ng-container matColumnDef="STT">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-checkbox tieude">#</th>
+					<td mat-cell *matCellDef="let row,let vi = index" class="mat-column-checkbox">{{vi + 1}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="ThoiGian">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode tieude">
+						{{'datphonghop.thoigian' | translate}}
+					</th>
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">
+						{{item.BookingDate | date: 'dd/MM/yyyy'}} ({{item.FromTime + 'Z' | date: 'HH:mm'}} - {{item.ToTime + 'Z' | date: 'HH:mm'}})
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="PhongHop">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode tieude">
+						{{'datphonghop.phong' | translate}}
+					</th>
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.PhongHop}}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="LyDo">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode tieude">
+						{{'datphonghop.lydo' | translate}}
+					</th>
+						
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.LyDo}}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="NgayHuy">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode tieude">
+						{{'datphonghop.ngayhuy' | translate}}
+					</th>
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">
+						{{item.NgayHuy | date: 'dd/MM/yyyy'}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="NguoiHuy">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode tieude">
+						{{'datphonghop.nguoihuy' | translate}}					</th>
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">{{item.NguoiHuy}}
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="row.highlighted = !row.highlighted"
+					[ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+					(mouseout)="row.hovered = false"></tr>
+			</table>
+			<div class="mat-table__message" *ngIf="!dataSource.hasItems">
+				{{'COMMON.NO_RECORD_FOUND' | translate}}</div>
+		</div>
+
+		<mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50, 100]"
+			[length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
+	</div>
+</div>

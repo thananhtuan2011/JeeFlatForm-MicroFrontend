@@ -1,0 +1,17 @@
+// .item-field.text-2-line{
+//     display: -webkit-box;
+// }
+
+.max-size-group{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+::ng-deep .hidden-over{
+    overflow: hidden;
+}
+.url{
+    cursor: pointer;
+}

@@ -1,0 +1,67 @@
+<style>
+     :host>>>.card-body {
+        padding: 15px !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Thông tin đăng ký
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button (click)="goBack()" class="ja_btn-goback" mat-raised-button matTooltip="Trở lại" type="button">
+            <span>Trở lại</span>
+        </button>&nbsp;&nbsp;
+            <button (click)="GuiDangKy()" type="button" mat-raised-button class="ja_btn-addnew" matTooltip="Đăng ký" [disabled]="disabledBtn">
+                <mat-icon>check</mat-icon>&nbsp;<span>Đăng ký</span>
+        </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="itemForm">
+            <div class="row">
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput class="input-batbuoc" required [matDatepicker]="dp1" formControlName="BookingDate" placeholder="Ngày">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Thời gian từ" required formControlName="FromTime">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="bankTuGio" [placeholderLabel]="''" [noEntriesFoundLabel]="''">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value="{{itemCate.Gio}}" *ngFor="let itemCate of filteredBanksTuGio | async">
+                                {{ itemCate.Gio }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Đến" required formControlName="ToTime">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="bankDenGio" [placeholderLabel]="''" [noEntriesFoundLabel]="''">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value="{{itemCate.Gio}}" *ngFor="let itemCate of filteredBanksTuGio | async">
+                                {{ itemCate.Gio }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <mat-form-field class="example-full-width">
+                        <textarea rows="1" class="input-batbuoc" matInput placeholder="Nội dung họp" required autocomplete="off" formControlName="MeetingContent"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<style>
+    .card .card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">In mã QR
+            </h3>
+        </div>
+    </div>
+
+    <div id="printSectionId" class="card-body" style="height: calc(100vh-280px);overflow-y: visible;" #scrollMe>
+        <form class="kt-form">
+            <div class="kt-portlet__body">
+                <p style="text-align: center;">
+                  <img src="{{QRCODE}}" style="width: 60%;">
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="close()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+{{'COMMON.BACK' | translate}}
+</button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="printToCart('printSectionId')" matTooltip="In mã QR">
+In</button>
+</div>

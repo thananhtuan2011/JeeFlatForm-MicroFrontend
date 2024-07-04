@@ -1,0 +1,40 @@
+<div class="gridster-container">
+  <gridster [options]="options">
+    <gridster-item [item]="widget" *ngFor="let widget of dashboard" id="gridster-height{{ widget.id }}">
+      <div class="widget-header">
+        <div class="drag-handler widget-header-child widget-header-title">
+          {{ widget.name }}
+        </div>
+        <div *ngIf="widget.id == 2" class="widget-header-child">
+        </div>
+        &nbsp;&nbsp;
+        <div *ngIf="widget.id == 9" class="widget-header-child">
+          <div class="row" style="padding: 0 10px">
+            <div class="col-md-10" style="display: flex;">
+            </div>
+          </div>
+        </div>
+        &nbsp;&nbsp;
+        <div class="widget-header-child widget-header-right" *ngIf="this.isUseWidget">
+          <button (click)="closeWidget(widget.id)" class="btn btn-light mat-icon-button">
+            <span class="material-icons"
+              style="font-size: 2.4rem !important; font-weight: 500; padding-bottom: 5.5px; color: #707070">
+              close
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="gridster-item-content">
+        <ndc-dynamic [ndcDynamicComponent]="widget.componentType" [ndcDynamicInputs]="getInput(widget)"></ndc-dynamic>
+      </div>
+    </gridster-item>
+    <div id="button-edit-widget">
+      <div class="example-flex-container">
+        <button (click)="AddCloseWidget()" class="mat-mini-fab" matTooltip="Thêm widget" *ngIf="this.isUseWidget"
+          style="background-color: #0A9562;">
+          <i class="fa fas fa-plus icon-add-plus" style="color: #FFFFFF;"></i>
+        </button>
+      </div>
+    </div>
+  </gridster>
+</div>

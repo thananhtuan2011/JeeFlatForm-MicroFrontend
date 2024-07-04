@@ -1,0 +1,26 @@
+<div class="choose-users-box">
+  <div class="border-bottom"
+    style="padding: 10px 0; font-size: 15px; font-weight: 500; color: #42b814; padding-left: 15px;">
+    Chọn nhóm
+  </div>
+  <span class="status-input col-12 form-control bg-dark-ip">
+    <mat-form-field (keyup.enter)="createTaskGroup($event)"
+      class="mat-form-field-fluid" style="padding-left: 10px; width: 16vw">
+      <!-- <div class="box-color" style="margin-left: 1vw;" (click)="changeColor.click();" [ngStyle]="{'backgroundColor': colorNew } ">
+			</div> -->
+      <input #input matInput [formControl]="userFilterCtrl" placeholder="Tìm kiếm hoặc nhấn enter để lưu"
+        id="searchfield" autocomplete="off" (keyup)="keyup($event.target.value)" class="bg-dark-ip"/>
+      <!-- <mat-icon matPrefix> search</mat-icon> -->
+    </mat-form-field>
+  </span>
+  <div class="users-container">
+    <div class="user-item" *ngFor="let item of list_Group" >
+      <input class="choose-group-task bg-dark-ip" style="padding:5px" id="renameText{{item.id_row}}" (click)="$event.stopPropagation()"
+       [value]="item.title" type="text" (keyup.enter)="UpdateTitle($event,item.id_row)" (focusout)="UpdateTitle($event,item.id_row)">
+      <div style="display: flex;padding-top:5px">
+        <mat-icon matSuffix (click)="Rename(item.id_row)">mode_edit</mat-icon>
+        <mat-icon (click)="DeleteGroup(item)" matTooltip="Xóa nhóm khỏi dự án" matSuffix>close</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

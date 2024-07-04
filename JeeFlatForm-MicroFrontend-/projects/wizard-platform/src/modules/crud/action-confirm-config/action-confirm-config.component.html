@@ -1,0 +1,33 @@
+<style>
+	.closebtn {
+		align-items: center;
+		display: flex;
+		width: 25px;
+		height: 25px;
+		justify-content: center;
+	}
+
+	.bg-button-add {
+		background-color: var(--btn-add-plus) !important;
+		color: #fff;
+	}
+
+	button:focus {
+		outline: none !important;
+	}
+</style>
+<div class="modal-header">
+	<h4 class="modal-title" style="font-weight: 500;">{{ title }}</h4>
+</div>
+<div class="modal-body" style="text-align: justify;">
+	<span style="font-size: 14px;">
+		{{ message }}
+	</span>
+</div>
+<div class="modal-footer">
+	<button mat-raised-button 
+		style="box-shadow: 0 3px 1px -2px #0003,0 2px 2px 0 #00000024,0 1px 5px 0 #0000001f !important;"
+		(click)="decline()">{{ btnLater }}</button>
+	&nbsp;&nbsp;
+	<button mat-raised-button class="ja_btn-addnew" (click)="accept()">{{ btnAgree }}</button>
+</div>

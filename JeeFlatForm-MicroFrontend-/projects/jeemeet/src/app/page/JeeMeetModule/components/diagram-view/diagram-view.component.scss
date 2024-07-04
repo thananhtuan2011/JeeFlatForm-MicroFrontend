@@ -1,0 +1,45 @@
+#diagramEventsControlSection .sb-mobile-palette {
+    width: 180px;
+    height: 100%;
+    float: left;
+    margin: auto;
+    padding: 25px;
+}
+
+#diagramEventsControlSection .sb-mobile-diagram {
+    width: calc(100% - 180px);
+    height: 600px;
+    float: left;
+    border: none //1px solid #d9dedd;
+}
+
+@media (max-width: 550px) {
+    #diagramEventsControlSection .sb-mobile-palette {
+        z-index: 19;
+        position: absolute;
+        display: none;
+        transition: transform 300ms linear, visibility 0s linear 300ms;
+        width: 29%;
+        height: 100%;
+    }
+    #diagramEventsControlSection .sb-mobile-diagram {
+        width: 100%;
+        height: 100%;
+        // float: left;
+        // left: 0px;
+    }
+}
+
+.padding-mat {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.bg-palette {
+    background-color: aliceblue;
+}
+
+.fix-screen {
+    height: 527px;
+    overflow: scroll;
+}

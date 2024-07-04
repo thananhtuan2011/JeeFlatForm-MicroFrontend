@@ -1,0 +1,126 @@
+<div class="themmoiForm">
+  <div>
+    <div class="card-title" style="margin-left: -30px">
+      <a style="padding-left: 30px">
+        <span class="themmoiTitle" style="font-size: 20px; font-weight: bolder">Chuyển xử lý</span>
+      </a>
+    </div>
+  </div>
+
+  <mat-dialog-content style="padding-top: 2%;
+  border-top: 1px solid #ccc;">
+    <div class="card-body" style="height:auto;padding-left:0">
+      <div class="hd1">
+        <div>
+          <span class="text-title1">
+            {{ "work.giaocho" | translate }}
+          </span>
+        </div>
+        <!-- #region avartar nguoi duoc giao -->
+        <div style="padding: 0px 10px 0px 10px">
+          <div class="item-image">
+            <div class="user click scale-hover-02 position-relative hover-to-show" style="justify-content: flex-end">
+              <i *ngIf="_data.nguoiduocgiao.hoten != '' && this.CheckRule('assign')"
+                class="far fa-times-circle click view-hover text-dark bg-white" style="
+                          position: absolute;
+                          top: 0;
+                          right: 0;
+                          border-radius: 50%;
+                          font-size: 10pt;
+                        " (click)="RemoveAssign(_data.nguoiduocgiao.id_nv)">
+              </i>
+              <div *ngIf="_data.nguoiduocgiao.hoten !== ''">
+                <div *ngIf="this.CheckRule('assign'); else notAsi1">
+                  <ngx-avatar *ngIf="_data.nguoiduocgiao.image !== ''; else bindText1" matTooltipClass="br-tooltip"
+                    matTooltip="{{ getMoreInformation(_data.nguoiduocgiao) }}" size="40" (click)="clickmenu1.click()"
+                    src="{{ _data.nguoiduocgiao.image }}">
+                  </ngx-avatar>
+                </div>
+                <ng-template #notAsi1>
+                  <ngx-avatar *ngIf="_data.nguoiduocgiao.image !== ''; else bindText2" matTooltipClass="br-tooltip"
+                    matTooltip="{{ getMoreInformation(_data.nguoiduocgiao) }}" size="40"
+                    src="{{ _data.nguoiduocgiao.image }}">
+                  </ngx-avatar>
+                </ng-template>
+                <ng-template #bindText2>
+                  <ngx-avatar textSizeRatio="2.5" matTooltip="{{ _data.nguoiduocgiao.hoten }}" size="40" [name]="
+                              _danhmucChungServices.getNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            " bgColor="{{
+                              _danhmucChungServices.getColorNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            }}">
+                  </ngx-avatar>
+                </ng-template>
+                <ng-template #bindText1>
+                  <ngx-avatar textSizeRatio="2.5" matTooltip="{{ _data.nguoiduocgiao.hoten }}" size="40" [name]="
+                              _danhmucChungServices.getNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            " (click)="clickmenu1.click()" bgColor="{{
+                              _danhmucChungServices.getColorNameUser(
+                                _data.nguoiduocgiao.hoten
+                              )
+                            }}">
+                  </ngx-avatar>
+                </ng-template>
+              </div>
+              <div *ngIf="_data.nguoiduocgiao.hoten == ''" class="item-image">
+                <img *ngIf="this.CheckRule('assign'); else notAsHT" class="user-add click"
+                  (click)="clickmenu.click()" />
+                <div class="date-picker" [matMenuTriggerFor]="assignee2" #clickmenu></div>
+                <ng-template #notAsHT>
+                  <img class="user-add" />
+                </ng-template>
+                <mat-menu #assignee2="matMenu">
+                  <div class="page-work-detail">
+                    <kt-choose-users [options]="options_assign" [idDept]="_data.id_project_team"
+                      (IsSearch)="stopPropagation($event)" (ItemSelected)="ItemSelected($event, 'nguoiduocgiao')">
+                      >
+                    </kt-choose-users>
+                  </div>
+                </mat-menu>
+              </div>
+
+              <div class="date-picker" [matMenuTriggerFor]="assignee1" #clickmenu1></div>
+              <mat-menu #assignee1="matMenu">
+                <div class="page-work-detail">
+                  <kt-choose-users [options]="options_assign" [idDept]="_data.id_project_team"
+                    *ngIf="this.CheckRule('assign')" (IsSearch)="stopPropagation($event)"
+                    (ItemSelected)="ItemSelected($event, 'nguoiduocgiao')">
+                    >
+                  </kt-choose-users>
+                </div>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+        <div class="dt-fnt-1 custom1" style="display: inline-grid">
+          <span>
+            {{ _data.nguoiduocgiao.hoten }}
+          </span>
+          <span>{{ _data.nguoiduocgiao.tenchucdanh }}</span>
+        </div>
+      </div>
+      <div style="display:flex;padding-top:3%">
+        <span class="text-title2">Nhập lý do</span>
+        <textarea [(ngModel)]="reasons" row="3" class="reason form-input-title"></textarea>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-raised-button (click)="goBack()">
+      {{ "jeework.trolai" | translate }}
+    </button>
+    <button mat-raised-button style="background-color: #1bc5bd; color: #f2fcfb"
+      *ngIf="(this.UserNew!==undefined && this.UserOld !== undefined && this.UserNew!== this.UserOld)
+      ||(this.data.dataGiao!=''&& this.UserNew!== this.UserOld)"
+      (click)="onSubmit(true, 1)">
+      {{ "jeework.luuvadong" | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

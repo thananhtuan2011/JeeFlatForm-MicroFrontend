@@ -1,0 +1,91 @@
+<style>
+	:host>>>.mat-calendar-header {
+		padding: 0px !important;
+	}
+
+	:host>>>.mat-calendar-controls {
+		display: contents;
+		margin: 5% calc(33% / 7 - 16px);
+	}
+
+	:host>>>perfect-scrollbar>.ps.ps--active-x>.ps__rail-x {
+		display: none;
+	}
+</style>
+<div style="width: 100%; height: 100%; margin: 0; display: flex;">
+	<div class="calendar-left">
+		<mat-calendar #miniCalendar (selectedChange)="gotoDate($event)"></mat-calendar>
+		<mat-accordion>
+			<mat-expansion-panel class="mat-expansion-panel-flat" [disabled]="true" [expanded]="true">
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<div>
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Chọn loại lịch" (selectionChange)="ChangeLoaiLich($event)"
+									[(value)]="filter_capcocau">
+									<mat-option value="0">
+										Lịch của tôi</mat-option>
+									<mat-option value="{{hv.RowId}}" *ngFor="let hv of listCapCoCau">
+										{{hv.Title}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+				<section *ngFor="let item of types">
+					<mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked"
+						(change)="filter(item)">
+						{{item.Title}}
+					</mat-checkbox>
+				</section>
+				<section *ngFor="let item of typeworks">
+					<mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked"
+						(change)="filterwork(item)">
+						{{item.Title}}
+					</mat-checkbox>
+				</section>
+				<section *ngFor="let item of typeMeet">
+					<mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked"
+						(change)="filtermeet(item)">
+						{{item.Title}}
+					</mat-checkbox>
+				</section>
+			</mat-expansion-panel>
+		</mat-accordion>
+		<mat-accordion>
+			<mat-expansion-panel class="mat-expansion-panel-flat">
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						Trạng thái
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+				<section *ngFor="let item of status">
+					<mat-checkbox class="example-radio-button" [(ngModel)]="item.checked" (change)="filterStatus(item)">
+						{{item.Title}}
+					</mat-checkbox>
+				</section>
+			</mat-expansion-panel>
+		</mat-accordion>
+		<mat-accordion>
+			<mat-expansion-panel class="mat-expansion-panel-flat">
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						Lịch khác
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+				<section *ngFor="let item of types_khac">
+					<mat-checkbox class="example-radio-button {{item.class}}" [(ngModel)]="item.checked"
+						[disabled]="true" (change)="filter(item, true)">
+						{{item.Title}}
+					</mat-checkbox>
+				</section>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</div>
+	<div class="calendar-right">
+		<div class='app-calendar' id="app-calendar">
+			<full-calendar #calendar [options]="calendarOptions">
+			</full-calendar>
+		</div>
+	</div>
+</div>

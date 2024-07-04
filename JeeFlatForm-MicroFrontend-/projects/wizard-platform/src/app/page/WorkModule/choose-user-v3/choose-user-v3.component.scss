@@ -1,0 +1,25 @@
+.choose-users-box .users-container .user-item{
+    display: flex;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.choose-users-box .users-container{
+    max-height: 200px;
+    overflow-y: auto;
+}
+.mat-menu-content .page-work-detail .choose-users-box{
+    margin: 0;
+}
+.choose-users-box {
+    min-width: 260px;
+}
+body{
+    color: #646c9a;
+}
+.mat-form-field {
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.125;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: normal;
+}

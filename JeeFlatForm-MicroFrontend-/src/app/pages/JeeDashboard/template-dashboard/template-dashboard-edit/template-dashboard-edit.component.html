@@ -1,0 +1,65 @@
+<style>
+	.lydo {
+		text-transform: uppercase;
+		font-size: 12px;
+		font-weight: bold;
+		color: #666;
+		margin: 5px 0 25px 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.render {
+		position: absolute;
+		background-color: #eee;
+		height: 2px;
+		top: 9px;
+		left: 0px;
+		width: 100%;
+	}
+
+	em {
+		background-color: #fff;
+		display: inline-block;
+		position: relative;
+		font-weight: bold;
+		padding: 0 20px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title">{{getTitle()}}</h3>
+		</div>
+	</div>
+	<div class="card-body" style="overflow: auto; max-height: 80vh;">
+		<form class="kt-form" [formGroup]="itemForm">
+			<div class="kt-portlet__body">
+				<div class="form-group kt-form__group row">
+					<div class="col-md-12 kt--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="Mẫu"
+								formControlName="title" class="input-batbuoc" required #focusInput />
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="close()"
+			[disabled]="disabledBtn" matTooltip="{{ 'GeneralKey.trolai' | translate }}">
+			<span translate="GeneralKey.trolai"></span>
+		</button>&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true)"
+			[disabled]="disabledBtn" matTooltip="{{ 'GeneralKey.luudong' | translate }}">
+			<span translate="GeneralKey.luudong"></span>
+		</button>
+		&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn"
+			matTooltip="{{ 'GeneralKey.luuthietlap' | translate }}">
+			<mat-icon class="icon-repeat">repeat</mat-icon><span translate="GeneralKey.luuthietlap"></span>
+		</button>
+	</div>
+</div>

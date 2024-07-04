@@ -1,0 +1,38 @@
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{ getTitle() }}
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <form class="kt-form" [formGroup]="NotifyForm">
+            <div class="form-group kt-form__group row">
+                <div class="col-md-12 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput formControlName="TieuDe" type="text" />
+                        <mat-placeholder>Tiêu đề <sup style="color: red;">(*)</sup></mat-placeholder>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="form-group kt-form__group row">
+                <div class="col-md-12 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput formControlName="NoiDung" type="text" />
+                        <mat-placeholder>Nội dung <sup style="color: red;">(*)</sup></mat-placeholder>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" *ngIf="IdThongBao==0" (click)="close_ask()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+{{'COMMON.BACK' | translate}}
+</button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Gửi" *ngIf="IdThongBao==0">
+Gửi thông báo
+</button>
+</div>

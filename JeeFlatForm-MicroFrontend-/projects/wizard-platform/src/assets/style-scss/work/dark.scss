@@ -1,0 +1,88 @@
+@import "../../../../src/app/page/WorkModule/ngx-org-chart/theming";
+m-work {
+  .m-work {
+    background-color: #1e1e2d;
+  }
+  /* --- Tạo khung cho table */
+  .mat-table__wrapper .mat-table .mat-header-cell {
+    padding-right: 10px !important;
+    ;
+    border-top: 0.5px solid rgb(222, 222, 222) !important;
+    padding-left: 10px !important;
+    font-size: 14px !important;
+    color: #cdcdcd !important;
+    ;
+    background: #151521;
+}
+
+.mat-table__wrapper .mat-table .mat-cell {
+    color: #cdcdcd;
+    font-size: 14px !important;
+    background: #1e1e2d;
+}
+
+.borer-p {
+    border-bottom: 1px solid #aaaaaa;
+}
+
+.left {
+    border-right: 1px solid #aaaaaa;
+}
+
+  .class-text {
+    font-size: 1.2rem;
+    text-align: justify;
+    line-height: 1.5;
+    margin: 20px;
+  }
+
+  .icon-xoa {
+    color: #f4516c;
+  }
+
+  .icon-sua {
+    color: #716aca;
+  }
+}
+img.user {
+  content: url("../../../../../wizard-platform/src/app/page/WorkModule/image/User.png");
+}
+app-project-team-edit{
+  .bg-dark1 {
+    background-color: #20202d !important;
+  }
+  .color-dart1{
+    color:#ffffff !important
+  }
+}
+app-view-config-status{
+  .bg-dark1 {
+    background-color: #20202d !important;
+  }
+  .color-dart1{
+    color:#ffffff !important
+  }
+}
+
+.border-input {
+  background-color: #1e1e2d;
+  color: #cdcdcd;
+}
+.mat-dialog-container{
+  background-color: #1e1e2d !important;
+
+}
+.card{
+  background-color: #1e1e2d !important;
+  color: #cdcdcd !important;
+  .card-header{
+      border-bottom: 1px solid #3f4254;
+      .card-title h3{
+          color: #cdcdcd !important;
+      }
+  }
+
+  .card-footer{
+      border-top: 1px solid #3f4254;
+  }
+}

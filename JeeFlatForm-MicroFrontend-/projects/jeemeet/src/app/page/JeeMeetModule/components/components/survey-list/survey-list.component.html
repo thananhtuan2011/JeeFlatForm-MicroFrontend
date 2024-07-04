@@ -1,0 +1,317 @@
+<div class="card card-custom" *ngIf="type==1">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Phiếu lấy ý kiến {{title}}
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button mat-icon-button class="close-button" [mat-dialog-close]="data.animal" matTooltip="Đóng">
+        <mat-icon class="close-icon" color="warn">close</mat-icon>
+      </button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="kt-form" *ngIf="dataI && dataI.DanhSachCauHoi">
+            <div class="kt-portlet__body" style=" height: calc(100vh - 137px);">
+                <div class="row">
+                    <div class="col-md-8 kt-margin-bottom-10-mobile">
+                        <div class="kt-portlet__body" *ngFor="let que of dataI.DanhSachCauHoi; let i = index">
+                            <div style="margin-left: 30px;">
+                                <h5 class="kt-portlet__head-title">{{i+1}}. {{que.NoiDungCauHoi}}</h5>
+                            </div>
+                            <div class="noi-dung" style="margin-left: 60px;">
+                                <ng-container>
+                                    <div style="padding-bottom: 5px;">
+                                        <div *ngIf="que.Type==1">
+                                            <div>
+                                                <input class="form-control" type="text" [(ngModel)]="que.GhiChu" placeholder="Nhập nội dung câu trả lời">&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                        <div *ngIf="que.Type==2">
+                                            <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                                <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                                <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="que.Type==3">
+                                            <div *ngFor="let ans of que.DanhSachCauTraLoi">
+                                                <input type="checkbox" [(ngModel)]="ans.Checked" (change)="isChanges()">&nbsp;&nbsp;{{ans.CauTraLoi}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="que.Type==4">
+                                            <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                                <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption4(ans.Checked,i,j)">
+                                                <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                            </div>
+                                            <input type="checkbox" [(ngModel)]="que.Checked" (change)="isChangeoneoptionDif(que.Checked,i)">&nbsp;&nbsp;Câu trả lời khác
+                                            <input class="form-control" type="text" [(ngModel)]="que.GhiChu" *ngIf="que.Checked" placeholder="Nhập nội dung câu trả lời">&nbsp;&nbsp;
+                                        </div>
+                                        <div *ngIf="que.Type==5">
+                                            <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                                <input type="checkbox" checked id="{{ans.Point}}" [(ngModel)]="ans.Checked" (change)="isChangeoneoption(ans.Checked,i,j)">
+                                                <label for="{{ans.Point}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="que.Type==6">
+                                            <div class="round" *ngFor="let ans of que.DanhSachCauTraLoi; let j = index">
+                                                <input type="checkbox" checked id="{{ans.IdCauTraLoi}}" [(ngModel)]="ans.Checked" (change)="isChange(i, j)">
+                                                <label for="{{ans.IdCauTraLoi}}"></label> &nbsp;&nbsp;{{ans.CauTraLoi}}
+                                            </div>&nbsp;&nbsp;
+                                            <textarea class="form-control" [(ngModel)]="que.GhiChu" placeholder="Ghi chú" rows="4"></textarea>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 kt-margin-bottom-10-mobile">
+                        <ng-container>
+                            <div style="padding-top: 5%;" *ngIf="dataI.Files && dataI.Files.length>0">
+                                <div>
+                                    <h5 class="kt-portlet__head-title">Danh sách file đính kèm</h5>
+                                </div>
+                                <div *ngFor="let file of dataI.Files; let j = index" style="margin-left: 30px;">
+                                    <span><a href="{{domain + file.Path}}" target="_blank">{{j + 1}}.
+                {{file.TenFile}}</a></span> &nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div>
+                    <div class="kt-form">
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <button type="button" mat-raised-button class="button-cancel" [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="Trở về">
+            Trở về
+          </button>&nbsp;
+                                <button type="button" mat-raised-button color="primary" (click)="onSubmit()" matTooltip="Gửi khảo sát">
+            Gửi khảo sát
+          </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-form" *ngIf="!dataI">
+            <div class="kt-portlet__body">
+                <h3 class="text-center" style="font-size: 20px">
+                    <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-custom" *ngIf="type==2">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Kết quả phiếu lấy ý kiến {{title}}
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" mat-raised-button color="primary" (click)="xemListFile()">
+      File đính kèm
+    </button>
+            <button type="button" style="margin-left: 15px;" mat-raised-button color="primary" *ngIf="dataI || dataI.length!=0" (click)="ExportWord()">
+      Xuất file word
+    </button>
+            <a href="" id="downloadFile" style="display: none;"></a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="kt-form" *ngIf="dataI && dataI.length>0">
+            <div class="kt-portlet__body" style=" height: calc(100vh - 137px);">
+                <div class=row>
+                    <div class="col-lg-7">
+                        <div class="kt-portlet__body" *ngFor="let que of dataI; let i = index">
+                            <div style="margin-left: 30px;">
+                                <span>
+          <h5 class="kt-portlet__head-title">{{i+1}}. {{que.NoiDungCauHoi}}
+            <button (click)="chartKhaoSat(que)" *ngIf="que.DSCauTraLoi.length>0" mat-icon-button
+              color="primary" type="button"
+              matTooltip="Biểu đồ">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </h5>
+        </span>
+                            </div>
+                            <div style="font-size: 14px;" *ngIf="que.Type==1">
+                                {{que.GhiChu}}
+                            </div>
+                            <div class="noi-dung" style="margin-left: 60px;">
+
+                                <ng-container>
+                                    <div style="padding-bottom: 5px;">
+                                        <div>
+                                            <div style="font-size: 14px;" *ngFor="let ans of que.DSCauTraLoi">
+                                                {{ans.NoiDungCauTraLoi}} - Số lượng kết quả phiếu ý kiến
+                                                <b>({{ans.SoLuong}})</b>
+
+                                            </div>
+
+                                            <div style="padding-top: 5px;" *ngIf="que.DSType && que.DSType.length>0 && check!==true">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10%; text-align: center;">#</th>
+                                                            <th style="width: 30%; text-align: center;">
+                                                                Người gửi ý kiến</th>
+                                                            <th style="width: 60%; text-align: center;">
+                                                                Nội dung câu trả lời</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let que of que.DSType ; let k = index">
+
+                                                            <td style="width: 10%; text-align: center;">{{k+1}}</td>
+                                                            <td style="width: 30%;">{{que.FullName}}</td>
+                                                            <td style="width: 60%;">
+                                                                <div [innerHtml]="getStringFromHtml(que.content)"></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div style="padding-top: 5px;" *ngIf="que.DSYKienKhac && que.DSYKienKhac.length>0">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10%; text-align: center;">#</th>
+                                                            <th style="width: 30%; text-align: center;">
+                                                                Người gửi ý kiến</th>
+                                                            <th style="width: 60%; text-align: center;">
+                                                                Ghi chú</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let note of que.DSYKienKhac; let k = index">
+                                                            <td style="width: 10%; text-align: center;">{{k+1}}</td>
+                                                            <td *ngIf=" check!==true" style="width: 30%;">{{note.FullName}}</td>
+                                                            <td *ngIf="check!==true" style="width: 60%;">{{note.GhiChu}}</td>
+                                                            <td *ngIf="!(check!==true)" style="width: 30%;">****</td>
+                                                            <td *ngIf="!(check!==true)" style="width: 60%;">****</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5" *ngIf="dem>0" style="padding-top:20px">
+                        <div class="sticky">
+                            <div style="margin-left: 30px">
+                                <span>
+          <h5 class="kt-portlet__head-title"> Biểu đồ kết quả phiếu lấy ý kiến {{titlechart}}
+            <button style="float:right" type="button" mat-raised-button color="primary"
+              (click)="printCanvas()">In biểu đồ</button>
+          </h5>
+        </span>
+                            </div>
+                            <div class="chart">
+                                <canvas id="chartpie" baseChart [datasets]="datasets" width="500px" height="325px" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+        </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-form" *ngIf="!dataI || (dataI && dataI.length==0)">
+            <div class="kt-portlet__body">
+                <h3 class="text-center" style="font-size: 20px">
+                    <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card card-custom" *ngIf="type==3">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Danh sách phiếu lấy ý kiến
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button mat-icon-button class="close-button" [mat-dialog-close]="data.animal" matTooltip="Đóng">
+      <mat-icon class="close-icon" color="warn">close</mat-icon>
+    </button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="kt-form" *ngIf="dataI && dataI.length>0">
+            <div class="kt-portlet__body">
+                <div>
+                    <ng-container>
+                        <div style="padding-bottom: 5px;">
+                            <div>
+                                <div style="padding-top: 5px;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%; text-align: center;">#</th>
+                                                <th style="width: 10%; text-align: center;">
+                                                    Trạng thái</th>
+                                                <th style="width: 40%; text-align: center;">
+                                                    Phiếu lấy ý kiến</th>
+                                                <th style="width:30%; text-align: center;">
+                                                    Số người thực hiện đánh giá</th>
+                                                <th style="width: 15%; text-align: center;">
+                                                    Kết quả</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of dataI; let i = index">
+                                                <td style="width: 5%; text-align: center; padding-left: 10px; padding-top: 20px;">
+                                                    {{i+1}}</td>
+                                                <td style="width: 10%; text-align: center;">
+                                                    <button mat-icon-button [ngStyle]="{'color':getColor(item.IsActive)}" style="margin-top: 7px;" type="button" matTooltip="{{getTitle(item.IsActive)}}">
+                    <mat-icon>radio_button_checked</mat-icon>
+                  </button>
+                                                </td>
+                                                <td style="width: 40%; padding-left: 20px; padding-top: 20px;">
+                                                    {{item.TieuDe}}</td>
+                                                <td style="width: 30%; padding-left: 20px; padding-top: 20px; text-align: center;">
+                                                    {{item.TongSLThanhVienThucHien}}/{{item.TongSLThanhVienThamDu}}</td>
+                                                <td style="width: 15%; text-align: center;">
+                                                    <div>
+                                                        <button (click)="chooseSurveyList(item.IdKhaoSat, 2)" mat-icon-button color="primary" type="button" matTooltip="Kết quả phiếu lấy ý kiến" *ngIf="item && item.TongSLThanhVienThucHien && item.TongSLThanhVienThucHien>0">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="kt-form" *ngIf="!dataI || dataI.length==0">
+            <div class="kt-portlet__body">
+                <h3 class="text-center" style="font-size: 20px">
+                    <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</h3>
+            </div>
+        </div>
+    </div>
+</div>

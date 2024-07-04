@@ -1,0 +1,160 @@
+<div class="table-kanban" [ngStyle]="{'height': getHeight(),'width': getWidth()}" (scroll)="onScroll($event)">
+	<div style="margin: 5px; width: 310px; border-radius: 5px;" [style.height.px]="height"
+		*ngFor="let th of Data_Header">
+		<div class="row header-sticky css-sticky" style="padding: 0 10px;" [ngClass]="getBackground(th)">
+			<div class="row header-giaidoan">
+				<div class="col-md-8" style="align-self: center;">
+					<span [ngClass]="getTitleHeader(th)" style="cursor: pointer;"
+						matTooltip="{{ th.Stage }}">{{th.Stage}}</span>
+				</div>
+				<div class="col-md-4" style="display: flex; justify-content: flex-end;">
+					<div class="soluong-nhiemvu" *ngIf="!th.IsFinish">
+						<span class="color-sl-nhiemvu" style="font-size: 11pt; font-weight: bold;">{{th.Tasks -
+							th.QuaHan}}</span>
+					</div>
+					<div class="soluong-quahan" *ngIf="!th.IsFinish">
+						<span class="color-sl-quahan" style="font-size: 11pt; font-weight: bold;">{{th.QuaHan}}</span>
+					</div>
+					<div class="soluong-hoanthanh" *ngIf="th.IsFinish">
+						<span *ngIf="th.StageID > 0" class="color-sl-hoanthanh"
+							style="font-size: 11pt; font-weight: bold;">{{th.Tasks}}</span>
+						<span *ngIf="!(th.StageID > 0)" class="color-sl-thatbai"
+							style="font-size: 11pt; font-weight: bold;">{{th.Tasks}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="body-example-list" style="height: 100%;width: 310px;" [ngClass]="getBackground(th)" cdkDropList
+			id="{{''+th.StageID}}" [cdkDropListData]="th.Data" cdkDropListSortingDisabled
+			(cdkDropListDropped)="drop($event)">
+			<div class="example-box" *ngFor="let weekItem of th.Data, let vi = index" cdkDrag
+				(cdkDragStarted)="dragStart($event, vi)"
+				style="margin: 10px; box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);">
+				<!-- null - chưa xử lý/mới ;  -->
+				<!-- [ngStyle]="{'color': weekItem.Status == '3' ? '#b9f3beb8' : weekItem.Status == '-1' ? '#efb5b5db' : weekItem.Status == '0' ? '#ff0000' : weekItem.Status == '1' ? 'rgb(255, 184, 34)' : weekItem.Status == '2' ? '#9acd32' : (weekItem.Status == null && weekItem.AssignDate != '') ? 'gray' : 'black'}" -->
+				<div class="header-task" style="padding: 10px; display: flex;" [ngClass]="getBackground_HeaderTask(weekItem)">
+					<div class="col-md-10 pd-0" style="align-self: center" *ngIf="!th.IsFinish">
+						<span [ngClass]="getColor_HeaderTask(weekItem)" class="css-title-task"
+							matTooltip="{{ weekItem.Tasks }}"
+							(click)="ChiTietNhiemVu(th, weekItem)">{{weekItem.Tasks}}</span>
+					</div>
+					<div class="col-md-2 pd-0" *ngIf="weekItem.Implementer && weekItem.Implementer.length > 0 && !th.IsFinish">
+						<div class="row pl-5" *ngIf="weekItem.Implementer.length == 1">
+							<ngx-avatar [size]="35" src="{{weekItem.Implementer[0].AvartarImgURL}}"
+								*ngIf="weekItem.Implementer[0].AvartarImgURL; else bindText">
+							</ngx-avatar>
+							<ng-template #bindText>
+								<ngx-avatar textSizeRatio="2.5" [size]="35"
+									[name]="weekItem.Implementer[0].FirstName.slice(0, 1)"
+									bgColor="{{ _ProcessWorkService.getColorNameUser(weekItem.Implementer[0].FirstName.slice(0, 1)) }}">
+								</ngx-avatar>
+							</ng-template>
+						</div>
+						<div class="row pl-5" *ngIf="weekItem.Implementer.length > 1">
+							<div class="user url">
+								<ngx-avatar [matMenuTriggerFor]="menu" textSizeRatio="2.5" [size]="35"
+									name="{{weekItem.Implementer2_count}}">
+								</ngx-avatar>
+								<mat-menu #menu="matMenu">
+									<div class="row" *ngFor="let img of weekItem.Implementer2">
+										<div class="col-md-2" style="padding: 5px;">
+											<ngx-avatar [size]="35" src="{{img.AvartarImgURL}}"
+												*ngIf="img.AvartarImgURL; else bindText">
+											</ngx-avatar>
+											<ng-template #bindText>
+												<ngx-avatar textSizeRatio="2.5" [size]="35"
+													[name]="img.FirstName.slice(0, 1)"
+													bgColor="{{ _ProcessWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+												</ngx-avatar>
+											</ng-template>
+										</div>
+										<div class="col-md-10 font-chu">
+											<div class="col-md-12" style="font-weight: bold;">
+												<span>{{img.FullName}}</span>
+											</div>
+											<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+										</div>
+									</div>
+								</mat-menu>
+							</div>
+						</div>
+					</div>
+					<div
+						*ngIf="!(weekItem.Implementer && weekItem.Implementer.length > 0) && th.NodeType!=6 && th.NodeType!=4">
+						<div class="row" style="align-self: center;">
+							<div class="icon-add" (click)="GiaoViec(weekItem)" matTooltip="Chọn người giao việc"
+								style="cursor: pointer;">
+								<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+							</div>
+						</div>
+					</div>
+					<!-- Hiện new cho nhiệm vụ có cập nhật mới -->
+					<div class="col-md-11 pd-0" style="align-self: center" *ngIf="th.IsFinish">
+						<span [ngClass]="getColor_HeaderTask(weekItem)" class="css-title-task"
+							matTooltip="{{ weekItem.Tasks }}"
+							(click)="ChiTietNhiemVu(th, weekItem)">{{weekItem.Tasks}}</span>
+					</div>
+					<div class="col-md-1 pd-0" *ngIf="th.IsFinish && weekItem.isNew">
+						<span>
+							<div *ngIf="isnew" class="icon-new-finish">N</div>
+						</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="!th.IsFinish">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.trangthai"></span>
+					</div>
+					<div class="col-md-8 pd-0 trangthai" [ngClass]="BgTrangThai(weekItem.Status)"
+						style="align-self: center;">
+						<span
+							[ngClass]="ColorTrangThai(weekItem.Status)">{{getItemStatusString(weekItem.Status)}}</span>
+						&nbsp;
+						<span style="float: right; padding-right: 10px;" *ngIf="weekItem.isNew">
+							<div *ngIf="isnew" class="icon-new">N</div>
+						</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="!th.IsFinish">
+					<div class="col-md-4 pd-0" style="align-self: center;">
+						<span class="color-span" translate="workprocess.hanchot"></span>
+					</div>
+					<div class="col-md-8 pd-0 hanchot" [ngClass]="BgHanChot(weekItem)" style="align-self: center;">
+						<span *ngIf="weekItem.IsQuaHan" class="icon-quahan">!
+						</span>&nbsp;
+						<span [ngClass]="ColorHanChot(weekItem)">{{
+							(weekItem.Status != null &&
+							weekItem.Deadline == null) ? '' :
+							this.formatTimeService.format_convertDate(weekItem.Deadline,1,true)
+							}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="th.IsFinish && th.StageID > 0">
+					<div class="col-md-12 pd-0 hoanthanh" style="align-self: center;">
+						<span class="color-span-left">{{weekItem.task_createddate |
+							date:'dd/MM/yyyy'}}</span>&nbsp;<span class="color-span-left">-</span>&nbsp;<span
+							class="color-span-right">{{weekItem.task_completedate |
+							date:'dd/MM/yyyy'}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="th.IsFinish && !(th.StageID > 0)">
+					<div class="col-md-12 pd-0 hoanthanh" style="align-self: center;">
+						<span class="color-span-left">{{weekItem.task_createddate |
+							date:'dd/MM/yyyy'}}</span>&nbsp;<span class="color-span-left">-</span>&nbsp;<span
+							class="color-span-right">{{weekItem.task_completedate |
+							date:'dd/MM/yyyy'}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="th.IsFinish && !(th.StageID > 0)">
+					<div class="col-md-12 pd-0 thatbai" style="align-self: center; text-align: center;">
+						<span class="color-span">{{weekItem.stage_active}}</span>
+					</div>
+				</div>
+				<div class="row" style="height:50px; padding: 0 10px;" *ngIf="th.IsFinish && !(th.StageID > 0)">
+					<div class="col-md-12 pd-0" style="align-self: center;">
+						<span class="color-span">{{weekItem.task_reason}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

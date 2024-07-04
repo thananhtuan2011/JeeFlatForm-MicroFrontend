@@ -1,0 +1,31 @@
+.row{
+    --bs-gutter-x: none;
+    --bs-gutter-y: none;
+}
+
+.padding-status{
+    padding-left: 5px !important;
+}
+
+
+.icon-new-finish {
+    width: 23px;
+    height: 23px;
+    border: 1px solid red;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .font-title{
+    font-size: 11pt;
+    font-weight: 500;
+  }
+  .font-time{
+    font-size: 10pt;
+    font-weight: 500;
+  }

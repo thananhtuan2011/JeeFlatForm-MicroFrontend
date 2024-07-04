@@ -1,0 +1,104 @@
+mat-form-field {
+    width: 100%;
+}
+
+.Search-Box {
+    // padding: 1px 16px 5px 16px;
+}
+
+.Empty-Noti {
+    text-align: center;
+}
+
+.node-label {
+    width: 100%;
+    height: 100%;
+    padding-left: 20px;
+}
+
+mat-tree {
+    margin-left: 16px;
+}
+
+.tree-nested-node {
+    padding-left: 30px;
+}
+
+.mat-tree-node {
+    padding: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.mat-tree-node:hover {}
+
+.mat-tree-node.selected {
+    color: rgb(56, 163, 250);
+}
+
+.mat-nested-tree-node {
+    top: -24px;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.tree-container {
+    border-bottom: 0;
+}
+
+ul {
+    padding-left: 40px;
+}
+
+li {
+    padding-left: 24px;
+    border: 1px dotted grey;
+    border-width: 0 0 1px 1px;
+    position: relative;
+    top: -24px;
+}
+
+li.mat-tree-node,
+li div {
+    margin: 0;
+    position: relative;
+    top: 24px;
+}
+
+li ul {
+    border-top: 1px dotted grey;
+    margin-left: -24px;
+    padding-left: 43.5px;
+}
+
+.mat-nested-tree-node:last-child ul {
+    border-left: 1px dotted grey;
+    margin-left: -25px;
+    // margin-bottom: 32px;
+}
+
+.aaaaaa ul:first-child {
+    border-left: 1px dotted rgb(255, 255, 255);
+    margin-left: -25px;
+}
+
+.mat-icon-button {
+    z-index: 100;
+}
+
+.checklist-leaf-node {
+    padding: unset;
+    padding-right: 16px;
+    z-index: 100;
+}
+
+.checkbox-leaf-node {
+    padding: unset;
+    padding-right: 16px;
+    z-index: 100;
+}

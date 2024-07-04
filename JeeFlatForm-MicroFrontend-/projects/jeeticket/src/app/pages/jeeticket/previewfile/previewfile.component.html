@@ -1,0 +1,29 @@
+
+<div>
+<div>
+    <button (click)="goBack()" style="    float: right;
+    margin-top: -15px;
+    margin-bottom: 10px;display: flex;
+    top: 10px"  mat-button
+    mat-icon-button>
+    <mat-icon style="font-size: 15px;">clear</mat-icon>
+  
+  </button>
+</div>
+
+    <div>
+        <div *ngIf="loading" >
+            <div><mat-progress-bar mode="indeterminate"></mat-progress-bar>
+               
+            </div>
+        </div>
+        <div >
+            <ngx-doc-viewer 
+            (loaded)="contentLoaded()"
+            [url]="url" viewer="google"
+            style="width:100%;height:93vh;">
+            </ngx-doc-viewer>
+        </div>
+       
+    </div>
+</div>

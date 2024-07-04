@@ -1,0 +1,68 @@
+<div class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left">
+                <th style="min-width: 100px"><span>ID</span>
+                </th>
+                <th style="min-width: 150px"><span translate="draft.gov_sohieu"></span>
+                </th>
+                <th style="min-width: 150px"><span translate="draft.gov_ngay"></span>
+                </th>
+                <th style="min-width: 200px"><span translate="draft.gov_trichyeu"></span>
+                </th>
+                <th style="min-width: 200px"><span translate="draft.nguoitao"></span>
+                </th>
+                <!-- <th style="min-width: 100px"><span translate="widgets.nguoithamgia"></span></th> -->
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let item of dataLazyLoad" (click)="Add(item.id_row)" style="cursor: pointer;">
+
+                <td class="pl-2">
+                    <span>{{item.id_row}}</span>
+                </td>
+                <td class="pl-2">
+                    <div class="it item-text">
+                        <span>{{item.Gov_SoHieuVB}}</span>
+                    </div>
+
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <div>
+                        <app-task-datetime [fieldname]="'deadline'" [value]="item.Gov_NgayVB">
+                        </app-task-datetime>
+                    </div>
+
+                </td>
+
+                <td class="pl-3">
+                    <span>{{item.Gov_TrichYeuVB}}</span>
+                </td>
+                <td>
+                    <span class="name-title" style="font-weight: bold;">{{ item.Assignor.hoten }}</span><br />
+                    <span class="name-title" style="font-weight: bold;">{{ item.Assignor.jobtitle }}</span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadDataList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- // -->

@@ -1,0 +1,18 @@
+<mat-form-field style="padding: 5px;" class="mat-form-field-fluid " *ngIf="options.showSearch" (click)="stopPropagation($event)">
+    <input matInput [formControl]="userFilterCtrl" placeholder="Tìm kiếm" autocomplete="off" />
+    <mat-icon matPrefix> search</mat-icon>
+</mat-form-field>
+<div class="users-container">
+    <div class="user-item row" matTooltip="@{{user.username}}" (click)="select(user)" *ngFor="let user of filteredUsers | async">
+        <div class="col-md-2">
+            <ngx-avatar size="26" src="{{user.Image}}" *ngIf="user.Image;else bindText"></ngx-avatar>
+            <ng-template #bindText>
+                <ngx-avatar textSizeRatio="2.5" [style]="customStyle" size="26" bgColor="{{getColorNameUser(user.HoTen)}}" [name]="getNameUser(user.HoTen)"></ngx-avatar>
+            </ng-template>
+        </div>
+        <div class="col-md-10">
+            <div>{{ user.HoTen }}</div>
+            <span>{{ user.ChucVu }}</span>
+        </div>
+    </div>
+</div>

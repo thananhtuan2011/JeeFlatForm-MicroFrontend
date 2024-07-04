@@ -1,0 +1,21 @@
+<div ngbDropdown #dropdownCustom class="dl-dropdown-custom d-inline-block class-width dropup" [placement]="Placement" autoClose="outside">
+    <!--(click)="changePlacement($event)"-->
+    <div data-boundary="window" class="btn btn-outline-primary dl-drop-custom-css " id="dropdownForm1" ngbDropdownToggle>
+        <mat-form-field style="width: 100%;" class="mat-form-field-fluid " [ngClass]="{'mat-form-field-should-float ': valid,'mat-focused': focus}">
+            <input matInput class="input-drop" [placeholder]="placeholder" [formControl]="dropdownCustomControl " readonly>
+            <i class="fa fa-times drp-clear " aria-hidden="true " (click)="ClearData() "></i>
+        </mat-form-field>
+    </div>
+    <div ngbDropdownMenu aria-labelledby="dropdownForm1 " class="dl-drop-custom-menu">
+        <div class="search-input">
+            <input class="drp-input-search" placeholder="Tìm kiếm" #drpsearch />
+        </div>
+        <div class="back-menu" (click)="backMenu($event)" *ngIf="current_menu>0"><i class="fa fa-angle-left" aria-hidden="true"></i> {{current_item_select}}
+        </div>
+        <div class="list-drp-item">
+            <div class="dropdown-custom-item" *ngFor="let item of dataSources; let i = index" (click)="ChangeDropdown(item)">
+                {{item.title}}
+            </div>
+        </div>
+    </div>
+</div>

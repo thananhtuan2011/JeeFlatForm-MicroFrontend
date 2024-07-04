@@ -1,0 +1,303 @@
+<div class="card card-custom" *ngIf="Type == 1">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Giao người thực hiện</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="{{ 'dynamicform.nguoithuchien' | translate }}"
+							formControlName="nguoithuchien" required>
+							<mat-option>
+								<ngx-mat-select-search [formControl]="bankFilterCtrlNTH" [placeholderLabel]="''"
+									[noEntriesFoundLabel]="''">
+								</ngx-mat-select-search>
+							</mat-option>
+							<mat-option value="{{''+itemCate.UserId}}" *ngFor="let itemCate of filteredBanksNTH | async">
+								<span>{{ itemCate.FullName }}</span>
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+						<span translate="landingpagekey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button class="ja_btn-addcontinue" (click)="NguoiThucHien()"
+						matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+						<span translate="landingpagekey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 2">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Cập nhật giai đoạn</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="{{ 'workprocess.lydo' | translate }}" formControlName="lydo"
+							class="require" required #focusInput />
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+						<span translate="landingpagekey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button class="ja_btn-addcontinue" (click)="LyDo()"
+						matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+						<span translate="landingpagekey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 12">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Cập nhật tình trạng nhiệm vụ</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 kt--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select required
+							placeholder="{{ (TypeReason == 0 ? 'workprocess.lydothatbai' : 'workprocess.lydohoanthanh')| translate }}"
+							formControlName="reason">
+							<mat-option value="{{dt.RowID}}" *ngFor="let dt of listReason">
+								{{ dt.Title }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+						<span translate="landingpagekey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button class="ja_btn-addcontinue" (click)="CapNhatTinhTrangNhiemVu()"
+						matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+						<span translate="landingpagekey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 13">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Cập nhật thông tin</h5>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" class="mat-icon-button" (click)="goBack()"
+				matTooltip="{{ 'landingpagekey.dong' | translate }}">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+	<m-dynamic-form [TypeID]="2" [ViewData]="DatField" (Close)="goBackForm()"></m-dynamic-form>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 15">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Quản lý vị trí giai đoạn</h5>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="m-form__group" dndDropzone dndEffectAllowed="copyMove"
+			(dndDrop)="onDrop_Columns($event, listGiaiDoan)" class="dndList">
+			<div dndPlaceholderRef class="row align-items-center dndPlaceholder">
+			</div>
+			<div class="row align-items-center" *ngFor="let list of listGiaiDoan;  let i = index" [dndDraggable]="list"
+				dndEffectAllowed="copyMove" (dndMoved)="onMoved_Columns(list, listGiaiDoan, 'move')" style="height: 50px;">
+				<div class="col-md-1 m--margin-bottom-5-mobile">
+					<div dndHandle class="flaticon-more-v5"></div>
+				</div>
+				<div dndHandle class="col-md-11 m--margin-bottom-5-mobile" style="font-size: 15px;">
+					<span>{{listGiaiDoan[i].NodeName}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'GeneralKey.trolai' | translate }}">
+						<span translate="GeneralKey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button color="accent" (click)="LuuViTriGiaiDoan()"
+						matTooltip="{{ 'GeneralKey.luudong' | translate }}">
+						<span translate="GeneralKey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 16">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Thêm tài liệu</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body" style="padding: 1rem;">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+					<div class="col-md-1 m--margin-bottom-10-mobile" style="padding: 0; align-self: center;">
+						<span translate="workprocess.tailieu"></span>
+					</div>
+					<div class="col-md-11 m--margin-bottom-10-mobile">
+						<dl-image-control [data]="itemFile" formControlName="fileControl" nameButton="Chọn tệp"
+							[multiple]="true" [required]="false">
+						</dl-image-control>
+					</div>
+				</div>
+				<br />
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+						<span translate="landingpagekey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button class="ja_btn-addcontinue" (click)="LuuTaiLieu()"
+						matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+						<span translate="landingpagekey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 17">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">{{getTypeCV()}}</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body" style="padding: 1rem;">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+					<div class="col-md-1 m--margin-bottom-10-mobile" style="padding: 0; align-self: center;">
+						<span translate="workprocess.tailieu"></span>
+					</div>
+					<div class="col-md-11 m--margin-bottom-10-mobile">
+						<dl-image-control [data]="itemFile" formControlName="fileControl" nameButton="Chọn tệp"
+							[multiple]="true" [required]="false">
+						</dl-image-control>
+					</div>
+				</div>
+				<br />
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+						<span translate="landingpagekey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button class="ja_btn-addcontinue" (click)="LuuTaiLieuCV()"
+						matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+						<span translate="landingpagekey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-custom" *ngIf="Type == 18">
+	<div class="card-header">
+		<div class="card-title">
+			<h5 class="dialog-title">Thay đổi người quản lý giai đoạn</h5>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="itemForm">
+		<div class="card-body">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select required placeholder="Quản lý giai đoạn" formControlName="quanlygiaidoan"
+							multiple>
+							<mat-option>
+								<ngx-mat-select-search [formControl]="bankFilterCtrlQL" [placeholderLabel]="''"
+									[noEntriesFoundLabel]="''">
+								</ngx-mat-select-search>
+							</mat-option>
+							<mat-option value="{{itemCate.RowID}}" *ngFor="let itemCate of filteredBanksQL | async">
+								{{ itemCate.Title }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="dialog-footer">
+		<div class="kt-form__actions kt-form__actions--solid">
+			<div class="row text-right">
+				<div class="col-lg-12">
+					<button type="button" class="mat-raised-button" (click)="goBack()" cdkFocusInitial
+						matTooltip="{{ 'GeneralKey.trolai' | translate }}">
+						<span translate="GeneralKey.trolai"></span>
+					</button>&nbsp;
+					<button type="button" mat-raised-button color="accent" (click)="QuanLyGiaiDoan()"
+						matTooltip="{{ 'GeneralKey.luudong' | translate }}">
+						<span translate="GeneralKey.luudong"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

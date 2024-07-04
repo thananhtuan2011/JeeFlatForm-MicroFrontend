@@ -1,0 +1,43 @@
+.view-hover {
+    display: none;
+}
+
+.scale-hover-02 {
+    &:hover {
+        z-index: 10;
+        transform: scale(1.2);
+        transition: all .05s;
+        border: 0;
+        .view-hover {
+            display: block;
+        }
+        &.user {
+            border-radius: 0;
+            background: rgba(253, 253, 253, 0)
+        }
+    }
+}
+
+.scale-hover-01 {
+    &:hover {
+        z-index: 10;
+        transform: scale(1.05);
+        transition: all .05s;
+        border: 0;
+        .view-hover {
+            display: block;
+        }
+        &.user {
+            border-radius: 0;
+            background: rgba(253, 253, 253, 0)
+        }
+    }
+}
+
+.icon_PheDuyet {
+    border-radius: 50%;
+    background-color: #78B740;
+    color: #FFFFFF;
+    font-size: 9px;
+    padding: 5px;
+}

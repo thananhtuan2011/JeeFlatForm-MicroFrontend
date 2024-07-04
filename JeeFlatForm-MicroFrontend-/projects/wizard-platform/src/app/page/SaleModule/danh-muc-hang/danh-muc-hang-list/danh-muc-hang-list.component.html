@@ -1,0 +1,131 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>Danh sách mặt hàng</h3>
+    </div>
+    <div class="card-toolbar">
+      <button (click)="Add()" mat-raised-button matTooltip="{{ 'JeeHR.themmoi' | translate }}"
+        class="ja_button ja_btn-addnew" type="button">
+        <span translate="JeeHR.themmoi"></span>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row class-text" id="height1">
+      <!-- Danh sách các chức vụ hiện tại. Chức vụ được hiểu là các vị trí công việc như: Trưởng phòng hành chính, Kế toán,
+      Nhân viên nhân sự,... Mỗi chức vụ sẽ ứng với
+      một cấp bậc như: Trưởng phòng hành chính cấp bậc là trưởng phòng, Kế toán và Nhân viên nhân sự cấp bậc là nhân
+      viên. Hệ thống đã tạo sẵn một số chức vụ phổ biến
+      để bạn sử dụng. Bạn có thể điều chỉnh lại (thêm/sửa/xóa) cho phù hợp với doanh nghiệp của mình: -->
+    </div>
+    <div class="example-container mat-table__wrapper" (scroll)="onScroll($event)" id="listScroll"
+      [ngStyle]="{'height': getHeight()}" style="overflow: auto;">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+        <!-- STT -->
+        <ng-container matColumnDef="STT">
+          <th mat-header-cell *matHeaderCellDef style="text-align: left; width:100px">
+            STT
+          </th>
+          <td mat-cell *matCellDef="let element,let vi = index" style="text-align: left;width:100px">
+            {{vi+1}}
+          </td>
+        </ng-container>
+
+        <!-- actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef style="text-align: right">
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: right; padding-right: 10px;">
+            <button (click)="Edit(element)" mat-icon-button matTooltip="{{ 'JeeHR.capnhat' | translate }}" type="button"
+              class="icon-sua">
+              <mat-icon>create</mat-icon>
+            </button>
+            <button mat-icon-button type="button" (click)="Delete(element)" matTooltip="{{ 'JeeHR.xoa' | translate }}"
+              class="icon-xoa">
+              <mat-icon>delete</mat-icon>
+            </button>&nbsp;
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="HinhAnh">
+          <th mat-header-cell *matHeaderCellDef>
+            Hình ảnh
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.HinhAnh != '' && element.HinhAnh != null">
+              <img width="50" height="50" src="{{element.HinhAnh}}">
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="MaHang">
+          <th mat-header-cell *matHeaderCellDef>
+            Mã hàng
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.MaHang}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TenMatHang">
+          <th mat-header-cell *matHeaderCellDef>
+            Tên mặt hàng
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.TenMatHang}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DonViTinh">
+          <th mat-header-cell *matHeaderCellDef>
+            Đơn vị tính
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.DonViTinh}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="NgungKinhDoanh">
+          <th mat-header-cell *matHeaderCellDef>
+            Trạng thái
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.NgungKinhDoanh}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DonGia">
+          <th mat-header-cell *matHeaderCellDef>
+            Điơn giá
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{f_currency_V2(element.DonGia)}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GiaVon">
+          <th mat-header-cell *matHeaderCellDef>
+            Giá vốn
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{f_currency_V2(element.GiaVon)}}
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+          (mouseout)="row.hovered = false"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

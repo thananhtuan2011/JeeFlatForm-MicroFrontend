@@ -1,0 +1,24 @@
+<div class="reaction-show" *ngIf="comment">
+  <div class="reaction-show-icon" *ngIf="comment.TotalLengthReaction > 0">
+    <div class="icon-reaction-show">
+      <div class="icon-reaction-show-emotion">
+        <div class="total-reaction">{{ comment.TotalLengthReaction }}</div>
+        <ng-container *ngFor="let id_reaction of lstShowReaction">
+          <div class="icon-reaction-show-emotion-icon" customToolTip [contentTemplate]="template"   (mouseenter)="toggleWithGreeting(id_reaction)">
+            <canvas class="style-icon-reaction-show" aria-hidden="true" id="{{ id_reaction }}"></canvas>
+          </div>
+          <ng-template #template>
+            <div style="padding: 10px;display: flex; flex-direction: column;background-color: white;position: relative;z-index: 99999;border-radius: 5px;">
+              <div *ngFor="let rc of  lstShow ">
+                <div class="tooltiptext" >
+                 <span>{{rc}}</span>
+                </div>
+                    
+             </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

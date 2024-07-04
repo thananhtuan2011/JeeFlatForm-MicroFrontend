@@ -1,0 +1,101 @@
+<style>
+    .card-body {
+        height: 100%;
+    }
+
+    .card.card-custom {
+        height: 100%;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="col-md-6" style="margin-top: 0.5cm;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">{{dt.title}}
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" class="button-cancel" mat-raised-button (click)="close()" cdkFocusInitial
+                matTooltip="{{ 'COMMON.BACK' | translate }}">
+                {{'COMMON.BACK' | translate}}
+            </button>&nbsp;
+        </div>
+    </div>
+    <div class="card-body" *ngIf="dt.type === 2">
+        <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table-file table table-bordered">
+                    <ng-container>
+                        <tr>
+                            <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                            <th style="text-align: left;">Tên file</th>
+                            <th style="text-align: left;">Tổng số lượt xem</th>
+                            <th style="text-align: left;">Người đăng tải</th>
+                            <th style="text-align: left;">Ngày đăng tải</th>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngFor="let it of data.FileDinhKem; let i=index">
+                        <tr class="p-file-ex">
+                            <td style="text-align: center;">{{i+1}}</td>
+                            <td style="text-align: left;">
+                                <a href="" id="downloadFile" style="display: none;"></a>
+                                <a (click)="TaiXuong(it)" style="  color:#00B3FF">{{it.TenFile}}</a>
+                            </td>
+                            <td style="text-align: left;">
+                                <a style="color:#00B3FF">{{it.tongluotxem}}</a>
+
+                            </td>
+                            <td style="text-align: left;">{{it.HoTen}}</td>
+                            <td style="text-align: left;">{{it.CreatedDate}}</td>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message"
+                *ngIf="data.FileDinhKem.length === 0">
+                <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-body" *ngIf="dt.type === 1">
+        <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table-file table table-bordered">
+                    <ng-container>
+                        <tr>
+                            <th style="width:10%;text-align: center;">{{'ComMon.STT' | translate}}</th>
+                            <th style="text-align: left;">Tên file</th>
+                            <th style="text-align: left;">Tổng số lượt xem</th>
+                            <th style="text-align: left;">Người đăng tải</th>
+                            <th style="text-align: left;">Ngày đăng tải</th>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngFor="let it of data.FileDinhKemThuMoi; let i=index">
+                        <tr class="p-file-ex">
+                            <td style="text-align: center;">{{i+1}}</td>
+                            <td style="text-align: left;">
+                                <a href="" id="downloadFile" style="display: none;"></a>
+                                <a (click)="TaiXuong(it)" style="  color:#00B3FF">{{it.TenFile}}</a>
+                            </td>
+                            <td style="text-align: left;">
+                                <a style="color:#00B3FF">{{it.tongluotxem}}</a>
+
+                            </td>
+                            <td style="text-align: left;">{{it.HoTen}}</td>
+                            <td style="text-align: left;">{{it.CreatedDate}}</td>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+            <div style="text-align: center;font-size: 20px" class="mat-table__message"
+                *ngIf="data.FileDinhKemThuMoi.length === 0">
+                <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                <br /> Không có dữ liệu
+            </div>
+
+        </div>
+    </div>
+</div>

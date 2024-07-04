@@ -1,0 +1,36 @@
+
+
+
+<style>
+
+</style>
+<div  class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="dialog-title" style="font-size: 16px;
+      font-weight: 700;
+      color: #16a850;">Đánh giá yêu cầu hỗ trợ</h3>
+    </div>
+  </div>
+  <div class="card-body" style="min-height: 100px;text-align: center;">
+
+
+        <div  class="ra-bg">
+            <span *ngFor="let item of [].constructor(value_rating); let i = index"
+            class="fa fa-star rating-yellow"  (click)="ClickRating(i+1)"></span>
+        <span *ngFor="let item of [].constructor(5-value_rating); let i = index"
+            class="fa fa-star rating-white"  (click)="ClickRating(i+1+value_rating)"></span>
+
+</div>
+<!-- <span style="margin-top: 30px;">{{rangting_text}}</span> -->
+  </div>
+
+  <div class="dialog-footer" style="padding: 15px">
+    <button type="button" class="ja_button ja_btn-goback" mat-raised-button (click)="goBack()" style="font-weight: normal;">Trở
+        lại</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button style="padding:0 3px 0 3px" type="button" class="ja_button" mat-raised-button color="primary" (click)="UpdateRating()" style="font-weight: normal;
+    width: 87px;">Gửi đánh giá</button>
+
+  </div>
+</div>
+

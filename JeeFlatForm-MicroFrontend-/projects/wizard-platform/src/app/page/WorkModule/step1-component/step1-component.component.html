@@ -1,0 +1,27 @@
+<div class="card card-custom" *ngIf="isLoad">
+    <div class="card-header">
+        <div class="card-title">
+            <h3>{{Data[0].title}}</h3>
+        </div>
+        <div class="card-toolbar">
+            <button (click)="ClickDataDefault()" mat-raised-button class="ja_button ja_btn-addnew" type="button">
+                <span>Sử dụng dữ liệu mặc định</span>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <span class="class-text">
+            Phân hệ quản lý công việc giúp bạn quản lý công việc tại doanh nghiệp theo đa dạng các cách quản lý danh
+            sách công việc hàng ngày, hàng tuần đên quản lý công việc theo dạng dự án, theo mô hình agile,... Cách tổ
+            chức công việc trên hệ thông được chia thành các cấp sau:
+        </span>
+        <div style="display: flex;width: 100%;" [ngStyle]="{'height': getHeight()}">
+            <span class="class-text" style="width: 29%;display: block;" [innerHTML]="Data[0].description">
+            </span>
+            <div>
+                <ngx-org-chart [nodes]="datanodes" direction="horizontal">
+                </ngx-org-chart>
+            </div>
+        </div>
+    </div>
+</div>

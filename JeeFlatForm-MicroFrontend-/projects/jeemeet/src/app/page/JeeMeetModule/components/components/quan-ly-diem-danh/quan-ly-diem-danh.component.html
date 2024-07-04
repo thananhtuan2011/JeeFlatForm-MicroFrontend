@@ -1,0 +1,158 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Quản lý điểm danh</span>
+        </div>
+
+        <div class="card-toolbar">
+            <!-- <button mat-icon-button class="close-button" [mat-dialog-close]="data.animal" matTooltip="Đóng">
+            <mat-icon class="close-icon" color="warn">close</mat-icon>
+          </button> -->
+            <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+            {{'COMMON.BACK' | translate}}
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div [ngStyle]="{'height': getHeight()}" style="overflow-y: auto;">
+            <div style="display: flex;">
+                <div style="width: 50%;">
+                    <table style="margin: 25px;">
+                        <tr style="    visibility: collapse;">
+                            <th style="width: 40%;"></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng thành viên được mời:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongThanhVienDuocMoi}}</td>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng số thành viên xác nhận tham gia:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongThanhVienXacNhanThamGia}}</td>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng số khách mời xác nhận tham gia:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongKhachMoiXacNhanThamGia}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="width: 50%;">
+                    <table style="margin: 25px;">
+                        <tr style="    visibility: collapse;">
+                            <th style="width: 40%;"></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng số thành viên vắng mặt:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongThanhVienVangMat}}</td>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng số khách mời vắng mặt:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongKhachMoiVangMat}}</td>
+                        </tr>
+                        <tr>
+                            <td><a>Tổng số điểm danh:</a></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{QuanLyKhaoSatResult.soLuongDiemDanh}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th class=" text-center" style=" text-align: center" style="flex: 0 0 5%; width: 5%">
+                            <span>STT</span>
+                        </th>
+                        <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span> Thành viên</span>
+                        </th>
+
+                        <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span>Chức vụ</span>
+                        </th>
+
+                        <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span>Trạng thái</span>
+                        </th>
+
+                        <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span> Điểm danh</span>
+                        </th>
+
+                        <th style="min-width: 200px;" style="flex: 0 0 28%; width: 28%">
+                            <span> Hành động</span>
+                        </th>
+
+                        <!-- <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span> Lý do báo vắng</span>
+                        </th> -->
+                        <th style=" text-align: center" style="flex: 0 0 10%; width: 10%">
+                            <span>Thư ký ghi chú</span>
+                        </th>
+
+                    </thead>
+                    <tbody *ngIf="productsService.items$ | async">
+
+                        <tr *ngFor="let item of QuanLyKhaoSatResult.listThamGia; let i = index;">
+                            <td class="text-center" style="flex: 0 0 5%; width: 5%">
+                                {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                            </td>
+                            <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span>{{item.FullName}}</span>
+                            </td>
+
+                            <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span>{{item.ChucVu}}</span>
+                            </td>
+
+                            <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span> {{getTrangThaiText(item.trangthai)}}</span>
+                            </td>
+
+                            <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span>{{ item.DiemDanh?"Đã điểm danh":"Chưa điểm danh"}}</span>
+                            </td>
+
+                            <td style="text-align: center" style="flex: 0 0 28%; width: 28%">
+                                <button (click)="XacNhanThamGia(3,item)" type="button" color="accent" mat-raised-button *ngIf="item.trangthai === 1 || item.trangthai === 0">
+                        Cập nhật vắng
+                      </button>
+                                <button style="margin: 5px;" (click)="XacNhanThamGia(1,item)" type="button" color="primary" mat-raised-button *ngIf="item.trangthai === 0">
+                        Xác nhận tham gia
+                      </button>
+                                <button (click)="XacNhanThamGia(1,item)" type="button" color="primary" mat-raised-button *ngIf="item.trangthai === 3 || item.trangthai === 2">
+                        Cập nhật tham gia
+                      </button>
+                                <!-- <button (click)="XacNhanThamGia(3,item)" type="button" color="primary" mat-raised-button *ngIf="item.trangthai === 2">
+                         Xác nhận
+                       </button>&nbsp;
+                                <button style="margin: 5px;" (click)="XacNhanThamGia(4,item)" type="button" color="warn" mat-raised-button *ngIf="item.trangthai === 2 ">
+                         Từ chối
+                       </button> -->
+                            </td>
+
+
+                            <!-- <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span>{{item.Note}}</span>
+                            </td> -->
+                            <td style="text-align: center" style="flex: 0 0 10%; width: 10%">
+                                <span>{{item.ApprovedNote}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(productsService.items$ | async).length === 0">
+                    <img class="icon-btn-data" src="assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</div>
+            </div>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

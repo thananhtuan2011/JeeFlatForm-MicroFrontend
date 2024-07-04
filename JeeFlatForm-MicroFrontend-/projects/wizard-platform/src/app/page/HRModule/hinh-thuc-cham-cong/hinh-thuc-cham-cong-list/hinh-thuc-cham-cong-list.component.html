@@ -1,0 +1,63 @@
+<style>
+  .m-list-search__form-wrapper {
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+  }
+
+  .border-input {
+    height: 30px;
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+    padding-left: 10px;
+  }
+
+  ::placeholder {
+    font-style: italic;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>{{ 'JeeHR.hinhthucchamcong' | translate }}</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row class-text">
+      Chọn 1 hình thức chấm công áp dụng cho doanh nghiệp của bạn:
+    </div>
+    <div class="example-container mat-table__wrapper" id="listScroll"
+      style="overflow: auto;">
+      <div class="row class-text" style="display: flex;" *ngFor="let _data of listData, let vi = index">
+        <div style="width:3%">
+          <!-- <div class="hinhthucchamcong">
+            <input type="checkbox" [checked]="_data.isCheck" (change)="change(_data)" id="checkbox{{vi}}" />
+            <label for="checkbox{{vi}}"></label>
+          </div> -->
+          <div class="status-items" (click)="change(_data)"*ngIf="!_data.isCheck">
+            <i class="fa fa-circle status-all" style="font-size: 20px;"></i>
+          </div>
+          <div class="status-items" (click)="change(_data)" *ngIf="_data.isCheck">
+            <i class="fa fa-check-circle status-complete" style="font-size: 20px; color: rgb(7, 191, 7)"></i>
+          </div>
+        </div>
+        <div style="width:97%">
+          <span style="font-weight:bold">{{_data.title}}</span><br />
+          <span style="font-size:1.1rem; font-style: italic;">{{_data.description}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

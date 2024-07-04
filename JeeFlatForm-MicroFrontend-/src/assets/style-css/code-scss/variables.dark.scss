@@ -1,0 +1,52 @@
+.dark-mode {
+    &.custemer-jee {
+        --menu-left: #151521;
+        --menu-left-hover: #1e1e2d;
+        --menu-left-active: #1e1e2d;
+         //Tham số liên quan đến button
+         --btn-add-plus: #09A562;
+         //Tham số liên quan số lương mới
+        --mat-badge-color:white;
+        --mat-badge-background:#f44336;
+    }
+
+    &.custemer-s-office {
+        --menu-left: #151521;
+        --menu-left-hover: #1e1e2d;
+        --menu-left-active: #1e1e2d;
+         //Tham số liên quan đến button
+         --btn-add-plus: #DC4A33;
+         //Tham số liên quan số lương mới
+         --mat-badge-color:#DC4A33;
+        --mat-badge-background:white;
+    }
+
+    &.custemer-binhthuan {
+        --menu-left: #151521;
+        --menu-left-hover: #1e1e2d;
+        --menu-left-active: #1e1e2d;
+         //Tham số liên quan đến button
+         --btn-add-plus: #00B3FF;
+         //Tham số liên quan số lương mới
+        --mat-badge-color:white;
+        --mat-badge-background:#f44336;
+    }
+
+    &.custemer-cat {
+        --menu-left: #006d97;
+        --menu-left-hover: #1398c0;
+        --menu-left-active: #1398c0;
+        --btn-add-plus: var(--menu-left);
+    }
+
+    &.custemer-dp247 {
+        --menu-left: #151521;
+        --menu-left-hover: #1e1e2d;
+        --menu-left-active: #1e1e2d;
+         //Tham số liên quan đến button
+         --btn-add-plus: #0846AD;
+         //Tham số liên quan số lương mới
+        --mat-badge-color:white;
+        --mat-badge-background:#f44336;
+    }
+}

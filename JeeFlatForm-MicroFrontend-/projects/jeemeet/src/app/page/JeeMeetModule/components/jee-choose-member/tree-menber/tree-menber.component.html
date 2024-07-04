@@ -1,0 +1,25 @@
+<div class="jee jee-custom">
+    <div class="jee-header">
+        <div class="row" style="width: 100%;">
+            <h5>Thêm thành viên</h5>
+        </div>
+    </div>
+
+    <mat-radio-group *ngIf="anOption" (change)="changeTypeMember($event)" [value]="type_nember" style="padding: 20px 20px 2px 20px;">
+        <mat-radio-button [value]="0">Chọn thành viên tham gia</mat-radio-button>
+        <mat-radio-button [value]="3">Cây đơn vị người dùng</mat-radio-button>
+        <mat-radio-button [value]="2">Chọn nhóm thành viên tham gia</mat-radio-button>
+    </mat-radio-group>
+    <div class="jee-body">
+
+
+    </div>
+    <div class="jee-footer">
+        <button type="button" class="mat-raised-button ja_button ja_btn-goback" (click)="goBack()">
+          Hủy
+      </button>&nbsp;
+        <button type="button" class="mat-raised-button ja_button ja_btn-addnew" (click)="onSubmit()">
+          Xác nhận
+      </button>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<div [ngStyle]="{'height': getHeight()}">
+  <table style="width:100% !important" class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0"
+    cellspacing="0">
+    <thead>
+      <tr>
+        <th class="css-stickyheader-col0" rowspan="2"
+          style="min-width: 50px; text-align: center;height: 80px;color: white !important;">
+          Được giao cho
+        </th>
+        <th class="css-stickyheader-col0" rowspan="2" style="min-width: 50px; text-align: center;color: white !important;">
+          Tổng số {{BaoCaoService.ts_congviec}}
+        </th>
+        <th class="css-stickyheader-col0" colspan="3" style="min-width: 50px; text-align: center;color: white !important;">
+          Đã hoàn thành
+        </th>
+        <th class="css-stickyheader-col1" colspan="3" style="min-width: 50px; text-align: center;color: white !important;">
+          Chưa hoàn thành
+        </th>
+        <!-- <th class="css-stickyheader-col2" style="min-width: 50px; text-align: center;color: white !important;">
+          Còn hạn
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 50px; text-align: center;color: white !important;">
+          Sắp tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Quá hạn
+        </th> -->
+
+
+      </tr>
+      <tr class="css-stickyheader-col0">
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 60px;color: white !important;">Đúng hạn</td>
+        <td lcass="css-sticky-row3-1" style=" text-align: center; min-width: 60px;color: white !important;">Quá hạn</td>
+        <td class="css-sticky-row3-2" style=" text-align: center; min-width: 60px;color: white !important;">Tổng</td>
+        <td class="css-sticky-row3" style=" text-align: center; min-width: 60px;color: white !important;">Trong Hạn</td>
+        <td class="css-sticky-row3-1" style=" text-align: center; min-width: 60px;color: white !important;">Quá hạn</td>
+        <td class="css-sticky-row3-2" style=" text-align: center; min-width: 60px;color: white !important;">Tổng</td>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr class="mat-row-baocao" *ngFor="let data of this.listData" [ngClass]="{hovered: data.hovered, highlighted: data.highlighted}" (mouseover)="data.hovered = true"
+      (mouseout)="data.hovered = false">
+        <td class="css-sticky-col0" style="text-align: left; height: 22px;">
+          <span style="margin-left: 10px;">
+            {{data.title}}
+          </span>
+
+        </td>
+        <td class="css-sticky-col1" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(0,data)">
+              {{data.num_work}}
+          </span>
+
+        </td>
+        <td class="css-sticky-col-htdh" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(1,data)">
+            {{data.hoanthanh_dunghan}}
+          </span>
+        </td>
+
+
+        <td class="css-sticky-col-htqh" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(2,data)">
+            {{data.hoanthanh_quahan}}
+          </span>
+
+        </td>
+        <td class="css-sticky-col-ch" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(8,data)">
+              {{data.num_workht}}
+          </span>
+        </td>
+        <td class="css-sticky-col-sth" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(7,data)">
+            {{data.tronghan}}
+          </span>
+
+        </td>
+        <td class="css-sticky-col-qh" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(6,data)">
+            {{data.quahan}}
+          </span>
+
+        </td>
+        <td class="css-sticky-col-th" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view2(9,data)">
+            {{data.num_workcht}}
+          </span>
+        </td>
+        
+
+
+      </tr>
+      <tr *ngFor="let item of listData_Tong">
+        <td class="css-sticky-col-red" style="text-align: left; height: 22px;">
+          <div class="it item-text-title">
+            <span class="url -hover name-title" style="font-weight: bold !important; font-size: 13pt !important; margin-left: 10px;">
+              Tổng cộng
+            </span>
+          </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.s_num_work}} </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.s_hoanthanh_dunghan}} </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.s_hoanthanh_quahan}} </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.sum_numwork_ht}}</div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+             {{item.s_tronghan}} </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.s_quahan}} </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <div class="it item-text">
+            {{item.sum_numwork_cht}}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

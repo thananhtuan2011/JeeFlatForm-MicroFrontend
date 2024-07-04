@@ -1,0 +1,1058 @@
+<style>
+	.diagram-drawing-tool .image-pattern-style {
+		background-color: white;
+		background-size: contain;
+		background-repeat: no-repeat;
+		height: 45px;
+		width: calc((100% - 12px) / 3);
+		cursor: pointer;
+		border: 1px solid #D5D5D5;
+		background-position: center;
+		float: left;
+	}
+
+	.diagram-drawing-tool .row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	.diagram-drawing-tool .sb-child-row {
+		padding-top: 8px;
+	}
+
+	.diagram-drawing-tool .row-header {
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.diagram-drawing-tool .e-checkbox-wrapper .e-label {
+		font-size: 12px;
+	}
+
+	.diagram-drawing-tool .property-panel-header {
+		padding-top: 15px;
+		padding-bottom: 5px
+	}
+
+	.diagram-drawing-tool .e-selected-style {
+		border-color: #006CE6;
+		border-width: 2px;
+	}
+
+	.diagram-drawing-tool .control-section {
+		padding: 0;
+	}
+
+	.diagram-drawing-tool .container-fluid {
+		padding-left: 0px;
+	}
+
+	.diagram-drawing-tool .col-xs-6 {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	.css-stt {
+		height: 40px;
+		width: 40px;
+		text-align: center;
+		border-radius: 50%;
+	}
+
+
+	.css-name:hover {
+		text-decoration: underline;
+	}
+
+	.css-mouse {
+		cursor: pointer;
+	}
+
+	.menu-button:hover {
+		background-color: #dadef7;
+	}
+
+	.icon-menutext {
+		color: gray;
+		padding-right: 10px;
+	}
+
+	.mat-raised-button:not([class*=mat-elevation-z]) {
+		box-shadow: none;
+	}
+
+	:host>>>.kt-portlet {
+		height: auto !important;
+	}
+
+	.icon-menutext {
+		color: #0A9562;
+	}
+
+	:host>>>.mat-tab-label {
+		min-width: auto !important;
+	}
+
+	.text-bold {
+		font-weight: bold;
+	}
+
+	.css-icon {
+		height: 26px;
+		width: 26px;
+		text-align: center;
+	}
+
+	.control-padding {
+		padding: 10px 0 10px 10px;
+	}
+
+	.control-padding-right {
+		padding: 10px;
+	}
+
+	.css-hanchot:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+</style>
+
+<div class="diagram-drawing-tool row font-chu" id="details-process">
+	<div class="col-md-{{getTyLeLeft()}} control-padding">
+		<div class="content-wrapper">
+			<div class="content-wrapper">
+				<div class="card card-custom">
+					<div class="card-header" style="padding: 0 20px;">
+						<div class="card-title">
+							<i class="flaticon2-back" (click)="goBack()"
+								matTooltip="{{'landingpagekey.trolai'|translate}}"></i>&nbsp;
+							<h6 class="title-nhiemvu" style="padding-top: 5px; text-transform: uppercase;">
+								{{TenNhiemVu}}
+							</h6>
+						</div>
+						<div class="card-toolbar" *ngIf="itemQT">
+							<button mat-raised-button type="button" (click)="DanhDauHoanThanh()"
+								*ngIf="itemQT.iseditstatus && ShowDone == null" class="btn-danhdauhoanthanh">
+								<span class="color-span" style="font-weight: 500;">Đánh dấu hoàn thành</span>
+							</button>&nbsp;
+							<button mat-raised-button type="button" (click)="DanhDauThatBai()"
+								*ngIf="itemQT.iseditstatus && ShowDone == null" class="btn-danhdauthatbai">
+								<span class="color-span" style="font-weight: 500;">Đánh dấu thất bại</span>
+							</button>&nbsp;
+							<img src="{{getImageTyLe(TyLe)}}" style="height: 36.3px;" matTooltip="Bố cục"
+								[matMenuTriggerFor]="menuBody">
+							<mat-menu #menuBody="matMenu">
+								<img mat-menu-item src="{{getImageTyLe('4/8')}}" style="height: 36.3px;"
+									(click)="LuuTyLe('4/8')" *ngIf="TyLe != '4/8'">
+								<br *ngIf="TyLe != '4/8'" />
+								<img mat-menu-item src="{{getImageTyLe('5/7')}}" style="height: 36.3px;"
+									(click)="LuuTyLe('5/7')" *ngIf="TyLe != '5/7'">
+								<br *ngIf="TyLe != '5/7'" />
+								<img mat-menu-item src="{{getImageTyLe('6/6')}}" style="height: 36.3px;"
+									(click)="LuuTyLe('6/6')" *ngIf="TyLe != '6/6'">
+								<br *ngIf="TyLe != '6/6'" />
+								<img mat-menu-item src="{{getImageTyLe('7/5')}}" style="height: 36.3px;"
+									(click)="LuuTyLe('7/5')" *ngIf="TyLe != '7/5'">
+								<br *ngIf="TyLe != '7/5' && TyLe != '8/4'" />
+								<img mat-menu-item src="{{getImageTyLe('8/4')}}" style="height: 36.3px;"
+									(click)="LuuTyLe('8/4')" *ngIf="TyLe != '8/4'">
+							</mat-menu>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="diagram-drawing-tool row">
+							<div class="col-md-12 control-section">
+								<div class="content-wrapper control-section" id="width-diagram">
+									<div class="content-wrapper" [ngStyle]="{'height': getHeight()}"
+										*ngIf="ShowDiagram">
+										<ejs-diagram #diagram id="diagram" width="100%" [snapSettings]="snapSettings"
+											(created)='diagramCreate($event)' (click)="ChiTietNode($event)"
+											(positionChange)="positionChange($event)">
+										</ejs-diagram>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-{{getTyLeRight()}} control-padding-right" *ngIf="ShowGD">
+		<div class="card card-custom">
+			<div class="card-header" style="border: none;">
+				<div class="card-title">
+					<h4><span>{{itemGD.CongViec}}</span></h4>
+				</div>
+				<div class="card-toolbar" *ngIf="itemGD.AssignDate != '' && itemGD.IsEditStatus">
+					<div class="task-status"
+						*ngIf="itemGD.AssignDate != '' && itemGD.IsEditStatus && itemGD.CompleteDate == ''"
+						[ngClass]="BgButton(itemGD.Status)">
+						<div class="cu-dropdown_pointer cu-dropdown" [matMenuTriggerFor]="menu">
+							<div class="task-status__value">
+								{{getItemStatusString(itemGD.Status)}}
+							</div>
+						</div>
+					</div>
+					<mat-menu #menu="matMenu" class="menu-css">
+						<button mat-menu-item (click)="CapNhatGiaiDoan(0)" *ngIf="itemGD.Status == 1">
+							<mat-icon class="wf-color-tamdung" style="vertical-align: text-top;margin: 0;">
+								pause_circle_outline
+							</mat-icon>
+							&nbsp;<span class="wf-color-tamdung" style="font-size: 9pt"
+								translate="workprocess.tamdung"></span>
+						</button>
+						<button mat-menu-item (click)="CapNhatGiaiDoan(1)" *ngIf="itemGD.Status != 1">
+							<mat-icon class="wf-color-thuchien" style="vertical-align: text-top;margin: 0;">alarm
+							</mat-icon>
+							&nbsp;<span class="wf-color-thuchien" style="font-size: 9pt"
+								translate="workprocess.thuchien"></span>
+						</button>
+						<button mat-menu-item (click)="CapNhatGiaiDoan(2)"
+							*ngIf="(itemGD.Status == 1 || itemGD.Status == null) && GiaiDoan != 'Decision'">
+							<mat-icon class="wf-color-hoanthanh" style="vertical-align: text-top;margin: 0;">alarm_on
+							</mat-icon>
+							&nbsp;<span class="wf-color-hoanthanh" style="font-size: 9pt"
+								translate="workprocess.hoanthanh"></span>
+						</button>
+					</mat-menu>&nbsp;
+					<button mat-icon-button [matMenuTriggerFor]="menu1">
+						<mat-icon>keyboard_arrow_down</mat-icon>
+					</button>
+					<mat-menu #menu1="matMenu">
+						<button *ngIf="itemGD.IsEditStatus" mat-menu-item style="text-align: left; padding: 0;"
+							(click)="GiaoViec()">
+							<i class="flaticon-user-add icon-menutext"></i>&nbsp;<span style="font-size: 9pt;"
+								translate="workprocess.thaydoinguoithuchien"></span>
+						</button>
+						<button *ngIf="itemGD.isedit_task" mat-menu-item style="text-align: left; padding: 0;"
+							(click)="ThayDoiNguoiQuanLy()">
+							<i class="flaticon-user-add icon-menutext"></i>&nbsp;<span style="font-size: 9pt;"
+								translate="workprocess.thaydoiquanlygiaidoan"></span>
+						</button>
+						<button (click)="ChuyenGiaiDoan()" mat-menu-item style="text-align: left; padding: 0;">
+							<i class="flaticon2-accept icon-menutext"></i>&nbsp;<span style="font-size: 9pt;">Chuyển
+								sang giai đoạn kế tiếp</span>
+						</button>
+						<button mat-menu-item style="text-align: left; padding: 0;" (click)="ChuyenGiaiDoanTruoc()">
+							<i class="flaticon-reply icon-menutext"></i>&nbsp;<span style="font-size: 9pt;">Chuyển
+								về giai đoạn trước</span>
+						</button>
+						<button mat-menu-item style="text-align: left;  padding: 0;" (click)="ChuyenTiepWF()"
+							*ngIf="GiaiDoan == 'PreDefinedProcess'">
+							<i class="flaticon-paper-plane icon-menutext"></i>&nbsp;<span style="font-size: 9pt;">Xem
+								chi tiết quy trình con</span>
+						</button>
+					</mat-menu>
+				</div>
+			</div>
+			<div class="card-body" style="padding-top: 0;">
+				<div class="col-md-12" style="padding: 5px;" *ngIf="itemGD.Time_Type != 3 && itemGD.AssignDate != ''">
+					<mat-progress-bar mode="determinate" value="{{itemGD.PhanTram}}"
+						[appProgressBarColor]="getColorProcessBar(itemGD)">
+					</mat-progress-bar>
+				</div>
+				<div class="row font-chu" style="font-size: 14px;">
+					<div class="col-md-6" *ngIf="itemGD.AssignDate != ''">
+						<div class="row-info" *ngIf="itemGD.NguoiThucHien.length > 0">
+							<mat-icon class="css-icon" style="color: dodgerblue">person</mat-icon>&nbsp;<span
+								style="color: #bdb5b5;">Thực hiện:</span>&nbsp;
+							<div *ngFor="let img of itemGD.NguoiThucHien" style="white-space: nowrap;text-align: left;">
+								<span class="css-name css-mouse text-bold"
+									[matMenuTriggerFor]="menu">{{img.HoTen}}</span>&nbsp;&nbsp;
+								<mat-menu #menu="matMenu">
+									<div class="row">
+										<div class="col-md-3">
+											<ngx-avatar [size]="50" src="{{img.Image}}"
+												*ngIf="img.Image; else bindText">
+											</ngx-avatar>
+											<ng-template #bindText>
+												<ngx-avatar [size]="50" [name]="img.Ten.slice(0, 1)"
+													bgColor="{{ processWorkService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+												</ngx-avatar>
+											</ng-template>
+										</div>
+										<div class="col-md-9 font-chu">
+											<div class="col-md-12" style="font-weight: bold;">
+												<span>{{img.HoTen}}</span>
+											</div>
+											<div class="col-md-12"><span>{{img.ChucVu}}</span></div>
+										</div>
+									</div>
+								</mat-menu>
+							</div>
+						</div>
+						<div class="row-info"
+							*ngIf="itemGD.NguoiThucHien.length == 0 && itemGD.AssignDate != '' && itemGD.IsEditStatus">
+							<mat-icon>person</mat-icon>&nbsp;<span style="color: #bdb5b5;">Thực
+								hiện:</span>&nbsp;<span class="css-name css-mouse"
+								matTooltip="{{ 'workprocess.giaonguoithuchien' | translate }}" (click)="GiaoViec()">Chưa
+								được giao</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="row-info">
+							<span class="svg-icon svg-icon-primary svg-icon-2x">
+								<!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Group.svg--><svg
+									xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+									width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+									style="height: 20px !important;">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<polygon points="0 0 24 0 24 24 0 24" />
+										<path
+											d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+											fill="#000000" fill-rule="nonzero" opacity="0.3" />
+										<path
+											d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+											fill="#000000" fill-rule="nonzero" />
+									</g>
+								</svg>
+								<!--end::Svg Icon-->
+							</span>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.quanlygiaidoan"></span>:&nbsp;
+							<div *ngFor="let img of itemGD.NguoiQuanLy">
+								<span class="css-name css-mouse text-bold"
+									[matMenuTriggerFor]="menu">{{img.HoTen}}</span>
+								<mat-menu #menu="matMenu">
+									<div class="row">
+										<div class="col-md-3">
+											<ngx-avatar [size]="50" src="{{img.Image}}"
+												*ngIf="img.Image; else bindText">
+											</ngx-avatar>
+											<ng-template #bindText>
+												<ngx-avatar [size]="50" [name]="img.Ten.slice(0, 1)"
+													bgColor="{{ processWorkService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+												</ngx-avatar>
+											</ng-template>
+										</div>
+										<div class="col-md-9 font-chu">
+											<div class="col-md-12" style="font-weight: bold;">
+												<span>{{img.HoTen}}</span>
+											</div>
+											<div class="col-md-12"><span>{{img.ChucVu}}</span></div>
+										</div>
+									</div>
+								</mat-menu>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<!-- *ngIf="itemGD.NgayBatDau != null" -->
+						<div class="row-info">
+							<span class="svg-icon svg-icon-primary svg-icon-2x">
+								<!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/DVD.svg--><svg
+									xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+									width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<circle fill="#000000" opacity="0.3" cx="12" cy="12" r="9" />
+										<path
+											d="M11.1582329,15.8732969 L15.1507272,12.3908445 C15.3588289,12.2093278 15.3803803,11.8934798 15.1988637,11.6853781 C15.1842721,11.6686494 15.1685826,11.652911 15.1518994,11.6382673 L11.1594051,8.13385466 C10.9518699,7.95169059 10.6359562,7.97225796 10.4537922,8.17979317 C10.3737213,8.27101604 10.3295679,8.388251 10.3295679,8.5096304 L10.3295679,15.4964955 C10.3295679,15.7726378 10.5534255,15.9964955 10.8295679,15.9964955 C10.950411,15.9964955 11.0671652,15.9527307 11.1582329,15.8732969 Z"
+											fill="#000000" />
+									</g>
+								</svg>
+								<!--end::Svg Icon-->
+							</span>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.thoigianbatdau"></span>:&nbsp;
+							<div>
+								<span class="text-bold">{{itemGD.NgayBatDau | date:'HH:mm dd/MM/yyyy'}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="row-info">
+							<span class="svg-icon svg-icon-primary svg-icon-2x">
+								<!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Forward.svg--><svg
+									xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+									width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M6.82866499,18.2771971 L13.5693679,12.3976203 C13.7774696,12.2161036 13.7990211,11.9002555 13.6175044,11.6921539 C13.6029128,11.6754252 13.5872233,11.6596867 13.5705402,11.6450431 L6.82983723,5.72838979 C6.62230202,5.54622572 6.30638833,5.56679309 6.12422426,5.7743283 C6.04415337,5.86555116 6,5.98278612 6,6.10416552 L6,17.9003957 C6,18.1765381 6.22385763,18.4003957 6.5,18.4003957 C6.62084305,18.4003957 6.73759731,18.3566309 6.82866499,18.2771971 Z"
+											fill="#000000" opacity="0.3" />
+										<path
+											d="M12.828665,18.2771971 L19.5693679,12.3976203 C19.7774696,12.2161036 19.7990211,11.9002555 19.6175044,11.6921539 C19.6029128,11.6754252 19.5872233,11.6596867 19.5705402,11.6450431 L12.8298372,5.72838979 C12.622302,5.54622572 12.3063883,5.56679309 12.1242243,5.7743283 C12.0441534,5.86555116 12,5.98278612 12,6.10416552 L12,17.9003957 C12,18.1765381 12.2238576,18.4003957 12.5,18.4003957 C12.6208431,18.4003957 12.7375973,18.3566309 12.828665,18.2771971 Z"
+											fill="#000000" />
+									</g>
+								</svg>
+								<!--end::Svg Icon-->
+							</span>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.chuyengiaidoanluc"></span>:&nbsp;
+							<div>
+								<span class="text-bold">{{itemGD.AssignDate | date:'HH:mm dd/MM/yyyy'}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6" *ngIf="itemGD.Time_Type != 3 && itemGD.AssignDate != ''">
+						<div class="row-info">
+							<i class="flaticon-warning-sign css-icon"></i>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.dealine"></span>:&nbsp;
+							<div>
+								<span *ngIf="!itemGD.IsEditDeadline" class="{{getHanChot(itemGD)}} text-bold"
+									matTooltip="{{ (itemGD.IsEditDeadline ? 'workprocess.capnhathanchot'   : '' ) | translate }}">{{itemGD.HanChot
+									| date:'HH:mm dd/MM/yyyy'}}</span>
+								<span *ngIf="itemGD.IsEditDeadline" class="{{getHanChot(itemGD)}} text-bold"
+									matTooltip="{{ (itemGD.IsEditDeadline ? 'workprocess.capnhathanchot'   : '' ) | translate }}"
+									(click)="dt1.open()">{{itemGD.HanChot | date:'HH:mm dd/MM/yyyy'}}</span>
+								<input matInput readonly [(ngModel)]="date" (ngModelChange)="UpdateHanChot(itemGD)"
+									style="opacity: 0;" class="date-picker" [owlDateTime]="dt1"
+									[owlDateTimeTrigger]="dt1">
+								<owl-date-time #dt1></owl-date-time>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="row-info">
+							<i class="flaticon-time css-icon"></i>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.ngayhoanthanh"></span>:&nbsp;
+							<div>
+								<span class="text-bold">{{itemGD.CompleteDate | date:'HH:mm dd/MM/yyyy'}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="row-info">
+							<i class="flaticon-clock-1 css-icon"></i>&nbsp;<span style="color: #bdb5b5;"
+								translate="workprocess.dalam"></span>:&nbsp;
+							<div>
+								<span class="text-bold">{{itemGD.TGLam | number : '1.2-2'}}h</span>
+								<span *ngIf="itemGD.TGYeuCau != null" style="color: #3699ff"
+									class="text-bold">/{{itemGD.TGYeuCau | number : '1.2-2'}}h</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="card card-custom" *ngIf="itemGD">
+			<div class="card-body">
+				<mat-tab-group [(selectedIndex)]="selectedTabGD" (selectedTabChange)="onLinkClick_GD($event)">
+					<mat-tab *ngIf="GiaiDoan == 'Decision'">
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.mauthongtin' | translate}}</span>
+						</ng-template>
+						<div class="card card-custom">
+							<!-- <div class="row font-chu" style="justify-content: center;">
+								<span [innerHTML]="ContentStr | safeHtmlWF"></span>
+							</div> -->
+							<div style="padding: 0 10px;">
+								<label style="width: 100%;" [innerHTML]="ContentStr | safeHtmlWF"></label>
+							</div>
+							<div style="justify-content: end; display: flex;"
+								*ngIf="itemGD.AssignDate != '' && itemGD.IsEditStatus">
+								<button type="button" style="margin-left: 5px; background-color: #3699ff;"
+									mat-raised-button color="accent" (click)="ChangeMauQuyetDinh(item.RowID)"
+									*ngFor="let item of ListKetQua">
+									<span style="color: #ffffff;">{{item.Title}}</span>
+								</button>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.thongtincannhap' | translate}}</span>
+						</ng-template>
+						<div class="card card-custom" *ngIf="itemGD.AssignDate != ''">
+							<div class="row font-chu">
+								<div class="col-md-6" style="align-self: center;">
+									<h5 style="font-weight: bold;"><span translate="workprocess.thongtinchitiet"></span>
+									</h5>
+								</div>
+								<div class="col-md-6" style="text-align: right;">
+									<button mat-raised-button class="ja_btn-addcontinue" type="button"
+										*ngIf="itemGD.CompleteDate == ''" (click)="ChinhSua('2')">
+										<span translate="landingpagekey.capnhat"></span>
+									</button>
+								</div>
+							</div>
+							<m-dynamic-form-view [ViewData]="DatField" [TypeID]="2" style="width: 100%;">
+							</m-dynamic-form-view>
+						</div>
+					</mat-tab>
+					<mat-tab *ngIf="GiaiDoan == 'Process'">
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.congviec' | translate}}</span>&nbsp;
+							<span style="color: #f64e60;" *ngIf="DataToDo.length > 0">({{DataToDo.length}})</span>
+						</ng-template>
+						<div class="row" *ngIf="itemGD.isedit_task && itemGD.CompleteDate == ''"
+							style="justify-content: flex-end;">
+							<mat-icon matTooltip="{{ 'process.themmoicongviec' | translate }}" (click)="AddCongViec()"
+								style="cursor: pointer; color: #0e72d8;">add</mat-icon>
+						</div>
+						<div class="row info-congviec" *ngFor="let dt of DataToDo,let vi = index" style="margin: 5px;">
+							<div class="pie" [ngStyle]="{'background': DrawPie(dt)}" style="margin-left: 10px;"
+								[matMenuTriggerFor]="menu" [ngClass]="{ 'disabled-menu' :!dt.IsEditStatus }"></div>
+							<mat-menu #menu="matMenu">
+								<button mat-menu-item (click)="CapNhatCongViec(1,dt)" *ngIf="dt.Status != 1">
+									<span style="color: rgb(255, 184, 34);font-size: 9pt"
+										translate="workprocess.thuchien"></span>
+								</button>
+								<button mat-menu-item (click)="CapNhatCongViec(2,dt)" *ngIf="dt.Status == 1">
+									<span style="color: #9acd32;font-size: 9pt"
+										translate="workprocess.hoanthanh"></span>
+								</button>
+							</mat-menu>
+							<div class="col-md-7">
+								<span (click)="ViewDetai(dt)" matTooltip="{{ 'landingpagekey.chitiet' | translate }}"
+									style="font-weight: bold; cursor: pointer;">{{dt.TaskName}}</span>&nbsp;-&nbsp;<span>{{dt.Time_Type
+									== 3 ? 'Không giới hạn
+									thời gian' :
+									dt.NumberofTime | number : '1.2-2'}}</span>&nbsp;<span
+									*ngIf="dt.Time_Type != 3">giờ</span>
+							</div>
+							<div class="col-md-3" style="padding: 0;" style="justify-content: flex-end; display: flex;">
+								<div class="users" *ngIf="dt.Data_Implementer.length > 0">
+									<div class="user url" *ngFor="let img of dt.Data_Implementer,let vi = index">
+										<kt-avatar-wf [image]="img.AvartarImgURL" [fullname]="img.ObjectName"
+											[name]="img.FirstName"></kt-avatar-wf>
+									</div>
+								</div>
+								<div *ngIf="dt.Status != 2" class="icon-add" (click)="AddNguoiThucHien(dt)">
+									<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+								</div>
+							</div>
+							<div class="col-md-1" style="padding: 0;">
+								<mat-icon *ngIf="itemGD.isedit_task"
+									style="color: #3699ff; padding-top: 5px; cursor: pointer;"
+									matTooltip="{{ 'landingpagekey.chinhsua' | translate }}"
+									(click)="UpdateCongViec(dt)">
+									create</mat-icon>
+								<mat-icon *ngIf="itemGD.isedit_task"
+									style="color: #f64e60; padding-top: 5px; cursor: pointer;"
+									matTooltip="{{ 'landingpagekey.xoa' | translate }}" (click)="Delete(dt)">delete
+								</mat-icon>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.hoatdong' | translate}}</span>
+						</ng-template>
+						<div class="workflow-hoatdong">
+							<div class="hoatdong-child" *ngFor="let dt of ListData_GD">
+								<div class="row hoatdong-body">
+									<div class="col-md-10" style="display: flex;">
+										<span *ngIf="dt.user"
+											style="font-size: 14px; color: #3699FF; align-self: center;">{{dt.user.FullName}}</span>&nbsp;
+
+										<span class="cu-notification-item__text"
+											style="cursor: pointer; align-self: center;" *ngIf="dt.action"
+											[innerHTML]="dt.action" [matMenuTriggerFor]="userlist"></span>&nbsp;
+										<mat-menu #userlist="matMenu">
+											<div class="row" *ngFor="let img of dt.userlist"
+												style="padding-bottom: 5px; align-items: center; margin: 0;">
+												<div class="col-md-3">
+													<ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+														*ngIf="img.AvartarImgURL; else bindText">
+													</ngx-avatar>
+													<ng-template #bindText>
+														<ngx-avatar textSizeRatio="2.5" [size]="40"
+															[name]="img.FirstName.slice(0, 1)"
+															bgColor="{{ processWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+														</ngx-avatar>
+													</ng-template>
+												</div>
+												<div class="col-md-9 font-chu">
+													<div class="col-md-12" style="font-weight: bold;">
+														<span>{{img.FullName}}</span>
+													</div>
+												</div>
+											</div>
+										</mat-menu>
+
+										<ng-container *ngIf="dt.old_value">
+											<div
+												class="cu-notification-item__status cu-notification-item__status_before d-inline">
+												<div class="status status_block" [ngClass]="dt.old_color">
+													{{dt.old_value}}
+												</div>
+											</div>
+										</ng-container>&nbsp;
+										<i *ngIf="dt.old_value && dt.new_value" style="align-self: center;"
+											class="fas fa-arrow-right"></i>&nbsp;
+										<ng-container *ngIf="dt.new_value">
+											<div class="cu-notification-item__status d-inline">
+												<div class="status status_block" [ngClass]="dt.new_color">
+													{{dt.new_value}}
+												</div>
+											</div>
+										</ng-container>
+									</div>
+									<div class="col-md-2" style="padding: 0; text-align: right; align-self: center;">
+										<span>{{dt.date | date:'HH:mm dd/MM/yyyy'}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab *ngIf="GiaiDoan == 'Process'">
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.congvieclienket' | translate}}</span>&nbsp;
+						</ng-template>
+						<div class="row" style="justify-content: center;"
+							*ngIf="ID_Project_GD == 0 && itemGD.CompleteDate == ''">
+							<button mat-raised-button type="button" (click)="TaoCongViecLienKet_GD()"
+								matTooltip="{{ShowCongViecLK ? '' : 'Bạn phải được cấp quyền sử dụng jeework mới có thể tạo công việc.'}}"
+								[ngStyle]="{'border': ShowCongViecLK ? '1px solid #3699ff' : '1px solid gray'}">
+								<span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}"
+									style="font-weight: 500;">+</span>&nbsp;
+								<span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}"
+									style="font-weight: 500;">Tạo danh sách công việc</span>
+							</button>
+						</div>
+						<div class="card card-custom" *ngIf="ID_Project_GD > 0" id="width-ww-gd">
+							<div class="card-body item-detail-cvlk-nhiemvu"
+								[ngStyle]="{'width': getWidthWW_GD(),'height': getHeightCVLK()}"
+								style="overflow: scroll; padding: 0;">
+								<kt-work-list-new [ID_Project]="ID_Project_GD"
+									[isLuuCongViec]="itemGD.CompleteDate == ''">
+								</kt-work-list-new>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.thongtinlienquan' | translate}}</span>
+						</ng-template>
+						<div class="card card-custom">
+							<div style="padding: 0 10px;">
+								<label style="width: 100%;" [innerHTML]="ThongTinLienQuan | safeHtmlWF"></label>
+							</div>
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-{{getTyLeRight()}} control-padding-right" *ngIf="ShowQT">
+		<div class="card card-custom" *ngIf="itemQT">
+			<div class="card-body">
+				<mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="onLinkClick($event)">
+					<mat-tab label="{{'workprocess.tongquan' | translate}}">
+						<div class="card card-custom" *ngIf="ShowDone != null && itemQT">
+							<div class="card-body"
+								[ngStyle]="{'background-color': ShowDone ? 'rgba(185, 243, 190, 0.72)' : 'rgba(239, 181, 181, 0.86)'}">
+								<div class="row font-chu">
+									<div class="col-md-12" style="display: flex;">
+										<div>
+											<mat-icon style="color: #0A9562;" *ngIf="ShowDone">check_circle</mat-icon>
+											<mat-icon style="color: #F86252;" *ngIf="!ShowDone">cancel</mat-icon>
+										</div>
+										<div>
+											<span style="color: #7b5050;">{{ShowDone ? 'Hoàn thành bởi' : 'Thất bại
+												bởi'}}</span>&nbsp;<span
+												style="font-weight: bold;">{{itemQT.CompleteBy}}</span>&nbsp;<span
+												style="color: #7b5050;">lúc</span>
+											&nbsp;<span>{{itemQT.CompleteDate | date: 'HH:mm dd/MM/yyyy'}}</span>
+										</div>
+									</div>
+									<div class="col-md-12 " style="display: flex;">
+										<div>
+											<mat-icon [ngStyle]="{'color': ShowDone ? '#0A9562' : '#F86252'}">
+												format_textdirection_l_to_r</mat-icon>
+										</div>
+										<div>
+											<span style="color: #7b5050;">Lý do:</span><span>{{itemQT.Reason}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card card-custom" *ngIf="itemQT" [ngStyle]="{'height': getHeightTQ()}">
+							<div class="row font-chu">
+								<div class="col-md-6" style="display: flex;">
+									<div>
+										<mat-icon style="color: dodgerblue">account_box</mat-icon>&nbsp;
+									</div>
+									<div>
+										<span style="color: #bdb5b5;">Tạo bởi</span>&nbsp;<span
+											style="font-weight: bold;">{{itemQT.NguoiTao}}</span>&nbsp;<span
+											style="color: #bdb5b5;">lúc</span>
+										&nbsp;<span>{{itemQT.NgayTao | date: 'HH:mm dd/MM/yyyy'}}</span>
+									</div>
+								</div>
+								<div class="col-md-6 " style="display: flex;">
+									<div>
+										<i style="color: dodgerblue; padding-right: 8px;"
+											class="flaticon-user-add"></i>&nbsp;
+									</div>
+									<div>
+										<span style="font-size: 15px; color: #83817a;">Quản lý bởi</span>&nbsp;<span
+											style="font-weight: bold;" *ngFor="let ql of itemQT.NguoiQuanLy">
+											{{ql.HoTen}}&nbsp;</span>
+									</div>
+								</div>
+								<div class="col-md-6 " style="display: flex;">
+									<div>
+										<mat-icon style="color: darkgrey;">pie_chart</mat-icon>&nbsp;
+									</div>
+									<div>
+										<span style="color: #bdb5b5;">Chuyển giai đoạn lúc</span>&nbsp;<span>
+											{{itemQT.NgayChuyenGiaiDoan | date: 'HH:mm dd/MM/yyyy'}}</span>
+									</div>
+								</div>
+								<div class="col-md-6 " style="display: flex;">
+									<div>
+										<mat-icon style="color: yellowgreen;">check_box</mat-icon>&nbsp;
+									</div>
+									<div>
+										<span style="color: #bdb5b5;">Cập nhật gần nhất
+											lúc</span>&nbsp;<span>{{itemQT.NgayCapNhat | date: 'HH:mm
+											dd/MM/yyyy'}}</span>
+									</div>
+								</div>
+								<div class="col-md-12 " style="display: flex;">
+									<div>
+										<mat-icon style="color: dodgerblue;">group</mat-icon>&nbsp;
+									</div>
+									<div>
+										<span style="font-size: 15px; color: #83817a;">Người theo dõi</span><br />
+									</div>
+								</div>
+								<div class="col-md-12" style="display: contents;">
+									<div class="row" style="padding-left: 30px;">
+										<div class="users">
+											<div class="user url" *ngFor="let img of itemQT.NguoiTheoDoi"
+												style="justify-content: flex-end;">
+												<ngx-avatar [size]="26" src="{{img.Image}}"
+													*ngIf="img.Image; else bindText" [matMenuTriggerFor]="menu">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar [size]="26" [name]="img.Ten.slice(0, 1)"
+														bgColor="{{ processWorkService.getColorNameUser(img.Ten.slice(0, 1)) }}"
+														[matMenuTriggerFor]="menu">
+													</ngx-avatar>
+												</ng-template>
+												<mat-menu #menu="matMenu">
+													<div class="row">
+														<div class="col-md-3">
+															<ngx-avatar [size]="26" src="{{img.Image}}"
+																*ngIf="img.Image; else bindText">
+															</ngx-avatar>
+															<ng-template #bindText>
+																<ngx-avatar [size]="26" [name]="img.Ten.slice(0, 1)"
+																	bgColor="{{ processWorkService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+																</ngx-avatar>
+															</ng-template>
+														</div>
+														<div class="col-md-9 font-chu">
+															<div class="col-md-12" style="font-weight: bold;">
+																<span>{{img.HoTen}}</span>
+															</div>
+															<div class="col-md-12"><span>{{img.ChucVu}}</span></div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-12" style="color: gray;">
+															<button mat-icon-button
+																style="width: 100%;	border-radius: 0; text-align: left;"
+																class="menu-button" (click)="XoaNguoiTheoDoi(img)">
+																<mat-icon>delete</mat-icon>&nbsp;<span
+																	translate="workprocess.xoanguoitheodoi"></span>
+															</button>
+														</div>
+													</div>
+												</mat-menu>
+											</div>
+										</div>
+										<div class="icon-add" (click)="AddTheoDoi(itemQT)"
+											matTooltip="Thêm người theo dõi">
+											<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 " style="display: flex;">
+									<div>
+										<mat-icon style="color: dodgerblue;">info</mat-icon>&nbsp;
+									</div>
+									<div>
+										<span style="font-size: 15px; color: #83817a;">Mô tả nhiệm vụ</span><br /><span>
+											{{itemQT.Description}}</span>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row font-chu" style="padding: 0;" *ngIf="itemQT.datafields.length > 0">
+								<div class="col-md-6" style="align-self: center;">
+									<h5 style="font-weight: bold;"><span translate="workprocess.dulieudauvao"></span>
+									</h5>
+								</div>
+								<div class="col-md-6" style="text-align: right;">
+									<button *ngIf="itemQT.isedit_task || itemQT.isCreate" mat-raised-button
+										class="ja_btn-addcontinue" type="button" (click)="ChinhSua('1')">
+										<span translate="landingpagekey.chinhsua"></span>
+									</button>
+								</div>
+							</div>
+							<hr style="margin-bottom: 0;" *ngIf="itemQT.datafields.length > 0" />
+							<br *ngIf="itemQT.datafields.length > 0" />
+							<div class="row font-chu">
+								<m-dynamic-form-view [ViewData]="itemQT.datafields" [TypeID]="1" style="width: 100%;">
+								</m-dynamic-form-view>
+							</div>
+							<br />
+							<div class="row font-chu" style="padding: 0;">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-6" style="padding: 0;">
+											<h5 style="font-weight: bold;"><span
+													translate="workprocess.tongthoigian"></span></h5>
+										</div>
+										<div class="col-md-6" style="text-align: right;"><span
+												translate="workprocess.dadung"></span>&nbsp;<span
+												style="color: #3699ff;">{{itemQT.TongTGLam | number :
+												'1.2-2'}}</span><span style="color: #f64e60;"
+												*ngIf="itemQT.TongTGYeuCau != 0 && itemQT.TongTGYeuCau != null">/{{itemQT.TongTGYeuCau
+												| number : '1.2-2'}}h</span>
+										</div>
+										<div class="col-md-12" style="padding: 0;"
+											*ngIf="itemQT.TongTGYeuCau != 0 && itemQT.TongTGYeuCau != null">
+											<mat-progress-bar mode="determinate" value="{{itemQT.PhanTram}}"
+												[appProgressBarColor]="getColorProcessBar_QT(itemQT)">
+											</mat-progress-bar>
+										</div>
+									</div>
+									<hr style="margin-bottom: 0;" />
+									<div class="row" *ngFor="let dt of itemQT.Data,let vi = index" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+										padding-bottom: 5px; padding-top: 5px; margin: 0.1rem;">
+										<div class="col-md-1 ">
+											<div [ngStyle]="{'background-color': getBgNumber(dt)}"
+												style="padding-top: 10px;" class="css-stt">{{vi + 1}}</div>
+										</div>
+										<div class="col-md-11">
+											<div class="row">
+												<div class="col-md-6"><span>{{dt.CongViec}}</span></div>
+												<div class="col-md-6" style="text-align: right;"
+													*ngIf="dt.NgayBatDau != null"><span
+														translate="workprocess.batdau"></span>&nbsp;<span>{{dt.NgayBatDau
+														| date:
+														'HH:mm dd/MM/yyyy'}}</span>
+												</div>
+												<div class="col-md-6" style="text-align: right;"
+													*ngIf="dt.NgayBatDau == null && dt.TGYeuCau != null"><span
+														translate="workprocess.yeucau"></span>&nbsp;<span>{{dt.TGYeuCau
+														| number :
+														'1.2-2'}}h</span>
+												</div>
+												<div class="col-md-6" style="text-align: right;"
+													*ngIf="dt.NgayBatDau == null && dt.TGYeuCau == null"><span
+														translate="workprocess.khonggioihan"></span>
+												</div>
+												<div class="col-md-12" *ngIf="dt.TGYeuCau != 0 && dt.TGYeuCau != null"
+													style="padding: 5px;">
+													<mat-progress-bar mode="determinate" value="{{dt.PhanTram}}"
+														[appProgressBarColor]="getColorProcessBar(dt)">
+													</mat-progress-bar>
+												</div>
+												<div class="col-md-12" *ngIf="dt.NgayBatDau != null"
+													style="text-align: right;">
+													<span translate="workprocess.dadung"></span>&nbsp;<span
+														style="color: #3699ff;">{{dt.TGLam | number :
+														'1.2-2'}}</span><span
+														*ngIf="dt.TGYeuCau != 0 && dt.TGYeuCau != null"
+														style="color: #f64e60;">/{{dt.TGYeuCau | number :
+														'1.2-2'}}h</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.tailieu' | translate}}</span>&nbsp;
+							<span style="color: #f64e60;"
+								*ngIf="itemQT.filelist.length > 0">({{itemQT.filelist.length}})</span>
+						</ng-template>
+						<div class="row font-chu">
+							<div class="col-md-10">
+							</div>
+							<div class="col-md-2" style="text-align: right;">
+								<mat-icon style="cursor: pointer;color: darkgreen;" (click)="ThemTaiLieu()"
+									*ngIf="itemQT.isCreate || itemQT.isquanly" matTooltip="Thêm tài liệu">
+									add_circle_outline</mat-icon>
+							</div>
+							<div class="col-md-12" style="display: flex; line-height: 2;"
+								*ngFor="let tl of itemQT.filelist">
+								<div>
+									<img src="{{tl.icon}}">
+								</div>
+								<div>
+									<span style="padding: 0 20px;">{{tl.filename}}</span>&nbsp;&nbsp;&nbsp;<i
+										style="color: green;cursor: pointer;" class="far fa-eye" matTooltip="Xem trước"
+										*ngIf="ShowXemTruoc(tl)" (click)="XemTruoc(tl)"></i>&nbsp;&nbsp;&nbsp;<i
+										class="fas fa-download" style="cursor: pointer;" matTooltip="Tải xuống"
+										(click)="TaiXuong(tl)"></i>
+									&nbsp;&nbsp;&nbsp;<i class="flaticon2-cross"
+										*ngIf="itemQT.isCreate || itemQT.isquanly" style="cursor: pointer;"
+										matTooltip="Xóa" (click)="XoaTaiLieu(tl)"></i>
+								</div>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab label="{{'workprocess.hoatdong' | translate}}">
+						<div class="workflow-hoatdong" [ngStyle]="{'height': getHeightHD()}">
+							<div class="hoatdong-child" *ngFor="let lst of ListData">
+								<div class="row hoatdong-body" *ngFor="let dt of lst._data"
+									style="width: 100%; padding-bottom: 10px;">
+									<div class="col-md-10" style="display: flex;">
+										<span *ngIf="dt.user"
+											style="font-size: 14px; color: #3699FF; align-self: center;">{{dt.user.FullName}}</span>&nbsp;
+
+										<span class="cu-notification-item__text"
+											style="cursor: pointer; align-self: center;" *ngIf="dt.action"
+											[innerHTML]="dt.action" [matMenuTriggerFor]="userlist"></span>&nbsp;
+										<mat-menu #userlist="matMenu">
+											<div class="row" *ngFor="let img of dt.userlist"
+												style="padding-bottom: 5px; align-items: center; margin: 0;">
+												<div class="col-md-3">
+													<ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+														*ngIf="img.AvartarImgURL; else bindText">
+													</ngx-avatar>
+													<ng-template #bindText>
+														<ngx-avatar textSizeRatio="2.5" [size]="40"
+															[name]="img.FirstName.slice(0, 1)"
+															bgColor="{{ processWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+														</ngx-avatar>
+													</ng-template>
+												</div>
+												<div class="col-md-9 font-chu">
+													<div class="col-md-12" style="font-weight: bold;">
+														<span>{{img.FullName}}</span>
+													</div>
+												</div>
+											</div>
+										</mat-menu>
+
+										<ng-container *ngIf="dt.old_value">
+											<div
+												class="cu-notification-item__status cu-notification-item__status_before d-inline">
+												<div class="status status_block" [ngClass]="dt.old_color">
+													{{dt.old_value}}
+												</div>
+											</div>
+										</ng-container>&nbsp;
+										<i *ngIf="dt.old_value && dt.new_value" style="align-self: center;"
+											class="fas fa-arrow-right"></i>&nbsp;
+										<ng-container *ngIf="dt.new_value">
+											<div class="cu-notification-item__status d-inline">
+												<div class="status status_block" [ngClass]="dt.new_color">
+													{{dt.new_value}}
+												</div>
+											</div>
+										</ng-container>
+									</div>
+									<div class="col-md-2" style="padding: 0; text-align: right; align-self: center;">
+										<span>{{dt.date | date:'HH:mm dd/MM/yyyy'}}</span>
+									</div>
+								</div>
+								<div class="row hoatdong-body" *ngFor="let ls of lst.data">
+									<div class="col-md-12 title-giaidoan">
+										Giai đoạn {{ls.title}}
+									</div>
+									<div class="row" *ngFor="let dt of ls.data"
+										style="width: 100%; padding-left: 20px; padding-bottom: 10px;">
+										<div class="col-md-10" style="display: flex;">
+											<span *ngIf="dt.user"
+												style="font-size: 14px; color: #3699ff; align-self: center;">{{dt.user.FullName}}</span>&nbsp;
+
+											<span class="cu-notification-item__text"
+												style="cursor: pointer; align-self: center;" *ngIf="dt.action"
+												[innerHTML]="dt.action" [matMenuTriggerFor]="userlist"></span>&nbsp;
+											<mat-menu #userlist="matMenu">
+												<div class="row" *ngFor="let img of dt.userlist"
+													style="padding-bottom: 5px; align-items: center; margin: 0;">
+													<div class="col-md-3">
+														<ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+															*ngIf="img.AvartarImgURL; else bindText">
+														</ngx-avatar>
+														<ng-template #bindText>
+															<ngx-avatar textSizeRatio="2.5" [size]="40"
+																[name]="img.FirstName.slice(0, 1)"
+																bgColor="{{ processWorkService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+															</ngx-avatar>
+														</ng-template>
+													</div>
+													<div class="col-md-9 font-chu">
+														<div class="col-md-12" style="font-weight: bold;">
+															<span>{{img.FullName}}</span>
+														</div>
+													</div>
+												</div>
+											</mat-menu>
+
+											<ng-container *ngIf="dt.old_value">
+												<div
+													class="cu-notification-item__status cu-notification-item__status_before d-inline">
+													<div class="status status_block" [ngClass]="dt.old_color">
+														{{dt.old_value}}
+													</div>
+												</div>
+											</ng-container>&nbsp;
+											<i *ngIf="dt.old_value && dt.new_value" style="align-self: center;"
+												class="fas fa-arrow-right"></i>&nbsp;
+											<ng-container *ngIf="dt.new_value">
+												<div class="cu-notification-item__status d-inline">
+													<div class="status status_block" [ngClass]="dt.new_color">
+														{{dt.new_value}}
+													</div>
+												</div>
+											</ng-container>
+										</div>
+										<div class="col-md-2"
+											style="padding: 0; text-align: right; align-self: center;">
+											<span>{{dt.date | date:'HH:mm dd/MM/yyyy'}}</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</mat-tab>
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<span>{{'workprocess.binhluan' | translate}}</span>&nbsp;
+							<span style="color: #f64e60;" *ngIf="countComment > 0">({{countComment}})</span>
+						</ng-template>
+						<div class="card card-custom">
+							<ng-container>
+								<jee-comment-lib
+									[UserCurrent_lib]="UserCurrent_lib" [showCommentDefault]="true"
+									[objectID]="(topicObjectID$.asObservable() | async)!">
+								</jee-comment-lib>
+							</ng-container>
+						</div>
+					</mat-tab>
+					<mat-tab label="{{'workprocess.congvieclienket' | translate}}">
+						<div class="row item-detail-cvlk-nhiemvu" style="justify-content: center;"
+							*ngIf="ID_Project == 0 && itemQT.iscreate_list">
+							<button class="btn-congvieclk" mat-raised-button type="button"
+								(click)="TaoCongViecLienKet()"
+								matTooltip="{{ShowCongViecLK ? '' : 'Bạn phải được cấp quyền sử dụng jeework mới có thể tạo công việc.'}}"
+								[ngStyle]="{'border': ShowCongViecLK ? '1px solid #3699ff' : '1px solid gray'}">
+								<span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}"
+									style="font-weight: 500;">+</span>&nbsp;
+								<span [ngStyle]="{'color': ShowCongViecLK ? '#3699ff' : 'gray'}"
+									style="font-weight: 500;">Tạo danh sách công việc</span>
+							</button>
+						</div>
+						<div class="card card-custom" *ngIf="ID_Project > 0" id="width-ww">
+							<div class="card-body" [ngStyle]="{'width': getWidthWW()}"
+								style="overflow: scroll; padding: 0;">
+								<kt-work-list-new [ID_Project]="ID_Project">
+								</kt-work-list-new>
+							</div>
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+	</div>
+</div>

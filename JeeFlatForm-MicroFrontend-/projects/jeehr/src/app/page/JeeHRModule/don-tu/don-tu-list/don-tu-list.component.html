@@ -1,0 +1,159 @@
+<style>
+  ::ng-deep .br-tooltip {
+    white-space: pre-line !important;
+  }
+</style>
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+  <div class="list-dontu" style="width: 350px; height: 100vh;">
+    <div class="row" style="align-items: center; padding-top: 10px; margin: 0;">
+      <div style="padding-left: 5px; border: none; display: flex; align-items: center;">
+        <m-dynamic-search-form style="width: 290px; padding: 5px;"></m-dynamic-search-form>&nbsp;
+        <button class="btn-add-plus" mat-raised-button type="button" (click)="AddDonTu()"
+          style="width: 37px; height: 37px;">
+          <i class="fa fas fa-plus icon-add-plus"></i>
+        </button>
+      </div>
+    </div>
+    <div style="justify-content: flex-end; display:flex">
+      <div style=" position: absolute; padding-top: 15px; z-index: 100; cursor: pointer;;">
+        <div [matMenuTriggerFor]="menu" style="float: right; display: flex;">
+          <span style="font-size: 12px; font-weight: 500;"><span> {{ labelTinhTrang }}</span></span>
+          <div style="padding-top: 5px;" class="mat-select-arrow-wrapper">
+            <div class="mat-select-arrow"></div>
+          </div>
+        </div>
+        <mat-menu #menu="matMenu">
+          <button (click)="tinhTrangchange('','Tất cả')" mat-menu-item>
+            <span>Tất cả</span>
+          </button>
+          <button (click)="tinhTrangchange('1','Đã duyệt')" mat-menu-item>
+            <span>Đã duyệt</span>
+          </button>
+          <button (click)="tinhTrangchange('2','Chờ duyệt')" mat-menu-item>
+            <span>Chờ duyệt</span>
+          </button>
+          <button (click)="tinhTrangchange('0','Không duyệt')" mat-menu-item>
+            <span>Không duyệt</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <mat-tab-group class="dl-tabs-don-tu" [(selectedIndex)]="selectedTab" (selectedTabChange)="onLinkClick('1')">
+      <mat-tab *ngFor="let lst of listTypeOption, let vi = index">
+        <ng-template mat-tab-label>
+          <span class="mat-tab-{{vi}}">{{lst.title}}</span>&nbsp;<span *ngIf="lst.value > 0"
+            style="background: red; border-radius: 50%; height: 20px; width: 20px; font-size: 10pt; color: white;">{{lst.value
+            > 9 ? '9+' : lst.value}}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div [ngStyle]="{'height': getHeight()}" style="width: 100%; margin-left: 5px;overflow-y: auto;"
+            (scroll)="onScroll($event)">
+            <ng-container *ngFor="let item of dataLazyLoad">
+              <div class="row-item" (click)="GetDetails(item)">
+                <div class="item-detail" style="margin-right: 0; display: flex;">
+                  <div class="item-status mr-0" [ngStyle]="{ 
+                'background-color': getColor(item)}">
+                  </div>
+                  <div class="item-detail-info"
+                    [ngClass]="{'item-active' : __TypeID === ''+item.TypeID && __RowID === ''+item.RowID}">
+                    <div class="item-left col-9 url pl-0">
+                      <div class="h-100 ">
+                        <div class="item-title-thoigian">
+                          <div class="item-title">
+                            <img src="{{getImage(item)}}" style="width:15px; height: 15px;">&nbsp;<span [ngStyle]="{ 
+                                'color': getColor(item)}">{{item.Type}}</span>&nbsp;<span
+                              *ngIf="(item.TypeID == '1' || item.TypeID == '12') && +item.SoGio > 0"
+                              style="color:#ff6a00;font-weight: normal;">-&nbsp;{{item.SoGio}}{{item.TypeID == '1' ?
+                              '&nbsp;ngày' : 'h'}}</span>
+                          </div>
+                          <div class="item-thoigian">
+                            <span>{{getInfoTime(item)}}</span>
+                          </div>
+                        </div>
+                        <div class="item-mota">
+                          <span>{{getInfoMoTa(item)}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item-left col-3 url pd-0">
+                      <div class="item-image">
+                        <ngx-avatar matTooltipClass="br-tooltip" matTooltip="{{getMoreInformation(item)}}" size="40"
+                          src="{{ item.Image }}" *ngIf="item.ShowImage"> </ngx-avatar>
+                        <ngx-avatar matTooltipClass="br-tooltip" matTooltip="{{getMoreInformation(item)}}" size="40"
+                          [name]="item.Ten" *ngIf="!item.ShowImage" bgColor="{{ item.BgColor }}">
+                        </ngx-avatar>
+                      </div>
+                      <div class="item-ngaygui">
+                        <span>{{item.SendDate | date:'dd/MM/yyyy'}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <router-outlet></router-outlet>
+  <div style="overflow: auto; padding-top: 10px;width: 350px;" *ngIf="IsToiGui && this.__RowID == ''"
+    [ngStyle]="{'height': getHeightCenter(), 'margin-left': getPadding()}">
+    <div class="card card-custom dontu-list-phep" *ngFor="let dt of listphep">
+      <div class="card-header" style="display: flex; padding: 0 1rem;">
+        <div class="title" style="flex-grow: 1; text-align: left; margin: 10px 0; align-self: center;"><span
+            style="text-transform: uppercase; font-weight: bold;">{{dt.LoaiPhep}}</span>
+        </div>
+        <div class="card-toolbar">
+          <span class="conlai">{{dt.Tong | number : '1.2-2'}}</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 1rem;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tonnamtruoc"></span><br /><span *ngIf="dt.NgayHetHan"
+              translate="phepcanhan.sudungden" style="color: #b3b3b3; font-size: 9pt;"></span><span
+              *ngIf="dt.NgayHetHan" style="color: #F86252; font-size: 9pt;">&nbsp;{{dt.NgayHetHan}}</span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepTon > 0">+
+              {{dt.PhepTon | number : '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0" style="line-height: 1;"><span style="font-size: 11pt;"
+              translate="phepcanhan.tongduoccap"></span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;">{{ 'phepcanhan.pheptrongnam' | translate }}:&nbsp;</span>
+            <span *ngIf="dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{getPhepHuong(dt,
+              SoNgayPhepThamNien)}}/{{TongNgayPhepNam}}</span>
+            <span *ngIf="!dt.IsPhepNam" style="color: #007BFF; font-size: 9pt;">{{dt.PhepDuocHuong}}</span><br />
+            <span style="color: #b3b3b3; font-size: 9pt;"
+              *ngIf="SoNgayPhepThamNien && dt.IsPhepNam && +SoNgayPhepThamNien > 0">{{
+              'phepcanhan.thamnien' | translate }}:&nbsp;</span><span *ngIf="dt.IsPhepNam && +SoNgayPhepThamNien > 0"
+              style="color: #007BFF; font-size: 9pt;">{{SoNgayPhepThamNien}}</span>
+          </div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="sophepton" style="font-size: 11pt;"
+              *ngIf="+dt.PhepDuocHuong > 0">+
+              {{dt.PhepDuocHuong}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.tongdanghi"></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;">-
+              {{dt.TongNghiPhep | number :
+              '1.2-2'}}</span></div>
+        </div>
+        <hr style="margin: 10px 0 10px 20px;">
+        <div class="row w-100" style="margin: 10px 0; padding-left: 20px;">
+          <div class="col-md-9 pd-0"><span style="font-size: 11pt;" translate="phepcanhan.hethan"></span>&nbsp;<span><i
+                class="flaticon-questions-circular-button" style="padding-left: 10px;"></i></span></div>
+          <div class="col-md-3 pd-0" style="text-align: end;"><span class="tongdanghi" style="font-size: 11pt;"
+              *ngIf="dt.HetHan > 0">- {{dt.HetHan | number : '1.2-2'}}</span>
+            <span class="tongdanghi" style="font-size: 11pt;" *ngIf="dt.HetHan == 0">{{dt.HetHan}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

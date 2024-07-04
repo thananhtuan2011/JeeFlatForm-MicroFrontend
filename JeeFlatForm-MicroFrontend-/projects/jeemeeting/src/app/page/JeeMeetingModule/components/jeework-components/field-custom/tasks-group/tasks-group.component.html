@@ -1,0 +1,13 @@
+<div class="item-field {{viewdetail?'max-size-group':'text-2-line'}}" [matMenuTriggerFor]="group" matTooltip="{{LoadNhomCongViec(value)}}"
+    [hidden]="!role">
+    {{LoadNhomCongViec(value)}}
+</div> 
+<div class="item-field {{viewdetail?'max-size-group':'text-2-line'}}" [hidden]="role" matTooltip="{{LoadNhomCongViec(value)}}">
+    {{LoadNhomCongViec(value)}}
+</div>
+<mat-menu #group="matMenu">
+    <ng-container *ngFor="let item of ListGroup">
+        <button mat-menu-item
+            (click)="UpdateGroup(item.id_row)">{{item.title}}</button>
+    </ng-container>
+</mat-menu>

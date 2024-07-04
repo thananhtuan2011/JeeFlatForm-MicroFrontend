@@ -1,0 +1,85 @@
+<style>
+    .kt-form .kt-form__actions {
+        padding: 10px;
+        margin-bottom: 15px
+    }
+
+    :host>>>.mat-table__wrapper {
+        overflow-x: visible;
+    }
+
+    .mat-table__wrapper .mat-table {
+        min-width: 100%;
+
+    }
+
+    :host>>>.kt-portlet__body {
+        max-height: initial !important;
+    }
+
+    .mat-tab-body.mat-tab-body-active {
+        position: relative;
+        overflow-x: hidden;
+        /* overflow-y: auto; */
+        z-index: 1;
+        flex-grow: 1;
+    }
+
+    .nowap {
+        white-space: normal !important;
+        z-index: 10 !important;
+    }
+</style>
+<kt-portlet [options]="{headLarge: true, enableSticky: true}" style="width: 100%;height: 100%;">
+    <kt-portlet-header [sticky]="true" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <div class="kt-form__filtration alter-title" style="padding: 10px;display: flex;">
+                <div class="align-items-center" style="display: flex;"><span
+                        style="font-weight:500;font-size: 11pt;">{{'alternative.danhsachtukhoathaythe'|translate}}</span>
+                </div>
+                <button (click)="goBack()" style="float:right;margin-left: 29rem;" mat-raised-button
+                    matTooltip="{{'GeneralKey.trolai'|translate}}" type="button">
+                    <span>{{'GeneralKey.trolai'|translate}}</span>
+                </button>
+            </div>
+            <div class="alter-title" style="border-top: 2px solid #cdcdcd;height: 10px;padding-bottom: 10px;"></div>
+        </ng-container>
+    </kt-portlet-header>
+    <kt-portlet-body class="pd-0">
+        <div class="mat-table__wrapper" style="width: 100%;height: 89%;overflow-y:auto">
+            <table mat-table class="lmat-elevation-z8 table-responsive d-table" matSort [dataSource]="data"
+                matSortActive="id" style="width: 100%;height: 100%;" matSortDirection="asc" matSortDisableClear>
+                <ng-container matColumnDef="STT">
+                    <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode nowap alter-column">
+                        <span translate="alternative.stt" style="color:#179644;font-size:10pt"></span>
+                    </th>
+                    <td style="padding-left: 24px" mat-cell *matCellDef="let item" class="alter-title mat-column-vinCode">
+                        {{item.stt}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="TuKhoa">
+                    <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode nowap alter-column" style="padding-left: 15px;">
+                        <span translate="alternative.tukhoa" style="color:#179644;font-size:10pt"></span>
+                    </th>
+                    <td style="min-width:250px !important;padding-left:15px" mat-cell *matCellDef="let item" class="alter-title mat-column-vinCode">
+                        <span>
+                            {{item.tukhoa}}
+                        </span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="YNghia">
+                    <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode nowap alter-column" style="padding:0">
+                        <span translate="alternative.ynghia" style="color:#179644;font-size:10pt;"></span>
+                    </th>
+                    <td mat-cell *matCellDef="let item" class="alter-title mat-column-vinCode w-stog">
+                        <span>
+                            {{item.ynghia}}
+                        </span>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

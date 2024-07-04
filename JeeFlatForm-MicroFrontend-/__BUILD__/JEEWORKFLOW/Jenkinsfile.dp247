@@ -1,0 +1,111 @@
+pipeline {
+    environment {
+        REGISTRY_HOST = "registry.jee.vn"
+        REGISTRY_PUBLISHER = "dp247"
+        REGISTRY_CRED = "registry"
+        PROJECT_NAME = "mfeworkflow-backend"
+        STACK_NAME = "mfe"
+        REMOTE_URL = "https://jenkins.infra.dp247.vn/job/Apps/job/Workflow_MFE/build"
+        REMOTE_BUILD_TOKEN = "azIlj4YuhKtxuj6WpP8xY7Bbos0Zhhm0"
+        NODE_ENV = "production"
+        PROJECT_BUILD = 'jeeworkflow'
+        API_DOMAIN = ".dp247.vn"
+        service = ""
+    }
+    agent any
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+
+        stage('Replace env file') {
+            steps {
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: '\\.jee\\.vn',
+                          replace: "${env.API_DOMAIN}",
+                          verbose: false,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'projects/jeeworkflow/src/environments/environment.prod.ts'
+                    )
+                  ]
+                )
+
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: 'https:\\/\\/jee(\\w+)',
+                          replace: "https://\$1",
+                          verbose: true,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'projects/jeeworkflow/src/environments/environment.prod.ts'
+                    )
+                  ]
+                )
+
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: '\\.jee\\.vn',
+                          replace: "${env.API_DOMAIN}",
+                          verbose: false,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'projects/jeeworkflow/webpack.prod.config.js'
+                    )
+                  ]
+                )
+            }
+        }
+
+        stage('Build image') {
+            steps {
+                script {
+                    service = docker.build("${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest", "--build-arg NODE_ENV=${NODE_ENV} --build-arg PROJECT_BUILD=${PROJECT_BUILD} -f Dockerfile .")
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        service.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Call Remote') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jenkin_dp247', usernameVariable: "USERNAME", passwordVariable: "PASSWORD")]) {
+                        sh """
+                            curl -u ${USERNAME}:${PASSWORD} -X GET \
+                            ${REMOTE_URL}?token=${REMOTE_BUILD_TOKEN}
+                        """
+                    }
+                }
+            }
+        }
+        stage('Cleaning up') {
+            steps{
+                sh "docker image prune -a -f"
+            }
+        }
+    }
+}

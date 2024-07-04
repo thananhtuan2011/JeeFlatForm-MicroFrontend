@@ -1,0 +1,32 @@
+<div class="item-field {{viewdetail?'max-size-group':'text-2-line'}}" [matMenuTriggerFor]="group" matTooltip="{{lstCongViec}}"
+    [hidden]="!role" *ngIf="isChon" style="cursor: pointer;">
+        <!-- {{this.ListGroup | json}} -->
+        <div class="border_icon" style="padding-top: 5px;
+            display: flex;
+            justify-content: center;">
+            <img style="cursor: pointer;height:21px;
+            display: flex; justify-content: center;" [ngStyle]="{'-webkit-filter': 'opacity(.5) drop-shadow(0 0 0 '+color}" class="add_group img-dark"/>
+        </div>
+</div> 
+<div class="item-field {{viewdetail?'max-size-group':'text-2-line'}}" [matMenuTriggerFor]="group" matTooltip="{{lstCongViec}}"
+    [hidden]="!role" *ngIf="!isChon" style="cursor: pointer;">
+    {{lstCongViec}}
+</div> 
+<div class="item-field {{viewdetail?'max-size-group':'text-2-line'}}" [hidden]="role" matTooltip="{{lstCongViec}}" style="cursor: pointer;">
+    {{lstCongViec}}
+</div>
+<mat-menu #group="matMenu">
+    <ng-container *ngFor="let item of ListGroup">
+        <button mat-menu-item
+            (click)="UpdateGroup(item.id_row)">{{item.title}}</button>
+    </ng-container>
+    <div *ngIf="role2" (click)="$event.stopPropagation()" [matMenuTriggerFor]="themnhom" class="border-top url -hover" style="padding: 5px">
+        Thêm nhóm vào {{ this._DanhMucChungService.ts_duan }}
+    </div>
+    <mat-menu #themnhom="matMenu" class="hidden-over">
+        <app-choose-group-work
+        (click)="$event.stopPropagation()"
+        [id_project_team]="id_project_team">
+        </app-choose-group-work>
+    </mat-menu>
+</mat-menu>

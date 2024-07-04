@@ -1,0 +1,56 @@
+<style>
+	.mat-form-field {
+		width: 100%;
+	}
+
+	.card-body {
+		padding-top: 10px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ getTitle() }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input #focusInput matInput placeholder="{{ 'JeeHR.tenchucvu' | translate }}"
+									formControlName="Tenchucdanh" class="input-batbuoc" required />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<mat-select placeholder="{{ 'JeeHR.capbac' | translate }}" formControlName="chucdanh"
+									class="mat-form-field-fluid require" required>
+									<mat-option value="{{chucdanh.Id_CV}}" *ngFor="let chucdanh of listchucdanh;">
+										{{chucdanh.TenCV}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

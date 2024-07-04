@@ -1,0 +1,1696 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "f45b5c8f-53eb-4e1c-9f4c-20199fad530b"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "demo1": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "allowedCommonJsDependencies": [
+              "object-path",
+              "apexcharts",
+              "clipboard.js",
+              "prismjs"
+            ],
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/assets/push/onesignal/OneSignalSDKWorker.js"
+            ],
+            "styles": ["src/styles.scss"],
+            "scripts": [
+              "./node_modules/quill/dist/quill.min.js",
+              "./node_modules/quill/dist/quill.js"
+            ],
+            "extraWebpackConfig": "webpack.config.js",
+            "commonChunk": false,
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.prod.config.js"
+            },
+            "binhthuan": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/app/app-routing.ts",
+                  "with": "src/app/app-routing.binhthuan.ts"
+                },
+                {
+                  "replace": "src/app/pages/routing.ts",
+                  "with": "src/app/pages/routing.binhthuan.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.binhthuan.config.js"
+            },
+            "binhthuanhttp": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.binhthuan.ts"
+                },
+                {
+                  "replace": "src/app/app-routing.ts",
+                  "with": "src/app/app-routing.binhthuan.ts"
+                },
+                {
+                  "replace": "src/app/pages/routing.ts",
+                  "with": "src/app/pages/routing.binhthuan.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.binhthuanhttp.config.js"
+            },
+            "dp247": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "100kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/app/app-routing.ts",
+                  "with": "src/app/app-routing.dp247.ts"
+                },
+                {
+                  "replace": "src/app/pages/routing.ts",
+                  "with": "src/app/pages/routing.dp247.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.dp247.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": []
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "demo1:build:production",
+              "extraWebpackConfig": "webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "demo1:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1200,
+            "extraWebpackConfig": "webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "demo1:build",
+            "extraWebpackConfig": "webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/manifest.webmanifest"
+            ],
+            "styles": ["src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeehr": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeehr",
+      "sourceRoot": "projects/jeehr/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeehr/src/index.html",
+            "main": "projects/jeehr/src/main.ts",
+            "polyfills": "projects/jeehr/src/polyfills.ts",
+            "tsConfig": "projects/jeehr/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeehr/src/favicon.ico",
+              "projects/jeehr/src/assets"
+            ],
+            "styles": ["projects/jeehr/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeehr/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeehr/src/environments/environment.ts",
+                  "with": "projects/jeehr/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeehr/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeehr:build:production",
+              "extraWebpackConfig": "projects/jeehr/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeehr:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1201,
+            "extraWebpackConfig": "projects/jeehr/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeehr:build",
+            "extraWebpackConfig": "projects/jeehr/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeehr/src/test.ts",
+            "polyfills": "projects/jeehr/src/polyfills.ts",
+            "tsConfig": "projects/jeehr/tsconfig.spec.json",
+            "karmaConfig": "projects/jeehr/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeehr/src/favicon.ico",
+              "projects/jeehr/src/assets"
+            ],
+            "styles": ["projects/jeehr/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeework": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeework",
+      "sourceRoot": "projects/jeework/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeework/src/index.html",
+            "main": "projects/jeework/src/main.ts",
+            "polyfills": "projects/jeework/src/polyfills.ts",
+            "tsConfig": "projects/jeework/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeework/src/favicon.ico",
+              "projects/jeework/src/assets"
+            ],
+            "styles": ["projects/jeework/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeework/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeework/src/environments/environment.ts",
+                  "with": "projects/jeework/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeework/webpack.prod.config.js"
+            },
+            "production_v2": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeework/src/environments/environment.ts",
+                  "with": "projects/jeework/src/environments/environment.prod-v2.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeework/webpack.prod-v2.config.js"
+            },
+            "binhthuanhttp": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeework/src/environments/environment.ts",
+                  "with": "projects/jeework/src/environments/environment.binhthuan.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeework/webpack.binhthuan.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeework:build:production",
+              "extraWebpackConfig": "projects/jeework/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeework:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1202,
+            "extraWebpackConfig": "projects/jeework/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeework:build",
+            "extraWebpackConfig": "projects/jeework/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeework/src/test.ts",
+            "polyfills": "projects/jeework/src/polyfills.ts",
+            "tsConfig": "projects/jeework/tsconfig.spec.json",
+            "karmaConfig": "projects/jeework/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeework/src/favicon.ico",
+              "projects/jeework/src/assets"
+            ],
+            "styles": ["projects/jeework/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeeadmin": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeeadmin",
+      "sourceRoot": "projects/jeeadmin/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeeadmin/src/index.html",
+            "main": "projects/jeeadmin/src/main.ts",
+            "polyfills": "projects/jeeadmin/src/polyfills.ts",
+            "tsConfig": "projects/jeeadmin/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeadmin/src/favicon.ico",
+              "projects/jeeadmin/src/assets"
+            ],
+            "styles": ["projects/jeeadmin/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeeadmin/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeeadmin/src/environments/environment.ts",
+                  "with": "projects/jeeadmin/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeeadmin/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeeadmin:build:production",
+              "extraWebpackConfig": "projects/jeeadmin/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeeadmin:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1210,
+            "extraWebpackConfig": "projects/jeeadmin/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeeadmin:build",
+            "extraWebpackConfig": "projects/jeeadmin/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeeadmin/src/test.ts",
+            "polyfills": "projects/jeeadmin/src/polyfills.ts",
+            "tsConfig": "projects/jeeadmin/tsconfig.spec.json",
+            "karmaConfig": "projects/jeeadmin/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeadmin/src/favicon.ico",
+              "projects/jeeadmin/src/assets"
+            ],
+            "styles": ["projects/jeeadmin/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeechat": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeechat",
+      "sourceRoot": "projects/jeechat/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeechat/src/index.html",
+            "main": "projects/jeechat/src/main.ts",
+            "polyfills": "projects/jeechat/src/polyfills.ts",
+            "tsConfig": "projects/jeechat/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeechat/src/favicon.ico",
+              "projects/jeechat/src/assets"
+            ],
+            "styles": ["projects/jeechat/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeechat/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeechat/src/environments/environment.ts",
+                  "with": "projects/jeechat/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeechat/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeechat:build:production",
+              "extraWebpackConfig": "projects/jeechat/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeechat:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1203,
+            "extraWebpackConfig": "projects/jeechat/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeechat:build",
+            "extraWebpackConfig": "projects/jeechat/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeechat/src/test.ts",
+            "polyfills": "projects/jeechat/src/polyfills.ts",
+            "tsConfig": "projects/jeechat/tsconfig.spec.json",
+            "karmaConfig": "projects/jeechat/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeechat/src/favicon.ico",
+              "projects/jeechat/src/assets"
+            ],
+            "styles": ["projects/jeechat/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeeteam": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeeteam",
+      "sourceRoot": "projects/jeeteam/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeeteam/src/index.html",
+            "main": "projects/jeeteam/src/main.ts",
+            "polyfills": "projects/jeeteam/src/polyfills.ts",
+            "tsConfig": "projects/jeeteam/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeteam/src/favicon.ico",
+              "projects/jeeteam/src/assets"
+            ],
+            "styles": ["projects/jeeteam/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeeteam/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeeteam/src/environments/environment.ts",
+                  "with": "projects/jeeteam/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeeteam/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeeteam:build:production",
+              "extraWebpackConfig": "projects/jeeteam/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeeteam:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1204,
+            "extraWebpackConfig": "projects/jeeteam/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeeteam:build",
+            "extraWebpackConfig": "projects/jeeteam/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeeteam/src/test.ts",
+            "polyfills": "projects/jeeteam/src/polyfills.ts",
+            "tsConfig": "projects/jeeteam/tsconfig.spec.json",
+            "karmaConfig": "projects/jeeteam/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeteam/src/favicon.ico",
+              "projects/jeeteam/src/assets"
+            ],
+            "styles": ["projects/jeeteam/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeeticket": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeeticket",
+      "sourceRoot": "projects/jeeticket/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeeticket/src/index.html",
+            "main": "projects/jeeticket/src/main.ts",
+            "polyfills": "projects/jeeticket/src/polyfills.ts",
+            "tsConfig": "projects/jeeticket/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeticket/src/favicon.ico",
+              "projects/jeeticket/src/assets"
+            ],
+            "styles": ["projects/jeeticket/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeeticket/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeeticket/src/environments/environment.ts",
+                  "with": "projects/jeeticket/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeeticket/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeeticket:build:production",
+              "extraWebpackConfig": "projects/jeeticket/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeeticket:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1205,
+            "extraWebpackConfig": "projects/jeeticket/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeeticket:build",
+            "extraWebpackConfig": "projects/jeeticket/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeeticket/src/test.ts",
+            "polyfills": "projects/jeeticket/src/polyfills.ts",
+            "tsConfig": "projects/jeeticket/tsconfig.spec.json",
+            "karmaConfig": "projects/jeeticket/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeticket/src/favicon.ico",
+              "projects/jeeticket/src/assets"
+            ],
+            "styles": ["projects/jeeticket/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeeworkflow": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeeworkflow",
+      "sourceRoot": "projects/jeeworkflow/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeeworkflow/src/index.html",
+            "main": "projects/jeeworkflow/src/main.ts",
+            "polyfills": "projects/jeeworkflow/src/polyfills.ts",
+            "tsConfig": "projects/jeeworkflow/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeworkflow/src/favicon.ico",
+              "projects/jeeworkflow/src/assets"
+            ],
+            "styles": ["projects/jeeworkflow/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeeworkflow/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeeworkflow/src/environments/environment.ts",
+                  "with": "projects/jeeworkflow/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeeworkflow/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeeworkflow:build:production",
+              "extraWebpackConfig": "projects/jeeworkflow/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeeworkflow:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1206,
+            "extraWebpackConfig": "projects/jeeworkflow/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeeworkflow:build",
+            "extraWebpackConfig": "projects/jeeworkflow/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeeworkflow/src/test.ts",
+            "polyfills": "projects/jeeworkflow/src/polyfills.ts",
+            "tsConfig": "projects/jeeworkflow/tsconfig.spec.json",
+            "karmaConfig": "projects/jeeworkflow/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeeworkflow/src/favicon.ico",
+              "projects/jeeworkflow/src/assets"
+            ],
+            "styles": ["projects/jeeworkflow/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeesupport": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeesupport",
+      "sourceRoot": "projects/jeesupport/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeesupport/src/index.html",
+            "main": "projects/jeesupport/src/main.ts",
+            "polyfills": "projects/jeesupport/src/polyfills.ts",
+            "tsConfig": "projects/jeesupport/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeesupport/src/favicon.ico",
+              "projects/jeesupport/src/assets"
+            ],
+            "styles": ["projects/jeesupport/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeesupport/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeesupport/src/environments/environment.ts",
+                  "with": "projects/jeesupport/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeesupport/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeesupport:build:production",
+              "extraWebpackConfig": "projects/jeesupport/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeesupport:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1207,
+            "extraWebpackConfig": "projects/jeesupport/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeesupport:build",
+            "extraWebpackConfig": "projects/jeesupport/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeesupport/src/test.ts",
+            "polyfills": "projects/jeesupport/src/polyfills.ts",
+            "tsConfig": "projects/jeesupport/tsconfig.spec.json",
+            "karmaConfig": "projects/jeesupport/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeesupport/src/favicon.ico",
+              "projects/jeesupport/src/assets"
+            ],
+            "styles": ["projects/jeesupport/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeerequest": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeerequest",
+      "sourceRoot": "projects/jeerequest/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeerequest/src/index.html",
+            "main": "projects/jeerequest/src/main.ts",
+            "polyfills": "projects/jeerequest/src/polyfills.ts",
+            "tsConfig": "projects/jeerequest/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeerequest/src/favicon.ico",
+              "projects/jeerequest/src/assets"
+            ],
+            "styles": ["projects/jeerequest/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeerequest/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeerequest/src/environments/environment.ts",
+                  "with": "projects/jeerequest/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeerequest/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeerequest:build:production",
+              "extraWebpackConfig": "projects/jeerequest/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeerequest:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1208,
+            "extraWebpackConfig": "projects/jeerequest/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeerequest:build",
+            "extraWebpackConfig": "projects/jeerequest/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeerequest/src/test.ts",
+            "polyfills": "projects/jeerequest/src/polyfills.ts",
+            "tsConfig": "projects/jeerequest/tsconfig.spec.json",
+            "karmaConfig": "projects/jeerequest/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeerequest/src/favicon.ico",
+              "projects/jeerequest/src/assets"
+            ],
+            "styles": ["projects/jeerequest/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeemeeting": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeemeeting",
+      "sourceRoot": "projects/jeemeeting/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeemeeting/src/index.html",
+            "main": "projects/jeemeeting/src/main.ts",
+            "polyfills": "projects/jeemeeting/src/polyfills.ts",
+            "tsConfig": "projects/jeemeeting/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeemeeting/src/favicon.ico",
+              "projects/jeemeeting/src/assets"
+            ],
+            "styles": ["projects/jeemeeting/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeemeeting/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeemeeting/src/environments/environment.ts",
+                  "with": "projects/jeemeeting/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "projects/jeework/src/environments/environment.ts",
+                  "with": "projects/jeework/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeemeeting/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeemeeting:build:production",
+              "extraWebpackConfig": "projects/jeemeeting/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeemeeting:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1209,
+            "extraWebpackConfig": "projects/jeemeeting/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeemeeting:build",
+            "extraWebpackConfig": "projects/jeemeeting/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeemeeting/src/test.ts",
+            "polyfills": "projects/jeemeeting/src/polyfills.ts",
+            "tsConfig": "projects/jeemeeting/tsconfig.spec.json",
+            "karmaConfig": "projects/jeemeeting/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeemeeting/src/favicon.ico",
+              "projects/jeemeeting/src/assets"
+            ],
+            "styles": ["projects/jeemeeting/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeemeet": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeemeet",
+      "sourceRoot": "projects/jeemeet/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeemeet/src/index.html",
+            "main": "projects/jeemeet/src/main.ts",
+            "polyfills": "projects/jeemeet/src/polyfills.ts",
+            "tsConfig": "projects/jeemeet/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeemeet/src/favicon.ico",
+              "projects/jeemeet/src/assets"
+            ],
+            "styles": ["projects/jeemeet/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeemeet/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeemeet/src/environments/environment.ts",
+                  "with": "projects/jeemeet/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeemeet/webpack.prod.config.js"
+            },
+            "binhthuanhttp": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeemeet/src/environments/environment.ts",
+                  "with": "projects/jeemeet/src/environments/environment.binhthuan.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeemeet/webpack.binhthuan.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeemeet:build:production",
+              "extraWebpackConfig": "projects/jeemeet/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeemeet:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1211,
+            "extraWebpackConfig": "projects/jeemeet/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeemeet:build",
+            "extraWebpackConfig": "projects/jeemeet/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeemeet/src/test.ts",
+            "polyfills": "projects/jeemeet/src/polyfills.ts",
+            "tsConfig": "projects/jeemeet/tsconfig.spec.json",
+            "karmaConfig": "projects/jeemeet/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeemeet/src/favicon.ico",
+              "projects/jeemeet/src/assets"
+            ],
+            "styles": ["projects/jeemeet/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "jeework-v1": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/jeework-v1",
+      "sourceRoot": "projects/jeework-v1/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/jeework-v1/src/index.html",
+            "main": "projects/jeework-v1/src/main.ts",
+            "polyfills": "projects/jeework-v1/src/polyfills.ts",
+            "tsConfig": "projects/jeework-v1/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeework-v1/src/favicon.ico",
+              "projects/jeework-v1/src/assets"
+            ],
+            "styles": ["projects/jeework-v1/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/jeework-v1/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "100mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/jeework-v1/src/environments/environment.ts",
+                  "with": "projects/jeework-v1/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/jeework-v1/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "jeework-v1:build:production",
+              "extraWebpackConfig": "projects/jeework-v1/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "jeework-v1:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1212,
+            "extraWebpackConfig": "projects/jeework-v1/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "jeework-v1:build",
+            "extraWebpackConfig": "projects/jeework-v1/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jeework-v1/src/test.ts",
+            "polyfills": "projects/jeework-v1/src/polyfills.ts",
+            "tsConfig": "projects/jeework-v1/tsconfig.spec.json",
+            "karmaConfig": "projects/jeework-v1/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/jeework-v1/src/favicon.ico",
+              "projects/jeework-v1/src/assets"
+            ],
+            "styles": ["projects/jeework-v1/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "wizard-platform": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/wizard-platform",
+      "sourceRoot": "projects/wizard-platform/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "projects/wizard-platform/src/index.html",
+            "main": "projects/wizard-platform/src/main.ts",
+            "polyfills": "projects/wizard-platform/src/polyfills.ts",
+            "tsConfig": "projects/wizard-platform/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/wizard-platform/src/favicon.ico",
+              "projects/wizard-platform/src/assets"
+            ],
+            "styles": ["projects/wizard-platform/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "projects/wizard-platform/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/wizard-platform/src/environments/environment.ts",
+                  "with": "projects/wizard-platform/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "projects/wizard-platform/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "wizard-platform:build:production",
+              "extraWebpackConfig": "projects/wizard-platform/webpack.prod.config.js"
+            },
+            "development": {
+              "browserTarget": "wizard-platform:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 1213,
+            "extraWebpackConfig": "projects/wizard-platform/webpack.config.js"
+          }
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "wizard-platform:build",
+            "extraWebpackConfig": "projects/wizard-platform/webpack.config.js"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/wizard-platform/src/test.ts",
+            "polyfills": "projects/wizard-platform/src/polyfills.ts",
+            "tsConfig": "projects/wizard-platform/tsconfig.spec.json",
+            "karmaConfig": "projects/wizard-platform/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/wizard-platform/src/favicon.ico",
+              "projects/wizard-platform/src/assets"
+            ],
+            "styles": ["projects/wizard-platform/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "demo1"
+}

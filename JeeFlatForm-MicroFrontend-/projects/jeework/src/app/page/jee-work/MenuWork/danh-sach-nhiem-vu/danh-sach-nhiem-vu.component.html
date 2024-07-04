@@ -1,0 +1,1341 @@
+<!-- idMenu != 4 Khi click vào menu dự án -->
+<div [ngClass]="{
+    'panel-top': idMenu != 0,
+    'panel-top-home': idMenu == 0
+  }" style="width: auto; margin: 10px; height: 100%">
+  <div style="display: block; height: 100%">
+    <div class="row" style="padding-bottom: 10px;">
+      <div  class="col" style="width: 210px">
+        <a style="
+            margin-top: 10px;
+            margin-left: 10px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 23px;
+            width: 20vw;
+            display: flex;
+          ">{{ "jeework.danhsach" | translate }}
+          <span *ngIf="this.countIsnewChange>0" class="title-count"
+            style="color:#ffffff;">{{this.countIsnewChange}}</span>
+          <span style="cursor: pointer;position: sticky;" class="svg-icon svg-icon-primary svg-icon-2x"
+            matTooltip="Đánh dấu đã xem" (click)="checkViewAll()">
+            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Double-check.svg-->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+              height="24px" viewBox="0 0 24 24" version="1.1">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <polygon points="0 0 24 0 24 24 0 24" />
+                <path
+                  d="M9.26193932,16.6476484 C8.90425297,17.0684559 8.27315905,17.1196257 7.85235158,16.7619393 C7.43154411,16.404253 7.38037434,15.773159 7.73806068,15.3523516 L16.2380607,5.35235158 C16.6013618,4.92493855 17.2451015,4.87991302 17.6643638,5.25259068 L22.1643638,9.25259068 C22.5771466,9.6195087 22.6143273,10.2515811 22.2474093,10.6643638 C21.8804913,11.0771466 21.2484189,11.1143273 20.8356362,10.7474093 L17.0997854,7.42665306 L9.26193932,16.6476484 Z"
+                  fill="#000000" fill-rule="nonzero" opacity="0.3"
+                  transform="translate(14.999995, 11.000002) rotate(-180.000000) translate(-14.999995, -11.000002) " />
+                <path
+                  d="M4.26193932,17.6476484 C3.90425297,18.0684559 3.27315905,18.1196257 2.85235158,17.7619393 C2.43154411,17.404253 2.38037434,16.773159 2.73806068,16.3523516 L11.2380607,6.35235158 C11.6013618,5.92493855 12.2451015,5.87991302 12.6643638,6.25259068 L17.1643638,10.2525907 C17.5771466,10.6195087 17.6143273,11.2515811 17.2474093,11.6643638 C16.8804913,12.0771466 16.2484189,12.1143273 15.8356362,11.7474093 L12.0997854,8.42665306 L4.26193932,17.6476484 Z"
+                  fill="#000000" fill-rule="nonzero"
+                  transform="translate(9.999995, 12.000002) rotate(-180.000000) translate(-9.999995, -12.000002) " />
+              </g>
+            </svg>
+            <!--end::Svg Icon-->
+          </span>
+        </a>
+      </div>
+      <div class="col class-filter">
+        <input class="cu-search-filter__input" type="text" name="userQuestion" id="userQuestions"
+          placeholder="Tìm tên {{ DanhMucChungService.ts_congviec}}" style="width: 100% !important;"
+          (keyup.enter)="searchByKeyword($event)" />
+      </div>
+
+      <!-- Start - Click vào menu dự án (11/04/2024)-->
+      <!-- Chế độ xem -->
+      <!-- <div *ngIf="idMenu == 4" class="col class-filter">
+        <div>
+          <button style="width: 100%!important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="menu" class="dropdown1">
+            <span>Chế độ xem: </span>
+            <span style="padding-left: 10px">{{
+              cheDoxemSelected.Title
+              }}</span>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeCheDoXem(item)"
+              style="line-height: 30px !important; height: 100% !important" *ngFor="let item of listCheDoXem">
+              <span style="padding-left: 10px">{{item.Title}}</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div> -->
+
+      <!-- Lọc theo nhóm -->
+      <!-- <div *ngIf="idMenu == 4 && cheDoXemID > 0" class="col class-filter">
+        <div>
+          <button style="width: 100%!important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="groupby" class="dropdown1">
+            <span>Nhóm theo: </span>
+            <span style="padding-left: 10px">
+              {{ "filter." + filter_groupby.title | translate }}
+            </span>
+          </button>
+          <mat-menu #groupby="matMenu">
+            <button mat-menu-item *ngFor="let item of listFilter_Groupby" (click)="GroupBy(item)">
+              <i [class]="GetIconGroup(item.value)"></i>
+              {{ "filter." + item.title | translate }}
+            </button>
+          </mat-menu>
+        </div>
+
+      </div> -->
+      <!-- End   - Click vào menu dự án (11/04/2024)-->
+
+      <!-- douutien -->
+      <div class="col class-filter">
+        <div>
+          <button style="width: 100%!important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="menu" class="dropdown1">
+            <span>{{ "filter.clickup_prioritize" | translate }}: </span>
+            <img *ngIf="clickup_prioritizeSelected.icon != ''"
+              class="{{ clickup_prioritizeSelected.icon }} size-flag-detail-18" />
+            <span style="padding-left: 10px">{{
+              "priority." + clickup_prioritizeSelected.name | translate
+              }}</span>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeDoUuTien(item)"
+              style="line-height: 30px !important; height: 100% !important" *ngFor="let item of douutien">
+              <img class="{{ item.icon }} size-flag-detail-18" />
+              <span style="padding-left: 10px">{{
+                "priority." + item.name | translate
+                }}</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      <!-- tinhtrang -->
+      <div class="col class-filter">
+        <div>
+          <button style="width: 100% !important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="menu12" class="dropdown1" matTooltip="{{getminimizenText(tinhtrangSelected == undefined
+            ? tinhtrang[0].viewValue
+            : tinhtrangSelected.viewValue)}}">
+            <!-- [matMenuTriggerFor]="(idMenu==4||idMenu==7)? menu12:menu1" -->
+            Tình trạng:
+            {{
+            minimizeText(
+            tinhtrangSelected == undefined
+            ? tinhtrang[0].viewValue
+            : tinhtrangSelected.viewValue
+            )
+            }}
+          </button>
+
+          <mat-menu #menu12="matMenu">
+            <button mat-menu-item style="line-height: 30px !important; height: 100% !important">
+              <div class="row" (click)="$event.stopPropagation();">
+                <mat-checkbox [(ngModel)]="allComplete" [indeterminate]="someComplete()"
+                  (change)="setAll($event.checked)">
+                  <div style="display: flex">
+                    Tất cả
+                  </div>
+                </mat-checkbox>
+              </div>
+            </button>
+            <button mat-menu-item style="line-height: 30px !important; height: 100% !important"
+              *ngFor="let item of TinhTrang">
+              <div class="row" (click)="$event.stopPropagation();">
+                <mat-checkbox [(ngModel)]="item.checked" (ngModelChange)="updateAllComplete()">
+                  <div style="display: flex">
+                    {{ item.name }}
+                  </div>
+                </mat-checkbox>
+              </div>
+            </button>
+            <button mat-menu-item (click)="changeTinhTrang(item)"
+              style="line-height: 30px !important; height: 100% !important">
+              <div class="row" style="justify-content: center;">
+                Tìm kiếm
+              </div>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      <!-- tiendo -->
+      <div class="col class-filter">
+        <div>
+          <button style="width: 100% !important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="menu2" class="dropdown1" matTooltip="{{getminimizenText(tiendoSelected == undefined
+              ? tiendo[0].viewValue
+              : tiendoSelected.viewValue)}}">
+            Tiến độ:
+            {{
+            minimizeText( this.titleTienDo
+            )
+            }}
+          </button>
+          <mat-menu #menu2="matMenu">
+            <button mat-menu-item style="line-height: 30px !important; height: 100% !important">
+              <div class="row" (click)="$event.stopPropagation();">
+                <mat-checkbox [(ngModel)]="allTienDo" [indeterminate]="someCompleteTienDo()"
+                  (change)="setAllTienDo($event.checked)">
+                  <div style="display: flex">
+                    Tất cả
+                  </div>
+                </mat-checkbox>
+              </div>
+            </button>
+            <button mat-menu-item style="line-height: 30px !important; height: 100% !important"
+              *ngFor="let item of tiendo">
+              <!-- <div class="row">
+                {{ item.viewValue }}
+              </div> -->
+              <div class="row" (click)="$event.stopPropagation();">
+                <mat-checkbox [(ngModel)]="item.checked" (ngModelChange)="updateAllTienDo()">
+                  <div style="display: flex">
+                    {{ item.viewValue }}
+                  </div>
+                </mat-checkbox>
+              </div>
+            </button>
+            <button mat-menu-item (click)="changeTienDo()"
+              style="line-height: 30px !important; height: 100% !important">
+              <div class="row" style="justify-content: center;">
+                Tìm kiếm
+              </div>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      <!-- the -->
+      <div class="col class-filter">
+        <div *ngIf="idMenu!=7;else menuTag">
+          <button style="width: 100% !important; float: right" matNativeControl required mat-button
+            [matMenuTriggerFor]="menu3" class="dropdown1" matTooltip="{{getminimizenText(theSelected == undefined
+              ? the[0] == undefined
+              ? ''
+              : the[0].viewValue
+              : theSelected.viewValue)}}">
+            Thẻ:
+            {{
+            minimizeText(
+            theSelected == undefined
+            ? the[0] == undefined
+            ? ""
+            : the[0].viewValue
+            : theSelected.viewValue
+            )
+            }}
+          </button>
+          <mat-menu #menu3="matMenu">
+            <md-input-container class="col" style="padding-top: 10px" (click)="stopPropagation($event)"
+              (keydown)="$event.stopPropagation()">
+              <input class="find-tag" type="text" style="border-radius: 8px;
+              width: 100%;" placeholder="Tìm thẻ" (keyup.enter)="searchTags($event)" autocomplete="off" />
+            </md-input-container>
+            <button mat-menu-item (click)="changeThe(item)"
+              style="line-height: 30px !important; height: 100% !important" *ngFor="let item of the">
+              <div class="row" [ngStyle]="{ color: item.color }">
+                <div class="cu-task-row-status1" style="padding-top: 10px">
+                  <div class="point" [ngStyle]="{ backgroundColor: item.color }"></div>
+                </div>
+                {{ item.viewValue }}
+              </div>
+            </button>
+          </mat-menu>
+        </div>
+        <ng-template #menuTag>
+          <div>
+            <button style="width: 10vw !important; float: right" matNativeControl required mat-button class="dropdown1">
+              Thẻ:
+              {{
+              minimizeText(
+              theSelected == undefined
+              ? the[0] == undefined
+              ? ""
+              : the[0].viewValue
+              : theSelected.viewValue
+              )
+              }}
+            </button>
+
+          </div>
+        </ng-template>
+
+      </div>
+      <div *ngIf="!meetingid" class="col-md-2" style="padding-top: 10px; width: fit-content">
+        <button class="buttonchoosethemmoi click">
+          <span style="color: white; height:24px; padding-top:5px" (click)="themMoiNhiemVu()">Thêm mới</span>
+          <mat-icon style="color: white" *ngIf="isGov" [matMenuTriggerFor]="addnhiemvu">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #addnhiemvu="matMenu">
+          <button mat-menu-item (click)="themMoiNhiemVuNhanh()">
+            <span>Thêm nhanh {{DanhMucChungService.ts_congviec}}</span>
+          </button>
+          <button mat-menu-item (click)="themMoiNhiemVu()">
+            <span>Thêm {{DanhMucChungService.ts_congviec}}</span>
+          </button>
+        </mat-menu>
+
+      </div>
+    </div>
+
+    <span *ngIf="idMenu == 4" style="height: 90%; display: block">
+      <ng-container *ngIf="cheDoXemID == 0">
+        <div class="height-list" style="
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        overflow: auto;
+      " (scroll)="onScroll($event)" id="listScroll">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+            <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Tên nhiệm vụ, độ ưu tiên -->
+            <ng-container matColumnDef="nhiemvu">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="
+              border-top-left-radius: 7px;
+              border-bottom-left-radius: 7px;
+              margin-bottom: 5px;
+            ">
+                {{ DanhMucChungService.ts_congviec_ToUpper }}
+                <span *ngIf="this.countNV>0" style="color:#ff0000">({{this.countNV}})</span>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.isnewchange" class="icon-new-finish">
+                  <span style="font-weight: bold; font-size: 11pt;">N</span>
+                </div>
+                <div class="priority_view" style="cursor: pointer;" [matMenuTriggerFor]="menu">
+                  <img style="height: 20px" [ngClass]="get_flag_color(element.clickup_prioritize)" />
+                </div>
+                <div>
+                  <div>
+                    <span
+                      style="font-size: 10px;padding-left: 1vw;color: #b5b5c3;">{{element.department}}/{{element.project_team}}</span>
+                  </div>
+                  <div>
+                    <!-- <div style="display: flex; margin-top: 0.5vw; padding-left: 1vw" -->
+                    <div style="display: flex; padding-left: 1vw; font-size: 15px;"
+                      class="click position-relative hover-to-show-inline-block">
+                      <div class="cu-task-row-main__link-text" style="width: 98%;">
+                        <ng-template [ngIf]="!element.editTitle">
+                          <span
+                            class="cu-task-row-main__link-text-inner position-relative url ng-star-inserted textTable click"
+                            matTooltip="Ngày tạo: {{ element.createddate}}" (click)="openPopupDetail(element)">
+                            <span style="font-weight: 500;">{{element.Gov_SoHieuVB}}</span>
+                            <span style="font-weight: 500;padding-left: 4px;"
+                              *ngIf="element.Gov_SoHieuVB!=null">-&nbsp;</span>
+                            <span appHighlight [content]="element.title" [searchTerm]="keyword" [caseSensitive]="false">
+                            </span>
+                            <!-- {{element.title }} -->
+                          </span>
+                          <span class="view-hover-inline-block">
+                            <i class="fas fa-pencil-alt" style="color: #b5b5c3; width: 10px"
+                              matTooltip="{{ 'work.renametask' | translate }}" *ngIf="
+                             CheckClosedTask(element) && this.DanhMucChungService.cf_ten =='1'
+                          " (click)="editTitle(element)"></i>
+                            &nbsp;
+                            <i class="fas fa-tags" style="color: #b5b5c3; width: 10px" *ngIf="
+                             CheckClosedTask(element) && this.DanhMucChungService.cf_tag =='1'
+                          " [matMenuTriggerFor]="selecedtag" matTooltip="{{ 'jeework.chinhsuanhan' | translate }}"></i>
+                            &nbsp;
+                            <i class="fas flaticon2-menu-1" style="color: #b5b5c3; width: 10px"
+                              matTooltip="Xem {{DanhMucChungService.ts_congviec}}"
+                              (click)="openTaskDetail(element.id_row)"></i>
+                          </span>
+                        </ng-template>
+                        <ng-template [ngIf]="element.editTitle" style="padding: 10px;">
+                          <input id="task{{ element.id_row }}" type="text" value="{{ element.title }}"
+                            style="width: 100%;margin-bottom: 5px;border-radius: 5px; padding:5px;"
+                            (keyup.enter)="changeTitleInTable($event, element)"
+                            (focusout)="focusOutFunction(element)" />
+                        </ng-template>
+
+                        <span style="padding-left: 10px">
+                          <ng-container *ngFor="let tag of element.Tags">
+                            <kt-cu-tag [node]="element" [tag]="tag" [Rule]="
+                             CheckClosedTask(element) && this.checkRule
+                          " (RemoveTag)="RemoveTag(tag, element)">
+                            </kt-cu-tag>
+                          </ng-container>
+                        </span>
+                        <mat-menu #selecedtag="matMenu">
+                          <kt-choose-milestone-and-tags (IsSearch)="stopPropagation1($event)"
+                            (ItemSelected)="ItemSelected1($event, element)" (RemoveTag)="RemoveTag($event, element)"
+                            [idDept]="element.id_project_team">
+                            >
+                          </kt-choose-milestone-and-tags>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="changeDoUuTienInTable(element, status)" style="
+                  line-height: 30px !important;
+                  height: 100% !important;
+                  width: 125px;
+                " *ngFor="let status of douutienintable">
+                    <div class="row" style="    line-height: 15px !important;">
+                      <div class="cu-task-row-status1" style="padding-top: 10px;display: block;
+                    margin-left: -15px;">
+                        <img class="{{ status.icon }} size-flag-detail-18" />
+                        <span style="padding-left: 10px">{{
+                          "priority." + status.name | translate
+                          }}</span>
+                      </div>
+                    </div>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <!-- Tình trạng -->
+            <ng-container matColumnDef="tinhtrang">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+                {{ "jeework.tinhtrang" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="height: 100%">
+                  <div *ngIf="element.StatusInfo[0] != undefined" style="
+                  width: 100%; cursor: pointer;
+                  color: #ffffff;
+                  font-family: 'Roboto';
+                  font-style: normal;
+                  font-weight: 500;
+                  font-size: 13px;
+                " class="cu-task-row-status1" [ngStyle]="{ background: element.StatusInfo[0].color }" mat-button
+                    [matMenuTriggerFor]="menu" (click)="loadTinhTrang(element)">
+                    {{ element.StatusInfo[0].statusname }}
+                  </div>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="changeTinhTrangInTable(element, status)" style="
+                    line-height: 30px !important;
+                    height: 100% !important;
+                  " *ngFor="let status of listStatus">
+                      <div class="row" [ngStyle]="{ color: status.color }">
+                        <div class="cu-task-row-status1" style="padding-top: 10px">
+                          <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                        </div>
+                        {{ status.statusname }}
+                      </div>
+                    </button>
+                  </mat-menu>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Giao cho -->
+            <ng-container matColumnDef="giaocho">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center; width: 10px">
+                {{ "jeework.giaocho" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div>
+                  <ng-template [ngIf]="element.User.hoten != undefined">
+                    <ng-template [ngIf]="
+                    element.User.hoten != undefined &&
+                    element.User.hoten != ''
+                  ">
+                      <div class="item-image" style="display: flex; justify-content: center">
+                        <div class="click scale-hover-02 position-relative hover-to-show"
+                          style="justify-content: flex-end; width: 35px">
+                          <i class="far fa-times-circle view-hover click text-dark bg-white" style="
+                          position: absolute;
+                          top: 0;
+                          right: 0;
+                          border-radius: 50%;
+                          font-size: 10pt;
+                        " (click)="RemoveAssign(element)">
+                          </i>
+
+                          <ngx-avatar *ngIf="element.User.image; else bindText" (click)="clickmenu.click()"
+                            matTooltipClass="br-tooltip" matTooltip="{{ element.User.hoten }}" size="40"
+                            src="{{ element.User.image }}">
+                          </ngx-avatar>
+                          <i *ngIf="element.isRead" class="far fa-solid fa-eye" style="
+                      position: absolute;
+                      bottom: 0;
+                      right: 0;
+                      border-radius: 50%;
+                      font-size: 10pt;
+                      color: #DC732A !important;
+                      background-color: #ffffff;"
+                            matTooltip="{{element.User.hoten}} đã xem lúc {{element.ReadDate | timezone}}"></i>
+                          <ng-template #bindText>
+                            <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                              matTooltip="{{ element.User.hoten }}" size="30" bgColor="{{
+                            DanhMucChungService.getColorNameUser(
+                              element.User.hoten
+                            )
+                          }}" [name]="
+                            this.DanhMucChungService.getName(
+                              element.User.hoten
+                            )
+                          "></ngx-avatar>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template [ngIf]="element.User.hoten == undefined ||
+                    element.User.hoten == ''">
+                      <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer"
+                        (click)="getoptions_assign(element.id_project_team);clickmenu.click()">
+                        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path opacity="0.4"
+                            d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                            fill="#7E8299" />
+                          <path
+                            d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                            fill="#7E8299" />
+                          <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                            fill="#B5B5C3" />
+                        </svg>
+                      </div>
+                    </ng-template>
+                  </ng-template>
+
+                  <ng-template [ngIf]="element.User.hoten == undefined">
+                    <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;"
+                      (click)="getoptions_assign(element.id_project_team);clickmenu.click()">
+                      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.4"
+                          d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                          fill="#7E8299" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                          fill="#B5B5C3" />
+                      </svg>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                <mat-menu #assignee="matMenu">
+                  <div class="page-work-detail">
+                    <kt-choose-users [idDept]="element.id_project_team" (IsSearch)="stopPropagation($event)"
+                      (ItemSelected)="ItemSelected($event,element)">
+                    </kt-choose-users>
+                  </div>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <!-- Hạn chót -->
+            <ng-container matColumnDef="hanchot">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+                {{ "jeework.hanxuly" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element" style="
+              text-align: center; cursor: pointer;
+              font-family: 'Roboto';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 12px;
+              position: relative;" [ngStyle]="{ color: getDeadlineColor(element.TienDo) }">
+                <div>
+                  <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="element.deadline&&element.deadline != ''">
+                    <a>{{ this.formatdatehour(element.deadline) }}</a><br />
+                    <a>{{ this.formatdatedate(element.deadline) }}</a>
+                  </span>
+                  <input [style.visibility]="'hidden'" readonly
+                    style="border: none; text-align: center; position: absolute" [owlDateTime]="dt1"
+                    [(ngModel)]="element.deadline" (ngModelChange)="changeHanChotInTable(element, $event)" />
+                  <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="!element.deadline||element.deadline == ''">
+                    <img class="calender size-flag-detail" />
+                  </span>
+                  <owl-date-time #dt1></owl-date-time>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Bình luận -->
+            <ng-container matColumnDef="binhluan">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+                {{ "jeework.binhluan" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element" style="text-align: center">
+                <div class="item-field hide-more-text"
+                  *ngIf="DanhMucChungService.CheckRule(element.Rule,'17') || DanhMucChungService.CheckRule(element.Rule,'18')">
+                  <app-task-comment (submit)="submit($event, element)" [id_row]="element.id_row"
+                    [value]="element.num_comment" [task]="element"
+                    [isviewcomment]="DanhMucChungService.CheckRule(element.Rule,'17')"
+                    [iscomment]="DanhMucChungService.CheckRule(element.Rule,'18')">
+                  </app-task-comment>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Người tạo -->
+            <ng-container matColumnDef="nguoitao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="
+              border-top-right-radius: 7px;
+              border-bottom-right-radius: 7px;
+              text-align: center;
+            ">
+                {{ "jeework.nguoitao" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element" class="hover-to-show-inline-block">
+                <ng-template [ngIf]="element.createdby.hoten != undefined &&
+                element.createdby.hoten != ''">
+                  <div class="item-image" style="padding-left: 35%">
+                    <ngx-avatar *ngIf="element.createdby.image; else bindText" matTooltipClass="br-tooltip"
+                      matTooltip="{{ element.createdby.hoten }}" size="40" src="{{ element.createdby.image }}">
+                    </ngx-avatar>
+                    <ng-template #bindText>
+                      <ngx-avatar textSizeRatio="2.5" matTooltipClass="br-tooltip"
+                        matTooltip="{{ element.createdby.hoten }}" size="30" bgColor="{{
+                      DanhMucChungService.getColorNameUser(
+                        element.createdby.hoten
+                      )
+                    }}" [name]="
+                      this.DanhMucChungService.getName(
+                        element.createdby.hoten
+                      )
+                    "></ngx-avatar>
+                    </ng-template>
+                  </div>
+                </ng-template>
+
+                <ng-template [ngIf]="element.createdby.hoten == undefined 
+              || element.createdby.hoten == ''">
+                  <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;">
+                    <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path opacity="0.4"
+                        d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                        fill="#7E8299" />
+                      <path
+                        d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                        fill="#7E8299" />
+                      <path
+                        d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                        fill="#7E8299" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                        fill="#B5B5C3" />
+                    </svg>
+                  </div>
+                </ng-template>
+                <!-- <ng-template [ngIf]="element.createdby.image == ''"
+              ><div
+                class="item-image"
+                matTooltip="{{ element.createdby.hoten }}"
+                style="text-align: center"
+              >
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 23 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.4"
+                    d="M21.816 23.3999C21.816 23.7359 21.552 23.9999 21.216 23.9999H0.6C0.264 23.9999 0 23.7359 0 23.3999C0 18.4319 4.896 14.3999 10.908 14.3999C12.144 14.3999 13.344 14.5679 14.448 14.8919C13.74 15.7319 13.308 16.8239 13.308 17.9999C13.308 18.8999 13.56 19.7519 14.004 20.4719C14.244 20.8799 14.556 21.2519 14.916 21.5639C15.756 22.3319 16.872 22.7999 18.108 22.7999C19.452 22.7999 20.664 22.2479 21.528 21.3599C21.72 22.0079 21.816 22.6919 21.816 23.3999Z"
+                    fill="#7E8299"
+                  />
+                  <path
+                    d="M21.6716 14.7962C20.8076 13.8122 19.5236 13.2002 18.1076 13.2002C16.7636 13.2002 15.5396 13.7522 14.6636 14.6522C13.8236 15.5162 13.3076 16.7042 13.3076 18.0002C13.3076 18.9002 13.5596 19.7522 14.0036 20.4722C14.2436 20.8802 14.5556 21.2522 14.9156 21.5642C15.7556 22.3322 16.8716 22.8002 18.1076 22.8002C19.8596 22.8002 21.3836 21.8642 22.2116 20.4722C22.4636 20.0642 22.6556 19.5962 22.7636 19.1162C22.8596 18.7562 22.9076 18.3842 22.9076 18.0002C22.9076 16.7762 22.4396 15.6482 21.6716 14.7962ZM19.9076 18.8762H19.0076V19.8122C19.0076 20.3042 18.5996 20.7122 18.1076 20.7122C17.6156 20.7122 17.2076 20.3042 17.2076 19.8122V18.8762H16.3076C15.8156 18.8762 15.4076 18.4682 15.4076 17.9762C15.4076 17.4842 15.8156 17.0762 16.3076 17.0762H17.2076V16.2242C17.2076 15.7322 17.6156 15.3242 18.1076 15.3242C18.5996 15.3242 19.0076 15.7322 19.0076 16.2242V17.0762H19.9076C20.3996 17.0762 20.8076 17.4842 20.8076 17.9762C20.8076 18.4682 20.3996 18.8762 19.9076 18.8762Z"
+                    fill="#7E8299"
+                  />
+                  <path
+                    d="M10.9077 12C14.2214 12 16.9077 9.31371 16.9077 6C16.9077 2.68629 14.2214 0 10.9077 0C7.59401 0 4.90771 2.68629 4.90771 6C4.90771 9.31371 7.59401 12 10.9077 12Z"
+                    fill="#7E8299"
+                  />
+                </svg>
+              </div>
+            </ng-template> -->
+                <div class="click scale-hover-02 position-relative" style="float: right; margin-top: -32px"
+                  *ngIf="CheckShow(element)">
+                  <span class="view-hover-inline-block">
+                    <i class="fas fa-ellipsis-h" *ngIf="CheckClosedTask(element)"
+                      style="font-size: 18px; margin-top: 10px" [matMenuTriggerFor]="menuline"></i>
+                    <mat-menu #menuline="matMenu" style="padding: 0">
+                      <!-- <div class="card" style="border: none">
+                    <div class="card-body pd-0"> -->
+                      <button mat-menu-item color="accent" (click)="DeleteTask(element)" *ngIf="
+                     CheckClosedTask(element)
+                    ">
+                        <mat-icon>delete</mat-icon>
+                        &nbsp;
+                        <span class="icon-custom -hover" style="font-size: 9pt">
+                          {{ "GeneralKey.xoa" | translate }}
+                        </span>
+                      </button>
+
+                      <button mat-menu-item color="accent" (click)="SaveWork(element)" *ngIf="
+                      this.CheckRuleskeypermit('update_storage', element)
+                    ">
+                        <mat-icon>save</mat-icon>
+                        &nbsp;
+                        <span class="icon-custom -hover" style="font-size: 9pt">
+                          {{ "GeneralKey.luu" | translate }}
+                        </span>
+                      </button>
+                      <button mat-menu-item color="accent" (click)="ClosedTask(element, true)"
+                        *ngIf=" CheckClosedTask(element)">
+                        <mat-icon>close</mat-icon>
+                        &nbsp;
+                        <span class="icon-custom -hover" style="font-size: 9pt">
+                          {{ "GeneralKey.dong" | translate }}
+                        </span>
+                      </button>
+                      <!-- </div>
+                  </div> -->
+                    </mat-menu>
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+              (mouseout)="row.hovered = false"></tr>
+          </table>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="cheDoXemID == 1">
+        <div class="table-kanban" [ngStyle]="{'height': getHeight(),'width': getWidth()}"
+          (scroll)="onScroll_Board($event)" id="listScroll">
+          <div style="margin: 5px; width: 310px; border-radius: 5px; background-color: #ebebeb;"
+            [style.height.px]="height" *ngFor="let th of DataBoard">
+            <div class="row header-sticky css-sticky" style="padding: 0 10px;">
+              <div class="row header-giaidoan">
+                <div class="col-md-8" style="align-items: center; display: flex">
+                  <span style="cursor: pointer; font-size: 13pt"
+                    matTooltip="{{ th.statusname }}">{{th.statusname}}</span>
+                  <span *ngIf="th.Tong > 0" style="padding-left:5px">
+                    <div class="soluong-nhiemvu">
+                      <span class="color-sl-nhiemvu" style="font-size: 11pt; font-weight: bold;">{{th.Tong}}</span>
+                    </div>
+                  </span>
+                </div>
+                <div class="col-md-4" style="display: flex; justify-content: flex-end;">
+
+                </div>
+              </div>
+            </div>
+            <div class="body-example-list" style="height: 100%;width: 310px;" cdkDropList id="{{''+th.id_row}}"
+              [cdkDropListData]="th.Data" cdkDropListSortingDisabled (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let weekItem of th.datawork, let vi = index" cdkDrag
+                (cdkDragStarted)="dragStart($event, vi)"
+                style="margin: 10px; box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);">
+                <!-- null - chưa xử lý/mới ;  -->
+                <!-- [ngStyle]="{'color': weekItem.Status == '3' ? '#b9f3beb8' : weekItem.Status == '-1' ? '#efb5b5db' : weekItem.Status == '0' ? '#ff0000' : weekItem.Status == '1' ? 'rgb(255, 184, 34)' : weekItem.Status == '2' ? '#9acd32' : (weekItem.Status == null && weekItem.AssignDate != '') ? 'gray' : 'black'}" -->
+                <div class="header-task" style="padding: 10px;">
+                  <!-- Hiện new cho nhiệm vụ có cập nhật mới -->
+                  <div class="col-md-12 pd-0" style="align-self: center">
+                    <span class="css-title-task" matTooltip="{{ weekItem.title }}">{{weekItem.title}}</span>
+                  </div>
+                  <div *ngIf="weekItem.Tags.length > 0" class="col-md-12 pd-0" style="align-self: center">
+                    <span style="padding-right: 10px">
+                      <ng-container *ngFor="let tag of weekItem.Tags">
+                        <kt-cu-tag [node]="weekItem" [tag]="tag" [Rule]="
+                         CheckClosedTask(weekItem) && this.checkRule
+                      " (RemoveTag)="RemoveTag(tag, weekItem)">
+                        </kt-cu-tag>
+                      </ng-container>
+                    </span>
+                  </div>
+                  <div style="height:50px; display: flex">
+                    <div style="width:100%; display: flex">
+                      <div class="col-md-5" style="align-self: center; padding: 0">
+                        <div [ngStyle]="{ color: getDeadlineColor(weekItem.TienDo) }" style="cursor: pointer">
+                          <div>
+                            <span [ngClass]="{'class-deadline': weekItem.TienDo == 6}" class="trigger" [owlDateTimeTrigger]="dt1"
+                              *ngIf="weekItem.deadline&&weekItem.deadline != ''">
+                              <i [ngStyle]="{ color: getDeadlineColor(weekItem.TienDo) }" class="far fa-clock"></i>&nbsp;<a>{{ this.formatmonthyear(weekItem.deadline) }}</a>
+                            </span>
+                            <input [style.visibility]="'hidden'" readonly
+                              style="border: none; text-align: center; position: absolute" [owlDateTime]="dt1"
+                              [(ngModel)]="weekItem.deadline"
+                              (ngModelChange)="changeHanChotInTable(weekItem, $event)" />
+                            <span class="trigger" [owlDateTimeTrigger]="dt1"
+                              *ngIf="!weekItem.deadline||weekItem.deadline == ''">
+                              <img class="calender size-flag-detail" />
+                            </span>
+                            <owl-date-time #dt1></owl-date-time>
+                          </div>
+                        </div>
+                      </div>
+                      <div style="align-self: center;">
+                        <div class="item-field hide-more-text"
+                          *ngIf="DanhMucChungService.CheckRule(weekItem.Rule,'17') || DanhMucChungService.CheckRule(weekItem.Rule,'18')">
+                          <app-task-comment (submit)="submit($event, weekItem)" [id_row]="weekItem.id_row"
+                            [value]="weekItem.num_comment" [task]="weekItem"
+                            [isviewcomment]="DanhMucChungService.CheckRule(weekItem.Rule,'17')"
+                            [iscomment]="DanhMucChungService.CheckRule(weekItem.Rule,'18')">
+                          </app-task-comment>
+                        </div>
+                      </div>
+                      <div class="col-md-2 pd-0" style="align-self: center; text-align: left">
+                        <div style="cursor: pointer;" [matMenuTriggerFor]="menu">
+                          <img style="height: 20px" [ngClass]="get_flag_color(weekItem.clickup_prioritize)" />
+                        </div>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item (click)="changeDoUuTienInTable(weekItem, status)" style="
+                              line-height: 30px !important;
+                              height: 100% !important;
+                              width: 125px;
+                            " *ngFor="let status of douutienintable">
+                            <div class="row" style="    line-height: 15px !important;">
+                              <div class="cu-task-row-status1" style="padding-top: 10px;display: block;
+                                margin-left: -15px;">
+                                <img class="{{ status.icon }} size-flag-detail-18" />
+                                <span style="padding-left: 10px">{{
+                                  "priority." + status.name | translate
+                                  }}</span>
+                              </div>
+                            </div>
+                          </button>
+                        </mat-menu>
+                      </div>
+                      <div class="col-md-2 pd-0" style="align-self: center;">
+                        <div>
+                          <ng-template [ngIf]="weekItem.User.hoten != undefined">
+                            <ng-template [ngIf]="
+                                weekItem.User.hoten != undefined &&
+                                weekItem.User.hoten != ''
+                              ">
+                              <div class="item-image" style="display: flex; justify-content: center">
+                                <div class="click scale-hover-02 position-relative hover-to-show"
+                                  style="justify-content: flex-end; width: 35px">
+                                  <i class="far fa-times-circle view-hover click text-dark bg-white" style="
+                                      position: absolute;
+                                      top: 0;
+                                      right: 0;
+                                      border-radius: 50%;
+                                      font-size: 10pt;
+                                    " (click)="RemoveAssign(weekItem)">
+                                  </i>
+
+                                  <ngx-avatar *ngIf="weekItem.User.image; else bindText" (click)="clickmenu.click()"
+                                    matTooltipClass="br-tooltip" matTooltip="{{ weekItem.User.hoten }}" size="30"
+                                    src="{{ weekItem.User.image }}">
+                                  </ngx-avatar>
+                                  <i *ngIf="weekItem.isRead" class="far fa-solid fa-eye" style="
+                                  position: absolute;
+                                  bottom: 0;
+                                  right: 0;
+                                  border-radius: 50%;
+                                  font-size: 10pt;
+                                  color: #DC732A !important;
+                                  background-color: #ffffff;"
+                                    matTooltip="{{weekItem.User.hoten}} đã xem lúc {{weekItem.ReadDate | timezone}}"></i>
+                                  <ng-template #bindText>
+                                    <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()"
+                                      matTooltipClass="br-tooltip" matTooltip="{{ weekItem.User.hoten }}" size="30"
+                                      bgColor="{{
+                                        DanhMucChungService.getColorNameUser(
+                                          weekItem.User.hoten
+                                        )
+                                      }}" [name]="
+                                        this.DanhMucChungService.getName(
+                                          weekItem.User.hoten
+                                        )
+                                      "></ngx-avatar>
+                                  </ng-template>
+                                </div>
+                              </div>
+                            </ng-template>
+                            <ng-template [ngIf]="weekItem.User.hoten == undefined ||
+                                weekItem.User.hoten == ''">
+                              <div class="item-image" matTooltip="Thêm người"
+                                style="text-align: center; cursor: pointer"
+                                (click)="getoptions_assign(weekItem.id_project_team);clickmenu.click()">
+                                <svg width="30" height="30" viewBox="0 0 40 40" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <path opacity="0.4"
+                                    d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                                    fill="#7E8299" />
+                                  <path
+                                    d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                                    fill="#7E8299" />
+                                  <path
+                                    d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                                    fill="#7E8299" />
+                                  <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                                    fill="#B5B5C3" />
+                                </svg>
+                              </div>
+                            </ng-template>
+                          </ng-template>
+
+                          <ng-template [ngIf]="weekItem.User.hoten == undefined">
+                            <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;"
+                              (click)="getoptions_assign(weekItem.id_project_team);clickmenu.click()">
+                              <svg width="30" height="30" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4"
+                                  d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                                  fill="#7E8299" />
+                                <path
+                                  d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                                  fill="#7E8299" />
+                                <path
+                                  d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                                  fill="#7E8299" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                                  fill="#B5B5C3" />
+                              </svg>
+                            </div>
+                          </ng-template>
+                        </div>
+                        <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+                        <mat-menu #assignee="matMenu">
+                          <div class="page-work-detail">
+                            <kt-choose-users [idDept]="weekItem.id_project_team" (IsSearch)="stopPropagation($event)"
+                              (ItemSelected)="ItemSelected($event,weekItem)">
+                            </kt-choose-users>
+                          </div>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </span>
+
+    <span *ngIf="idMenu != 4" style="height: 90%; display: block">
+      <div class="height-list" style="
+          margin-right: 10px;
+          margin-left: 10px;
+          margin-bottom: 10px;
+          overflow: auto;
+        " (scroll)="onScroll($event)" id="listScroll">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+          <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Tên nhiệm vụ, độ ưu tiên -->
+          <ng-container matColumnDef="nhiemvu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="
+                border-top-left-radius: 7px;
+                border-bottom-left-radius: 7px;
+                margin-bottom: 5px;
+              ">
+              {{ DanhMucChungService.ts_congviec_ToUpper }}
+              <span *ngIf="this.countNV>0" style="color:#ff0000">({{this.countNV}})</span>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.isnewchange" class="icon-new-finish">
+                <span style="font-weight: bold; font-size: 11pt;">N</span>
+              </div>
+              <div class="priority_view" style="cursor: pointer;" [matMenuTriggerFor]="menu">
+                <img style="height: 20px" [ngClass]="get_flag_color(element.clickup_prioritize)" />
+              </div>
+              <div>
+                <div>
+                  <span
+                    style="font-size: 10px;padding-left: 1vw;color: #b5b5c3;">{{element.department}}/{{element.project_team}}</span>
+                </div>
+                <div>
+                  <!-- <div style="display: flex; margin-top: 0.5vw; padding-left: 1vw" -->
+                  <div style="display: flex; padding-left: 1vw; font-size: 15px;"
+                    class="click position-relative hover-to-show-inline-block">
+                    <div class="cu-task-row-main__link-text" style="width: 98%;">
+                      <ng-template [ngIf]="!element.editTitle">
+                        <span
+                          class="cu-task-row-main__link-text-inner position-relative url ng-star-inserted textTable click"
+                          matTooltip="Ngày tạo: {{ element.createddate}}" (click)="openPopupDetail(element)">
+                          <span style="font-weight: 500;">{{element.Gov_SoHieuVB}}</span>
+                          <span style="font-weight: 500;padding-left: 4px;"
+                            *ngIf="element.Gov_SoHieuVB!=null">-&nbsp;</span>
+                          <span appHighlight [content]="element.title" [searchTerm]="keyword" [caseSensitive]="false">
+                          </span>
+                          <!-- {{element.title }} -->
+                        </span>
+                        <span class="view-hover-inline-block">
+                          <i class="fas fa-pencil-alt" style="color: #b5b5c3; width: 10px"
+                            matTooltip="{{ 'work.renametask' | translate }}" *ngIf="
+                               CheckClosedTask(element) && this.DanhMucChungService.cf_ten =='1'
+                            " (click)="editTitle(element)"></i>
+                          &nbsp;
+                          <i class="fas fa-tags" style="color: #b5b5c3; width: 10px" *ngIf="
+                               CheckClosedTask(element) && this.DanhMucChungService.cf_tag =='1'
+                            " [matMenuTriggerFor]="selecedtag"
+                            matTooltip="{{ 'jeework.chinhsuanhan' | translate }}"></i>
+                          &nbsp;
+                          <i class="fas flaticon2-menu-1" style="color: #b5b5c3; width: 10px"
+                            matTooltip="Xem {{DanhMucChungService.ts_congviec}}"
+                            (click)="openTaskDetail(element.id_row)"></i>
+                        </span>
+                      </ng-template>
+                      <ng-template [ngIf]="element.editTitle" style="padding: 10px;">
+                        <input id="task{{ element.id_row }}" type="text" value="{{ element.title }}"
+                          style="width: 100%;margin-bottom: 5px;border-radius: 5px; padding:5px;"
+                          (keyup.enter)="changeTitleInTable($event, element)" (focusout)="focusOutFunction(element)" />
+                      </ng-template>
+
+                      <span style="padding-left: 10px">
+                        <ng-container *ngFor="let tag of element.Tags">
+                          <kt-cu-tag [node]="element" [tag]="tag" [Rule]="
+                               CheckClosedTask(element) && this.checkRule
+                            " (RemoveTag)="RemoveTag(tag, element)">
+                          </kt-cu-tag>
+                        </ng-container>
+                      </span>
+                      <mat-menu #selecedtag="matMenu">
+                        <kt-choose-milestone-and-tags (IsSearch)="stopPropagation1($event)"
+                          (ItemSelected)="ItemSelected1($event, element)" (RemoveTag)="RemoveTag($event, element)"
+                          [idDept]="element.id_project_team">
+                          >
+                        </kt-choose-milestone-and-tags>
+                      </mat-menu>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeDoUuTienInTable(element, status)" style="
+                    line-height: 30px !important;
+                    height: 100% !important;
+                    width: 125px;
+                  " *ngFor="let status of douutienintable">
+                  <div class="row" style="    line-height: 15px !important;">
+                    <div class="cu-task-row-status1" style="padding-top: 10px;display: block;
+                      margin-left: -15px;">
+                      <img class="{{ status.icon }} size-flag-detail-18" />
+                      <span style="padding-left: 10px">{{
+                        "priority." + status.name | translate
+                        }}</span>
+                    </div>
+                  </div>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <!-- Tình trạng -->
+          <ng-container matColumnDef="tinhtrang">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+              {{ "jeework.tinhtrang" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div style="height: 100%">
+                <div *ngIf="element.StatusInfo[0] != undefined" style="
+                    width: 100%; cursor: pointer;
+                    color: #ffffff;
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 13px;
+                  " class="cu-task-row-status1" [ngStyle]="{ background: element.StatusInfo[0].color }" mat-button
+                  [matMenuTriggerFor]="menu" (click)="loadTinhTrang(element)">
+                  {{ element.StatusInfo[0].statusname }}
+                </div>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="changeTinhTrangInTable(element, status)" style="
+                      line-height: 30px !important;
+                      height: 100% !important;
+                    " *ngFor="let status of listStatus">
+                    <div class="row" [ngStyle]="{ color: status.color }">
+                      <div class="cu-task-row-status1" style="padding-top: 10px">
+                        <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                      </div>
+                      {{ status.statusname }}
+                    </div>
+                  </button>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Giao cho -->
+          <ng-container matColumnDef="giaocho">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center; width: 10px">
+              {{ "jeework.giaocho" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+                <ng-template [ngIf]="element.User.hoten != undefined">
+                  <ng-template [ngIf]="
+                      element.User.hoten != undefined &&
+                      element.User.hoten != ''
+                    ">
+                    <div class="item-image" style="display: flex; justify-content: center">
+                      <div class="click scale-hover-02 position-relative hover-to-show"
+                        style="justify-content: flex-end; width: 35px">
+                        <i class="far fa-times-circle view-hover click text-dark bg-white" style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            border-radius: 50%;
+                            font-size: 10pt;
+                          " (click)="RemoveAssign(element)">
+                        </i>
+
+                        <ngx-avatar *ngIf="element.User.image; else bindText" (click)="clickmenu.click()"
+                          matTooltipClass="br-tooltip" matTooltip="{{ element.User.hoten }}" size="40"
+                          src="{{ element.User.image }}">
+                        </ngx-avatar>
+                        <i *ngIf="element.isRead" class="far fa-solid fa-eye" style="
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        border-radius: 50%;
+                        font-size: 10pt;
+                        color: #DC732A !important;
+                        background-color: #ffffff;"
+                          matTooltip="{{element.User.hoten}} đã xem lúc {{element.ReadDate | timezone}}"></i>
+                        <ng-template #bindText>
+                          <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                            matTooltip="{{ element.User.hoten }}" size="30" bgColor="{{
+                              DanhMucChungService.getColorNameUser(
+                                element.User.hoten
+                              )
+                            }}" [name]="
+                              this.DanhMucChungService.getName(
+                                element.User.hoten
+                              )
+                            "></ngx-avatar>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template [ngIf]="element.User.hoten == undefined ||
+                      element.User.hoten == ''">
+                    <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer"
+                      (click)="getoptions_assign(element.id_project_team);clickmenu.click()">
+                      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.4"
+                          d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                          fill="#7E8299" />
+                        <path
+                          d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                          fill="#7E8299" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                          fill="#B5B5C3" />
+                      </svg>
+                    </div>
+                  </ng-template>
+                </ng-template>
+
+                <ng-template [ngIf]="element.User.hoten == undefined">
+                  <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;"
+                    (click)="getoptions_assign(element.id_project_team);clickmenu.click()">
+                    <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path opacity="0.4"
+                        d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                        fill="#7E8299" />
+                      <path
+                        d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                        fill="#7E8299" />
+                      <path
+                        d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                        fill="#7E8299" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                        fill="#B5B5C3" />
+                    </svg>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+              <mat-menu #assignee="matMenu">
+                <div class="page-work-detail">
+                  <kt-choose-users [idDept]="element.id_project_team" (IsSearch)="stopPropagation($event)"
+                    (ItemSelected)="ItemSelected($event,element)">
+                  </kt-choose-users>
+                </div>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <!-- Hạn chót -->
+          <ng-container matColumnDef="hanchot">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+              {{ "jeework.hanxuly" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="
+                text-align: center; cursor: pointer;
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                position: relative;" [ngStyle]="{ color: getDeadlineColor(element.TienDo) }">
+              <div>
+                <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="element.deadline&&element.deadline != ''">
+                  <a>{{ this.formatdatehour(element.deadline) }}</a><br />
+                  <a>{{ this.formatdatedate(element.deadline) }}</a>
+                </span>
+                <input [style.visibility]="'hidden'" readonly
+                  style="border: none; text-align: center; position: absolute" [owlDateTime]="dt1"
+                  [(ngModel)]="element.deadline" (ngModelChange)="changeHanChotInTable(element, $event)" />
+                <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="!element.deadline||element.deadline == ''">
+                  <img class="calender size-flag-detail" />
+                </span>
+                <owl-date-time #dt1></owl-date-time>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Bình luận -->
+          <ng-container matColumnDef="binhluan">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center">
+              {{ "jeework.binhluan" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center">
+              <div class="item-field hide-more-text"
+                *ngIf="DanhMucChungService.CheckRule(element.Rule,'17') || DanhMucChungService.CheckRule(element.Rule,'18')">
+                <app-task-comment (submit)="submit($event, element)" [id_row]="element.id_row"
+                  [value]="element.num_comment" [task]="element"
+                  [isviewcomment]="DanhMucChungService.CheckRule(element.Rule,'17')"
+                  [iscomment]="DanhMucChungService.CheckRule(element.Rule,'18')">
+                </app-task-comment>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Người tạo -->
+          <ng-container matColumnDef="nguoitao">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="
+                border-top-right-radius: 7px;
+                border-bottom-right-radius: 7px;
+                text-align: center;
+              ">
+              {{ "jeework.nguoitao" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" class="hover-to-show-inline-block">
+              <ng-template [ngIf]="element.createdby.hoten != undefined &&
+                  element.createdby.hoten != ''">
+                <div class="item-image" style="padding-left: 35%">
+                  <ngx-avatar *ngIf="element.createdby.image; else bindText" matTooltipClass="br-tooltip"
+                    matTooltip="{{ element.createdby.hoten }}" size="40" src="{{ element.createdby.image }}">
+                  </ngx-avatar>
+                  <ng-template #bindText>
+                    <ngx-avatar textSizeRatio="2.5" matTooltipClass="br-tooltip"
+                      matTooltip="{{ element.createdby.hoten }}" size="30" bgColor="{{
+                        DanhMucChungService.getColorNameUser(
+                          element.createdby.hoten
+                        )
+                      }}" [name]="
+                        this.DanhMucChungService.getName(
+                          element.createdby.hoten
+                        )
+                      "></ngx-avatar>
+                  </ng-template>
+                </div>
+              </ng-template>
+
+              <ng-template [ngIf]="element.createdby.hoten == undefined 
+                || element.createdby.hoten == ''">
+                <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;">
+                  <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4"
+                      d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                      fill="#7E8299" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                      fill="#B5B5C3" />
+                  </svg>
+                </div>
+              </ng-template>
+              <!-- <ng-template [ngIf]="element.createdby.image == ''"
+                ><div
+                  class="item-image"
+                  matTooltip="{{ element.createdby.hoten }}"
+                  style="text-align: center"
+                >
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 23 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      opacity="0.4"
+                      d="M21.816 23.3999C21.816 23.7359 21.552 23.9999 21.216 23.9999H0.6C0.264 23.9999 0 23.7359 0 23.3999C0 18.4319 4.896 14.3999 10.908 14.3999C12.144 14.3999 13.344 14.5679 14.448 14.8919C13.74 15.7319 13.308 16.8239 13.308 17.9999C13.308 18.8999 13.56 19.7519 14.004 20.4719C14.244 20.8799 14.556 21.2519 14.916 21.5639C15.756 22.3319 16.872 22.7999 18.108 22.7999C19.452 22.7999 20.664 22.2479 21.528 21.3599C21.72 22.0079 21.816 22.6919 21.816 23.3999Z"
+                      fill="#7E8299"
+                    />
+                    <path
+                      d="M21.6716 14.7962C20.8076 13.8122 19.5236 13.2002 18.1076 13.2002C16.7636 13.2002 15.5396 13.7522 14.6636 14.6522C13.8236 15.5162 13.3076 16.7042 13.3076 18.0002C13.3076 18.9002 13.5596 19.7522 14.0036 20.4722C14.2436 20.8802 14.5556 21.2522 14.9156 21.5642C15.7556 22.3322 16.8716 22.8002 18.1076 22.8002C19.8596 22.8002 21.3836 21.8642 22.2116 20.4722C22.4636 20.0642 22.6556 19.5962 22.7636 19.1162C22.8596 18.7562 22.9076 18.3842 22.9076 18.0002C22.9076 16.7762 22.4396 15.6482 21.6716 14.7962ZM19.9076 18.8762H19.0076V19.8122C19.0076 20.3042 18.5996 20.7122 18.1076 20.7122C17.6156 20.7122 17.2076 20.3042 17.2076 19.8122V18.8762H16.3076C15.8156 18.8762 15.4076 18.4682 15.4076 17.9762C15.4076 17.4842 15.8156 17.0762 16.3076 17.0762H17.2076V16.2242C17.2076 15.7322 17.6156 15.3242 18.1076 15.3242C18.5996 15.3242 19.0076 15.7322 19.0076 16.2242V17.0762H19.9076C20.3996 17.0762 20.8076 17.4842 20.8076 17.9762C20.8076 18.4682 20.3996 18.8762 19.9076 18.8762Z"
+                      fill="#7E8299"
+                    />
+                    <path
+                      d="M10.9077 12C14.2214 12 16.9077 9.31371 16.9077 6C16.9077 2.68629 14.2214 0 10.9077 0C7.59401 0 4.90771 2.68629 4.90771 6C4.90771 9.31371 7.59401 12 10.9077 12Z"
+                      fill="#7E8299"
+                    />
+                  </svg>
+                </div>
+              </ng-template> -->
+              <div class="click scale-hover-02 position-relative" style="float: right; margin-top: -32px"
+                *ngIf="CheckShow(element)">
+                <span class="view-hover-inline-block">
+                  <i class="fas fa-ellipsis-h" *ngIf="CheckClosedTask(element)"
+                    style="font-size: 18px; margin-top: 10px" [matMenuTriggerFor]="menuline"></i>
+                  <mat-menu #menuline="matMenu" style="padding: 0">
+                    <!-- <div class="card" style="border: none">
+                      <div class="card-body pd-0"> -->
+                    <button mat-menu-item color="accent" (click)="DeleteTask(element)" *ngIf="
+                       CheckClosedTask(element)
+                      ">
+                      <mat-icon>delete</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.xoa" | translate }}
+                      </span>
+                    </button>
+
+                    <button mat-menu-item color="accent" (click)="SaveWork(element)" *ngIf="
+                        this.CheckRuleskeypermit('update_storage', element)
+                      ">
+                      <mat-icon>save</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.luu" | translate }}
+                      </span>
+                    </button>
+                    <button mat-menu-item color="accent" (click)="ClosedTask(element, true)"
+                      *ngIf=" CheckClosedTask(element)">
+                      <mat-icon>close</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.dong" | translate }}
+                      </span>
+                    </button>
+                    <!-- </div>
+                    </div> -->
+                  </mat-menu>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+            (mouseout)="row.hovered = false"></tr>
+        </table>
+      </div>
+    </span>
+  </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

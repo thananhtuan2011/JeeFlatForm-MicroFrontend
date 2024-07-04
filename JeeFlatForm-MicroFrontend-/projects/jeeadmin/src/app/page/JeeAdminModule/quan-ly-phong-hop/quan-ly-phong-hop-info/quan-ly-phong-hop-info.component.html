@@ -1,0 +1,113 @@
+<style>
+	.color-thongtin {
+		font-weight: bold;
+	}
+
+	.color-tieude {
+		line-height: 2;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title">
+				<span translate="datphonghop.thongtin"></span>
+			</h3>
+		</div>
+		<div class="card-toolbar"></div>
+	</div>
+	<div class="card-body">
+		<form *ngIf="item" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="row align-items-center info-dangky">
+					<table style="width: 50%; font-style: italic;">
+						<tr>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.dagui"></span> :
+							</td>
+							<td style="width: 30%;" class="color-thongtin">
+								<span>{{item.extendedProps.createddate | dateAgoPipe}}</span>
+							</td>
+						</tr>
+					</table>
+		
+					<table style="width: 100%;">
+						<tr>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.nhanviendangky"></span>:
+							</td>
+							<td style="width: 30%;" class="color-thongtin">
+								<span>{{item.extendedProps.fullname}}</span>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.bophan"></span>:
+							</td>
+							<td style="width: 30%;" class="color-thongtin">
+								<span>{{item.extendedProps.department}}</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="row align-items-center info-dangky">
+					<table style="width: 100%;">
+						<tr>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.thoigian"></span>:
+							</td>
+							<td class="color-thongtin">
+								<span>{{item.start | date: 'dd/MM/yyyy HH:mm'}} - {{item.end | date: 'HH:mm'}}</span>
+							</td>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.taisan"></span>:
+							</td>
+							<td style="width: 30%;" class="color-thongtin">
+								<span>{{item.extendedProps.property}}</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="row align-items-center info-dangky">
+					<table style="width: 100%;">
+						<tr>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.noidunghop"></span>:
+							</td>
+							<td class="color-thongtin">
+								<span>{{item.extendedProps.title}}</span>
+							</td>
+							<td style="width: 20%;" class="color-tieude">
+								<span translate="datphonghop.trangthai"></span>:
+							</td>
+							<td style="width: 30%;" class="color-thongtin">
+								<span>{{getString(item.extendedProps.status, item.extendedProps.isdel)}}</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer"> 
+		<button type="button" (click)="goBack()" mat-raised-button class="ja_button btn-goback" ><span
+			translate="COMMON.CANCEL"></span></button>
+		<ng-container *ngIf="!isDel">
+			<ng-container *ngIf="IsXacNhan==1">
+				<ng-container *ngIf="IsEdit">
+					&nbsp;&nbsp;
+					<button type="button" (click)="update()" mat-raised-button class="ja_button ja_btn-duyet" 
+						mat-raised-button><span translate="COMMON.UPDATE"></span></button>
+				</ng-container>
+				&nbsp;&nbsp;
+				<button type="button" (click)="deleteItem()" mat-raised-button class="ja_button ja_btn-koduyet"
+					mat-raised-button><span translate="COMMON.Huy"></span></button>
+			</ng-container>
+			
+			<ng-container *ngIf="IsXacNhan==0">
+				&nbsp;&nbsp;
+				<button type="button" (click)="deleteItem()" mat-raised-button class="ja_button ja_btn-koduyet"
+					mat-raised-button><span translate="COMMON.TUCHOI"></span></button>&nbsp;&nbsp;
+				<button type="button" (click)="XacNhan()" mat-raised-button class="ja_button ja_btn-duyet"
+					mat-raised-button><span translate="COMMON.XACNHAN"></span></button>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+.user-item:hover {
+    background-color: #d4cbcb3d !important;
+    cursor: pointer;
+}
+
+.view-hover {
+    display: none;
+}
+
+.user-item {
+    padding: 5px;
+}
+
+
+/*#region choose user*/
+
+.scale-hover-02 {
+    &:hover {
+        z-index: 10;
+        transform: scale(1.2);
+        transition: all .05s;
+        border: 0;
+        .view-hover {
+            display: block;
+        }
+        &.user {
+            border-radius: 0;
+            background: rgba(253, 253, 253, 0)
+        }
+    }
+}
+
+.scale-hover-01 {
+    &:hover {
+        z-index: 10;
+        transform: scale(1.05);
+        transition: all .05s;
+        border: 0;
+        .view-hover {
+            display: block;
+        }
+        &.user {
+            border-radius: 0;
+            background: rgba(253, 253, 253, 0)
+        }
+    }
+}
+
+.symbol .symbol-label {
+    width: 35px !important;
+    height: 35px !important;
+}

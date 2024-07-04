@@ -1,0 +1,25 @@
+<div class="cu-tags-badge">
+    <div class="cu-tags-badge__inner position-relative" type="badge">
+        <div placement="right" [ngClass]="{'cu-tags-select__badge_readonly': !role}"
+            class="cu-tags-select__badge list-view ng-star-inserted"
+            [ngStyle]="{'backgroundColor': Opaciti_color(tag.color)}">
+            <div class="cu-tags-select__click">
+                <div class="cu-tags-select__name  hide-more-text" [ngStyle]="{'color': getColorText(tag.color)}"> {{tag.title}} </div>
+                <div class="cu-tags-select__name-shadow"> {{tag.title}} </div>
+                <div cupreventdefault="" class="cu-tags-select__badge-ellipsis" [hidden]="!role">
+                    <div cudropdown="" class="cu-dropdown menu-options nav-menu">
+                        <div cudropdowntoggle="" class="cu-dropdown__toggle url">
+                            <div icon="ellipsis" class="cu-tags-select__badge-ellipsis-icon icon ng-star-inserted"
+                                [ngStyle]="{'fill': tag.color}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div icon="close-bold" class="cu-tags-select__badge-icon-close icon ng-star-inserted" [hidden]="!role"
+                    [ngStyle]="{'backgroundColor': getbackgroundColor(tag.color)}" style="padding-top: 5px;">
+                    <i class="fas fa-times icon-close" (click)="RemoveTags(tag)"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

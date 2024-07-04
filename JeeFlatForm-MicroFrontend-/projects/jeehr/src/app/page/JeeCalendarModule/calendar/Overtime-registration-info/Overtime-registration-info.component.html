@@ -1,0 +1,132 @@
+<style>
+	.m-form .m-form__section:last-child,
+	.m-form .m-form__section.m-form__section--last {
+		margin-bottom: 0;
+		text-align: center;
+	}
+
+	.border-button {
+		border: 1px solid;
+		border-color: #0A9562;
+	}
+
+	.button-trolai {
+		color: #0A9562;
+	}
+
+	:host>>>.m-portlet.m-portlet--rounded-force {
+		overflow: visible;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+
+		</div>
+		<div class="card-toolbar">
+			<button (click)="goBack()" class="mat-raised-button ja_button ja_btn-goback"
+				matTooltip="{{ 'landingpagekey.trolai' | translate }}" type="button">
+				<span translate="landingpagekey.trolai"></span>
+			</button>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="row" style="justify-content: center;">
+			<form [formGroup]="itemForm" style="width: 800px; justify-content: center"
+				class="m-form m-form--group-seperator-dashed">
+				<div class="row align-items-center">
+					<div class="col-md-2">
+					</div>
+					<div class="col-md-8">
+						<h5 class="m-form__section" style="font-size: 24pt;"><span
+								translate="duyetdontu.phieudangkytangca"></span>
+						</h5>
+					</div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="duyetdontu.hotennhanvien"></span></div>
+					<div class="col-md-8 lylich sau"><span>{{item.HoTen}}</span></div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="duyetdontu.NgayGui"></span></div>
+					<div class="col-md-8 lylich sau"><span>{{item.NgayGui | date:'dd/MM/yyyy'}}</span></div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="duyetdontu.NgayTangCa"></span></div>
+					<div class="col-md-8 lylich sau"><span>{{item.NgayTangCa}}
+							({{item.ThoiGian}}) </span> - <span style="color: darkgreen;">{{item.SoGio | number :
+							'1.2-2'}}h</span></div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="duyetdontu.congviec"></span></div>
+					<div class="col-md-8 lylich sau"><span>{{item.Lydo}}</span></div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="duyetdontu.HinhThucChiTra"></span></div>
+					<div class="col-md-8 sau" *ngIf="ShowHinhThuc">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select class="require" required class="mat-form-field mat-form-field-fluid"
+								formControlName="hinhthuc">
+								<mat-option value="{{dt.RowID}}" *ngFor="let dt of listCachTinhTangCa">
+									{{ dt.Title }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-md-8 lylich sau" *ngIf="!ShowHinhThuc"><span>{{item.TextHinhThucChiTra}}</span></div>
+				</div>
+				<div class="row" style="font-size: 13pt;">
+					<div class="col-md-4 truoc"><span translate="overtimeregister.IsFixHours"></span></div>
+					<div class="col-md-8 lylich sau">
+						<mat-checkbox [checked]="item.IsFixHours" style="pointer-events:none;">
+						</mat-checkbox>
+					</div>
+				</div>
+			</form>
+		</div>
+		<br />
+		<div class="row align-items-center khung-container" style="justify-content: center;">
+			<div class="col-md-3 khungboder khung" *ngFor="let item of listData_CapDuyet">
+				<div class="khung-header">
+					<span>{{item.title}}</span>
+				</div><br />
+				<div>
+					<mat-form-field class="mat-form-field-fluid">
+						<input style="text-align: center" matInput value="{{f_duyet(item)}}" readonly="true">
+					</mat-form-field>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4"><span translate="duyetdontu.ngayduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{f_date(item.CheckedDate)}}</span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4"><span translate="duyetdontu.nguoiduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{item.hoten}}</span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;" *ngIf="item.CheckNote">
+					<div class="col-md-4 "><span translate="duyetdontu.lydo"></span></div>
+					<div class="col-md-8 "><span style="color: red;">{{item.CheckNote}}</span></div>
+				</div>
+			</div>
+			<div class="col-md-3 khungboder khung" *ngFor="let item of listData_ApprovingUser">
+				<div class="khung-header">
+					<span>{{item.ViTriDuyet}}</span>
+				</div><br />
+				<div>
+					<mat-form-field class="mat-form-field-fluid">
+						<input style="text-align: center" matInput [(value)]="ChoDuyet" readonly="true">
+					</mat-form-field>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.ngayduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span></span></div>
+				</div><br />
+				<div class="row" style="font-size: 11pt;">
+					<div class="col-md-4 "><span translate="duyetdontu.nguoiduyet"></span></div>
+					<div class="col-md-8 khung-tieude"><span>{{item.TenNguoiDuyet}}</span></div>
+				</div>
+			</div>
+		</div>
+		<br />
+	</div>
+</div>

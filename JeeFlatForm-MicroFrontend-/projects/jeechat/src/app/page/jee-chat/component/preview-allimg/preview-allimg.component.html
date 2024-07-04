@@ -1,0 +1,30 @@
+<div style="padding: 30px;">
+    <button (click)="goBack()" style="float: right;margin-top: -20px;"  mat-button
+    mat-icon-button>
+    <mat-icon style="  font-size: 26px !important;; color:#ebedf3cf ;">clear</mat-icon>
+ 
+</button>
+</div>
+
+  <div class="basic-container">
+	<gallery style="left: 0px !important;
+    width: 1000px !important;
+   
+    transform: none !important;;" id="basic-test" fluid [items]="items" [itemTemplate]="itemTemplate" [gestures]="false"></gallery>
+</div>
+
+
+
+
+<ng-template #itemTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
+	<ng-container *ngIf="type === 'imageViewer' && index === currIndex">
+        <div class="left-image-control ">  
+            <button style="background-color:#ebedf3cf;" (click)="downloadimage(data.src)" mat-mini-fab  aria-label="Example icon button with a filter list icon">
+            <i style="color:black;" class="fas fa-download"></i>
+            </button>             
+              <!-- <button ><i class="fa fa-search-plus buttonviewimage"></i></button>    -->
+             
+      </div>
+        <angular-image-viewer    style="height:100%;width: 90%;"  [config]="config"[src]="data.data2" ></angular-image-viewer>
+  </ng-container>
+</ng-template>

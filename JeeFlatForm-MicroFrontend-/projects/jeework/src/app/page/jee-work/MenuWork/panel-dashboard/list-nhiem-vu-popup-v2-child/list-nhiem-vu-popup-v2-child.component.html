@@ -1,0 +1,528 @@
+<div [ngClass]="{'panel-top': idMenu!=0, 'panel-top-home' : idMenu==0 }">
+
+  <div style="display: block; overflow: auto;">
+    <div class="row" style="padding-top: 10px">
+      <div class="col" style="width: 210px">
+        <a style="
+            margin-top: 10px;
+            margin-left: 10px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 23px;
+            width: 15vw;
+            display: block;
+          ">Danh sách {{ _DanhMucChungService.ts_congviec }}</a>
+      </div>
+
+      <div class="col-md-2" style="padding-top: 10px; width: fit-content">
+        <button translate="work.trolai" mat-button mat-raised-button (click)="onclickReturn()"></button>
+        &nbsp;
+        <button style="margin-right: 15px !important" type="button" mat-raised-button class="ja_button ja_btn-addnew"
+          *ngIf="checkIsComplete() && this.CheckRule('createchart')" (click)="themMoiNhiemVuChild()">
+          <span>+</span>&nbsp;<span translate="landingpagekey.them"></span>
+        </button>
+      </div>
+    </div>
+
+    <span>
+      <div [ngStyle]="{'height': getHeight()}" style="
+          margin-top: 10px;
+          margin-right: 10px;
+          margin-left: 10px;
+          margin-bottom: 10px;
+          overflow: auto; " (scroll)="onScroll($event)" id="listScroll">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+          <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="nhiemvu">
+            <th mat-header-cell *matHeaderCellDef style="
+                border-top-left-radius: 7px;
+                border-bottom-left-radius: 7px;
+                margin-bottom: 5px;
+              " class="rowsticky">
+              {{ _DanhMucChungService.ts_congviec_ToUpper }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="priority_view">
+                <div>
+                  <img *ngIf="_DanhMucChungService.CheckRule(element.Rule,'25')" style="cursor: pointer;"
+                    [matMenuTriggerFor]="menu" style="height: 20px"
+                    [ngClass]="get_flag_color(element.clickup_prioritize)" />
+                  <img *ngIf="!_DanhMucChungService.CheckRule(element.Rule,'25')" style="cursor: pointer;"
+                    style="height: 20px" [ngClass]="get_flag_color(element.clickup_prioritize)" />
+                </div>
+              </div>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeDoUuTienInTable(element, status)"
+                  style="line-height: 30px !important; height: 100% !important; width: 125px;"
+                  *ngFor="let status of douutien">
+                  <div class="row" style="    line-height: 15px !important;">
+                    <div class="cu-task-row-status1" style="padding-top: 10px;display: block;
+                      margin-left: -15px;">
+                      <img class="{{ status.icon }} size-flag-detail-18" />
+                      <span style="padding-left: 10px">{{
+                        "priority." + status.name | translate
+                        }}</span>
+                    </div>
+                  </div>
+                </button>
+              </mat-menu>
+              <div class="info-nhiemvu">
+                <div style="display: flex; margin-top: 0.5vw; padding-left: 5px"
+                  class="user click position-relative hover-to-show-inline-block">
+                  <div class="cu-task-row-main__link-text" style="text-align: justify;">
+                    <ng-template [ngIf]="!element.editTitle">
+                      <span
+                        class="cu-task-row-main__link-text-inner position-relative url ng-star-inserted textTable click"
+                        matTooltip="Ngày tạo: {{ element.createddate}}" (click)="openTaskDetail(element.id_row)">
+                        {{ element.title}}
+                      </span>
+                    </ng-template>
+                    <ng-template [ngIf]="element.editTitle">
+                      <input id="task{{ element.id_row }}" type="text" [value]="element.title" class="form-control"
+                        (keyup.enter)="changeTitleInTable($event, element)" (focusout)="focusOutFunction(element)" />
+                    </ng-template>
+                    <span class="view-hover-inline-block">
+                      <i class="fas fa-pencil-alt" style="color: #b5b5c3; width: 10px"
+                        matTooltip="{{ 'work.renametask' | translate }}" *ngIf="
+                          CheckClosedTask(element) && this._DanhMucChungService.cf_ten =='1'"
+                        (click)="editTitle(element)"></i>
+                      &nbsp;
+                      <i class="fas fa-tags" style="color: #b5b5c3; width: 10px" *ngIf="
+                          CheckClosedTask(element) && this._DanhMucChungService.cf_tag =='1'"
+                        [matMenuTriggerFor]="selecedtag" matTooltip="{{ 'jeework.chinhsuanhan' | translate }}"></i>
+                      &nbsp;
+                    </span>
+                    <span style="padding-left: 10px">
+                      <ng-container *ngFor="let tag of element.Tags">
+                        <kt-cu-tag [node]="element" [tag]="tag" [Rule]="
+                           CheckClosedTask(element)
+                          " (RemoveTag)="RemoveTag(tag, element)">
+                        </kt-cu-tag>
+                      </ng-container>
+                    </span>
+                    <mat-menu #selecedtag="matMenu">
+                      <kt-choose-milestone-and-tags (IsSearch)="stopPropagation1($event)"
+                        (ItemSelected)="ItemSelected1($event, element)" (RemoveTag)="RemoveTag($event, element)"
+                        [idDept]="element.id_project_team">
+                        >
+                      </kt-choose-milestone-and-tags>
+                    </mat-menu>
+                  </div>
+                </div>
+                <div class="span-egov" *ngIf="element.Gov_SoHieuVB">
+                  <span>{{element.Gov_SoHieuVB}} - </span><span>{{element.Gov_NgayVB | date:'dd/MM/yyyy'}} -
+                  </span><span
+                    *ngIf="element.Gov_TrichYeuVB && element.Gov_TrichYeuVB != ''">{{element.Gov_TrichYeuVB}}</span>
+                </div>
+                <div *ngIf="element.User_Join && element.User_Join.length > 0">
+                  <span style="font-size: 11px;padding-left: 5px;color: #b5b5c3;"
+                    *ngFor="let user of element.User_Join, index as ind">
+                    <i *ngIf="ind > 0" class="fas fa-arrow-right"
+                      style="padding-right: 5px;"></i><span>{{user.FullName}}</span>
+                  </span>
+                </div>
+                <div>
+                  <span *ngFor="let att of element.Attachments"
+                    style="font-size: 11px; padding-left: 5px; color: #3E97FF;">{{att.filename}}&nbsp;
+                    <a class="span-click" (click)="preview(att)" *ngIf="ShowXemTruoc(att)" matTooltip="Xem trước">
+                      <i class="far fa-eye"></i>
+                    </a>&nbsp;
+                    <a class="span-click" (click)="DownloadFile(att.path)" matTooltip="Tải xuống">
+                      <i class="flaticon-download"></i>
+                    </a>
+                  </span>&nbsp;
+                  <span class="span-chitiet" (click)="openTaskDetail(element.id_row)">
+                    Chi tiết
+                  </span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="tinhtrang">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+              {{ "jeework.tinhtrang" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div style="height: 100%;">
+                <div *ngIf="element.StatusInfo[0]!=undefined" style="
+                    width: 100%;
+                    color: #ffffff;
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 13px;
+                    cursor: pointer;
+                  " class="cu-task-row-status1" [ngStyle]="{ background: element.StatusInfo[0].color }" mat-button
+                  [matMenuTriggerFor]="menu" (click)="loadTinhTrang(element)">
+                  {{ element.StatusInfo[0].statusname }}
+                </div>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="changeTinhTrangInTable(element, status)"
+                    style="line-height: 30px !important; height: 100% !important" *ngFor="let status of listStatus">
+                    <div class="row" [ngStyle]="{ color: status.color }">
+                      <div class="cu-task-row-status1" style="padding-top: 10px">
+                        <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                      </div>
+                      {{ status.statusname }}
+                    </div>
+                  </button>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="giaocho">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="rowsticky">
+              {{ "jeework.giaocho" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-template [ngIf]="element.User.hoten != undefined &&
+                    element.User.hoten != ''">
+                <div class="item-image" style="padding-left: 28%; cursor: pointer;">
+                  <div class="user click position-relative hover-to-show"
+                    style="justify-content: flex-end; width: 35px">
+                    <i class="far fa-times-circle view-hover click text-dark bg-white" style="
+                          position: absolute;
+                          top: 0;
+                          right: 0;
+                          border-radius: 50%;
+                          font-size: 10pt;
+                        " (click)="RemoveAssign(element)">
+                    </i>
+
+                    <ngx-avatar *ngIf="element.User.image; else bindText" (click)="clickmenu.click()"
+                      matTooltipClass="br-tooltip" matTooltip="{{ element.User.hoten }}" size="40"
+                      src="{{ element.User.image }}">
+                    </ngx-avatar>
+                    <ng-template #bindText>
+                      <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+                        matTooltip="{{ element.User.hoten }}" size="30" bgColor="{{
+                            _DanhMucChungService.getColorNameUser(
+                              element.User.hoten
+                            )
+                          }}" [name]="
+                            this._DanhMucChungService.getName(
+                              element.User.hoten
+                            )
+                          "></ngx-avatar>
+                    </ng-template>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngIf]="element.User.hoten == undefined ||
+                    element.User.hoten == ''">
+                <div class="item-image" matTooltip="Thêm người" style="text-align: center; cursor: pointer;"
+                  (click)="clickmenu.click()">
+                  <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4"
+                      d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                      fill="#7E8299" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                      fill="#B5B5C3" />
+                  </svg>
+                </div>
+              </ng-template>
+              <div class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></div>
+              <mat-menu #assignee="matMenu">
+                <div class="page-work-detail">
+                  <kt-choose-users [options]="options_assign" [idDept]="element.id_project_team"
+                    (IsSearch)="stopPropagation($event)" (ItemSelected)="ItemSelected($event, element)">
+                    >
+                  </kt-choose-users>
+                </div>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="hanchot">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+              {{ "jeework.hanxuly" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="
+                text-align: center;
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+              " [ngStyle]="{ color: getDeadlineColor(element.TienDo) }">
+              <div>
+                <span class="trigger" *ngIf="element.deadline != ''">
+                  <a>{{ this.formatdatehour(element.deadline) }}</a><br />
+                  <a>{{ this.formatdatedate(element.deadline) }}</a>
+                </span>
+                <!-- [owlDateTimeTrigger]="dt1"
+                <input [style.visibility]="'hidden'" readonly
+                  style="border: none; text-align: center; position: absolute" [owlDateTime]="dt1"
+                  [(ngModel)]="element.deadline" (ngModelChange)="changeHanChotInTable(element, $event)" />
+                <span class="trigger" [owlDateTimeTrigger]="dt1" *ngIf="element.deadline == ''">
+                  <img class="calender size-flag-detail" />
+                </span>
+                <owl-date-time #dt1></owl-date-time> -->
+                <!-- </div> -->
+              </div>
+            </td>
+
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="binhluan">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+              {{ "jeework.traodoi" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center">
+
+              <div style="position: absolute; padding-left: 70px">
+                <div *ngIf="element.comments > 0" class="badge">
+                  {{ element.comments }}
+                </div>
+              </div>
+
+              <div class="item-field hide-more-text">
+                <app-task-comment-dashboard (submit)="submit($event, element)" [id_row]="element.id_row"
+                  [value]="element.comments" [task]="element"
+                  [isviewcomment]="_DanhMucChungService.CheckRule(element.Rule,'17')"
+                  [iscomment]="_DanhMucChungService.CheckRule(element.Rule,'18')">
+                </app-task-comment-dashboard>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="nguoitao">
+            <th mat-header-cell *matHeaderCellDef style="
+                border-top-right-radius: 7px;
+                border-bottom-right-radius: 7px;
+                text-align: center;
+              " class="rowsticky">
+              {{ "jeework.nguoitao" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" class="hover-to-show-inline-block">
+              <ng-template [ngIf]="
+                  element.createdby.hoten != undefined &&
+                  element.createdby.hoten != ''
+                ">
+                <div class="item-image" style="padding-left: 35%; float: left;">
+                  <ngx-avatar *ngIf="element.createdby.image; else bindText" matTooltipClass="br-tooltip"
+                    matTooltip="{{ element.createdby.hoten }}" size="40" src="{{ element.createdby.image }}">
+                  </ngx-avatar>
+                  <ng-template #bindText>
+                    <ngx-avatar textSizeRatio="2.5" matTooltipClass="br-tooltip"
+                      matTooltip="{{ element.createdby.hoten }}" size="30" bgColor="{{
+                        _DanhMucChungService.getColorNameUser(
+                          element.createdby.hoten
+                        )
+                      }}" [name]="
+                        this._DanhMucChungService.getName(
+                          element.createdby.hoten
+                        )
+                      "></ngx-avatar>
+                  </ng-template>
+                </div>
+              </ng-template>
+
+              <ng-template [ngIf]="
+                  element.createdby.hoten == undefined ||
+                  element.createdby.hoten == ''
+                ">
+                <div class="item-image" matTooltip="Thêm người" style="text-align: center">
+                  <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4"
+                      d="M30.816 31.3999C30.816 31.7359 30.552 31.9999 30.216 31.9999H9.6C9.264 31.9999 9 31.7359 9 31.3999C9 26.4319 13.896 22.3999 19.908 22.3999C21.144 22.3999 22.344 22.5679 23.448 22.8919C22.74 23.7319 22.308 24.8239 22.308 25.9999C22.308 26.8999 22.56 27.7519 23.004 28.4719C23.244 28.8799 23.556 29.2519 23.916 29.5639C24.756 30.3319 25.872 30.7999 27.108 30.7999C28.452 30.7999 29.664 30.2479 30.528 29.3599C30.72 30.0079 30.816 30.6919 30.816 31.3999Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M30.6716 22.7962C29.8076 21.8122 28.5236 21.2002 27.1076 21.2002C25.7636 21.2002 24.5396 21.7522 23.6636 22.6522C22.8236 23.5162 22.3076 24.7042 22.3076 26.0002C22.3076 26.9002 22.5596 27.7522 23.0036 28.4722C23.2436 28.8802 23.5556 29.2522 23.9156 29.5642C24.7556 30.3322 25.8716 30.8002 27.1076 30.8002C28.8596 30.8002 30.3836 29.8642 31.2116 28.4722C31.4636 28.0642 31.6556 27.5962 31.7636 27.1162C31.8596 26.7562 31.9076 26.3842 31.9076 26.0002C31.9076 24.7762 31.4396 23.6482 30.6716 22.7962ZM28.9076 26.8762H28.0076V27.8122C28.0076 28.3042 27.5996 28.7122 27.1076 28.7122C26.6156 28.7122 26.2076 28.3042 26.2076 27.8122V26.8762H25.3076C24.8156 26.8762 24.4076 26.4682 24.4076 25.9762C24.4076 25.4842 24.8156 25.0762 25.3076 25.0762H26.2076V24.2242C26.2076 23.7322 26.6156 23.3242 27.1076 23.3242C27.5996 23.3242 28.0076 23.7322 28.0076 24.2242V25.0762H28.9076C29.3996 25.0762 29.8076 25.4842 29.8076 25.9762C29.8076 26.4682 29.3996 26.8762 28.9076 26.8762Z"
+                      fill="#7E8299" />
+                    <path
+                      d="M19.9077 20C23.2214 20 25.9077 17.3137 25.9077 14C25.9077 10.6863 23.2214 8 19.9077 8C16.594 8 13.9077 10.6863 13.9077 14C13.9077 17.3137 16.594 20 19.9077 20Z"
+                      fill="#7E8299" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M38.6851 23.7174C38.9229 22.5151 39.0476 21.2721 39.0476 20C39.0476 18.7279 38.9229 17.4849 38.6851 16.2826L39.6193 16.0978C39.8692 17.3606 40 18.6655 40 20C40 21.3345 39.8692 22.6394 39.6193 23.9022L38.6851 23.7174ZM35.8393 9.41684L36.6307 8.88702C35.1709 6.7064 33.2936 4.82915 31.113 3.36926L30.5832 4.16066C32.6603 5.55129 34.4487 7.33967 35.8393 9.41684ZM23.7174 1.31493L23.9022 0.38066C22.6394 0.130833 21.3345 0 20 0C18.6655 0 17.3606 0.130833 16.0978 0.38066L16.2826 1.31493C17.4849 1.07708 18.7279 0.952381 20 0.952381C21.2721 0.952381 22.5151 1.07708 23.7174 1.31493ZM9.41684 4.16066L8.88702 3.36926C6.7064 4.82915 4.82915 6.7064 3.36926 8.88702L4.16066 9.41685C5.55129 7.33968 7.33967 5.55129 9.41684 4.16066ZM1.31493 16.2826C1.07708 17.4849 0.952381 18.7279 0.952381 20C0.952381 21.2721 1.07708 22.5151 1.31493 23.7174L0.38066 23.9022C0.130833 22.6394 0 21.3345 0 20C0 18.6655 0.130833 17.3606 0.38066 16.0978L1.31493 16.2826ZM4.16066 30.5832L3.36926 31.113C4.82915 33.2936 6.7064 35.1709 8.88702 36.6307L9.41685 35.8393C7.33968 34.4487 5.55129 32.6603 4.16066 30.5832ZM16.2826 38.6851L16.0978 39.6193C17.3606 39.8692 18.6655 40 20 40C21.3345 40 22.6394 39.8692 23.9022 39.6193L23.7174 38.6851C22.5151 38.9229 21.2721 39.0476 20 39.0476C18.7279 39.0476 17.4849 38.9229 16.2826 38.6851ZM30.5832 35.8393L31.113 36.6307C33.2936 35.1709 35.1709 33.2936 36.6307 31.113L35.8393 30.5832C34.4487 32.6603 32.6603 34.4487 30.5832 35.8393Z"
+                      fill="#B5B5C3" />
+                  </svg>
+                </div>
+              </ng-template>
+
+              <div class="user click scale-hover-02 position-relative" style="float: right;" *ngIf="CheckShow(element)">
+                <span class="view-hover-inline-block">
+                  <i class="fas fa-ellipsis-h" *ngIf="CheckClosedTask(element)"
+                    style="font-size: 18px; margin-top: 10px" [matMenuTriggerFor]="menuline"></i>
+                  <mat-menu #menuline="matMenu" style="padding: 0">
+                    <!-- <div class="card" style="border: none">
+                      <div class="card-body pd-0"> -->
+                    <button mat-menu-item color="accent" (click)="DeleteTask(element)" *ngIf="
+                      CheckClosedTask(element)
+                      ">
+                      <mat-icon>delete</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.xoa" | translate }}
+                      </span>
+                    </button>
+
+                    <button mat-menu-item color="accent" (click)="SaveWork(element)" *ngIf="
+                        this.CheckRuleskeypermit('update_storage', element)
+                      ">
+                      <mat-icon>save</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.luu" | translate }}
+                      </span>
+                    </button>
+                    <button mat-menu-item color="accent" (click)="ClosedTask(element, true)"
+                      *ngIf="CheckClosedTask(element)">
+                      <mat-icon>close</mat-icon>
+                      &nbsp;
+                      <span class="icon-custom -hover" style="font-size: 9pt">
+                        {{ "GeneralKey.dong" | translate }}
+                      </span>
+                    </button>
+                    <!-- </div>
+                    </div> -->
+                  </mat-menu>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Tiến độ -->
+          <ng-container matColumnDef="tiendo">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+              {{ "jeework.tiendo" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center">
+              <div class="item-field hide-more-text">
+                <i style="cursor: pointer; font-size: 1.5rem;" class="flaticon-edit" (click)="UpdateTienDo(element)"
+                  *ngIf="!element.progress && _DanhMucChungService.CheckRule(element.Rule,'24'); else bindTienDo"></i>
+                <ng-template #bindTienDo>
+                  <span class="span-tiendo" (click)="UpdateTienDo(element)"
+                    [ngStyle]="{ color: getTienDo(element, 'style')}">{{getTienDo(element,'value')}}</span>
+                </ng-template>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Tạo nhiệm vụ -->
+          <ng-container matColumnDef="taonhiemvu">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+              Tạo {{_DanhMucChungService.ts_congviec}}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center">
+              <div class="item-field hide-more-text">
+                <i class="flaticon-plus" style="cursor: pointer; font-size: 1.5rem;"
+                  (click)="themMoiNhiemVuChildRow(element)"
+                  *ngIf="element.sum_child <= 0 && _DanhMucChungService.CheckRule(element.Rule,'16'); else bindCongViec"></i>
+                <ng-template #bindCongViec>
+                  <span class="span-socongviec"
+                    (click)="viewChild(element)">{{_DanhMucChungService.CheckRule(element.Rule,'16') ? element.sum_child
+                    : ''}}</span>
+                </ng-template>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center" class="rowsticky">
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: right; padding-right: 10px;">
+              <i *ngIf="_DanhMucChungService.CheckRule(element.Rule,'4')" matTooltip="Chuyển xử lý" class="fa fa-share"
+                style="padding-right: 10px;  font-size: 1.5rem;" (click)="chuyenXuLy(element)"></i>
+              <i matTooltip="Tùy chọn" class="flaticon-more-v5" style=" font-size: 1.5rem;" [matMenuTriggerFor]="menu"
+                (click)="loadTinhTrang(element)"></i>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item style="color:red;line-height: 30px !important;
+                height: 100% !important;" (click)="DeleteTask(element)" *ngIf="
+                       CheckClosedTask(element) && _DanhMucChungService.CheckRule(element.Rule,'13')
+                      ">
+                  <mat-icon style="margin:3px; color:red; font-size: 20px;
+                  margin: 5px 5px 0px 5px;">delete</mat-icon>
+                  <span class="icon-custom -hover" style="font-size: 13px;padding-left: 2px;">
+                    Xóa {{_DanhMucChungService.ts_congviec}}
+                  </span>
+                </button>
+                <button [ngStyle]="{display: getDisplay(element, status)}" mat-menu-item
+                  (click)="changeTinhTrangInTable(element, status)" style="
+                      line-height: 30px !important;
+                      height: 100% !important;
+                    " *ngFor="let status of listStatus">
+                  <div class="row" [ngStyle]="{ color: status.color }">
+                    <div class="cu-task-row-status1" style="padding-top: 10px">
+                      <div class="point" [ngStyle]="{ backgroundColor: status.color }"></div>
+                    </div>
+                    <span style="font-size: 13px;width: auto;">
+                      {{ status.statusname }}
+                    </span>
+                  </div>
+                </button>
+                <button mat-menu-item style="color:red;line-height: 30px !important;
+                height: 100% !important;" (click)="RefuseWork(element)" *ngIf="CheckRefuse(element)">
+                  <i class="fa fa-close" style="padding-right: 5px; color:red; font-size: 20px;  margin: 3px 8px;"></i>
+                  <span class="icon-custom -hover" style="font-size: 13px;padding-left: 2px;">
+                    Từ chối
+                  </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <!-- Đôn đốc -->
+          <ng-container matColumnDef="dondoc">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center" class="rowsticky">
+              {{ "jeework.dondoc" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center">
+              <div class="item-field hide-more-text">
+                <i style="cursor: pointer; font-size: 1.5rem;" class="flaticon-edit" (click)="UpdateDonDoc(element)"
+                  *ngIf="element.Urges.length <= 0 && _DanhMucChungService.CheckRule(element.Rule,'15') && element.StatusInfo[0].Type != 4; else bindDonDoc"></i>
+                <ng-template #bindDonDoc>
+                  <span class="span-dondoc" (click)="UpdateDonDoc(element)"
+                    [ngStyle]="{ color: getDonDoc(element, 'style')}">{{getDonDoc(element,'value') |
+                    date:'dd/MM/yyyy'}}</span>
+                </ng-template>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Đơn vị thực hiện -->
+          <ng-container matColumnDef="donvithuchien">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="
+               text-align: center
+              ">
+              {{ _DanhMucChungService.ts_duan_ToUpper }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="info-donvithuchien" style="text-align: center">
+                <span class="textNhiemVu">
+                  {{element.project_team }}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+            (mouseout)="row.hovered = false"></tr>
+        </table>
+      </div>
+    </span>
+  </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

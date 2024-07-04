@@ -1,0 +1,30 @@
+<div class="card card-custom dark-background">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="dialog-title"><span>{{getTitle()}}</span></h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" (click)="close()" class="ja_button ja_btn-goback" mat-raised-button><span
+                translate="landingpagekey.trolai"></span></button>
+        </div>
+    </div>
+    <div class="card-body" style="overflow: auto; max-height: 80vh;">
+        <div style="flex-direction: column-reverse; display: flex" class="pt-4">
+            <ng-container *ngFor="let log of dt_history">
+              <div class="cu-task-history-item dark-text1">
+                <div class="task-history-item">
+                    <div class="task-history-item__content">
+                        <div style="padding: 10px;"><strong>{{log.name}}</strong> - {{ log.CreatedDate | timezone }}: {{getTitleHistory(log)}}
+                            <div style="width: auto; padding: 5px; display: inline-block; color:#fff;" [style.background-color]="log.Color">
+                                {{log.StatusName}}
+                            </div>
+                            <br>
+                            <span> <b>Lý do:</b> {{log.Reason}}</span>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+    </div>
+</div>

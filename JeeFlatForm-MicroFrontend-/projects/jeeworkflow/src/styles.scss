@@ -1,0 +1,63 @@
+@import "./assets/style-css/css-general.scss";
+@import "./assets/style-css/quy-trinh/work-workflow.scss";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import '~font-awesome/css/font-awesome.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// Diagram
+@import '~@syncfusion/ej2-angular-diagrams/styles/material.css';
+//Dùng cho lịch ngày giờ
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.sky-padding-0 .mat-dialog-container {
+    padding: 0 !important;
+}
+
+.sky-padding-0.width600 {
+    width: 600px !important;
+}
+
+.sky-point {
+    width: 10px;
+    height: 10px;
+}
+
+.sky-task-row-status {
+    width: 20px;
+    align-self: center;
+    margin-right: 5px;
+}
+
+.sky-mat-menu {
+    .mat-menu-content {
+        width: max-content;
+    }
+}
+
+.sky-tags-mat-menu {
+    .mat-menu-content {
+        width: 280px;
+    }
+}
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-editor {
+    padding: 2px !important;
+}
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-editor p {
+    max-width: 100% !important;
+}
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-container.ql-snow {
+    position: inherit;
+    border: none !important;
+}
+
+//==========Sử dụng cho template jeework-jeeworkflow============
+:root {
+    --theme-main-color: #1DB954;
+    --theme-main-color-dark: #179644;
+    --theme-main-color-light: #6de899;
+    --theme-main-header-color: #1DB954;
+    --global-font-support: "Gotham Pro", "Proxima Nova", Arial, serif;
+    --global-second-font-support: "Proxima Nova", Arial, serif;
+}

@@ -1,0 +1,207 @@
+::ng-deep .mat-expansion-panel-header {
+  padding: 0 16px !important;
+}
+
+::ng-deep .mat-nav-list .mat-icon {
+  margin-right: 10px;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important
+}
+
+::ng-deep .mat-content {
+  align-items: center;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  height: 48px !important;
+  padding-left: 20px;
+}
+
+::ng-deep .mat-nav-list .mat-list-item {
+  width: 350px !important;
+}
+
+::ng-deep .mat-expansion-panel .mat-list-item {
+  padding-left: 15px !important;
+}
+
+
+.active {
+  background-color: #EEFFF9;
+}
+
+::ng-deep .mat-nav-list .is-active {
+  // background-color: rgb(204, 204, 204) !important;
+  // border-left: 8px solid rgb(139, 137, 133);
+  width: calc(100% - 8px) !important;
+  ;
+}
+
+
+
+::ng-deep .mat-list-base {
+  padding-top: 0 !important;
+}
+
+::ng-deep .mat-nav-list .mat-list-item.is-active .mat-list-item-content {
+  padding: 0 8px;
+}
+
+.dot {
+  height: 5px;
+  width: 5px;
+  margin-right: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+// THE STYLE IS FROM CODEPEN
+
+.collection {
+  padding-left: 0;
+  list-style-type: none;
+  margin: .5rem 0 1rem 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.collection-item {
+  background-color: #fff;
+  line-height: 1.5rem;
+  padding: 10px 20px;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+  list-style-type: none;
+}
+
+.my-menu {
+  background-color: #fff;
+  border: 1px solid rosybrown;
+  padding: 20px;
+}
+
+.bntaction {
+  padding: 6px;
+}
+
+
+
+/* Animatinons */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1.0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1.0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1.0;
+  }
+
+  to {
+    opacity: 0.0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1.0;
+  }
+
+  to {
+    opacity: 0.0;
+  }
+}
+
+.is-fadingIn {
+  -webkit-animation: fadeIn 0.1s ease-out;
+  animation: fadeIn 0.1s ease-out;
+  opacity: 1.0;
+  display: block;
+}
+
+.is-fadingOut {
+  -webkit-animation: fadeOut 0.1s ease-out;
+  animation: fadeOut 0.1s ease-out;
+  opacity: 0.0;
+  display: block;
+}
+
+.list.home-links .li:hover {
+  background-color: #EEFFF9;
+  color: #65676B;
+  font-weight: bold;
+}
+
+.list.home-links .li {
+  outline: none;
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  // border-bottom: 1px solid #eee;
+
+}
+
+.more_jeeteam {
+  display: flex;
+  flex-grow: 1;
+
+  .more-string {
+    flex-grow: 1;
+    /*font-size: 15px;*/
+    color: black;
+    line-height: 27px;
+    width: 100%;
+    height: 100%;
+
+
+    .url {
+      font-weight: normal;
+      color: #4CAF50;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &:hover {
+    .action {
+      display: inline-block !important;
+    }
+  }
+
+  .action {
+    display: none;
+    font-size: 17px !important;
+
+    &:hover {
+      border: solid 1px #eee;
+      border-radius: 50%;
+      color: white;
+      background-color: #c0c5c0;
+    }
+  }
+}

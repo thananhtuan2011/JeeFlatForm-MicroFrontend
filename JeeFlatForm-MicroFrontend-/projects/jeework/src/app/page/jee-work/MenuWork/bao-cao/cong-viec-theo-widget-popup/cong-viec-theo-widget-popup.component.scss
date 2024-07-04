@@ -1,0 +1,77 @@
+.icon-new-finish{
+    width: 23px;
+    height: 23px;
+    border: 1px solid red;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
+  }
+
+  .hide {
+    display: none;
+  }
+  .myDIV:hover + .hide {
+    display:flex;
+    overflow: hidden;
+    position:absolute;
+    //left: 60px;
+    left:0;
+    top:0;
+    color: black;
+    background-color: #87CEFA;
+    border-radius: 10px;
+    padding: 0 5px 0 5px;
+    z-index: 1000;
+  }
+
+  .online{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 100;
+    left: 60px;
+    top: 37px;
+  }
+
+  #close {
+    overflow: hidden;
+    position: relative;
+    border: none;
+    padding: 0;
+    width: 2em; height: 2em;
+    border-radius: 50%;
+    background: transparent;
+    color: #1da1f2;
+    font: inherit;
+    text-indent: 100%;
+    cursor: pointer;
+    margin-left: 1320px;
+    
+    &:focus {
+      outline: solid 0 transparent;
+      box-shadow: 0 0 0 2px #8ed0f9
+    }
+    
+    &:hover {
+      background: rgba(29, 161, 142, .1)
+    }
+    
+    &:before, &:after {
+      position: absolute;
+      top: 15%; left: calc(50% - .0625em);
+      width: .125em; height: 70%;
+      border-radius: .125em;
+      transform: rotate(45deg);
+      background: currentcolor;
+      content: ''
+    }
+    
+    &:after { transform: rotate(-45deg); }
+  }
+
+  // ::ng-deep .light-mode .mat-dialog-container{
+  //   padding: 0;
+  // }

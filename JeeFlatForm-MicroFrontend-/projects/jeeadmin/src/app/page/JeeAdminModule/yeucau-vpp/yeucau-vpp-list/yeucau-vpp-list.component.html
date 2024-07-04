@@ -1,0 +1,86 @@
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+	<div class="list-yeucau" style="width: 350px; height: 100vh;">
+		<div class="row" style="align-items: center; display: flex; flex-direction: column; padding-top: 10px">
+			<button mat-raised-button class="btn-add-plus" type="button" (click)="add()">
+				<span>+ Tạo yêu cầu</span>
+			</button>
+		</div>
+		<div class="row" style="justify-content: flex-end;">
+			<mat-select [(value)]="filterStatusID" class="mat-form-field mat-form-field-fluid"
+				(selectionChange)="loadTypeOption()"
+				style="width: 100px; position: absolute; padding-top: 15px; z-index: 100; margin-right: 15px;">
+				<mat-option value="">Tất cả</mat-option>
+				<mat-option value="1">Chờ quản lý duyệt</mat-option>
+				<mat-option value="2">Chờ HC xác nhận</mat-option>
+				<mat-option value="3">HC đã xác nhận</mat-option>
+				<mat-option value="5">Đã nhận VPP</mat-option>
+			</mat-select>
+		</div>
+		<mat-tab-group class="dl-tabs-yeu-cau" (selectedTabChange)="onLinkClick()" [(selectedIndex)]="selectedTab">
+			<mat-tab *ngFor="let lst of listTypeOption">
+				<ng-template mat-tab-label>
+					<span>{{lst.title}}</span>&nbsp;
+					<span *ngIf="lst.value > 0"
+						style="background: red; border-radius: 50%; height: 20px; width: 20px; font-size: 10pt; color: white;">
+						{{lst.value > 9 ? '9+' : lst.value}}</span>
+				</ng-template>
+				<ng-template matTabContent>
+					<div [ngStyle]="{'height': getHeightTab()}" style="width: 100%; margin-left: 5px; overflow-y: auto;"
+						(scroll)="onScroll($event)">
+						<ng-container *ngFor="let item of dataLazyLoad">
+							<div class="row-item" (click)="GetDetails(item)">
+								<div class="item-detail border-bottom" style="margin-right: 0; display: flex;">
+									<div class="item-detail-info"
+										[ngClass]="{'item-active': __RowID == '' + item.IdPhieuYC}">
+										<div class="item-left col-9 url pl-0">
+											<div class="h-100 ">
+												<div class="item-title-thoigian"
+													matTooltip="{{dungChungService.getItemStatusString(item.TrangThai)}}">
+													<div class="item-title">
+														<span class="dot"
+															[ngClass]="dungChungService.getBackgroundByStatus(item.TrangThai)"></span>
+														<span
+															[ngClass]="dungChungService.getColorByStatus(item.TrangThai)"
+															style="margin-left: 8px;">
+															{{item.ThangNam}} - {{item.TenPhongBan}}
+														</span>
+													</div>
+													<div class="item-thoigian">
+														<ng-container *ngIf="item.IsVuotHM">
+															<mat-chip class="tag">{{'vanphongpham.over_limit' |
+																translate}}</mat-chip> <br>
+														</ng-container>
+													</div>
+												</div>
+												<div class="item-mota">
+													<span>{{item.LyDo}}</span>
+												</div>
+											</div>
+										</div>
+										<div class="item-left col-3 url pd-0">
+											<div class="item-image">
+												<ngx-avatar size="40" src="{{ item.HANguoiYC }}"
+													*ngIf="item.HANguoiYC; else bindText"></ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar [size]="40" [name]="item.Name.slice(0, 1)"
+														bgColor="{{ item.BgColor }}"
+														*ngIf="!item.HANguoiYC"></ngx-avatar>
+												</ng-template>
+											</div>
+											<div class="item-ngaygui">
+												<span>{{item.NgayYeuCau | timeAgoJeeAdmin }}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+
+	<router-outlet></router-outlet>
+
+</div>

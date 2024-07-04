@@ -1,0 +1,55 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>Chuyển cho người khác duyệt</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row align-items-center">
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="{{'dontu.ghichu' | translate}}" required class="input-batbuoc"
+									formControlName="note">
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select formControlName="approverId" required
+									placeholder="{{ 'dontu.nguoimuonchuyenden' | translate}}">
+									<mat-option>
+										<ngx-mat-select-search [formControl]="bankFilterCtrl" [placeholderLabel]="''"
+											[noEntriesFoundLabel]="''">
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option value="{{itemCate.ID_NV}}"
+										*ngFor="let itemCate of filteredBanks | async">
+										{{ itemCate.HoTen }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="{{'dontu.vaitro' | translate}}" formControlName="role"
+									readonly>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" (click)="goBack()" mat-raised-button><span
+				translate="landingpagekey.trolai"></span></button><span>&nbsp;</span>
+		<button mat-raised-button type="button" color="accent" (click)="onSumbit()" [disabled]="disabledBtn">
+			<span translate="dontu.xacnhan"></span>
+		</button>
+	</div>
+</div>

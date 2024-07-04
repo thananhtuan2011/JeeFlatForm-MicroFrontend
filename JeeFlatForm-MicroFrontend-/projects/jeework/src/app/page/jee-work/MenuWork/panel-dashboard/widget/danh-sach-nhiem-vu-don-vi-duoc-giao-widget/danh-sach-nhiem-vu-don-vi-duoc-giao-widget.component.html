@@ -1,0 +1,144 @@
+<div *ngIf="!this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="tableWidget table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left" style="top: 0;  position: sticky; z-index: 1;">
+                <th style="min-width: 200px"><span translate="widgets.tencongviec"></span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Người giao</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Người theo dõi</span>
+                </th>
+                <th style="min-width: 120px">
+                    <div class="row row-box text-center url">
+                        <span style="flex: 1;" translate="widgets.tinhtrang"></span>
+                    </div>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Bình Luận</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Ngày giao</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Thời hạn</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataLazyLoad">
+                <td class="pl-3">
+                    <ng-container *ngIf="item.User?.length > 0;else chuagiao">
+                        <div class="user url" [ngClass]="{'mr-2': last}" *ngFor="let us of item.User;let last = last"
+                            style="justify-content: flex-end; float: left; margin-right: 10px; float: left;
+                            margin-right: 5px;">
+                            <kt-avatar-user [image]="us.image" [size]="26" [name]="us.hoten" [chucvu]="us.jobtitle">
+                            </kt-avatar-user>
+                        </div>
+                    </ng-container>
+                    <ng-template #chuagiao>
+                        <div class="user bg-white mr-2"
+                            style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px; float: left; margin-right: 5px;">
+                            <i class="fas fa-user-plus ml-1 pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </ng-template>
+                    <a class="name-title mb-1 font-size-lg url">
+                        <span class="text-hover-primary d-block" matTooltip="Xem chi tiết" (click)="Xemchitiet(item)"
+                            style="cursor: pointer;">
+                            <span style="font-weight: 500;" *ngIf="item.gov_sohieuvb!=null">{{item.gov_sohieuvb}}
+                                -&nbsp;</span>
+                            <i class="fas fa-lock" *ngIf="item.closed"
+                                style="font-size: 16px; color:#f84545; padding-top: 5px;"></i>
+                            {{item.title}}
+                        </span>
+                        <span class="text-muted font-weight-bold text-muted">{{item.project_team}}</span>
+                    </a>
+                </td>
+                <td class="pl-2">
+                    <span class="name-title" style="font-weight: bold;">{{item.GiaoViecGOV.length > 0 ?
+                        item.GiaoViecGOV[0].Jobtitle :
+                        ''}}</span><br />
+                    <span class="name-title" style="font-weight: bold;">{{item.GiaoViecGOV.length > 0 ?
+                        item.GiaoViecGOV[0].FullName :
+                        ''}}</span>
+                </td>
+                <td class="pl-2">
+                    <span style="font-weight: bold;"> {{item.Follower.length > 0 ? item.Follower[0].jobtitle :
+                        ''}}</span>
+                    <br />
+                    <span style="font-weight: bold;">{{item.Follower.length > 0 ? item.Follower[0].hoten :
+                        ''}}</span>
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <ng-container *ngIf="CheckClosedTask(item); else norolestatus">
+                        <div class="box-trang-thai box-absolute-auto" [matMenuTriggerFor]="status"
+                            [ngStyle]="getStyleSTT(item.id_project_team,item.status)" (click)="statusChange(item)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #norolestatus>
+                        <div class="box-trang-thai box-absolute-auto"
+                            [ngStyle]="getStyleSTT(item.id_project_team,item.status)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <mat-menu #status="matMenu">
+                        <button mat-menu-item *ngFor="let status of listDataStatus" (click)="UpdateStatus(item,status)"
+                            [ngStyle]="{color: status.color}">
+                            <div class="row">
+                                <div class="sky-task-row-status" style="width:20px;padding-right:5px">
+                                    <div class="sky-point" [ngStyle]="{'backgroundColor': status.color}">
+                                    </div>
+                                </div>
+                                {{status.statusname}}
+                            </div>
+                        </button>
+                    </mat-menu>
+                </td>
+                <td class="pl-2">
+                    <div *ngIf="DanhMucChungService.CheckRule(item.Rule,'17') || DanhMucChungService.CheckRule(item.Rule,'18')"
+                        class="min-h-50px pl-4">
+                        <app-task-comment-dashboard (submit)="submit($event,item);" [id_row]="item.id_row"
+                            [value]="item.comments" [task]="item"
+                            [isviewcomment]="DanhMucChungService.CheckRule(item.Rule,'17')"
+                            [iscomment]="DanhMucChungService.CheckRule(item.Rule,'18')">
+                        </app-task-comment-dashboard>
+                    </div>
+                </td>
+                <td class="pl-2">
+                    <span class="name-title" *ngIf="item.GiaoViecGOV.length > 0">{{item.GiaoViecGOV[0].ngaygiao
+                        | time:'DD/MM/YYYY'}}</span>
+                </td>
+                <td class="pl-2">
+                    <span [ngClass]="getClassdate(item.deadline)">{{item.deadline| time:'DD/MM/YYYY'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="7" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}"
+    [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <ref-app-danh-sach-nhiem-vu-v2 [dataLazyLoad]="this.dataLazyLoad" [crr_page]="this.crr_page"
+        [total_page]="this.total_page" [isLoading]="this.isLoading" [isgov]="this.isgov"
+        (LoadDataLazy)='reloadData($event)'></ref-app-danh-sach-nhiem-vu-v2>
+</div>

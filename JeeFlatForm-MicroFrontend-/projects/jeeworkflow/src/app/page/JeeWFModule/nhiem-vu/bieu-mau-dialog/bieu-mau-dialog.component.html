@@ -1,0 +1,152 @@
+<style>
+	.trangthai {
+		display: flex;
+		height: 52px;
+		position: relative;
+		margin: 0 25px;
+	}
+
+	.tt-danglam-left {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		background-color: rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-left:hover {
+		background: rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-right {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-hoanthanh-left {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		background-color: rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.tt-hoanthanh-right {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.text-mieuta {
+		position: relative;
+		text-transform: uppercase;
+		color: #7abd1a;
+		font-weight: 500;
+		padding-bottom: 7px;
+	}
+
+	.text-thaotac {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		padding: 5px 8px;
+		color: rgba(42, 145, 214, 0.8);
+	}
+
+	.text-thaotac:hover {
+		text-decoration: underline;
+	}
+
+	.deadline:hover {
+		text-decoration: underline;
+		color: rgba(42, 145, 214, 0.8) !important;
+	}
+
+	.postform {
+		background: rgba(122, 189, 26, 0.15);
+		border-left: 4px solid #7abd1a;
+		padding: 15px 20px;
+	}
+
+	.upload-form {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		z-index: 999;
+	}
+
+	.upload-form input {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		z-index: 999;
+	}
+
+	.follow {
+		height: 36px;
+		font-size: 14px;
+		background-color: white;
+		border: 1px dotted;
+	}
+
+	.follow:hover {
+		color: blue;
+		border: 1px solid;
+	}
+
+	.menu-button:hover {
+		background-color: #dadef7;
+	}
+
+	.disabled-menu {
+		pointer-events: none;
+		opacity: .5;
+	}
+</style>
+<div class="card card-custom font-chu">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{getTitle()}}</span></h3>
+		</div>
+		<div class="card-toolbar">
+		</div>
+	</div>
+	<div class="card-body">
+		<form class="kt-form" [formGroup]="itemForm">
+			<div class="kt-portlet__body">
+				<div class="form-group kt-form__group row">
+					<div class="col-md-12 kt--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid ">
+							<input matInput placeholder="{{ 'workprocess.bieumau' | translate }}"
+								formControlName="title" class="input-batbuoc" required #focusInput />
+						</mat-form-field>
+					</div>
+					<div class="col-md-12 kt--margin-bottom-10-mobile">
+						<dl-image-control [data]="itemFile" formControlName="template"
+							nameButton="Chọn tệp" [multiple]="false">
+						</dl-image-control>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="close()"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.trolai' | translate }}">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true)"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+			<span translate="landingpagekey.luudong"></span>
+		</button>
+		&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<mat-icon class="icon-repeat">repeat</mat-icon><span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

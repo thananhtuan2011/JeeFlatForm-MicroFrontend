@@ -1,0 +1,716 @@
+.bg-cuochop {
+    background-color: #F7F8FA;
+    height: 100%;
+    display: flex;
+    padding-top: 1px;
+}
+
+.bg-loadding {
+    background-color: #F7F8FA;
+    height: 104%;
+    width: 100%;
+}
+
+.content-left,
+.content-right {
+    transition: transform 0.1s ease-in-out;
+    position: relative;
+}
+
+.content-left {
+    width: 100%;
+    overflow: auto;
+    transform: none;
+    padding-top: 9px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.content-right {
+    height: 100%;
+    width: 3%;
+    z-index: 9;
+    background-color: white;
+}
+
+.content-right.open {
+    width: 450px !important;
+}
+
+.btn-thugon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px !important;
+    background: white;
+    position: absolute;
+    top: 8px;
+    left: -12px;
+    padding: 7px !important;
+    font-weight: 100;
+    line-height: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 11;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2) Im !important;
+}
+
+.right-overlay {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+// ----------------------------layout thong tin cuoc hop------------------------------------
+.thong-tin-cuoc-hop {
+    width: 100%;
+    display: flex;
+    position: relative;
+    .calendar-hop {
+        min-width: 75px;
+        height: 70px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        text-align: center;
+        background-color: #FFECA9;
+    }
+    .w {
+        background: #FF8F80;
+        color: #fff;
+        border-radius: 4px 4px 0 0;
+        height: 25px;
+        padding: 2px;
+        font-weight: 500;
+        font-size: 15px;
+    }
+    .t {
+        color: #1A967D;
+        font-weight: 500;
+        font-size: 13px;
+        padding-top: 3px;
+    }
+    .d {
+        color: black;
+        font-weight: 500;
+        font-size: 15px;
+    }
+    .info-hop {
+        margin-left: 10px;
+        width: 85%
+    }
+    .dang-chuan-bi {
+        background-color: #DD4968;
+        color: white;
+        padding: 2px 6px 2px 6px;
+        border-radius: 10px;
+        margin-right: 5px;
+    }
+    .SoKyHieu {
+        color: #b35050;
+    }
+    .ten-cuoc-hop {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: normal;
+        padding-bottom: 5px
+    }
+    .dia-diem {
+        padding-bottom: 5px;
+        color: #1A73E8;
+        font-size: 11px;
+        font-weight: 400;
+    }
+    .thoi-gian {
+        padding-bottom: 5px;
+        color: #B4BECB;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    .ghi-chu {
+        padding-bottom: 5px;
+        color: #B4BECB;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    .ten-phong-hop {
+        padding-bottom: 5px;
+        color: #B4BECB;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    .icon-info {
+        margin-right: 5px;
+        margin-top: -2px;
+        width: 10px;
+    }
+    .cai-dat {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        transform: rotate(-90deg);
+    }
+}
+
+.chuc-nang-hop {
+    padding-top: 20px;
+}
+
+::ng-deep .expansion-panel-meet {
+    .mat-expansion-panel {
+        box-shadow: none !important;
+    }
+    .mat-expansion-panel-header {
+        font-size: 15px;
+        padding-left: 10px !important;
+        font-weight: 600;
+        .mat-expansion-panel-header-title {
+            margin: auto;
+        }
+    }
+    .mat-expansion-panel-content {
+        .mat-expansion-panel-body {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            padding-top: 0 !important;
+        }
+    }
+}
+
+::ng-deep .expansion-panel-info {
+    .mat-expansion-panel {
+        box-shadow: none !important;
+        margin-left: -5px;
+    }
+    .mat-expansion-panel-header {
+        padding-left: 0px !important;
+        padding-right: 10px !important;
+        height: 40px !important;
+        background-color: transparent !important;
+        .mat-expansion-panel-header-title {
+            .title,
+            mat-icon {
+                font-size: 13px;
+                font-weight: 600 !important;
+                color: #B4BECB !important;
+            }
+            a {
+                color: #03B3FF !important;
+                font-size: 13px;
+                font-weight: 500;
+                margin-left: 5px;
+            }
+        }
+        .action-toolbar {
+            display: flex;
+            gap: 15px;
+            .text-view {
+                cursor: pointer;
+                line-height: normal;
+                color: #03B3FF;
+                font-size: 13px;
+                font-style: italic;
+                font-weight: 500;
+                text-decoration: underline;
+            }
+            .btn-action-add {
+                line-height: normal;
+                width: 22px;
+                height: 22px;
+                margin: -3px
+            }
+        }
+    }
+    .mat-expansion-panel-header:hover {
+        background-color: transparent !important;
+    }
+    .mat-expansion-panel-content {
+        .mat-expansion-panel-body {
+            padding-left: 20px !important;
+            padding-right: 10px !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    }
+}
+
+.thong-bao {
+    background-color: #e5f7ff;
+    border: 1px solid #03B3FF;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 15.5px 0px 15.5px 0;
+    color: #03B3FF;
+    font-size: 12px;
+    text-align: center;
+    i {
+        color: #03B3FF;
+    }
+}
+
+.vietngay {
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #03B3FF;
+}
+
+.mr-t10 {
+    margin-top: 10px !important;
+}
+
+.mr-t0 {
+    margin-top: -10px !important;
+}
+
+.icon-arrow {
+    margin-right: -5px;
+}
+
+.icon-arrow-90 {
+    transform: rotate(-90deg);
+    margin-top: -5px;
+    margin-right: -5px;
+}
+
+.menuFull {
+    margin: -8px 0px -8px 0px;
+    width: 260px;
+}
+
+.menuItem {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    height: 40px;
+}
+
+.menuItem:hover {
+    cursor: pointer;
+    background-color: #bdb5b547;
+    font-weight: 500;
+}
+
+.ItemList {
+    margin: 0 10px 0px 10px;
+    padding-top: 10px;
+}
+
+.icon_PheDuyet {
+    border-radius: 50%;
+    background-color: #78B740;
+    color: #FFFFFF;
+    font-size: 9px;
+    padding: 5px;
+}
+
+.btn-luuNoiDung {
+    text-align: right;
+    padding-top: 10px;
+}
+
+//duyet tai lieu
+.file-khong-duyet {
+    font-size: 11px;
+    border: solid 1px red;
+    padding: 0px 7px 0px 7px;
+    border-radius: 10px;
+    background-color: red;
+    color: yellow;
+    margin-right: 5px;
+}
+
+.file-da-duyet {
+    font-size: 11px;
+    border: solid 1px rgb(7, 126, 67);
+    padding: 0px 7px 0px 7px;
+    border-radius: 10px;
+    background-color: rgb(7, 126, 67);
+    color: white;
+    margin-right: 5px;
+}
+
+.file-chua-duyet {
+    font-size: 11px;
+    border: solid 1px rgb(35, 203, 209);
+    padding: 0px 7px 0px 7px;
+    border-radius: 10px;
+    background-color: rgb(35, 203, 209);
+    color: white;
+    margin-right: 5px;
+}
+
+.box-lydo {
+    border: 2px solid rgba(0, 0, 0, 0.34);
+    box-shadow: 0px -1px 5px 3px rgba(0, 0, 0, 0.034) inset;
+    padding: 8px
+}
+
+.btn-phatbieu {
+    padding: 0px 15px 0px 15px !important;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #03B3FF;
+    color: white;
+    height: 32px;
+}
+
+.btn-huy-phatbieu {
+    padding: 0px 15px 0px 15px !important;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #e5f7ff;
+    color: #03B3FF;
+    height: 32px;
+}
+
+.icon-phatbieu {
+    padding-right: 7px;
+    margin-top: -4px;
+}
+
+::ng-deep .content-right {
+    .mat-tab-list .mat-tab-label {
+        min-width: 120px !important;
+        padding: 0 12px !important;
+        opacity: 1;
+        color: #808080;
+    }
+    .card .card-header .card-title,
+    .card .card-header .card-title .card-label {
+        font-weight: 700;
+        font-size: 15px;
+        color: #78829D;
+    }
+}
+
+.item-thanh-vien {
+    padding-bottom: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    .thanh-phan {
+        display: flex;
+        .avatar-thanh-phan {
+            margin: auto 5px auto 0;
+        }
+        .thong-tin-thanh-phan {
+            display: block;
+            .value {
+                color: #141213;
+                font-size: 13px;
+                font-weight: 500;
+                a {
+                    color: #03B3FF !important;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+            }
+            .chucvu {
+                color: #B4BECB;
+                font-size: 11px;
+                font-weight: 500;
+            }
+        }
+    }
+    .action-thanh-phan {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.card-body-2 {
+    padding: 5px 0px 5px 10px;
+    border-bottom: 5px #F7F8FA solid;
+}
+
+.card-body-3 {
+    padding: 5px 10px 0px 10px;
+}
+
+.card-body-4 {
+    padding: 0px 0px 5px 0px;
+    border-bottom: 5px #F7F8FA solid;
+}
+
+.card-body-5 {
+    padding: 5px 10px 5px 10px;
+    border-bottom: 5px #F7F8FA solid;
+}
+
+.timeline-wrapper {
+    padding-left: 0px !important;
+    min-width: 0px !important;
+    font-family: 'Helvetica';
+    font-size: 14px;
+    margin-left: -24px;
+    /*border: 1px solid #CCC;*/
+}
+
+.StepProgress {
+    position: relative;
+    padding-left: 44px;
+    list-style: none;
+}
+
+// .StepProgress-item.is-done::before {
+//     border-left: 1px solid #CCC;
+// }
+.StepProgress-item.is-done::after {
+    /*content: "?";*/
+    font-size: 10px;
+    color: #FFF;
+    text-align: center;
+    border: 2px solid blue;
+    background-color: blue;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.time {
+    position: absolute;
+    left: -110px;
+}
+
+.StepProgress::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 10px;
+    height: 100%;
+    border-left: 1px solid #CCC;
+}
+
+.StepProgress-item {
+    position: relative;
+    counter-increment: list;
+    b {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    .file-name {
+        color: #FFA903;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    i {
+        color: #B4BECB;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    span {
+        font-size: 14px;
+        font-weight: 400;
+    }
+}
+
+.StepProgress-item:not(:last-child) {
+    padding-bottom: 20px;
+}
+
+.StepProgress-item::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    left: -30px;
+    height: 100%;
+    width: 10px;
+}
+
+.StepProgress-item::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: -35px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #CCC;
+    border-radius: 50%;
+    background-color: #FFF;
+}
+
+// .StepProgress-item.is-done::before {
+//     border-left: 1px solid #CCC;
+// }
+.StepProgress-item.is-done::after {
+    /*content: "?";*/
+    font-size: 10px;
+    color: #FFF;
+    text-align: center;
+    border: 2px solid #00B3FF;
+    background-color: #00B3FF;
+    top: 5px
+}
+
+.StepProgress strong {
+    display: block;
+}
+
+.title-donvi {
+    span {
+        color: #B4BECB;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    a {
+        color: #03B3FF;
+        font-size: 13px;
+        font-weight: 500;
+        margin-left: 5px;
+    }
+    .action-toolbar {
+        display: flex;
+        gap: 15px;
+        .text-view {
+            cursor: pointer;
+            line-height: normal;
+            color: #03B3FF;
+            font-size: 13px;
+            font-style: italic;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+        .btn-action-add {
+            line-height: normal;
+            width: 22px;
+            height: 22px;
+            margin: -3px
+        }
+    }
+}
+
+.example-viewport {
+    height: 300px;
+}
+
+.viewport-h0 {
+    height: 0px;
+}
+
+.viewport-h50 {
+    height: 55px;
+}
+
+.viewport-h100 {
+    height: 105px;
+}
+
+.viewport-h150 {
+    height: 155px;
+}
+
+.viewport-h200 {
+    height: 205px;
+}
+
+.HienDauBaChamChucVu {
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+::ng-deep .nav-expansion-panel-donvi {
+    .mat-expansion-panel {
+        box-shadow: none !important;
+        border: none !important
+    }
+    .mat-expansion-panel-header {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        height: 55px !important;
+        border-radius: none !important;
+        .mat-expansion-panel-header-title {
+            .title,
+            mat-icon {
+                font-size: 13px;
+                font-weight: 500 !important;
+                color: #141213 !important;
+            }
+            a {
+                color: #03B3FF !important;
+                font-size: 13px;
+                font-weight: 500;
+                margin-left: 5px;
+            }
+        }
+    }
+    .mat-expansion-panel-header:hover {
+        background-color: #E5F7FF !important;
+        border-radius: none !important;
+    }
+    .mat-expansion-panel-content {
+        .mat-expansion-panel-body {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            padding-top: 10px !important;
+            margin-bottom: -30px !important;
+        }
+    }
+}
+
+.bg-active-donvi {
+    background-color: #E5F7FF !important;
+}
+
+.file-item {
+    padding-bottom: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    .item-left-file {
+        display: flex;
+        gap: 10px;
+        .iconfile {
+            height: 40px;
+            width: 30px;
+            margin: auto
+        }
+        .iteminfo {
+            display: block;
+            .title-file {
+                display: flex;
+                .filename {
+                    width: 150px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #000000;
+                    display: block;
+                }
+            }
+            .upload-name {
+                font-size: 12px;
+                font-weight: 400;
+                color: #03B3FF;
+                display: block;
+            }
+        }
+    }
+    .item-right-file {
+        .iteminfo-right {
+            display: block;
+            text-align: right;
+            .view-file {
+                font-size: 12px;
+                display: block;
+                font-weight: 500;
+                color: #005AE0
+            }
+            .upload-date {
+                display: block;
+                font-size: 12px;
+                font-weight: 400;
+                color: #7589A3
+            }
+        }
+    }
+}

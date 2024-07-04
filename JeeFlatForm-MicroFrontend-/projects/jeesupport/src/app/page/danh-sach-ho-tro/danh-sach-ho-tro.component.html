@@ -1,0 +1,337 @@
+<style>
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+
+    :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+
+    :host>>>mat-row {
+        min-height: 35px;
+    }
+
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    .active:hover {
+        background-color: #E6F4EF;
+        cursor: pointer;
+    }
+
+    .navigate-active {
+        color: #E6F4EF;
+    }
+
+    .paddingDiv:focus {
+        outline: 0;
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    :host>>>.card {
+        border-radius: 0 !important;
+    }
+
+    :host>>>.mat-tab-body-content {
+        padding-top: 0px !important;
+    }
+
+    :host>>>.card-body {
+        padding: 0px !important;
+    }
+
+    :host>>>.card-header {
+        padding: 8px !important;
+    }
+
+    .HienDauBaCham {
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        width: 170px;
+    }
+
+    .active {
+        background-color: #ffffff;
+    }
+
+    .active:hover {
+        background-color: #ffffff;
+    }
+
+    .anMenu {
+        display: none;
+    }
+</style>
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+    <div class="list-danhsach">
+        <div class="card card-custom">
+            <div class="card-header">
+                <div class="mat-form-field-fluid" class="btn-dp" style="color: #404040;font-size:10pt;font-weight: bold;
+                padding-left: 5px;border: none;min-width:160px">
+                    <mat-select (selectionChange)="ChangeStageRange($event.value)" [value]="1" #singleSelect>
+                        <mat-option [value]="1">
+                            YÊU CẦU CỦA TÔI
+                        </mat-option>
+                        <mat-option [value]="2">
+                            TẤT CẢ YÊU CẦU
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <!-- <div class="row" style="align-items: center; margin-right: 0;">
+                    <div class="filter">
+                        <mat-form-field style="float: right;width:140px;text-align: right;color: #404040;font-size:10pt">
+                            <mat-select (selectionChange)="ChangeStageRange($event.value)" [value]="1" #singleSelect>
+                                <mat-option [value]="1">
+                                    YÊU CẦU CỦA TÔI
+                                </mat-option>
+                                <mat-option  [value]="2">
+                                    TẤT CẢ YÊU CẦU
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div> -->
+                <div class="card-title-listsupport">
+                    <div id="search" style="border: none;width: 100%;" [formGroup]="searchGroup">
+                        <label for="">
+                            <mat-icon style="color: #bdbbb9;">search</mat-icon>
+                        </label>
+                        <input style="--ck-color-engine-placeholder-text: #bdbbb9;font-size: 15px;" name="search"
+                            formControlName="searchTerm" type="text" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="row" style="align-items: center; margin-right: 0;">
+
+                    <div class="filter">
+                        <ng-container>
+                            <div class="mat-form-field-fluid btn-dp drop">
+                                <mat-select (selectionChange)="ChangeStage($event.value)" [value]="4" #singleSelect>
+                                    <mat-option [value]="4">
+                                        Tất cả
+                                    </mat-option>
+                                    <mat-option [value]="0">
+                                        Mới tạo
+                                    </mat-option>
+                                    <mat-option [value]="1">
+                                        Đang xử lý
+                                    </mat-option>
+                                    <mat-option [value]="2">
+                                        Đã đóng
+                                    </mat-option>
+                                    <mat-option [value]="3">
+                                        Đã hủy
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div style="float: right;right:0;position: absolute; width: 50%;">
+                        <button (click)="Create()" class="btn">+ Tạo yêu cầu</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }" (scroll)="onScroll($event)"
+            style="margin-top: 20px;">
+            <div>
+                <div class="hover-row paddingDiv" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" 
+                    *ngFor="let item of dataLazyLoad">
+                    <div class="border-item-yc"></div>
+                    <div *ngIf="this.Ticketid==item.RowID;else Noselect" class="item-select">
+                        <div (click)="changeRoute(item)" class="item-yeucau">
+                            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                                <thead style="visibility: collapse;">
+                                    <tr>
+                                        <th style="width: 40px"></th>
+                                        <th style="width: 215px"></th>
+                                        <th style="width: 95px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td *ngIf="item.Status != 0;else bo">
+                                            <div class="tinhtrang"
+                                                [ngStyle]="{'background-color': getColorStatus(item.Status)}"></div>
+                                        </td>
+                                        <ng-template #bo>
+                                            <div class="tinhtrang" style="background-color: #848E9E;"></div>
+                                        </ng-template>
+                                        <td>
+                                            <div class="HienDauBaCham">
+                                                <span [ngStyle]="{'color': getColorStatus(item.Status)}">{{ item.Title
+                                                    }}</span>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div style="text-align: center;cursor: pointer;">
+                                                        <span class="mo-ta-ch cdcdde"
+                                                            matTooltip="{{item.CreatedDate | timeAgoCus}}">
+                                                            {{this.FormatTimeService.format_convertDate(item.CreatedDate,1,true)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2"></td>
+                                        <div *ngFor="let cate of item.Category" class="HienDauBaCham">
+                                            <span style="font-size: 10pt; color:#808080" class="cdcdde">{{cate.Title}}</span>
+                                        </div>
+                                        <td>
+                                            <ngx-avatar *ngIf="item.MessageIsread>0" class="my-avatar" [size]="18"
+                                                value="{{item.MessageIsread}}" bgColor="#f52f2f"></ngx-avatar>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="HienDauBaCham">
+                                                <span style="font-size: 10pt; color:#808080" class="cdcdde">{{item.Note}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <ng-template #Noselect>
+                        <div>
+                            <div (click)="changeRoute(item)" class="item-yeucau">
+                                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                                    <thead style="visibility: collapse;">
+                                        <tr>
+                                            <th style="width: 40px"></th>
+                                            <th style="width: 215px"></th>
+                                            <th style="width: 95px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td *ngIf="item.Status != 0;else bo">
+                                                <div class="tinhtrang"
+                                                    [ngStyle]="{'background-color': getColorStatus(item.Status)}"></div>
+                                            </td>
+                                            <ng-template #bo>
+                                                <div class="tinhtrang" style="background-color: #848E9E;"></div>
+                                            </ng-template>
+                                            <td>
+                                                <div class="HienDauBaCham">
+                                                    <span [ngStyle]="{'color': getColorStatus(item.Status)}">{{
+                                                        item.Title }}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div style="text-align: center;cursor: pointer;">
+                                                            <span class="mo-ta-ch cdcdde"
+                                                                matTooltip="{{item.CreatedDate | timeAgoCus}}">
+                                                                {{this.FormatTimeService.format_convertDate(item.CreatedDate,1,true)}}
+
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2"></td>
+                                            <div *ngFor="let cate of item.Category" class="HienDauBaCham">
+                                                <span style="font-size: 10pt; color:#808080" class="cdcdde">{{cate.Title}}</span>
+                                            </div>
+                                            <td>
+                                                <ngx-avatar *ngIf="item.MessageIsread>0" class="my-avatar" [size]="18"
+                                                    value="{{item.MessageIsread}}" bgColor="#f52f2f"></ngx-avatar>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="HienDauBaCham">
+                                                    <span style="font-size: 10pt; color:#808080" class="cdcdde">{{item.Note}}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div [perfectScrollbar]="{wheelPropagation: false}" style="position: relative;" [ngStyle]="{'width': getWidth()}">
+        <router-outlet></router-outlet>
+    </div>
+</div>

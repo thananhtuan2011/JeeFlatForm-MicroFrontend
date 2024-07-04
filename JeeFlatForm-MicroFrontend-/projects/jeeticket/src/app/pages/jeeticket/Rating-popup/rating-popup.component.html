@@ -1,0 +1,74 @@
+<style>
+
+</style>
+
+
+
+<div class="card card-custom">
+  <ng-container [ngSwitch]="buocthuchien">
+    <!-- [ngTemplateOutletContext]="{ item: child }" -->
+    <ng-container *ngSwitchCase="1" [ngTemplateOutlet]="step1">
+
+    </ng-container>
+    <ng-container *ngSwitchCase="2" [ngTemplateOutlet]="step2">
+
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+    </ng-container>
+</ng-container>
+<ng-template #step1>
+ 
+  <mat-icon class="icon-close"
+        (click)="goBack()">close</mat-icon>
+  <div class="step1">
+    <div class="body-step">
+        <div class="title-form">
+            <div class="title">Đánh giá chất lượng hỗ trợ</div>
+        </div>
+        <div class="rating-form">
+            <div class="title-rating-form">Bạn đã đánh giá</div>
+            <div class="rating">
+                <div class="rating-item" *ngFor="let item of [].constructor(value_rating); let i = index" style="width: 40px; height: 40px; position: relative">
+                    <div (click)="ClickRating(i+1)" class="fa fa-star rating-yellow" style="width: 30px; height: 30px; left: 5px; top: 5px; position: absolute; "></div>
+                </div>
+                <div class="rating-item" *ngFor="let item of [].constructor(5-value_rating); let i = index" style="width: 40px; height: 40px; position: relative">
+                    <div (click)="ClickRating(i+1+value_rating)" class="fa fa-star rating-white" style="width: 30px; height: 30px; left: 5px; top: 5px; position: absolute; "></div>
+                </div>
+            </div>
+        </div>
+        <div class="content-rating">
+            <div class="title-content"> Nội dung đánh giá</div>
+            <div class="boby-content">
+              <input sty [(ngModel)]="Content_rating" (keyup.enter)="UpdateRating()"
+              class="input-content" matInput type="text"
+              placeholder="Nhập nội dung ..." autocomplete="off">
+            </div>
+        </div>
+        <div (click)="UpdateRating()" class="foodter">
+            <div class="button-rating">Gửi đánh giá</div>
+        </div>
+    </div>
+</div>
+</ng-template>
+<ng-template #step2>
+  <mat-icon class="icon-close" (click)="goBack()">close</mat-icon>
+  <div class="step2">
+    <div class="header">
+        <div class="title1">Cảm ơn bạn đã đánh giá</div>
+        <div class="title2">Thông tin đánh giá của bạn đã được gửi đến doanh nghiệp</div>
+    </div>
+    <div class="body-step">
+        <div class="title-rating-form">Bạn đã đánh giá</div>
+        <div class="rating-form">
+            <div class="rating-item" *ngFor="let item of [].constructor(value_rating); let i = index" style="width: 40px; height: 40px; position: relative">
+                <div class="fa fa-star rating-yellow" style="width: 30px; height: 30px; left: 5px; top: 5px; position: absolute; font-size: 40px;"></div>
+            </div>
+            <div class="rating-item" *ngFor="let item of [].constructor(5-value_rating); let i = index" style="width: 40px; height: 40px; position: relative">
+                <div class="fa fa-star rating-white" style="width: 30px; height: 30px; left: 5px; top: 5px; position: absolute; font-size: 40px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-template>
+
+</div>

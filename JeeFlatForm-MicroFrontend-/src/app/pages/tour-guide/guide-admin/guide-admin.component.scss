@@ -1,0 +1,38 @@
+.header-title {
+    height: 87px;
+    border: 1px solid #EDF0F1;
+    border-radius: 10px;
+    margin: 20px;
+
+    .title-header {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .description-header {
+        font-size: 12px;
+    }
+}
+
+.border-app {
+    padding: 10px 20px;
+    border: 1px solid #EDF0F1;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 130px;
+}
+
+.css-image {
+    text-align: center;
+    padding-right: 10px;
+    float: left;
+    max-height: 100px
+}
+
+.css-mota {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

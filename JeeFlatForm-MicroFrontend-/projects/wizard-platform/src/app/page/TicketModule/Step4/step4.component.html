@@ -1,0 +1,96 @@
+<div *ngIf="isloadding" class="card card-custom card-dark">
+  <div class="card-header" style="    padding: 1px 1.25rem;">
+    <div class="card-title">
+      <h3 class="title">{{wizard.title}}</h3>
+    </div>
+    <div class="card-toolbar">
+      <button (click)="create()" mat-raised-button 
+        class="ja_button ja_btn-addnew" type="button">
+        <span >Thêm mới</span>
+      </button>
+    </div>
+  </div>
+  <div  class="card-body" >
+    <div style="padding: 20px 15px;">
+      <span class="class-text" [innerHTML]="wizard.description">
+        
+      </span>
+      <div class="example-container mat-table__wrapper" (scroll)="onScroll($event)" id="listScroll"
+      [ngStyle]="{'height': getHeight()}" style="overflow: auto;">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+        <!-- STT -->
+        <ng-container matColumnDef="STT">
+          <th mat-header-cell *matHeaderCellDef style="text-align: left; ">
+            STT
+          </th>
+          <td mat-cell *matCellDef="let element,let vi = index" style="text-align: left;">
+           <span class="conten-text">{{vi+1}}</span> 
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Title">
+          <th mat-header-cell *matHeaderCellDef>
+            Tên trạng thái
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="color-picker" [ngStyle]="{'background-color': element.Color}">
+
+            </div>
+            <span class="conten-text">{{ element.Title }}</span>
+
+          </td>
+        </ng-container>
+        <!-- actions -->
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell *matHeaderCellDef>
+            Mô tả
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="conten-text">{{element.Description}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="nguoinhap">
+          <th mat-header-cell *matHeaderCellDef>
+            Người nhập
+          </th>
+          <td mat-cell *matCellDef="let element" >
+            <span class="conten-text">{{element.FullName}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ngaynhap">
+          <th mat-header-cell *matHeaderCellDef>
+            Ngày nhập
+          </th>
+          <td mat-cell *matCellDef="let element" >
+            <span class="conten-text">{{element.CreatedDate}}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="thaotac" >
+          <th mat-header-cell *matHeaderCellDef style="padding: 0;">
+            Thao tác
+          </th>
+          <td mat-cell *matCellDef="let element" >
+            <div *ngIf="element.CustomerID!=0 && element.CustomerID!=undefined">
+              <mat-icon *ngIf="Visible" (click)="update(element)" class="icon-sua"
+                style="cursor: pointer; " aria-hidden="false">
+                mode_edit</mat-icon>
+              &nbsp;
+              <mat-icon *ngIf="Visible" (click)="delete(element.RowID)" class="icon-xoa"
+                style="cursor: pointer; " aria-hidden="false">delete
+              </mat-icon>
+            </div>
+          </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+          (mouseout)="row.hovered = false"></tr>
+      </table>
+    </div>
+    </div>
+  </div>
+
+</div>

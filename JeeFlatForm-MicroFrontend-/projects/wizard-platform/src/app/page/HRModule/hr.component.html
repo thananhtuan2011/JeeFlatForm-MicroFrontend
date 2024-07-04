@@ -1,0 +1,84 @@
+<style>
+    .left {
+        height: 596px;
+        position: absolute;
+        width: 270px;
+        display: block;
+        border-right: 1px solid #0000001a;
+    }
+
+    .menu {
+        margin: 30px;
+        line-height: 2;
+        font-weight: 400;
+        font-size: 1.2rem;
+        --bs-gutter-x: 0;
+    }
+
+    .submenu {
+        padding-left: 20px;
+        /* cursor: pointer; */
+    }
+
+    .right {
+        float: right;
+    }
+
+
+
+    .wizard-hr {
+        width: 1360px;
+    }
+</style>
+<div class="panel-hr">
+    <div class="wizard-hr">
+        <div class="m-hr sky-scroll-work left">
+            <div class="row menu">
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Introduce')}">1. Giới thiệu chung</span>
+                </div>
+                <div class="col-md-12">
+                    <span>2. Thiết lập thông tin chung</span>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('Department')}">- Danh sách phòng ban</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('JobTitle')}">- Danh sách chức vụ</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('StaffType')}">- Phân loại nhân viên</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('ContractType')}">- Phân loại hợp đồng</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('Staff')}">- Danh sách nhân viên</span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <span>3. Thiết lập chấm công</span>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('Calendar')}">- Thiết lập lịch làm việc</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('Timekeeping')}">- Hình thức chấm công</span>
+                    </div>
+                    <div class="col-md-12 submenu">
+                        <span [ngStyle]="{'color': getColor('Config')}">- Cấu hình chấm công</span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <span [ngStyle]="{'color': getColor('Complete')}">4. Hoàn thành</span>
+                </div>
+            </div>
+        </div>
+        <div class=" m-hr right" [ngStyle]="{'width': getWidth()}">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

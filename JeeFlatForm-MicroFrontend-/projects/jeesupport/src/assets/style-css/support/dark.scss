@@ -1,0 +1,472 @@
+////////////////////////////////////////////////////////////////////////
+app-danh-sach-ho-tro {
+
+  .list-danhsach {
+    padding-right: 0;
+    border-right: 1px solid #1e1e2d;
+    background-color: #1e1e2d !important;
+    min-width: 350px;
+    max-width: 350px;
+    height: 100vh;
+    width: 350px;
+    color: #cdcdde;
+  }
+
+  .cdcdde {
+    color: #3F4254 !important;
+  }
+
+  .btn {
+    background-color: #1e1e2d;
+    color: green;
+    font-weight: 400;
+    text-align: center;
+    border: 3px solid green;
+    border-radius: 25px;
+    float: right;
+    height: 30px;
+    padding: 0px !important;
+    width: 130px;
+  }
+
+  .btn:hover {
+    background-color: #daeeda;
+    color: green;
+  }
+
+  .drop {
+    color: #daeeda !important;
+    font-size: 10pt;
+    font-weight: bold;
+    padding-left: 5px;
+    border: none;
+    min-width: 100px !important;
+  }
+
+  .item-select {
+    background-color: #151521 !important;
+  }
+
+  .hover-row:hover {
+    background-color: #1a1a26;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .card-toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 20px;
+  }
+
+  .item-yeucau {
+    min-height: 60px;
+    display: flex;
+    width: 100%;
+
+    .table td {
+      padding: 0px;
+      border-top: none;
+    }
+
+    .table th {
+      border-top: none;
+      border-bottom: none;
+    }
+  }
+
+  .tinhtrang {
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 5px auto;
+    padding: 0px !important;
+  }
+
+  .HienDauBaCham {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    font-size: 12pt;
+  }
+
+  .table {
+    width: 100%;
+    margin-top: 0.5rem;
+    color: #cdcdde;
+    background-color: transparent;
+  }
+
+  .hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-comment {
+    display: block;
+    position: relative;
+    margin-right: 6px;
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+
+  avatar-content .avatar-content {
+    display: block;
+    position: relative;
+    margin-right: 6px;
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  // .setPad{
+  //     padding-left: -10px;
+  // }
+  .tab_chitiet {
+    margin-left: 20px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .mess1 {
+    clear: both;
+    float: left;
+    width: calc(100% - 25px);
+    font-size: .9em;
+    height: auto;
+
+  }
+
+  .mess_doc1 {
+    background-color: #3a3a5b !important;
+    border-radius: 0.5rem;
+  }
+
+  .mess_doc2 {
+    background-color: #3a3a5b !important;
+    border-radius: 0.5rem;
+    margin-right: 20px;
+  }
+
+  .mess2 {
+    margin: 0 0 10px 0;
+    clear: both;
+    float: left;
+    width: calc(100% - 25px);
+    font-size: .9em;
+  }
+
+  .background-status {
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .title_mess {
+    border-radius: 0.5rem;
+    background-color: #1d1d2e !important;
+    border: 5px white;
+    margin: 1px 1px;
+    padding: 5px 1px 1px 1px;
+    font-size: 12px;
+  }
+
+  .nd-mess {
+    background-color: #151521 !important;
+    border-radius: 0.5rem;
+    padding: 10px;
+    color: white;
+  }
+
+  .nd-fullname {
+    float: right;
+    color: #cdcdde;
+    font-size: 10pt;
+  }
+
+  .nd-date {
+    float: left;
+    color: #cdcdde;
+    font-size: 9pt;
+  }
+
+  .card-title-listsupport {
+    width: 100%;
+    color: #cdcdde !important;
+  }
+
+  .select {
+    width: 90%;
+
+    .mat-select-value {
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .mat-select-arrow {
+      color: #ffffff !important;
+    }
+
+    .mat-select-arrow-wrapper {
+      color: #ffffff !important;
+    }
+  }
+
+  .mat-select-arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid;
+    margin: 0 4px;
+  }
+
+  .filter {
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    color: #cdcdde;
+    display: flex;
+    padding: 10px 0;
+
+    .icon-user {
+      padding: 7px 10px;
+    }
+
+    span {
+      font-size: 12px;
+      color: #cdcdde;
+      font-weight: 500;
+    }
+  }
+
+  .my-avatar {
+    float: right;
+    padding: 0 10px;
+  }
+
+  .khungchat {
+    min-width: 750px;
+    max-width: 1150px;
+    display: list-item;
+    margin: 0 auto;
+    padding: 0px 50px;
+  }
+}
+
+app-chi-tiet-ho-tro {
+  .btn-answer{
+    float: right;
+    color: hwb(123 0% 0%) !important;
+    border-radius: 1rem;
+    padding: 0 25px 0 20px;
+  }
+  .ql-editor{
+    background-color: #2b2c33 !important;
+  }
+  .editor-chat {
+    background-color: #1e1e2d !important;
+    color: #cdcdde;
+  }
+
+  .ql-editor {
+    padding-top: 5px;
+  }
+
+  .ql-editor.ql-blank::before {
+    color: #999 !important;
+  }
+  .quill-toolbar{
+    //border: none;
+    border: 1px solid rgba(122, 122, 122, 0.12);
+    border-radius: 5px;
+}
+  .ct-title {
+    color: #cdcdde;
+    font-size: 12pt;
+    font-weight: bold
+  }
+
+  // p
+  // {
+  //   background-color: white;
+  // }
+  // .btn-answer {
+  //   float: right;
+  //   color: hwb(123 0% 0%) ;
+  //   border-radius: 1rem;
+  //   padding: 0 25px 0 20px;
+  // }
+
+  .btn-answer:hover {
+    background-color: #fdefef;
+    color: hwb(123 0% 0%) ;
+  }
+
+  .star-danhgia {
+    color: #efef27;
+    font-size: 20px;
+    float: right;
+    padding: 3px;
+  }
+}
+
+app-add-sup-popup {
+  .cu-task-row-assignee {
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    padding: 0 5px;
+    width: auto;
+  }
+
+  .cu-task-row-new__options {
+    display: flex;
+    align-items: center;
+    position: -webkit-sticky;
+    position: sticky;
+    right: 0;
+    flex-shrink: 0;
+    min-width: 200px;
+  }
+
+  .border-tag {
+    padding-top: 5px;
+    width: 27px;
+    height: 27px;
+    border: 1px dashed grey;
+    color: grey;
+    border-radius: 50%;
+    text-align: center;
+    margin-left: 5px;
+  }
+
+  .form-input-title {
+    flex-grow: 1;
+    border: none;
+    padding-left: 5px;
+    border-radius: 0.42rem;
+    outline: none;
+    border: 1px solid #E4E6EF;
+    height: 40px;
+    margin-top: 10px;
+  }
+
+  .attach-item {
+    padding: 5px;
+    display: flex;
+    background-color: white;
+    border: 0;
+
+    &:hover {
+      background-color: #fafafa;
+      border-left: 3px solid #dbdbdb;
+    }
+
+    .attach-item-icon {
+      min-width: 30px;
+    }
+
+    .attach-item-name {
+      flex-grow: 1;
+      text-align: left;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      white-space: normal;
+      text-align: left;
+
+      p {
+        font-weight: bold;
+      }
+
+      span {
+        display: none;
+      }
+    }
+
+    .attach-item-del {
+      text-align: right;
+      padding: 0 10px;
+
+      a {
+        margin-left: 10px;
+      }
+    }
+
+    &.show-action .attach-item-name {
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+
+app-rating-popup {
+  .card {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .card-custom {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .card-header {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .card-title {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .dialog-title {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .ra-bg {
+      background-color: #1e1e2d !important;
+  }
+
+  .card-body {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .dialog-footer {
+      background-color: #1e1e2d !important;
+
+  }
+
+  .rating-yellow {
+      color: yellow;
+      font-size: 40px;
+      background-color: #1e1e2d !important;
+  }
+
+  .rating-white {
+      color: white;
+      font-size: 40px;
+      background-color: #1e1e2d !important;
+
+  }
+}

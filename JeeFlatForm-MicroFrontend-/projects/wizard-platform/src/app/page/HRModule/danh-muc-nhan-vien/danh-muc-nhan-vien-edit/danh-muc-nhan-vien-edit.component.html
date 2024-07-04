@@ -1,0 +1,81 @@
+<style>
+	:host>>>.mat-form-field {
+		width: 100%;
+	}
+
+	.card-body {
+		padding-top: 10px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ getTitle() }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__group">
+				<div class="row align-items-center">
+					<!-- *ngIf="EnableChucVu" -->
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<m-dropdown-tree [data]="datatree" [DropdownTitle]="title" required class="require drop-popup"
+							(SelectedItemTree)="GetValueNode($event)" [SelectedNode]="selectedNode">
+						</m-dropdown-tree>
+					</div>
+					<!-- <div class="col-md-12 m--margin-bottom-10-mobile" *ngIf="!EnableChucVu">
+						<mat-form-field class="mat-form-field-fluid"> <input matInput
+								placeholder="{{ 'JeeHR.cocautochuc' | translate }}" readonly required
+								[(value)]="Structure" />
+						</mat-form-field>
+					</div> -->
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid" *ngIf="!(isFirstLoading$ | async)">
+							<mat-select required formControlName="chucVu" placeholder="Chức vụ" #singleSelect>
+								<mat-option>
+									<ngx-mat-select-search noEntriesFoundLabel="Không có dữ liệu"
+										placeholderLabel="Tìm kiếm theo tên chức vụ" formControlName="ChucVuFilterCtrl">
+									</ngx-mat-select-search>
+								</mat-option>
+								<mat-option *ngFor="let chucvu of filterChucVus | async" [value]="chucvu.id_row">
+									{{ chucvu.tenchucdanh }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row align-items-center">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{'thongtincanhan.loainhanvien' | translate}}" required
+								formControlName="loaiNhanVien">
+								<mat-option [value]="hv.RowID" *ngFor="let hv of listLoaiNhanVien">
+									{{hv.StaffType}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input class="input-batbuoc" matInput [matDatepicker]="dp5" required
+								formControlName="ngayBatDauLamViec"
+								placeholder="{{ 'thongtincanhan.ngaybatdaucongviec' | translate}}">
+							<mat-datepicker-toggle matSuffix [for]="dp5"></mat-datepicker-toggle>
+							<mat-datepicker #dp5></mat-datepicker>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+	</div>
+</div>

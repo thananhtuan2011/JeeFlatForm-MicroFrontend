@@ -1,0 +1,125 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
+
+  .mat-expanded mat-panel-title {
+    display: none;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 style="font-weight: bold">Kích hoạt tài khoản sử dụng</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body" style="padding: 10px 20px">
+    <!-- <div class="row class-text-step" id="text" *ngIf="this._GuideSystemService.textStep3 == ''">
+      <span>Hệ thống đã tạo sẵn tài khoản quản trị bằng số điện thoại bạn đã cung cấp và 5 tài khoản dùng mẫu. Bạn có
+        thể chỉnh sửa các tài khoản
+        người dùng mẫu này cho phù hợp và kích hoạt để sử dụng, hoặc có thê xóa các tài khoản không cần thiết. Để
+        kích hoạt tài khoản bạn click vào "Kích hoạt" tài khoản tương ứng và nhập số điện thoại cho tài khoản này. Tin
+        nhắn sẽ được gửi đến số điện
+        thoại, người dùng mở liên kết trong tin nhắn, nhập mã kích hoạt trong tin nhắn để bắt đầu sử dụng. Dưới đây là
+        danh sách tài khoản:</span>
+    </div> -->
+    <div class="row class-text-step" id="text">
+      <span [innerHTML]="this._GuideSystemService.textStep2"></span>
+    </div>
+    <div class="example-container mat-table__wrapper" [ngStyle]="{'height': getHeightFull()}"
+      style="overflow-y: auto; margin: 0 25px;">
+      <table class="table table-head-custom table-vertical-center">
+        <thead style="position: sticky; top: 0">
+          <th style="white-space: nowrap;">
+            STT
+          </th>
+          <th class="pl-8" style="white-space: nowrap;">
+            <span>{{ 'ACCOUNTMANAGEMENT.NHANVIEN' | translate }}</span>
+          </th>
+          <th style="white-space: nowrap;">
+            Số điện thoại
+          </th>
+          <th style="min-width: 150px">
+            <span>{{ 'COMMOM.TRANGTHAI' | translate }}</span>
+          </th>
+          <th style="min-width: 100px; text-align: center">
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of accountManagementService.items$ | async; let i = index">
+            <td>
+              {{i + 1}}
+            </td>
+            <td>
+              <div class="pl-10">
+                <div class="row" style="cursor: pointer">
+                  <div class="col-1">
+                    <ngx-avatar (click)="hiddenfileinput.click()" [size]="40" src="{{ r.avatarURL }}"
+                      *ngIf="r.avatarURL"></ngx-avatar>
+                    <ngx-avatar (click)="hiddenfileinput.click()" [size]="40" [name]="r.firstName"
+                      bgColor="{{ r.bgColor }}" *ngIf="!r.avatarURL"></ngx-avatar>
+                  </div>
+                  <span class="pl-3 col-6" style="align-self: center; margin-left: 4px">
+                    {{ r.fullName }}
+                  </span>
+                </div>
+              </div>
+              <input style="display: none" accept="image/jpg, image/jpeg, image/png" name="Image" id="file" type="file"
+                class="form-control" (change)="onFileChange($event, r.username)" #hiddenfileinput />
+            </td>
+            <td>
+              <div>
+                <span *ngIf="r.status != -3">{{ r.username }}</span>
+                <span *ngIf="r.status == -3" (click)="UpdateStatus(r)"
+                  style="color: #009EF7; text-decoration: underline; cursor: pointer;">Kích hoạt</span>
+              </div>
+            </td>
+            <td>
+              <span [ngStyle]="{color: getColorStatus(r.status)}">
+                {{ getTextStatus(r.status) }}
+              </span>
+            </td>
+            <td style="text-align: center">
+              <mat-icon (click)="update(r)" style="cursor: pointer; color: #1bc5bd; font-size: 16px"
+                aria-hidden="false">
+                mode_edit</mat-icon>
+              &nbsp;
+              <mat-icon (click)="delete(r)" style="cursor: pointer; color: red; font-size: 16px"
+                aria-hidden="false">delete
+              </mat-icon>
+              &nbsp;
+              <i (click)="copy(r)" class="flaticon2-copy"
+                style="cursor: pointer; color: #606060; font-size: 16px; margin-bottom: -2px" aria-hidden="false">
+              </i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="position: sticky; bottom: 0; background-color: #fff">
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+          [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

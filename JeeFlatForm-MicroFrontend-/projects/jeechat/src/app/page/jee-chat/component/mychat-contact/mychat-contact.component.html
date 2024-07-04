@@ -1,0 +1,605 @@
+<style>
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+    
+     :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+    
+     :host>>>mat-row {
+        min-height: 35px;
+    }
+    
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+    
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+    
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+    
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+    
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+    
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+    
+    .hover-row:hover {
+        background-color: #F8F8F9;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    
+    .active {
+        background-color: #E6F4EF;
+    }
+    
+    .active:hover {
+        background-color: #E6F4EF;
+        cursor: pointer;
+    }
+    
+    .navigate-active {
+        color: #E6F4EF;
+    }
+    
+    .paddingDiv:focus {
+        outline: 0;
+    }
+    
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+    
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+    
+    .active {
+        background-color: #E6F4EF;
+    }
+    
+     :host>>>.card {
+        border-radius: 0 !important;
+    }
+    
+     :host>>>.mat-tab-body-content {
+        padding-top: 0px !important;
+    }
+    
+     :host>>>.card-body {
+        padding: 0px !important;
+    }
+    
+     :host>>>.card-header {
+        padding: 8px !important;
+    }
+    
+    .HienDauBaCham {
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        width: 170px;
+    }
+    
+    .active {
+        background-color: #ffffff;
+    }
+    
+    .active:hover {
+        background-color: #ffffff;
+    }
+</style>
+
+
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+    <div class="list-contact">
+       
+      
+        <style>
+            .my-avatar {
+              padding-right: 8px;
+            }
+          
+            .lastmess {
+              padding-top: 30px !important;
+              padding-left: 60px;
+              color: #ABABAB;
+              font-size: 13px;
+              display: flex;
+              margin-top: -10px !important;
+              width: 100% !important;
+              background: none !important;
+              border: none !important;
+            }
+          
+            .titile {
+              font-size: 20px;
+              font-weight: bold;
+            }
+          
+            .text {
+              text-align: center;
+              padding-top: 10px;
+            }
+          
+            .cover {
+              border-radius: 50%;
+              width: 20px !important;
+              height: 20px !important;
+              display: flex;
+              justify-content: center;
+            }
+          
+            .contentlassmes {
+              /* padding-top: 6px; */
+             margin-top: 10px;
+             width: 200px;
+          
+            }
+           
+          </style>
+          
+          <div >
+          
+                <div >
+                  <div id="frame"  class="chatbody">
+                    <div id="sidepanel" style="height: 100vh;" >
+                      <div id="profile">
+                  
+                        <div class="wrap">
+                          <div style=" display: flex;align-items: center; padding: 15px;flex-direction: column;width: 350px;max-width: 100%;">
+  
+                            <div style="display: flex;">
+                              
+                              <span  style="    font-size: 15px;">
+                                Xin chào:
+                              </span>
+                              <p style="margin: 0;font-weight: bold;"> {{name}}</p>
+          
+                            </div>
+          
+          
+                            <div style="display: flex; align-items: center; flex-direction: row-reverse;padding-top: 5px;">
+          
+                              <button matTooltip="Tạo Nhóm Chat" style="padding: 5px;" (click)="CreaterGroupChat()"
+                                style="margin-top: -7px;" mat-icon-button aria-label="Example icon-button with a heart icon">
+                                <i  class="fa fa-address-card-o createcv" aria-hidden="true"></i>
+                              </button>
+          
+                              <button matTooltip="Chat Với" style="padding: 5px;" (click)="CreaterUserChat()"
+                                style="margin-top: -7px;" mat-icon-button aria-label="Example icon-button with a heart icon">
+                                <i  class="fa fa-address-book-o createcv" aria-hidden="true"></i>
+          
+                              </button>
+          
+                            </div>
+                          </div>
+          
+          
+          
+          
+                        </div>
+                      </div>
+                      <div id="search">
+                  <div style="border-radius: 20px;
+                  background: #F0F2F5;
+                  color: #65676B;
+                  margin-bottom: 5px;">
+          
+                  <mat-icon style="    top: 86px;
+                  position: absolute;
+                  left: 10px;">search</mat-icon>
+                     
+                        <input  name="search" [(ngModel)]="searchText" type="text" placeholder="Tìm kiếm" />
+                      </div>
+                      </div>
+                      <div>
+          
+          
+                        <select #sel (change)="changed(sel.value)" class="selectmessage">
+                          <option value="1">Tất cả tin nhắn</option>
+                          <option value="2">Tin nhắn chưa đọc</option>
+                          <option value="3">Tin nhắn đã đọc</option>
+                        </select>
+                        <span (click)="AllRead()" class="allread">Đánh dấu đã đọc</span>
+                      </div>
+                      <div id="contacts">
+          
+                        <div  *ngIf="active"  style="display: flex;justify-content: center;align-items: center;">
+          
+                          <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+          
+          
+                          </span> -->
+                          <app-content-loading style="width:100%;"></app-content-loading>
+                          <!-- <p style="padding-left: 5px;">Loading...</p> -->
+                        </div>
+                          <div *ngIf="listAwaitContact.length>0&&!isShowAwait" >
+                            <ul style="display: flex;margin: 0;" (click)="ShowAwait()">
+                              <li class="contact" style="width: 350px;
+                              display: flex;
+                              padding-left: 15px;">
+                                <ngx-avatar [size]="45" src="assets/media/custom/av1.png"></ngx-avatar>
+                                <span style="display: flex;flex-direction: column;padding-left: 10px;">
+          
+                               
+                                <span style="    font-size: 15px;
+                                margin-bottom: 10px;
+                                font-weight: 500;">
+                                  Tin nhắn từ người lạ
+                                </span>
+                                <span style="font-size: 13px;">
+                                  Chưa có trong danh bạ
+                                </span>
+                              </span>
+                              <div style="    display: flex;
+                              justify-content: end;
+                              width: 107px;">
+                                <ngx-avatar *ngIf="listAwaitContact.length>0" class="my-avatar" [size]="22" value="{{listAwaitContact.length}}"
+                                  bgColor="#f52f2f"></ngx-avatar>
+                              </div>
+                           
+                              </li>
+                           
+                            </ul>
+                            
+                          </div>
+                          <!--  tin nhắn chờ -->
+                          <div *ngIf="isShowAwait">
+                            <div>
+          
+                          
+                            <ul *ngFor="let ww of listAwaitContact" style="display: flex;margin: 0;" >
+                              <li  class="contact" style="width: 350px;
+                              display: flex;
+                              padding-left: 15px;">
+                                 <ngx-avatar [size]="45" src="{{ ww.Avatar }}" *ngIf="ww.Avatar"></ngx-avatar>
+                                 <ngx-avatar [size]="45" *ngIf="!ww.Avatar" [name]="ww.FullName.slice(0, 1)" bgColor="{{ww.BgColor }}">
+          
+                                 </ngx-avatar>
+                                <span style="display: flex;flex-direction: column;padding-left: 10px;">
+                               
+                                <span style="    font-size: 15px;
+                                margin-bottom: 10px;
+                                font-weight: 500;">
+                                 {{ww.FullName}}
+                                </span>
+                                <span style="font-size: 13px;">
+                              
+                                <button style="font-size: 10px;
+                                padding: 5px;" (click)="AddContact(ww.IdGroup,ww.UserId)" type="button" class="btn btn-primary">
+                                  Đồng ý
+                                </button>
+                                </span>
+                              </span>
+                              </li>
+                           
+                            </ul>
+                         
+                          </div>
+                          <button (click)="CloseAwait()" mat-button  style="    margin: 10px 10px 10px 8px;    text-align: center;
+                          background: #E4E6EB;
+                          width: 330px;">Đóng</button>
+                          </div>
+                          <div  *ngIf="!isShowAwait">
+          <!-- begin chatgpt -->
+       
+       
+          <!-- end chat gpt -->
+                         
+                        <div #scrollMeChat style="outline: none;"
+                    
+                          *ngFor="let item of lstContact | filter: searchText; let i = index">
+          
+          
+                          <ul *ngIf="!item.isGroup">
+                            
+                            <li (click)="UpdateUnreadMess(item.IdGroup,item.UserId,item.UnreadMess)"
+                              routerLinkActive="menu-item-active" [routerLink]="['/Chat/','Messages',item.IdGroup,null]"
+                              class="contact" >
+                              <div class="wrap">
+                                <mat-icon *ngIf="item.IsEnCode" style="    position: absolute;
+                                left: -15px;font-size: 15px !important;">lock</mat-icon>
+                                <span *ngIf="item.Active" class="contact-status online"></span>
+                                <ngx-avatar [size]="45" src="{{ item.Avatar }}" *ngIf="item.Avatar"></ngx-avatar>
+                                <ngx-avatar [size]="45" [name]="item.Name.slice(0, 1)" bgColor="{{ item.BgColor }}"
+                                  *ngIf="!item.Avatar&&item.Name"></ngx-avatar>
+          
+                                <p style="    padding-left: 12px;" class="name">
+                                  
+                                
+                                  {{item.Fullname}}
+          
+                                </p>
+                                   <!--  tin nhắn nháp -->
+                                   <span *ngIf="draftmessage">
+          
+                                  
+                                <span  style=" position: absolute;
+                                left: 0;
+                                margin: -2px 0 0 -2px;" [ngClass]="getClass(item.UnreadMess)"
+                                    *ngFor="let temp of draftmessage">
+                                    <span *ngIf="temp.IdGroup==item.IdGroup" style="display: flex;">
+                                      <p  class="textlast"
+                                     
+                                      [innerHTML]="temp.content">
+            
+            
+                                    </p>
+                                    <p style="color:red ;">Chưa gửi</p>
+                                    </span>
+                                  
+                                        
+            
+                                  </span>
+                                </span>
+                                  <!--  tin nhắn nháp -->
+                              <span  *ngIf="!CheckTempMess(item.IdGroup)">
+          
+                                <span style=" position: absolute;
+                              left: 0;
+                              margin: -2px 0 0 -2px;" [ngClass]="getClass(item.UnreadMess)"
+                                  *ngFor="let lastmess of item.LastMess">
+          
+          
+                                  <p style="margin-right: 10px;margin-top: 10px;" *ngIf="lastmess.UserName===userCurrent">Bạn:</p>
+          
+                                  <p style="margin-top: 10px;" *ngIf="lastmess.isFile&&!lastmess.isEncode">Đính kèm 1 file</p>
+          
+          <p class="textlast" *ngIf="lastmess.isEncode">
+            1 tin nhắn
+          </p>
+          <p class="textlast" *ngIf="lastmess.isSticker">
+            Sticker
+          </p>
+                                  <p class="textlast"
+                                    *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.Content_mess.length>30&&!lastmess.isFile&&!lastmess.isHiden"
+                                    [innerHTML]="lastmess.Content_mess">
+          
+          
+                                  </p>
+                                  <p style="margin-top: 10px;"  *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.isHiden&&!lastmess.isFile"> Tin nhắn đã thu hồi</p>
+                                  <label *ngIf="lastmess.Content_mess.length>30&&!lastmess.isEncode">...</label>
+                                  <p style="margin-top: 10px;display: flex;    overflow: hidden;
+                                  white-space: nowrap;
+                                  text-overflow: ellipsis;"  *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.Content_mess.length<=30&&!lastmess.isFile&&!lastmess.isHiden"
+                                    [innerHTML]="lastmess.Content_mess"> </p>
+          
+                                </span>
+                              </span>
+                                <!-- aaaaaaaa -->
+                                <!-- </div> -->
+          
+                              </div>
+                              <div style="    align-items: flex-end;
+                         display: flex;
+                         flex-direction: column;">
+          
+          
+          
+                                <div *ngIf="item.LastMess.length>0">
+                                  <p style="text-align: center;
+                            width: 43px;
+                            font-size: 12px;
+                            margin-bottom: 0;
+                            float: right;">{{item.LastMess[0].CreatedDate | date : 'yyyy/M/dd h:mm'| timelast}}</p>
+                                </div>
+                                <!--  hiển thị chỗ đây -->
+                                <div style="padding-right: 10px;" *ngIf="item.LastMess.length>0">
+                                    <div *ngIf="item.LastMess[0].ReactionUser">
+                                      
+                                        <ngx-avatar [size]="22" src="{{ item.LastMess[0].ReactionUser.icon }}" ></ngx-avatar>
+                                    </div>
+                                </div>
+                                <ngx-avatar *ngIf="item.UnreadMess>0" class="my-avatar" [size]="22" value="{{item.UnreadMess}}"
+                                  bgColor="#f52f2f"></ngx-avatar>
+                              </div>
+                            </li>
+                            
+          
+                          </ul>
+          
+                          <ul *ngIf="item.isGroup">
+                            <li (click)="UpdateUnreadMessGroup(item.IdGroup,item.Username,item.UnreadMess)"
+                              routerLinkActive="menu-item-active" style="outline: none;"
+                              [routerLink]="['/Chat/','Messages',item.IdGroup,null]" class="contact"
+                              >
+                              <div class="wrap">
+                                <span *ngIf="item.Active" class="contact-status online"></span>
+                            
+                                <div class="avatar-group">
+                                  <div *ngFor="let mb of item.ListMember | slice:0:4;let i=index">
+          
+                                    <div >
+                                      <div  *ngIf="i>=0&&i<3" >
+                                        <div [style.margin-top]="i==2&&item.ListMember.length==3 ? '-7px': '0px'">
+                
+                                       
+                                        <ngx-avatar [size]="25" [name]="mb.Name.slice(0, 1)" bgColor="{{ mb.BgColor }}" *ngIf="!mb.Avatar&&mb.Name"></ngx-avatar>
+                                        <ngx-avatar [size]="25" src="{{ mb.Avatar }}" *ngIf="mb.Avatar"></ngx-avatar>
+                                      </div>
+                                      </div>
+                                      <ngx-avatar *ngIf="i==3&&item.ListMember.length>=4" [size]="25"
+                                        value="{{item.ListMember.length-3}}" bgColor="#a7a8a8"></ngx-avatar>
+          
+                                    </div>
+                                  </div>
+                                </div>
+                                <mat-icon *ngIf="item.IsEnCode" style="    position: absolute;
+                                left: -15px;font-size: 15px !important;">lock</mat-icon>
+                                <p style=" padding-left: 8px;" class="name">{{item.GroupName}}</p>
+                                <!--  tin nhắn nháp -->
+                                <span *ngIf="draftmessage">
+          
+                                  
+                                  <span  style=" position: absolute;
+                                  left: 0;
+                                  margin: -2px 0 0 -2px;" [ngClass]="getClass(item.UnreadMess)"
+                                      *ngFor="let temp of draftmessage">
+                                      <span *ngIf="temp.IdGroup==item.IdGroup" style="display: flex;">
+                                        <p  class="textlast"
+                                       
+                                        [innerHTML]="temp.content">
+              
+              
+                                      </p>
+                                      <p style="color:red ;">Chưa gửi</p>
+                                      </span>
+                                    
+                                          
+              
+                                    </span>
+                                  </span>
+                                    <!--  tin nhắn nháp -->
+                                    <span  *ngIf="!CheckTempMess(item.IdGroup)">
+                                <span style=" position: absolute;
+                              left: 0;
+                              margin: -2px 0 0 -2px;" [ngClass]="getClass(item.UnreadMess)"
+                                  *ngFor="let lastmess of item.LastMess">
+          
+                                  <p style="margin-right: 10px;margin-top: 10px;" *ngIf="lastmess.UserName===userCurrent">Bạn:</p>
+                                  <p  class="txtfullname"  *ngIf="lastmess.UserName!=userCurrent&&item.LastMess.length>0">
+                                    {{lastmess.FullName}}:</p>
+                                  <p class="contentlassmes" *ngIf="lastmess.isFile&&!lastmess.isEncode">Đính kèm 1 file</p>
+          
+                                  
+                                  <p class="textlast" *ngIf="lastmess.isEncode">
+                                    1 tin nhắn
+                                  </p>
+                                  <p class="textlast" *ngIf="lastmess.isSticker">
+                                     Sticker
+                                  </p>
+                                  <p class="textlast"
+                                    *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.Content_mess.length>30&&!lastmess.isFile&&!lastmess.isHiden"
+                                    [innerHTML]="lastmess.Content_mess">
+          
+          
+                                  </p>
+                                 
+                                  <!-- <label *ngIf="lastmess.Content_mess.length>30">...</label>  -->
+          
+                                  <p  style=" margin-top: 10px !important;width: 100%;" *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.isHiden&&!lastmess.isFile"> Tin nhắn đã thu hồi</p>
+                                  <div  style=" margin-top: 10px !important; width: 150px;
+                                  overflow: hidden;
+                                  display: flex;
+                                  white-space: nowrap;
+                                  text-overflow: ellipsis;" *ngIf="!lastmess.isEncode&&lastmess.Content_mess&&lastmess.Content_mess.length<=30&&!lastmess.isFile&&!lastmess.isHiden">
+          
+                                  <p  
+                                    [innerHTML]="lastmess.Content_mess"> </p>
+                                    <span  *ngIf="!lastmess.isEncode&&lastmess.isInsertMember||!lastmess.isEncode&&lastmess.IsDelAll"> 1 thành viên </span>
+                                  </div>
+          
+                                </span>
+                                </span>
+                                <!-- </div> -->
+          
+                              </div>
+          
+                              <div style="    align-items: flex-end;
+                         display: flex;
+                         flex-direction: column;">
+          
+          
+          
+          
+                                <div *ngIf="item.LastMess.length>0">
+                                  <p style="    text-align: center;
+                            width: 43px;
+                            font-size: 12px;
+                            margin-bottom: 0;
+                            float: right;">{{item.LastMess[0].CreatedDate | date : 'yyyy/M/dd h:mm'| timelast}}</p>
+                                </div>
+                                <div style="padding-right: 10px;" *ngIf="item.LastMess.length>0">
+                                  <div *ngIf="item.LastMess[0].ReactionUser">
+                                    <div *ngIf="userCurrent==item.LastMess[0].UserName">
+                                      <ngx-avatar [size]="22" src="{{ item.LastMess[0].ReactionUser.icon }}" ></ngx-avatar>
+                                    </div>
+                                    
+                                  </div>
+                              </div>
+                                <ngx-avatar *ngIf="item.UnreadMess>0" class="my-avatar" [size]="22" value="{{item.UnreadMess}}"
+                                  bgColor="#f52f2f"></ngx-avatar>
+                              </div>
+          
+                            </li>
+          
+                          </ul>
+          
+                          <div class="more">
+                            <div class="more-string">
+                              <div>
+          
+                                <ng-container>
+          
+                                  <button style="float: right;" mat-icon-button [matMenuTriggerFor]="menu"
+                                    aria-label="Example icon-button with a menu">
+                                    <mat-icon class="action" style="font-size: 20px;">more_horiz</mat-icon>
+                                  </button>
+                                  <mat-menu #menu="matMenu">
+          
+                                    <button mat-menu-item (click)="creaFormDelete(item.IdGroup,item.isGroup)"
+                                      matTooltip="Xóa hội thoại">
+                                      <mat-icon>delete</mat-icon>
+                                      <span>Xóa cuộc hội thoại</span>
+                                    </button>
+          
+          
+          
+          
+                                  </mat-menu>
+          
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          
+                      </div>
+          
+                    </div>
+                    <!-- <router-outlet></router-outlet> -->
+                  </div>
+                </div>
+             
+          
+          </div>
+    </div>
+    <div  style=" position: relative;" [ngStyle]="{'width': getWidth()}">
+        <router-outlet></router-outlet>
+    </div>
+    </div>

@@ -1,0 +1,49 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title">Import dữ liệu từ excel</h3>
+		</div>
+		<div class="card-toolbar">
+			<button mat-icon-button color="accent" type="button" (click)="DownloadImportForm()"
+				matTooltip="Tải file mẫu">
+				<mat-icon>cloud_download</mat-icon>
+			</button>&nbsp;
+		</div>
+	</div>
+
+	<div class="card-body">
+		<div class="m-form">
+			<div class="row align-items-center">
+				<div class="col-lg-6 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Tháng/năm" [formControl]="year" readonly
+							[matDatepicker]="dpYear" #focusInput />
+						<mat-datepicker-toggle matSuffix [for]="dpYear"></mat-datepicker-toggle>
+						<mat-datepicker #dpYear startView="multi-year" (monthSelected)="monthSelected($event)" #dp1>
+						</mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 m--margin-bottom-10-mobile">
+					<input #myInput placeholder="Chọn file" id="imgInpdd1" type="file" name="fileUpload1"
+						(change)="FileSelected($event)">
+				</div>
+				<div class="col-md-6 m--margin-bottom-10-mobile">
+					<mat-form-field style="width:100%">
+						<input matInput type="text" #tensheet placeholder="Tên sheet"
+							class="mat-form-field mat-form-field-fluid">
+					</mat-form-field>
+				</div>
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<label style="color:red; white-space: break-spaces;"
+												[innerHTML]="loi_format"></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" (click)="goBack()" class="mat-raised-button btn-trolai"><span
+				translate="landingpagekey.trolai"></span></button>&nbsp;
+		<button type="button" (click)="Import()" mat-raised-button color="primary"><i
+				class="la la-save"></i>&nbsp;<span>Import</span></button>
+	</div>
+</div>

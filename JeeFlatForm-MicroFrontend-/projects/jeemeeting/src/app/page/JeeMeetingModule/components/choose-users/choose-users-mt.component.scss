@@ -1,0 +1,15 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.user-item {
+    padding: 5px;
+}
+
+.user-item:hover {
+    background-color: #eee;
+    cursor: pointer;
+}

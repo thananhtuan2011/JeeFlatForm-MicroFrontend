@@ -1,0 +1,421 @@
+<style>
+	.btn-timkiem {
+		color: #FFF;
+		background-color: #3699ff;
+		border-color: #3699ff;
+	}
+
+	.btn-download {
+		color: #FFF;
+		background-color: #0a9562;
+		border-color: #0a9562;
+	}
+
+	.btn-active {
+		background: #C2C2C2;
+		border-color: #C2C2C2;
+		color: #333333;
+	}
+
+	.btn-leftright {
+		background: #D6D6D6;
+		border-color: #D6D6D6;
+		color: #333333;
+	}
+
+	.btn-not-active {
+		background: #D6D6D6;
+		border-color: #D6D6D6;
+		color: #828282;
+	}
+
+	.css-stickyheader-col0 {
+		position: sticky;
+		left: 0;
+		top: 0;
+		color: white;
+		z-index: 5;
+	}
+
+	.fancyTable td,
+	.fancyTable th {
+		border: 1px solid #778899;
+		padding: 3px;
+	}
+
+	.fancyTable thead tr th,
+	.fancyTable thead tr td,
+	.fancyTable tfoot tr th,
+	.fancyTable tfoot tr td {
+		background-color: #8ca9cf;
+		background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0.0) 100%);
+		color: #121517;
+		/* text-shadow: 0 1px 1px #e8ebee; */
+		vertical-align: middle;
+		color: #ffffff;
+	}
+
+	.fancyTable td,
+	.fancyTable th {
+		border: 1px solid #778899;
+		padding: 3px;
+	}
+
+	.fancyTable tbody tr td.chuavaocty {
+		background-color: lightgrey;
+	}
+
+	.fancyTable tbody tr td.chunhat {
+		font-weight: bold;
+		color: red !important;
+		background-color: gainsboro;
+	}
+
+	.fancyTable tbody tr.odd td.chunhat {
+		font-weight: bold;
+		color: red !important;
+		background-color: gainsboro;
+	}
+
+	.fancyTable tbody tr td.thu7 {
+		font-weight: bold;
+		color: green !important;
+		background-color: #ffff99;
+	}
+
+	.fancyTable tbody tr.odd td.thu7 {
+		font-weight: bold;
+		color: green !important;
+		background-color: #ffff99;
+	}
+
+	.fancyTable tbody tr td.ngayle {
+		font-weight: bold;
+		color: #ffffff;
+		background-color: #ff0000;
+		border-top: #538ED5 1px solid;
+		border-left: #538ED5 1px solid;
+		overflow: hidden;
+		font-size: 8pt;
+	}
+
+	.fancyTable tbody tr.odd td.ngayle {
+		font-weight: bold;
+		color: #ffffff;
+		background-color: #ff0000;
+		border-top: #538ED5 1px solid;
+		border-left: #538ED5 1px solid;
+		overflow: hidden;
+		font-size: 8pt;
+	}
+
+	.selected {
+		background-color: #e0e0ee !important;
+	}
+
+	.tableFixHead thead th {
+		position: sticky;
+		top: 0;
+	}
+
+	.css-stickyheader-col0 {
+		position: sticky;
+		left: 0;
+		top: 0;
+		color: white;
+		z-index: 5;
+	}
+
+	.css-stickyheader-col1 {
+		position: sticky;
+		left: 25px;
+		top: 0;
+		color: white;
+		z-index: 5;
+	}
+
+	.css-stickyheader-col2 {
+		position: sticky;
+		left: 50px;
+		top: 0;
+		color: white;
+		z-index: 5;
+	}
+
+	.css-stickyheader-col3 {
+		position: sticky;
+		left: 150px;
+		top: 0;
+		color: white;
+		z-index: 5;
+	}
+
+	.css-sticky-col0 {
+		position: sticky;
+		left: 0;
+		top: 0;
+		background: #8ca9cf;
+		color: white;
+		z-index: 2;
+	}
+
+	.css-sticky-col1 {
+		position: sticky;
+		left: 25px;
+		top: 0;
+		background: #8ca9cf;
+		color: white;
+		z-index: 2;
+	}
+
+	.css-sticky-col2 {
+		position: sticky;
+		left: 50px;
+		top: 0;
+		background: #8ca9cf;
+		color: white;
+		z-index: 2;
+	}
+
+	.css-sticky-col3 {
+		position: sticky;
+		left: 150px;
+		top: 0;
+		background: #8ca9cf;
+		color: white;
+		z-index: 2;
+	}
+
+	::ng-deep>>>.ngx-contextmenu.cdk-overlay-pane {
+		height: 200px;
+		overflow: auto;
+
+	}
+
+	::ng-deep>>>.ngx-contextmenu.cdk-overlay-pane .dropdown-menu>li>a {
+		display: block;
+	}
+
+	.btn-import {
+		color: #FFF;
+		background-color: #716ACA;
+		border-color: #716ACA;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-body" [ngStyle]="{'height': getHeight()}" style="padding: 1rem;">
+		<div class="row" style="margin: 0; width: 100%; position: absolute;">
+			<div style="width: 300px; height: 100vh;">
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput #inp1 class="input" [placeholder]="'Họ tên'" [(ngModel)]="hoTen">
+					</mat-form-field>
+				</div>
+				<div class="col-md-12 m--margin-bottom-10-mobile">
+					<m-dropdown-struct-control class="require" [DropdownTitle]="'Đơn vị/Bộ phận'" [type]="1" [data]="datatree"
+						(SelectedItemTree)="GetValueNode($event)">
+					</m-dropdown-struct-control>
+				</div>
+				<div class="col-lg-12 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Chức danh" (selectionChange)="loadChucVu()" [(value)]="idChucDanh">
+							<mat-option [value]="0">Tất cả</mat-option>
+							<mat-option *ngFor="let cd of listChucDanh" [value]="cd.ID">{{cd.Title}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-lg-12 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Chức vụ" [(value)]="idChucVu">
+							<mat-option [value]="0">Tất cả</mat-option>
+							<mat-option *ngFor="let cv of listChucVu" [value]="cv.ID">{{cv.Title}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-lg-12 m--margin-bottom-20-mobile" style="text-align: center;">
+					<button (click)="timKiem()" type="button" mat-raised-button class="btn-timkiem">
+						<span>Tìm kiếm</span>
+					</button>&nbsp;
+					<button (click)="Import_Excel()" type="button" mat-raised-button class="btn-import" *ngIf="_XepCaLamViecService.Visible">
+						<span>Import dữ liệu</span>
+					</button>
+					<div style="float: right; margin-top: 8px;">
+						<!-- <m-user-guide-nav-list [id]="this.id_menu"></m-user-guide-nav-list> -->
+					</div>
+				</div>
+				<!-- <div class="col-lg-11 m--margin-bottom-20-mobile" style="margin-top: 10px;">
+					<button style="margin-left: 30px" (click)="downloadCamera()" type="button" mat-raised-button class="btn-download"  *ngIf="_XepCaLamViecService.Visible">
+						<span>Tải dữ liệu từ camera</span>
+					</button>
+					<div style="float: right; margin-top: 8px;">
+						<m-user-guide-nav-list [id]="this.id_menu"></m-user-guide-nav-list>
+					</div>
+				</div> -->
+			</div>
+			<div style="height: 100vh;" [ngStyle]="{'width': getWidth()}">
+				<div class="row">
+					<div class="col-lg-4 m--margin-bottom-20-mobile">
+						<button (click)="Before()" class="btn-leftright" type="button" mat-raised-button>
+							<i class="fa fa-angle-left"></i>
+						</button>
+						<button (click)="Next()" class="btn-leftright" type="button" mat-raised-button>
+							<i class="fa fa-angle-right"></i>
+						</button>&nbsp;
+						<button (click)="ToDay()" class="btn-not-active" type="button" mat-raised-button>
+							<span>Hôm nay</span>
+						</button>
+					</div>
+					<div class="col-lg-4 m--margin-bottom-20-mobile"
+						style="text-align: center; font-size: 17pt; font-weight: 500;">
+						{{TitleCalendar}}
+					</div>
+					<div class="col-lg-4 m--margin-bottom-20-mobile" style="text-align: right;">
+						<button [ngClass]="filterLBC == '0' ? 'btn-active' : 'btn-not-active'" type="button"
+							(click)="clickLBC('0')" mat-raised-button>
+							<span>Tháng</span>
+						</button>
+						<button [ngClass]="filterLBC == '1' ? 'btn-active' : 'btn-not-active'" type="button"
+							(click)="clickLBC('1')" mat-raised-button>
+							<span>Tuần</span>
+						</button>
+						<button [ngClass]="filterLBC == '2' ? 'btn-active' : 'btn-not-active'" type="button"
+							(click)="clickLBC('2')" mat-raised-button>
+							<span>Ngày</span>
+						</button>
+					</div>
+				</div>
+				<div class="row" *ngIf="filterLBC == '2'">
+					<div class="table-kanban" [ngStyle]="{'height': getHeightKB()}" (scroll)="onScroll($event)">
+						<div style="margin: 5px; width: 310px; border-radius: 5px;" [style.height.px]="height"
+							*ngFor="let th of Data_Day">
+							<div class="row header-sticky css-sticky" style="margin:0px">
+								<div class="row header-giaidoan">
+									<div class="col-md-8" style="align-self: center;">
+										<span style="cursor: pointer;" matTooltip="{{ th.title }}">{{th.title}}</span>
+									</div>
+									<div class="col-md-4" style="display: flex; justify-content: flex-end;">
+										<div class="soluong-nhiemvu" *ngIf="th.shiftId > 0">
+											<span class="color-sl-nhiemvu"
+												style="font-size: 11pt; font-weight: bold;">{{th.data ? th.data.length :
+												''}}</span>
+										</div>
+										<div class="soluong-quahan" *ngIf="th.shiftId < 0">
+											<span class="color-sl-quahan"
+												style="font-size: 11pt; font-weight: bold;">{{th.data ? th.data.length :
+												''}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="body-example-list color-giaidoan" style="height: 100%;width: 310px;" cdkDropList
+								id="{{''+th.shiftId}}" [cdkDropListData]="th.data" cdkDropListSortingDisabled
+								(cdkDropListDropped)="drop($event)">
+								<div class="example-box" *ngFor="let weekItem of th.data, let vi = index" cdkDrag
+									(cdkDragStarted)="dragStart($event, vi)" [cdkDragDisabled]="th.shiftId == -4"
+									style="margin: 10px; box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);"
+									(contextmenu)="onRightClickDay($event,weekItem)">
+									<div class="row header-task" style="padding: 10px 0;">
+										<div class="col-md-2 pd-0">
+											<div class="row" style="justify-content: end;">
+												<ngx-avatar [size]="35" src="{{weekItem.image}}"
+													*ngIf="weekItem.image; else bindText">
+												</ngx-avatar>
+												<ng-template #bindText>
+													<ngx-avatar textSizeRatio="2.5" [size]="35" [name]="weekItem.name"
+														bgColor="{{ weekItem.bgColor}}">
+													</ngx-avatar>
+												</ng-template>&nbsp;
+											</div>
+										</div>
+										<div class="col-md-10 pd-0" style="align-self: center">
+											<span class="css-name">{{weekItem.fullName}}</span><br>
+											<span class="css-job">{{weekItem.position}}</span>
+										</div>
+									</div>
+								</div>
+								<context-menu>
+									<ng-template contextMenuItem>
+										<mat-option value="{{cd.ID_Row}}" *ngFor="let cd of listCaLamViec;"
+											(click)="XepCaLamViecDay(cd)">
+											{{cd.Title}}&nbsp;({{cd.Giobatdau}}-{{cd.Gioketthuc}})</mat-option>
+										<mat-option value="-2" (click)="XepCaLamViecDay('-2')">
+											<span>Nghỉ lễ 1 ngày</span>
+										</mat-option>
+										<mat-option value="-3" (click)="XepCaLamViecDay('-3')">
+											<span>Nghỉ lễ 0.5 ngày</span>
+										</mat-option>
+									</ng-template>
+								</context-menu>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="filterLBC == '1' || filterLBC == '0'" style="display: contents;">
+					<div class="mat-table__wrapper mat-elevation-z8" *ngIf="listHeader.length > 0"
+						style="padding-top: 10px;">
+						<dts-select-container [(selectedItems)]="selected" [ngStyle]="{'height': getHeightDTS()}"
+							class="tableFixHead" style="overflow-x: auto;">
+							<table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0"
+								cellspacing="0" style="width: 100%;">
+								<thead>
+									<tr>
+										<th class="css-stickyheader-col0" tyle="min-width: 50px; text-align: center">
+											STT
+										</th>
+										<th class="css-stickyheader-col1" style="min-width: 100px; text-align: center">
+											Mã NV
+										</th>
+										<th class="css-stickyheader-col2" style="min-width: 200px; text-align: center">
+											Họ tên
+										</th>
+										<th style="text-align: center; padding: 0px 6px 0px 6px"
+											*ngFor="let hd of listHeader">
+											{{hd.Ngay}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let data of listData,let vi = index">
+										<td class="css-sticky-col0" style="text-align: center; ">
+											{{vi + 1}}</td>
+										<td class="css-sticky-col1" style="text-align: left; ">
+											{{data.MaNV}}</td>
+										<td class="css-sticky-col2" style="text-align: left; ">
+											{{data.HoTen}}</td>
+										<td class="{{dt.Style}}" style="width: 80px;text-align: center"
+											(contextmenu)="onRightClick($event,selected)"
+											*ngFor="let dt of data.Data,let vi = index" [dtsSelectItem]="dt">
+											{{dt.Name}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</dts-select-container>
+						<context-menu>
+							<ng-template contextMenuItem>
+								<mat-option value="{{cd.ID_Row}}" *ngFor="let cd of listCaLamViec;"
+									(click)="XepCaLamViec(cd,selected)">
+									<span style="color:black !important">{{cd.Title}}&nbsp;({{cd.Giobatdau}}-{{cd.Gioketthuc}})</span>
+									</mat-option>
+								<mat-option value="-2" (click)="XepCaLamViec('-2',selected)">
+									<span style="color:black !important">Nghỉ lễ 1 ngày</span>
+								</mat-option>
+								<mat-option  value="-3" (click)="XepCaLamViec('-3',selected)">
+									<span style="color:black !important">Nghỉ lễ 0.5 ngày</span>
+								</mat-option>
+							</ng-template>
+						</context-menu>
+					</div>
+					<div class="mat-table__message" style="text-align:center;font-size: 13pt;font-weight: bold;"
+						*ngIf="showData">
+						<span translate="landingpagekey.khongcodulieu"></span>
+					</div>
+					<br>
+					<div class="mat-table__bottom">
+						<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]"
+							class="mat-paginator-sticky" [length]="totalCount" [showFirstLastButtons]="true"
+							(page)="ChangePage($event)"></mat-paginator>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

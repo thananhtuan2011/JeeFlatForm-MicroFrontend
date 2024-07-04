@@ -1,0 +1,42 @@
+<style>
+	.input-batbuoc {
+		color: #3699FF;
+		font-family: 'Roboto';
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>Xóa nhiệm vụ</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row align-items-center">
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid" style="width:100%;">
+								<textarea matInput placeholder="Lý do" required class="input-batbuoc"
+									formControlName="note"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top: 20px;">
+		<button type="button" (click)="goBack()" mat-raised-button><span
+				translate="landingpagekey.trolai"></span></button><span>&nbsp;</span>
+				
+		<button mat-raised-button style="background-color: #cb2b32; color: #f2fcfb" (click)="onSubmit()"
+			[disabled]="disabledBtn">
+			<i class="ki ki-close icon-xs text-muted" style="color: white; border: none;"></i>&nbsp;
+			Lưu lý do và xóa
+		</button>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<style>
+     :host>>>.card-body {
+        padding: 15px !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Hủy thông tin đăng ký
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="itemForm" *ngIf="item" class="m-form m-form--group-seperator-dashed">
+            <div class="row align-items-center">
+                <div class="col-md-12 m--margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <textarea rows="1" matInput placeholder="{{'mt.lydo' | translate}}" required class="require" formControlName="ghichu"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="dialog-footer">
+        <button type="button" mat-raised-button (click)="goBack()" class="ja_button ja_btn-goback">
+{{'GeneralKey.quaylai' | translate}}
+</button>&nbsp;&nbsp;
+        <button type="button" (click)="onSumbit()" mat-raised-button class="ja_button ja_btn-addcontinue">Lưu đóng</button>
+    </div>

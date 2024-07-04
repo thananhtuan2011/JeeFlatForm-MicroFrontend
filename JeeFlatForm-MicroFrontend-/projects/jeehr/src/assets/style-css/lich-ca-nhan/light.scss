@@ -1,0 +1,364 @@
+m-calendar {
+    .calendar-left {
+        width: 15%;
+        background-color: #FFFFFF;
+
+        .mat-calendar {
+            .mat-calendar-content .mat-calendar-body-today {
+                border-color: #13C07C;
+                color: #13C07C;
+            }
+        }
+
+        .mat-expansion-panel {
+            background-color: #FFFFFF;
+        }
+
+        .loai11.mat-checkbox-checked .mat-checkbox-frame {
+            border-color: #FFA800;
+        }
+
+        .loai11.mat-checkbox-checked .mat-checkbox-background {
+            background-color: #FFA800;
+        }
+
+        .loai12.mat-checkbox-checked .mat-checkbox-frame {
+            border-color: #FFA800;
+        }
+
+        .loai12.mat-checkbox-checked .mat-checkbox-background {
+            background-color: #FFA800;
+        }
+
+        .loai2.mat-checkbox-checked .mat-checkbox-frame {
+            border-color: #1BC5BD;
+        }
+
+        .loai2.mat-checkbox-checked .mat-checkbox-background {
+            background-color: #1BC5BD;
+        }
+
+        .loai41.mat-checkbox-checked .mat-checkbox-frame {
+            border-color: #3699FF;
+        }
+
+        .loai41.mat-checkbox-checked .mat-checkbox-background {
+            background-color: #3699FF;
+        }
+
+        .loaikhac .mat-checkbox-frame {
+            border-color: red;
+        }
+
+        .loaikhac .mat-checkbox-background {
+            background-color: red !important;
+        }
+
+        .loai51.mat-checkbox-checked .mat-checkbox-frame {
+            border-color: #9900cc;
+        }
+
+        .loai51.mat-checkbox-checked .mat-checkbox-background {
+            background-color: #9900cc;
+        }
+    }
+
+    .calendar-right {
+        overflow: auto;
+        width: 85%;
+        background-color: #FFFFFF;
+        margin: 20px;
+
+        .app-calendar .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+            margin: 1rem;
+        }
+
+        .app-calendar .fc-toolbar .fc-button {
+            background: #D6D6D6;
+            border-color: #D6D6D6;
+            color: #828282;
+
+            &.fc-task-button {
+                margin-right: 10px;
+            }
+        }
+
+        .app-calendar .fc-toolbar .fc-button-active {
+            background: #C2C2C2;
+            border-color: #C2C2C2;
+            color: #333333;
+
+            &.fc-task-button {
+                margin-right: 10px;
+            }
+        }
+
+        .app-calendar td .fc-day-today {
+            background-color: #13c07c1a;
+        }
+
+        .app-calendar .fc-timegrid .fc-col-header-cell-cushion {
+            color: #828282;
+        }
+
+        .app-calendar .fc-col-header-cell-cushion {
+            color: #828282;
+        }
+
+        .app-calendar .fc-daygrid-day-number {
+            color: #828282;
+        }
+
+        .app-calendar .fc-list-day th {
+            background-color: #fff;
+
+            .fc-list-day-text {
+                color: #828282;
+            }
+
+            .fc-list-day-side-text {
+                color: #828282;
+            }
+        }
+
+        .app-calendar .fc .fc-list-event td {
+            color: #fff;
+        }
+
+        .app-calendar .fc .fc-list-event:hover td {
+            color: #333333;
+            background-color: #fff;
+        }
+
+        .app-calendar .fc-content-col .fc-event {
+            min-height: 40px;
+        }
+
+        .fc-theme-standard {
+            .fc-daygrid td:not(.fc-axis) {
+                text-align: center;
+            }
+
+            .fc-event.loai11 {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: #FFA800;
+                border-color: #FFA800;
+            }
+
+            .fc-event.loai12 {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: #FFA800;
+                border-color: #FFA800;
+            }
+
+            .fc-event.loai2 {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: #1BC5BD;
+                border-color: #1BC5BD;
+            }
+
+            .fc-event.loai41 {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: #3699FF;
+                border-color: #3699FF;
+            }
+
+            .fc-event.loaikhac {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: red;
+                border-color: red;
+            }
+
+            .fc-event.loai51 {
+
+                .fc-event-time {
+                    color: #fff;
+                }
+
+                .fc-event-title {
+                    color: #fff;
+                    white-space: normal;
+                }
+
+                background-color: #9900cc;
+                border-color: #9900cc;
+            }
+
+            .fc-event.hideEvent {
+                display: none !important;
+            }
+        }
+    }
+}
+
+m-dang-ky-dialog {
+    .dl-tabs {
+        .dl-tabs-custom {
+            &>.mat-tab-body-wrapper .mat-tab-body-content {
+                overflow: hidden !important;
+            }
+        }
+    }
+
+    .card.card-custom {
+        background-color: #FFFFFF;
+
+        >.card-header {
+            min-height: 65px;
+
+            >.card-search {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                margin: auto;
+                margin-left: 0;
+            }
+        }
+
+        >.card-body {}
+
+        >.dialog-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .jeework-calendar {
+        .cu-task-row-new__options {
+            display: flex;
+            align-items: center;
+            position: -webkit-sticky;
+            position: sticky;
+            right: 0;
+            flex-shrink: 0;
+            min-width: 200px;
+        }
+
+        .border-tag {
+            padding-top: 5px;
+            width: 27px;
+            height: 27px;
+            border: 1px dashed grey;
+            color: grey;
+            border-radius: 50%;
+            text-align: center;
+            margin-left: 5px;
+        }
+
+        .form-input-title {
+            flex-grow: 1;
+            border: none;
+            padding-left: 5px;
+            border-radius: 0.42rem;
+            outline: none;
+            border: 1px solid #E4E6EF;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        .attach-item {
+            padding: 5px;
+            display: flex;
+            background-color: white;
+            border: 0;
+
+            &:hover {
+                background-color: #fafafa;
+                border-left: 3px solid #dbdbdb;
+            }
+
+            .attach-item-icon {
+                min-width: 30px;
+            }
+
+            .attach-item-name {
+                flex-grow: 1;
+                text-align: left;
+                text-overflow: ellipsis;
+                max-width: 180px;
+                white-space: normal;
+                text-align: left;
+
+                p {
+                    font-weight: bold;
+                }
+
+                span {
+                    display: none;
+                }
+            }
+
+            .attach-item-del {
+                text-align: right;
+                padding: 0 10px;
+
+                a {
+                    margin-left: 10px;
+                }
+            }
+
+            &.show-action .attach-item-name {
+                span {
+                    display: block;
+                }
+            }
+        }
+
+        .btn.btn-list {
+            color: #62a4ff;
+            background-color: #f3f6f9;
+        }
+
+    }
+}

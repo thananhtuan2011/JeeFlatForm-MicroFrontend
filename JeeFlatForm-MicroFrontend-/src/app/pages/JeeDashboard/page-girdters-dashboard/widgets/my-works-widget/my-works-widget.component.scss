@@ -1,0 +1,23 @@
+.item-status{
+    height: 45px;
+    align-items: cente;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+ 
+.box-color{
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin-right: 25px;
+}
+ 
+.row-box{
+    align-items: center;
+    // text-align: center;
+    display: flex;
+}
+.row{
+    margin: 0;
+}

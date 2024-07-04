@@ -1,0 +1,74 @@
+
+<!-- <div class="btn-close-container" style="float: right;
+padding-right: 20px;">
+  <button class="btn-close" type="button" mat-mini-fab color="" (click)="" >
+      <mat-icon>clear</mat-icon>
+  </button>
+</div> -->
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+  <div class="kt-portlet__head kt-portlet__head__custom">
+      <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title color-dart1">Nhóm trạng thái </h3>
+      </div>
+      <div style="padding-top:10px">
+        <button type="button" style="border-radius: 8px;border: 1px solid #ccc;" mat-icon-button title="Đóng" (click)="this.dialogRef.close();"><mat-icon
+          class="icon-close">close</mat-icon></button>
+      </div>
+  </div>
+  <div class="kt-portlet__body" style="padding-bottom: 50px;">
+      <div class="mat-table__wrapper" style="height: auto;">
+          <table mat-table class="lmat-elevation-z8 bg-dark1" [dataSource]="dataSource" matSort matSortActive="id"
+            style="width: 100%" matSortDirection="asc" matSortDisableClear>
+            <ng-container matColumnDef="STT">
+              <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode mat-header-cell-stt bg-dark1">
+                <span translate="STT"></span>
+              </th>
+              <td [ngStyle]="{'background': selected==item.id_row? 'aliceblue':''}" mat-cell *matCellDef="let item; let vi = index" class="mat-column-vinCode mat-cell-stt">
+                {{ vi + 1 }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="ID_Mohinh">
+              <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode bg-dark1">
+                <span translate="nhomtrangthai.idnhomtrangthai"></span>
+              </th>
+              <td [ngStyle]="{'background': selected==item.id_row? 'aliceblue':''}" mat-cell *matCellDef="let item" class="mat-column-vinCode">
+                <span class="ml-5">{{item.id_row}}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="TenMohinh">
+              <th mat-header-cell *matHeaderCellDef class="mat-column-vinCode bg-dark1">
+                <span translate="nhomtrangthai.tentrangthai"></span> &nbsp;
+                <!-- <app-sort-icon column="title" [activeColumn]="sorting.column"
+                  [activeDirection]="sorting.direction" ></app-sort-icon> -->
+              </th>
+              <td [ngStyle]="{'background': selected==item.id_row? 'aliceblue':''}" mat-cell *matCellDef="let item" class="mat-column-vinCode">
+                {{item.title}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Status">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark1" style="justify-content: center;min-width: 20%; ">
+                <span translate="nhomtrangthai.danhsachtrangthai"></span>
+              </th>
+              <td [ngStyle]="{'background': selected==item.id_row? 'aliceblue':''}" mat-cell *matCellDef="let item" style="justify-content: center;min-width: 20%; ">
+                <div class="url cu-template-center-selected-template__includes-item-bot-item "
+                  style="padding: 5px 10px; height: auto;align-items: center;display: flex;">
+                  <ng-container *ngFor="let status of item.Status">
+                    <div matTooltip="{{ status.title }}"
+                      class="cu-template-center-selected-template__includes-item-bot-item-status-group-bubble"
+                      style="width: 15px; height: 15px;margin-right: 7px;"
+                      [ngStyle]="{'backgroundColor': status.color}"></div>
+                  </ng-container>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+              (mouseout)="row.hovered = false"></tr>
+          </table>
+          <div style="padding: 50px; text-align: center" class="mat-table__message" *ngIf="!dataSource">
+            <span translate="JeeWork.khongcodulieu"></span>
+          </div>
+      </div>
+    </div>
+</div>

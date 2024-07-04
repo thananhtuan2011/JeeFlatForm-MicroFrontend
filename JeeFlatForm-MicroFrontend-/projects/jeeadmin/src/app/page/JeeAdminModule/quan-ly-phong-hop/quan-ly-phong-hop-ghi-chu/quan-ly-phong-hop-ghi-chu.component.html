@@ -1,0 +1,29 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title" style="color: #0A9562;">
+				<span translate="datphonghop.lydohuy"></span>
+			</h3>
+		</div>
+	</div>
+	<div class="card-body">
+		<form [formGroup]="itemForm" *ngIf="item" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Lý do hủy" required class="require"
+								formControlName="ghichu">
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer"> 
+		<button type="button" (click)="goBack()" mat-raised-button class="ja_button btn-goback" ><span
+				translate="COMMON.BACK"></span></button>&nbsp;&nbsp;
+		<button type="button" (click)="onSumbit()" mat-raised-button class="ja_button ja_btn-duyet"
+			><span translate="COMMON.SAVE"></span></button>
+	</div>
+</div>

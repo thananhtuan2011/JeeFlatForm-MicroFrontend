@@ -1,0 +1,29 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>Thiết lập cho phân hệ nhân sự</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body" style="padding:20px;">
+    <div class="row class-text-home" *ngIf="this._DanhMucChungService.textHR9 == ''">
+      Cám ơn bạn đã hoàn thành các bước thiết lập sử dụng ban đầu. Bạn có thể bắt đầu sử dụng phân hệ quản lý nhân sự. Khi có các thay đổi về thiết
+      lập, danh mục bạn có thể tìm thấy các thiết lập này trong màn hình thiết lập trong phân hệ quản lý nhân sự.<br/>
+      <img style="width: 1000px;" src="https://cdn.jee.vn/jee-account/images/Wizard/hr_complate.jpg">
+    </div>
+    <div class="row class-text-home" *ngIf="this._DanhMucChungService.textHR9 != ''">
+      <span [innerHTML]="this._DanhMucChungService.textHR9 | safeHtml"></span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" style="background-color: yellowgreen;color: white;" mat-raised-button class="ja_button"
+      (click)="HoanThanh()">
+      <i style="color: white;" class="la la-check"></i>&nbsp;<span>Hoành thành</span>
+    </button>
+  </div>
+</div>

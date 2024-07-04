@@ -1,0 +1,24 @@
+:host {
+  height: 100%;
+  margin: 0;
+}
+
+.nemo-router-waiting {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  cursor: wait;
+  opacity: 0.3;
+}
+
+.nemo-router-waiting-loader {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  z-index: 10000;
+  cursor: wait;
+}

@@ -1,0 +1,61 @@
+<div class="row row-class item-users">
+    <div class="col-md-12 show-more-people">
+        <div class="user url" *ngFor="let us of item| slice:0:MaxSize;let index = index" style="justify-content: flex-end;">
+            <ng-container *ngIf="index < MaxSize">
+                <ngx-avatar size="{{iconSize}}" [matMenuTriggerFor]="menu" matTooltip="{{us.HoTen}}" src="{{us.Image}}" *ngIf="us.Image;else bindText">
+                </ngx-avatar>
+                <ng-template #bindText>
+                    <ngx-avatar textSizeRatio="2.5" [matMenuTriggerFor]="menu" matTooltip="{{us.HoTen}}" size="{{iconSize}}" [name]="getNameUser(us.HoTen)" bgColor="{{getColorNameUser(us.HoTen)}}">
+                    </ngx-avatar>
+                </ng-template>
+                <mat-menu #menu="matMenu">
+                    <div class="row ">
+                        <div class="col-md-3 m--margin-bottom-10-mobile" style="padding-right: 12px !important; padding-left: 12px !important;">
+                            <div class="user url" style="margin: 0 0 0 3px;">
+                                <ngx-avatar size="35" matTooltip="{{us.HoTen}}" src="{{us.Image}}" *ngIf="us.Image;else bindText1">
+                                </ngx-avatar>
+                                <ng-template #bindText1>
+                                    <ngx-avatar textSizeRatio="2.5" matTooltip="{{us.HoTen}}" size="35" [name]="getNameUser(us.HoTen)" bgColor="{{getColorNameUser(us.HoTen)}}">
+                                    </ngx-avatar>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="col-md-9 m--margin-bottom-10-mobile" style="padding-right: 12px !important; padding-left: 12px !important;">
+                            <div class=""><b>{{us.HoTen}} </b></div>
+                            <div>{{us.ChucVu}}</div>
+                        </div>
+                    </div>
+                </mat-menu>
+            </ng-container>
+        </div>
+        <div class="user url" *ngIf="item.length > MaxSize" style="justify-content: flex-end;">
+            <div class="m--img-rounded m--marginless m--img-centered background" [matMenuTriggerFor]="menu1" [ngStyle]="{'width.px': iconSize,'height.px':iconSize}">
+                <div style="opacity: 1;color:white;padding-top:3px;text-align: center;" [ngStyle]="{'font-size.px': iconSize>=35?20:15}">
+                    +{{item.length-MaxSize}}
+                </div>
+            </div>
+            <mat-menu #menu1="matMenu">
+                <div *ngFor="let us of item;let index = index" style="justify-content: flex-end;padding-bottom: 5px;">
+                    <ng-container *ngIf="index > (MaxSize - 1)">
+                        <div class="row ">
+                            <div class="col-md-3 m--margin-bottom-10-mobile" style="padding-right: 12px !important; padding-left: 12px !important;">
+                                <div class="user url" style="margin: 0 0 0 3px;">
+                                    <ngx-avatar size="35" matTooltip="{{us.HoTen}}" src="{{us.Image}}" *ngIf="us.Image;else bindText2">
+                                    </ngx-avatar>
+                                    <ng-template #bindText2>
+                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{us.HoTen}}" size="35" [name]="getNameUser(us.HoTen)" bgColor="{{getColorNameUser(us.HoTen)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-md-9 m--margin-bottom-10-mobile" style="padding-right: 12px !important; padding-left: 12px !important;">
+                                <div class=""><b>{{us.HoTen}} </b></div>
+                                <div>{{us.ChucVu}}</div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+</div>

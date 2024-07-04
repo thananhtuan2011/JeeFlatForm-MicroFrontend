@@ -1,0 +1,172 @@
+<style>
+    .scrollVirtual {
+      height: 87vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+    @media only screen and (max-width: 1566px) {
+      .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+    }
+  
+   
+  
+    .name {
+      margin: 0px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+  
+    .hidenmess {
+      display: inline-block !important;
+      color: gray !important;
+      background-color: #E5EFFF !important;
+    }
+  
+    .leave {
+      display: flex;
+      padding: 10px;
+      background: rgb(0 0 0 / 8%);
+      display: flex;
+      border-radius: 10px;
+    }
+  
+    .insert {
+      /* margin-left: -40px; */
+      display: flex;
+      padding: 10px;
+      background: rgb(0 0 0 / 8%);
+      display: flex;
+      border-radius: 10px;
+    }
+  
+    .btn-class {
+      margin-left: 10px;
+      border-radius: 10px;
+      background: #0829711f;
+    }
+  
+    .example-container {
+      /* width: 400px; */
+      height: 100vh;
+      /* margin: 10px;
+    border: 1px solid #555; */
+    }
+  
+    .back {
+      border-bottom: 1px solid #d1d6dc;
+      cursor: pointer;
+  
+      height: 60px;
+  
+      display: flex;
+      align-items: center;
+    }
+  </style>
+
+<iframe style="    width: 100%;
+height: 100%;"
+title="widget11-video"
+class="embed-responsive-item rounded "
+src="https://chatbotv2.jee.vn"
+allowFullScreen="true"
+></iframe>
+  
+      <!-- <div class="content" style="padding: 0px !important;" >
+  
+        <div class="contact-profile" style="margin-bottom: 0px !important;">
+          <div >
+            <div class="row">
+              <div class="headerchat">
+  
+  
+                <div style="margin: 6px;">
+                  <div >
+                    <ngx-avatar [size]="40" src="https://cdn.jee.vn/jee-chat/Icon/iconchatbot.jpg"></ngx-avatar>
+                  </div>
+                  
+                </div>
+                <div style="    width: 100%;">
+                  <div style="display: inline-table;">
+  
+  
+                  
+  
+                    <p class="name">
+                      <span>
+                
+                      </span>
+                     ChatBot
+                    </p>
+                
+                  
+                  </div>
+  
+                </div>
+            
+  
+              </div>
+             
+            </div>
+  
+          </div>
+        
+       
+       
+  
+     
+        
+        </div>
+    
+ 
+  
+         
+            <div class="frame-box" #scrollMe>
+                <div *ngFor="let item of chatConversation">
+                    <div class="card-text padding" [ngClass]="item.cssClass">
+
+                            <p  *ngIf="!item.avatar" style="margin-left: 5px;    margin-right: 8px;">
+                                <ngx-avatar [size]="27" [name]="Name.slice(0, 1)" bgColor="{{BgColor }}"
+                                *ngIf="!Avataruser"></ngx-avatar>
+                              <ngx-avatar [size]="27" src="{{ Avataruser }}" *ngIf="Avataruser"></ngx-avatar>
+    
+                            </p>
+<ngx-avatar style="margin-top: -10px;" [size]="40" src="{{ item.avatar }}" *ngIf="item.avatar"></ngx-avatar>
+<span>
+    :{{item.response}} 
+</span>
+
+                    </div>
+                    
+                </div>
+                <div><img src="https://cdn.jee.vn/jee-chat/Icon/ZNeT.gif" *ngIf="_loading$ |async" width="50px" height="50px"></div>
+                
+            </div>
+  
+      
+  
+        <div>
+  
+     
+              <div>
+            
+  
+               
+  
+                <div class="inpuchat">
+  
+                  
+                    <textarea (keydown.enter)="checkResponse()"  class="form-control" [(ngModel)]="promptText" placeholder="Start by asking what you are looking for"></textarea>
+  
+                </div>
+              </div>
+  
+        </div>
+  
+      </div> -->
+  
+
+  

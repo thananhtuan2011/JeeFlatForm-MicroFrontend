@@ -1,0 +1,104 @@
+<style>
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+
+    :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+
+    :host>>>mat-row {
+        min-height: 35px;
+    }
+
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    .menujeeteam {
+        padding-right: 0;
+        /* border-right: 1px solid #E1E4EA;
+  background-color: #FFFFFF !important; */
+        min-width: 350px;
+        max-width: 350px;
+        height: 100vh;
+    }
+   
+</style>
+
+<div class="sidebar-container">
+    <mat-toolbar  class="sidebar-toolbar toolbarteam">
+      
+
+       
+        <!-- <button style="z-index: 999;" mat-icon-button (click)="snav.toggle()">
+            <mat-icon class="icontem">menu</mat-icon>
+        </button> -->
+        <!-- <h1 style="cursor: pointer;" routerLink="/Group" class="sidebar-app-name nameteam">Nhóm của tôi</h1> -->
+        <div id="search_jeeteam"  class="input_team">
+            <div style="border-radius: 20px;
+            background: #F0F2F5;
+            color: #65676B;
+            width: 240px;
+            margin-bottom: 5px;">
+    
+            <mat-icon style="  top: 18px;
+            position: absolute;
+            left: 25px;">search</mat-icon>
+               
+                  <input class="input_body" (keyup.enter)="search()" style="font-size: 15px;"  name="search" [(ngModel)]="searchText" type="text" placeholder="Tìm kiếm..(Enter)" />
+                     <button (click)="ClearSearch()" *ngIf="searchText!=''" style="
+                     position: absolute;
+                     margin-left: -40px;" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <mat-icon>clear</mat-icon>
+                      </button>
+                </div>
+                <mat-icon (click)="Add()" style="font-size: 17px;
+                cursor: pointer;
+                padding-left: 5px;
+                padding-right: 5px;
+                color: #887d7d;">group_add</mat-icon>
+                <mat-icon  *ngIf="Admin==1" routerLink="/Group/phanquyen"  style="font-size: 17px;
+                cursor: pointer;
+                color: #887d7d;">settings</mat-icon>
+                </div>
+    </mat-toolbar>
+    <mat-sidenav-container class="sidebar-sidenav-container">
+        <mat-sidenav #snav mode="side" fixedTopGap="56" opened="true">
+            <app-aside-dynamic></app-aside-dynamic>
+        </mat-sidenav>
+        <mat-sidenav-content class="router-container">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,97 @@
+<div class="card card-custom" *ngIf="isLoad">
+	<div class="card-header">
+		<div class="card-title">
+			<h3>{{Data[0].title}}</h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<span class="class-text" [innerHTML]="Data[0].description"></span>
+		<div class="example-container mat-table__wrapper" *ngIf="isLoadTrangThai" [ngStyle]="{'height': getHeight()}"
+			style="overflow: auto;">
+			<table mat-table class="lmat-elevation-z8" [dataSource]="dataTrangThai[0].ListStatus" matSort
+				matSortActive="id" style="width: 100%" matSortDirection="asc" matSortDisableClear>
+				<ng-container matColumnDef="STT">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode mat-header-cell-stt">
+						<span translate="nhomtrangthai.stt" class="text-uppercase"></span>
+					</th>
+					<td mat-cell *matCellDef="let item; let vi = index" class="mat-column-vinCode mat-cell-stt">
+						{{ vi + 1 }}
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="TenTrangThai">
+					<th mat-header-cell *matHeaderCellDef style="justify-content: center;min-width: 20%; ">
+						<span translate="nhomtrangthai.tentrangthai" class="text-uppercase"></span>
+					</th>
+					<td mat-cell *matCellDef="let item" style="justify-content: center;min-width: 20%; ">
+						<div class="url cu-template-center-selected-template__includes-item-bot-item "
+							style="padding: 5px 10px; height: auto;align-items: center;display: flex;">
+							<div matTooltip="{{ item.title }}"
+								class="cu-template-center-selected-template__includes-item-bot-item-status-group-bubble"
+								style="width: 15px; height: 15px;margin-right: 7px;"
+								[ngStyle]="{'backgroundColor': item.color}"></div>
+							<span>{{ item.title }}</span>
+						</div>
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="PhanLoai">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-vinCode">
+						<span translate="nhomtrangthai.phanloai" class="text-uppercase"></span> &nbsp;
+					</th>
+					<td mat-cell *matCellDef="let item" class="mat-column-vinCode">
+						<div class="url cu-template-center-selected-template__includes-item-bot-item "
+							style="padding: 5px 10px; height: auto;">
+							<mat-form-field class="mat-form-field-fluid " style="width: 50%;">
+								<mat-select [(value)]="item.TypeID" class="mat-form-field mat-form-field-fluid"
+									placeholder="Loại trạng thái"
+									(selectionChange)="UpdateStatusType(item.id_row,$event.value)">
+									<mat-option *ngFor="let item2 of lstNhomTrangThai" [value]="item2.RowID">
+										<span>{{item2.Title}}</span>
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="action">
+					<th mat-header-cell *matHeaderCellDef style="justify-content: center; "><span style="align-items: center;
+                        display: flex;
+                        justify-content: center;" class="text-uppercase"></span>
+					</th>
+					<td mat-cell *matCellDef="let item" style="justify-content: center;">
+						<div class="row">
+							<button mat-icon-button class="icon-sua"
+								matTooltip="{{ 'nhomtrangthai.capnhat' | translate }}"
+								(click)="Themtrangthai(item,false)">
+								<mat-icon>edit</mat-icon>
+							</button>
+							<button mat-icon-button class="icon-xoa" matTooltip="{{ 'nhomtrangthai.xoa' | translate }}"
+								(click)="Delete(item)">
+								<mat-icon>delete</mat-icon>
+							</button>
+
+						</div>
+					</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"
+					[ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+					(mouseout)="row.hovered = false"></tr>
+			</table>
+			<div style="padding: 50px; text-align: center" class="mat-table__message"
+				*ngIf="dataTrangThai==undefined ||dataTrangThai.length==0">
+				<span translate="nhomtrangthai.khongcodulieu"></span>
+			</div>
+		</div>
+		<div style="padding-top:10px;margin-left:100px">
+			<button class="btn btn-label-brand" style="padding: 5px 10px; width: 90px;margin-left: 13px;cursor: pointer !important;"
+			(click)="Themtrangthai({},true)">
+				<i class="fas fa-plus"></i> &nbsp;
+				{{ 'JeeWork.them'|translate}}
+			</button>
+		</div>
+	</div>
+</div>

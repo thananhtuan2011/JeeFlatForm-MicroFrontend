@@ -1,0 +1,96 @@
+<style>
+    input {
+        position: relative;
+        width: 150px;
+        height: 20px;
+        color: white;
+    }
+
+    input:before {
+        position: absolute;
+        top: 10px;
+        left: 3px;
+        content: attr(data-date);
+        display: inline-block;
+        color: black;
+    }
+
+    input::-webkit-datetime-edit,
+    input::-webkit-inner-spin-button,
+    input::-webkit-clear-button {
+        display: none;
+    }
+
+    input::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        color: black;
+        opacity: 1;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header" style="padding:0; min-height: 50px;padding:15px; border-bottom: 1px solid #ccc;">
+        <div class="card-title">
+            <span
+                style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;">
+                Cập nhật tiến độ {{_danhmucChungServices.ts_congviec}}
+            </span>
+        </div>
+        <div>
+            <button type="button" mat-icon-button (click)="Close()"><mat-icon
+                    class="icon-close">close</mat-icon></button>
+        </div>
+    </div>
+    <div style="height: auto;padding: 15px 15px 0 15px">
+        <ng-container>
+            <quill-editor [modules]="quillConfig" [styles]="editorStyles" [(ngModel)]="_data"
+                (ngModelChange)="onChangeNote()" [placeholder]="'Nhập nội dung ...'">
+            </quill-editor>
+        </ng-container>
+        <div style="margin-top: 15px;">
+            <a class="action" (click)="resultInput.click()">
+                <i matTooltip="{{ 'topic.upload' | translate }}" class="las la-paperclip"></i>&nbsp;
+                <span>Thêm tài liệu đính kèm</span>
+            </a>
+            <input #resultInput hidden="true" type="file" onclick="this.value=null"
+                (change)="UploadFileForm($event)" />&nbsp;
+            <i matTooltip="Chấp nhận tất cả các định dạng, tối đa 20 MB" style="color: rgb(71, 71, 243);"
+                class="las la-info-circle"></i>&nbsp;
+            <div class="row " *ngIf="this.AttFile_Temp?.length > 0">
+                <div class="col-md-12 kt-margin-bottom-10-mobile pd-0" *ngFor="let att2 of this.AttFile_Temp">
+                    <div class="attach-item show-action">
+                        <!-- <ng-template #notDraft> -->
+                        <div class="attach-item-icon">
+                            <img src="{{ getIcon(att2) }}" />
+                        </div>
+                        <!-- </ng-template> -->
+        
+                        <div class="attach-item-name">
+                          <p>{{ att2.filename }}</p>
+                        </div>
+                        <div class="attach-item-del d-flex">
+                          <a class="url" matTooltip="{{ 'jeework.xoa' | translate }}" (click)="Delete_File(att2)">
+                            <i class="fas fa-trash-alt" style="color:red"></i>
+                          </a>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="dialog-footer" style="padding: 20px 12px 15px;border:none">
+        <div class="kt-form__actions kt-form__actions--solid">
+            <div class="row text-right">
+                <div class="col-lg-12" style="display: flex;">
+                    <button mat-raised-button style="background-color: #1bc5bd; color: #f2fcfb" (click)="update()"> {{
+                        "jeework.luuvadong" | translate
+                        }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

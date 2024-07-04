@@ -1,0 +1,54 @@
+<div class="row container">
+    <div class="px-6 py-8 rounded-xl bg-quahan" style="padding-top: 0 !important;">
+        <div class="font-weight-bold mt-2 text-color w-100 h-50">
+            <span class="css-chu color-quahan">Nhiệm vụ quá hạn</span>
+        </div>
+        <div class="row w-100 h-50">
+            <div class="col-md-6">
+                <span class="css-so color-quahan" matTooltip="Xem danh sách" (click)="View('6')">{{QuaHan}}</span>
+            </div>
+            <div class="col-md-6 css-icon">
+                <i class=" css-so color-quahan flaticon-event-calendar-symbol"></i>
+            </div>
+        </div>
+    </div>
+    <div class=" px-6 py-8 rounded-xl bg-toihan" style="padding-top: 0 !important;">
+        <div class="font-weight-bold mt-2 text-color w-100 h-50">
+            <span class="css-chu color-toihan">Nhiệm vụ tới hạn</span>
+        </div>
+        <div class="row w-100 h-50">
+            <div class="col-md-6">
+                <span class="css-so color-toihan" matTooltip="Xem danh sách" (click)="View('5')">{{ToiHan}}</span>
+            </div>
+            <div class="col-md-6 css-icon">
+                <i class="css-so color-toihan flaticon-event-calendar-symbol"></i>
+            </div>
+        </div>
+    </div>
+    <div class="px-6 py-8 rounded-xl bg-saptoihan" style="padding-top: 0 !important;">
+        <div class="font-weight-bold mt-2 text-color w-100 h-50">
+            <span class="css-chu color-saptoihan">Sắp tới hạn</span>
+        </div>
+        <div class="row w-100 h-50">
+            <div class="col-md-6">
+                <span class="css-so color-saptoihan" matTooltip="Xem danh sách" (click)="View('4')">{{SapToiHan}}</span>
+            </div>
+            <div class="col-md-6 css-icon">
+                <i class="css-so color-saptoihan flaticon-event-calendar-symbol"></i>
+            </div>
+        </div>
+    </div>
+    <div class="px-6 py-8 rounded-xl bg-tronghan" style="padding-top: 0 !important;">
+        <div class="font-weight-bold mt-2 text-color w-100 h-50">
+            <span class="css-chu color-tronghan">Còn trong hạn</span>
+        </div>
+        <div class="row w-100 h-50">
+            <div class="col-md-6">
+                <span class="css-so color-tronghan" matTooltip="Xem danh sách" (click)="View('3')">{{TrongHan}}</span>
+            </div>
+            <div class="col-md-6 css-icon">
+                <i class="css-so color-tronghan flaticon-event-calendar-symbol"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+<style>
+	.trangthai {
+		display: flex;
+		height: 52px;
+		position: relative;
+		margin: 0 25px;
+	}
+
+	.tt-danglam-left {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		background-color: rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-left:hover {
+		background: rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-danglam-right {
+		border-top: 1px solid rgba(42, 145, 214, 0.3);
+		border-bottom: 1px solid rgba(42, 145, 214, 0.3);
+	}
+
+	.tt-hoanthanh-left {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		background-color: rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.tt-hoanthanh-right {
+		border-top: 1px solid rgba(122, 189, 26, 0.5);
+		border-bottom: 1px solid rgba(122, 189, 26, 0.5);
+	}
+
+	.text-mieuta {
+		position: relative;
+		text-transform: uppercase;
+		color: #7abd1a;
+		font-weight: 500;
+		padding-bottom: 7px;
+	}
+
+	.text-thaotac {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		padding: 5px 8px;
+		color: rgba(42, 145, 214, 0.8);
+	}
+
+	.text-thaotac:hover {
+		text-decoration: underline;
+	}
+
+	.deadline:hover {
+		text-decoration: underline;
+		color: rgba(42, 145, 214, 0.8) !important;
+	}
+
+	.postform {
+		background: rgba(122, 189, 26, 0.15);
+		border-left: 4px solid #7abd1a;
+		padding: 15px 20px;
+	}
+
+	.upload-form {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		z-index: 999;
+	}
+
+	.upload-form input {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		z-index: 999;
+	}
+</style>
+<div class="card card-custom font-chu">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>Cập nhật thông tin</span></h3>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" class="mat-icon-button" (click)="goBack()"
+				matTooltip="{{ 'landingpagekey.dong' | translate }}">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+	<div class="card-body">
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 1">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 kt--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput [owlDateTime]="dttg" [owlDateTimeTrigger]="dttg" autocomplete="off" readonly
+							placeholder="Chọn thời gian" formControlName="time" class="require" id="thoigian" required>
+						<owl-date-time #dttg></owl-date-time>
+					</mat-form-field>
+				</div>
+			</div>
+		</form>
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 2">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 kt--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid ">
+						<input matInput placeholder="{{ 'wf.tencongviec' | translate }}" id="tencongviec"
+							formControlName="tencongviec" class="require" required #focusInput />
+					</mat-form-field>
+				</div>
+				<div class="col-md-12 kt--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid ">
+						<textarea matInput placeholder="{{ 'wf.motacongviec' | translate }}"
+							formControlName="motacongviec"></textarea>
+					</mat-form-field>
+				</div>
+			</div>
+		</form>
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 3">
+			<div class="form-group kt-form__group row">
+				<div class="col-md-12 kt--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid ">
+						<textarea matInput placeholder="{{ 'congviec.capnhatketqua' | translate }}" id="ketquacongviec"
+							formControlName="ketquacongviec"></textarea>
+					</mat-form-field>
+				</div>
+			</div>
+		</form>
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 4">
+			<div class="kt-portlet__body">
+				<div class="form-group kt-form__group row">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="{{ 'process.theodoi' | translate }}" formControlName="theodoi"
+								multiple>
+								<mat-option>
+									<ngx-mat-select-search [formControl]="bankFilterCtrlTD" [placeholderLabel]="''"
+										[noEntriesFoundLabel]="''">
+									</ngx-mat-select-search>
+								</mat-option>
+								<mat-option value="{{itemCate.RowID}}" *ngFor="let itemCate of filteredBanksTD | async">
+									{{ itemCate.Title }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 5">
+			<div class="kt-portlet__body">
+				<div class="form-group kt-form__group row">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="{{ 'workprocess.lydo' | translate }}" formControlName="lydo"
+								class="require" required id="lydo" />
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="kt-form" [formGroup]="itemForm" *ngIf="Type == 6">
+			<div class="kt-portlet__body">
+				<div class="form-group kt-form__group row">
+					<div class="col-md-12 m--margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select required placeholder="{{ 'workprocess.nguoithuchien' | translate }}"
+								formControlName="nguoithuchien" multiple>
+								<mat-option>
+									<ngx-mat-select-search [formControl]="bankFilterCtrlTD" [placeholderLabel]="''"
+										[noEntriesFoundLabel]="''">
+
+									</ngx-mat-select-search>
+								</mat-option>
+								<mat-option value="{{itemCate.RowID}}" *ngFor="let itemCate of filteredBanksTD | async">
+									{{ itemCate.Title }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer">
+		<button type="button" mat-raised-button class="ja_button ja_btn-addcontinue" (click)="onSubmit(true)"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}">
+			<span translate="landingpagekey.luudong"></span>
+		</button>
+	</div>
+</div>

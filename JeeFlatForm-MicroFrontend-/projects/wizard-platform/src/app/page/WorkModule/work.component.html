@@ -1,0 +1,94 @@
+<style>
+    .left {
+        height: 596px;
+        position: absolute;
+        width: 270px;
+        display: block;
+    }
+
+    .menu {
+        margin: 30px;
+        line-height: 2;
+        font-weight: 400;
+        font-size: 1.2rem;
+        --bs-gutter-x: 0;
+    }
+
+    .submenu {
+        padding-left: 20px;
+        /* cursor: pointer; */
+    }
+
+    .right {
+        float: right;
+        width: 1090px
+    }
+
+    .panel-work {
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        padding-top: 10px;
+    }
+
+    .wizard-work {
+        width: 1360px;
+        height: 596px !important;
+    }
+
+    .jee_btn-addcontinue {
+        background-color: #3699ff;
+        color: #ffffff;
+    }
+
+    .jee_btn-addcontinue:hover {
+        background-color: #0e72d8;
+    }
+</style>
+<div class="panel-work">
+    <div class="wizard-work">
+        <div class="m-work sky-scroll-work left">
+            <div class="row menu">
+                <div class="col-md-12" [ngStyle]="{ 'color': getFont(1) }">
+                    <span>1. Giới thiệu chung</span>
+                </div>
+                <div class="col-md-12" [ngStyle]="{ 'color': getFont(2) }">
+                    <span>2. Trạng thái công việc</span>
+                </div>
+                <div class="col-md-12" [ngStyle]="{ 'color': getFont(3) }">
+                    <span>3. Danh sách phòng ban</span>
+                </div>
+                <div class="col-md-12" [ngStyle]="{ 'color': getFont(4) }">
+                    <span>4. Danh sách dự án</span>
+                </div>
+                <div class="col-md-12" [ngStyle]="{ 'color': getFont(5) }">
+                    <span>5. Hoàn thành</span>
+                </div>
+            </div>
+        </div>
+        <div class="m-work right" style="float: right;">
+            <div style="height: 526px;border-bottom: 1px solid #0000001a;">
+                <router-outlet></router-outlet>
+            </div>
+            <div style="display: flex;float: right;margin-right: 20px;height: 70px;line-height: 70px;">
+                <span>
+                    <button type="button" (click)="PreviousStep()" class="ja_button ja_btn-goback" mat-raised-button
+                        [hidden]="step == 1"><span>Trở lại</span></button>&nbsp;
+                    <button type="button" (click)="NextStep()" mat-raised-button class="ja_button ja_btn-addnew"
+                        matTooltip="" [hidden]="step == 5">
+                        <span>Tiếp tục</span>
+                    </button>
+                    <button type="button" *ngIf="step == 5" style="background-color: yellowgreen;color: white;" mat-raised-button
+                        class="ja_button" (click)="Done()">
+                        <i style="color: white;" class="la la-check"></i>&nbsp;<span>Hoành thành</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+    <div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

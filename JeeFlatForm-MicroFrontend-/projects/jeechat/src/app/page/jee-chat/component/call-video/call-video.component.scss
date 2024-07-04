@@ -1,0 +1,55 @@
+
+  .action
+
+  {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+.callend
+{
+  background-color: #c62e2e;
+color: white;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      height: auto;
+      // background-color: rgba(255, 255, 255, 0.288);
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+      opacity: 1;
+      transition: 0.13s;
+      padding: 15px;
+      border-radius: 20px;
+}
+.mediashare
+{
+  background-color: #efebebde !important;
+  margin-right: 25px;
+}
+.mediacall
+{
+    //   backdrop-filter: blur(8px);
+    //   -webkit-backdrop-filter: blur(8px);
+    //   height: auto;
+    //    background-color: rgba(255, 255, 255, 0.288);
+    //   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4) !important;
+    // cursor: pointer;
+    //   opacity: 1;
+    background-color: #efebebde !important;
+   margin-left: 20px;
+      // transition: 0.13s;
+      //  padding: 10px;
+      // border-radius: 50%;
+}
+.iconendcall
+{
+  margin-bottom: -5px;
+
+  color: white !important;
+}
+.classavatar
+{
+  position: absolute;
+    top: 45% !important;
+    left: 46% !important;
+}

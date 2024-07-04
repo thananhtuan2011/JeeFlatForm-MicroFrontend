@@ -1,0 +1,194 @@
+<style>
+  .app-checbox,
+  mat-checkbox {
+    padding: 6px 6px 0 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 0 0 20%;
+  }
+
+  :host>>>.dropdown-tree {
+    width: 410px;
+  }
+
+  .mat-form-field-fluid {
+    width: 100%
+  }
+</style>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <span class="dialog-title">
+        <!-- <span *ngIf="isAdd || isCopy">{{ 'ACCOUNTMANAGEMENT.THEMMOITAIKHOAN' | translate }}</span>
+        <span *ngIf="!isAdd">{{ 'ACCOUNTMANAGEMENT.CAPNHATTHONGTIN' | translate }}</span> -->
+        <span *ngIf="isAdd || isCopy">Thêm mới</span>
+        <span *ngIf="!isAdd && !isCopy">Chỉnh sửa</span>
+      </span>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body overflow-auto">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <div class="min-height: 404px; max-height: 70vh;">
+      <form [formGroup]="itemForm" class="form form-label-right">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-lg-12">
+                  <m-dropdown-struct-hr-details class="require" [DropdownTitle]="'Phòng ban *'" [AllowSearch]="true"
+                    formControlName="PhongBan" [type]="1" [data]="datatree" (SelectedItemTree)="GetValueNode($event)">
+                  </m-dropdown-struct-hr-details>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <mat-form-field class="mat-form-field-fluid" *ngIf="!(isFirstLoading$ | async)">
+                    <mat-select required formControlName="ChucVu" placeholder="Chức vụ" #singleSelect>
+                      <mat-option>
+                        <ngx-mat-select-search noEntriesFoundLabel="{{ 'ACCOUNTMANAGEMENT.KHONGTIMTHAY' | translate }}"
+                          placeholderLabel="{{ 'SEARCH.TIMKIEMTHEOTENCHUCVU' | translate }}"
+                          formControlName="ChucVuFilterCtrl">
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let chucvu of filterChucVus | async" [value]="chucvu.id_row">
+                        {{ chucvu.tenchucdanh }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-lg-12" style="display: block; align-self: center;">
+                  <input autocomplete="off" style="display: none" accept="image/jpg, image/jpeg, image/png"
+                    formControlName="file" id="file" type="file" class="form-control" (change)="onFileChange($event)"
+                    #hiddenfileinput />
+                  <img [src]="imgFile" style="height: 90px" (click)="hiddenfileinput.click()" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-batbuoc mat-focused" formControlName="HoTen"
+                  placeholder="{{ 'COMMOM.HOTEN' | translate }}" matInput required />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select formControlName="LoaiNhanVien" required
+                  placeholder="{{ 'ACCOUNTMANAGEMENT.LOAINHANVIEN' | translate }}" #singleSelect>
+                  <mat-option *ngFor="let lst of listLoaiNhanVien" [value]="lst.RowID">
+                    {{ lst.Title }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-batbuoc mat-focused " formControlName="NgayVaoLam" matInput
+                  [matDatepicker]="pickerStart" required
+                  placeholder="{{ 'ACCOUNTMANAGEMENT.NGAYVAOLAM' | translate }}" />
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select formControlName="GioiTinh" placeholder="{{ 'ACCOUNTMANAGEMENT.GIOITINH' | translate }}"
+                  #singleSelect>
+                  <mat-option value="0">Nam</mat-option>
+                  <mat-option value="1">Nữ</mat-option>
+                  <mat-option value="2">Khác</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-batbuoc mat-focused" required formControlName="SoDienThoai"
+                  placeholder="{{ 'ACCOUNTMANAGEMENT.PHONE' | translate }}" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <input autocomplete="off" class="input-thuong mat-focused" formControlName="Email" placeholder="Email"
+                  matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-12" *ngIf="!isAdd && !isCopy">
+              <mat-checkbox style="margin-top: -8px; margin-bottom: 5px;" [(ngModel)]="isActive" [ngModelOptions]="{standalone: true}">{{ 'ACCOUNTMANAGEMENT.KICHHOATTAIKHOAN' | translate }}</mat-checkbox>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <input [max]="date" autocomplete="off" class="mat-focused "
+                  formControlName="NgaySinh" matInput [matDatepicker]="pickerNS"
+                  placeholder="{{ 'COMMOM.NGAYSINH' | translate }}" />
+                <mat-datepicker-toggle matSuffix [for]="pickerNS"></mat-datepicker-toggle>
+                <mat-datepicker #pickerNS></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select formControlName="NoiSinh"
+                  placeholder="{{ 'ACCOUNTMANAGEMENT.NOISINH' | translate }}" #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search noEntriesFoundLabel="{{ 'ACCOUNTMANAGEMENT.KHONGTIMTHAY' | translate }}"
+                      placeholderLabel="Tìm kiếm theo nơi sinh"
+                      formControlName="NoiSinhFilterCtrl">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let ns of filterNoiSinhs | async" [value]="ns.id_row">
+                    {{ ns.Province }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-12" *ngIf="isActive || isAdd || isCopy">
+              <span>{{ 'ACCOUNTMANAGEMENT.UNGDUNGDUOCSUDUNG' | translate }}:</span>
+            </div>
+
+            <div class="col-lg-12" *ngIf="isActive || isAdd || isCopy">
+              <section style="padding: 0 15px;" formArrayName="AppsCheckbox" *ngIf="!(isFirstLoading$ | async)">
+                <div class="row app-checbox">
+                  <mat-checkbox class="col-lg-3 example-margin" style="flex: none;" *ngFor="let app of AppsFromArray.controls; index as i"
+                    [formControlName]="i">
+                    {{ listApp[i].AppName }}
+                  </mat-checkbox>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button [disabled]="isLoadingSubmit$ | async" [class.spinner]="isLoadingSubmit$ | async" mat-raised-button
+        style="float: right; margin: 0" class="ja_btn-addcontinue" (click)="onSubmit(false)" *ngIf="isAdd">
+        <mat-icon class="icon-repeat">repeat</mat-icon>
+        {{ 'COMMOM.LUUTIEPTUC' | translate }}
+      </button>
+      <button [disabled]="isLoadingSubmit$ | async" [class.spinner]="isLoadingSubmit$ | async" mat-raised-button
+        style="float: right; margin-right: 12px" class="ja_btn-addnew" (click)="onSubmit(true)">
+        {{ 'COMMOM.LUUDONG' | translate }}
+      </button>
+      <button mat-raised-button style="float: right; margin: 0; margin-right: 12px" class="ja_btn-goback"
+        (click)="goBack()">
+        {{ 'COMMOM.TROLAI' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

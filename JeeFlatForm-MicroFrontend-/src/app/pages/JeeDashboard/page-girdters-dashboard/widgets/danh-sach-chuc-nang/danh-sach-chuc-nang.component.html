@@ -1,0 +1,76 @@
+<style>
+  .row-class {
+    padding-bottom: 10px;
+    font-size: 12pt;
+    display: flex;
+  }
+
+  :host {
+    height: inherit;
+  }
+
+  :host>>>perfect-scrollbar>.ps.ps--active-x>.ps__rail-x {
+    display: none;
+  }
+
+  .row {
+    margin-right: 0px !important;
+  }
+
+  :host>>>.m-scrollable {
+    padding-right: 2px !important;
+  }
+
+  :host {
+    margin: 0;
+  }
+
+  .color-setting {
+    color: white;
+  }
+
+  .link-class {
+    display: grid;
+    height: auto;
+    margin: 1%;
+    padding: 0.5rem 1rem;
+    width: 150px;
+  }
+
+  .text-class {
+    text-align: center;
+    font-size: 12pt;
+  }
+
+  .icon-class {
+    font-size: 25pt;
+  }
+
+  :host>>>img {
+    border-radius: 0 !important;
+  }
+
+  .container {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-template-rows: repeat(1, 130px);
+  }
+</style>
+<div>
+  <perfect-scrollbar class="m-scrollable m-scroller" [ngStyle]="{ height: getHeight() }">
+    <div *ngIf="listTruyCap.length > 0">
+      <div class="row row-class">
+        <a class="link-class" [routerLink]="list.ALink" *ngFor="let list of listTruyCap">
+          <div style="display: flex; justify-content: center; padding-bottom: 25px;">
+            <ngx-avatar [size]="50" src="{{ list.Image }}">
+            </ngx-avatar>
+          </div>
+          <div style="text-align: center;">
+            <span translate="MainMenu.{{ list.Title }}"></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </perfect-scrollbar>
+</div>

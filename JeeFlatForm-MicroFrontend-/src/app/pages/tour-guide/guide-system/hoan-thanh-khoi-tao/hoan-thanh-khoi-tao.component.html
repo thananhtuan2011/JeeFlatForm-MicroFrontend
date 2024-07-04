@@ -1,0 +1,95 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
+
+  .mat-expanded mat-panel-title {
+    display: none;
+  }
+
+  .class-text {
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 style="font-weight: bold">Hoàn thành khởi tạo ban đầu</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body" style="padding: 10px 20px">
+    <!-- <div class="row class-text-step" id="text" *ngIf="this._GuideSystemService.textStep4 == ''">
+      <span>Chúc mừng bạn đã hoàn thành khởi tạo hệ thống. Hệ thống đã được thiết lập các dữ liệu mẫu cho từng phân hệ
+        để bạn có thể bắt đầu trải nghiệm dễ
+        dàng hơn. Bạn cũng có thể cái đặt các thông tin phù hợp với nhu cầu sử dụng của mình nếu muốn. Bên dưới là danh
+        sách các phân hệ mà bạn có thể sử dụng. Click vào "Khởi tạo" để bắt đầu quá trình cài đặt cho phân hệ tương ứng.
+        Tài khoản được phân quyền quản trụ cho phân hệ cũng có thể thực hiện việc cài đặt khi tài khoản quản trị của
+        từng phân hệ đăng nhập vào.</span>
+    </div> -->
+    <div class="row class-text-step" id="text" >
+      <span [innerHTML]="this._GuideSystemService.textStep4"></span>
+    </div>
+    <div class="example-container mat-table__wrapper" [ngStyle]="{'height': getHeightFull()}"
+      style="overflow-y: auto; margin: 0 25px;">
+      <table mat-table style="width: 100%" [dataSource]="data" class="dl-table-custom">
+        <ng-container matColumnDef="STT">
+          <th mat-header-cell *matHeaderCellDef>STT</th>
+          <td mat-cell *matCellDef="let element,let vi = index">
+            <span>{{ vi+1}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="PhanHe">
+          <th mat-header-cell *matHeaderCellDef>Phân hệ</th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.AppName}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="NhanVien">
+          <th mat-header-cell *matHeaderCellDef>Nhân viên quản lý</th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ getNhanVien(element)}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TrangThai">
+          <th mat-header-cell *matHeaderCellDef>Trạng thái</th>
+          <td mat-cell *matCellDef="let element">
+            <span [ngStyle]="{'color':getColor(element)}">{{ getTrangThai(element)}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <span style="color:#3699ff; cursor:pointer" *ngIf="checkAlink(element) && element.Init_StatusID != 2" (click)="routerLink(element)"><u>Khởi tạo</u></span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;
+    <button type="button" style="background-color: yellowgreen;color: white;" mat-raised-button class="ja_button"
+      (click)="HoanThanh()">
+      <i style="color: white;" class="la la-check"></i>&nbsp;<span>Hoành thành</span>
+    </button>
+  </div>
+</div>

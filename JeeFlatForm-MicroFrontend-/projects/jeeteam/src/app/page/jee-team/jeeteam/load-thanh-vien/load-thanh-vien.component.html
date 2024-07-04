@@ -1,0 +1,189 @@
+<style>
+
+input[type=text] {
+      width: 280px;
+      box-sizing: border-box;
+      border: 1px solid #3e44f9b5;
+      border-radius: 15px;
+      font-size: 12px;
+      background-color: white;
+      /* background-image: url('./assets/search_icon.png'); */
+      background-position: 10px 10px; 
+      background-repeat: no-repeat;
+      padding:7px 12px 7px 40px;
+      -webkit-transition: width 0.4s ease-in-out;
+      transition: width 0.4s ease-in-out;
+    }
+    
+    input[type=text]:focus {
+      width: 480px;
+      outline: none;
+      border: 1px solid #3e44f9b5;
+      background-color: white;
+    }
+
+ 
+</style>
+
+
+<div class="card card-custom card-sticky gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <span class="card-label">{{ 'JEETEAM.DANHSACHTHANHVIEN' | translate }}</span>
+    
+    </div>
+    <div class="card-search">
+      <!-- <app-jee-search-form (keywordEvent)="changeKeyword($event)" (filterEvent)="changeFilter($event)"></app-jee-search-form> -->
+    </div>
+    <div class="card-toolbar">
+      <form style="padding-right: 10px;">
+        <span style="    display: flex;
+        align-items: center;
+        position: absolute;
+        margin-top: 10px;
+        margin-left: 10px;">
+            <mat-icon>search</mat-icon>
+        </span>
+        <input    (ngModelChange)="saverange($event)"  [(ngModel)]="searchtext"  type="text" name="search" placeholder="Tìm kiếm thành viên...">
+      </form>
+      <button (click)="AddMemberChanel()" class="btn btn-primary" type="submit">{{ 'JEETEAM.THEMTHANHVIEN' | translate }}</button>
+    </div>
+  </div>
+  <!-- body -->
+  <div class="card-body">
+    <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th >
+            <span>{{ 'JEETEAM.NHANVIEN' | translate }}</span>
+            <app-sort-icon
+              column="FullName"
+              [activeColumn]="sorting.column"
+              [activeDirection]="sorting.direction"
+              (sort)="sort($event)"
+            ></app-sort-icon>
+          </th>
+          <th>
+            <span>{{ 'JEETEAM.USERNAME' | translate }}</span>
+            <app-sort-icon
+              column="tendangnhap"
+              [activeColumn]="sorting.column"
+              [activeDirection]="sorting.direction"
+              (sort)="sort($event)"
+            ></app-sort-icon>
+          </th>
+          <th style="min-width: 150px">
+            <span>{{ 'JEETEAM.PHONGBAN' | translate }}</span>
+            <app-sort-icon
+              column="phongbanid"
+              [activeColumn]="sorting.column"
+              [activeDirection]="sorting.direction"
+              (sort)="sort($event)"
+            ></app-sort-icon>
+          </th>
+          <th style="min-width: 150px">
+            <span>{{ 'JEETEAM.CHUCVU' | translate }}</span>
+            <app-sort-icon
+              column="chucvuid"
+              [activeColumn]="sorting.column"
+              [activeDirection]="sorting.direction"
+              (sort)="sort($event)"
+            ></app-sort-icon>
+          </th>
+         
+          <!-- <th style="min-width: 150px; text-align: center">
+            <span>{{ 'JEETEAM.TINHTRANG' | translate }}</span>
+            <app-sort-icon
+              column="tinhtrang"
+              [activeColumn]="sorting.column"
+              [activeDirection]="sorting.direction"
+              (sort)="sort($event)"
+            ></app-sort-icon>
+          </th> -->
+        
+          <th style="min-width: 100px; text-align: center">
+            <span>{{ 'JEETEAM.THAOTAC' | translate }}</span>
+          </th>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let r of service.items$ | async">
+          <td>
+            <div>
+              <span>{{ r.Fullname }}</span>
+            </div>
+          </td>
+          </tr> -->
+        <tr *ngFor="let r of service.items$ | async">
+            <td>
+              <div class="pl-10" >
+                <div class="row" style="cursor: pointer">
+                  <div>
+                      <div style="padding-left: 10px;">
+
+                      
+                  <ngx-avatar [size]="40" src="{{ r.Avatar }}" *ngIf="r.Avatar"></ngx-avatar>
+                  <ngx-avatar
+                   
+                    [size]="40"
+                    [name]="r.Fullname.slice(0, 1)"
+                    bgColor="{{ r.BgColor }}"
+                    *ngIf="!r.Avatar"
+                  ></ngx-avatar>
+                </div>
+                  <span  class="cssfullname">
+                    {{ r.Fullname }}
+                  </span>
+                </div>
+
+                </div>
+              </div>
+              <!-- <input
+                style="display: none"
+                accept="image/jpg, image/jpeg, image/png"
+                name="Image"
+                id="file"
+                type="file"
+                class="form-control"
+                (change)="onFileChange($event, r.Username)"
+                #hiddenfileinput
+              /> -->
+            </td>
+            <td>
+              <div>
+                <span class="cssusername">{{ r.Username }}</span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <span class="cssDepartment">{{ r.Department }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="cssJobtitle">{{ r.Jobtitle }}</span>
+            </td>
+         
+            <!-- <td style="text-align: center">
+              <mat-slide-toggle (click)="changeTinhTrang(r.Username)" [checked]="r.IsActive"> </mat-slide-toggle>
+            </td> -->
+            
+            <td style="text-align: center">
+            
+              &nbsp;
+              <mat-icon (click)="DeleteMember(r.UserId)" placement="top" ngbTooltip="Xóa thành viên"  style="cursor: pointer; color: red; font-size: 16px" aria-hidden="false"
+                >delete
+              </mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- end: Table -->
+    <app-paginator
+      class="d-flex justify-content-between align-items-center flex-wrap"
+      [paginator]="paginator"
+      [isLoading]="isLoading"
+      (paginate)="paginate($event)"
+    ></app-paginator>
+  </div>
+</div>
+

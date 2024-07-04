@@ -1,0 +1,409 @@
+@import "~@angular/material/theming";
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+@import '~quill/dist/quill.core.css';
+@import '~quill-emoji/dist/quill-emoji.css';
+//=======================CSS THEME DARK OR LIGHT=========
+@import "~@angular/material/theming";
+@include mat-core();
+$mat-primary-scheme: (
+    100: #c5cae9,
+    500: #61699a,
+    700: #303f9f,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: #ffffff, 700: #ffffff, ),
+);
+$mat-accent-scheme: (
+    100: #ff80ab,
+    500: #ff4081,
+    700: #f50057,
+    contrast: (100: rgba(0, 0, 0, 0.87), 500: rgba(0, 0, 0, 0.87), 700: #ffffff, ),
+);
+$mat-primary-palette: mat-palette($mat-primary-scheme);
+$mat-accent-palette: mat-palette($mat-accent-scheme);
+$app-light-theme: mat-light-theme($mat-primary-palette, $mat-accent-palette);
+
+// .ql-container.ql-snow{
+//     border-radius: 15px;
+//     height: 80px;
+// }
+// .ql-editor.ql-blank{
+//     border-radius: 15px;
+// }
+// .ql-snow *{
+//     padding-left: 2px !important;
+// }
+// .mat-form-field-fluid {
+//     display: block !important;
+// }
+// .ql-container.ql-snow {
+//     border: none;
+// }
+.mat-tab-labels {
+    display: flex;
+}
+
+.mat-tab-label {
+    min-width: auto !important;
+    padding: 0 12px !important;
+}
+
+.mat-tab-body-content {
+    overflow: visible !important;
+    padding-top: 20px !important;
+}
+
+.emoji-mart-anchor {
+    padding: 12px 4px !important;
+}
+
+.emoji-mart-skin {
+    padding-top: 100% !important;
+}
+
+.light-mode {
+    @include angular-material-theme($app-light-theme);
+
+    .inpuchat {
+        display: flex;
+        background: #FFFF;
+        border-top: 1px solid lightgray;
+    }
+
+    #frame {
+        width: 100%;
+        height: 100vh;
+        background: #EBEBEB;
+        color: #0f0f0f;
+    }
+
+    #frame #sidepanel {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #frame .message-input {
+        position: absolute;
+        bottom: 280px;
+        width: 100%;
+        z-index: 99;
+    }
+
+    #frame .message-input .wrap {
+        position: relative;
+    }
+
+    #frame .message-input .wrap input {
+        font-family: "Roboto, Verdana, Arial, Helvetica, sans-serif";
+        border: none;
+        padding: 11px 32px 10px 8px;
+        font-size: 0.8em;
+        color: #32465a;
+        width: 100%;
+    }
+
+
+    //=================Kích thước thanh scroll==============
+    @media only screen and (min-width: 1028px) {
+        ::-webkit-scrollbar {
+            width: 5px;
+            opacity: 0;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    //===Start css (Thiên)===
+    .mat-option-text {
+        color: black !important;
+    }
+
+    .m-form-filter {
+        background-color: #ffffff;
+    }
+
+    .m-list-search__form-input {
+        color: black
+    }
+
+    .view-mat-menu-df {
+        .cu2-space-row__item-name {
+            color: #292d34;
+        }
+    }
+
+    .no-padding .mat-dialog-container {
+        padding-left: 0px;
+        padding-top: 0px;
+        // padding:0;
+    }
+
+    .mat-raised-button.mat-accent {
+        //Dùng chung cho button có class accent
+        background-color: #0bb783;
+        color: #ffffff
+    }
+
+    /*#endregion */
+    @import "./support/light.scss";
+
+    .mat-tab-label {
+        color: rgba(0, 0, 0, .87);
+    }
+
+    .chattapgr {
+        background: #fff;
+    }
+
+    // .mat-tab-group {
+    //     position: relative;
+    //     z-index: 99;
+    //     bottom: 469px;
+    // }
+    .bodyfile {
+        border: dashed 1px #979797;
+        background: #FFFF;
+        height: 50px;
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .file {
+        margin-left: 10px;
+        display: flex;
+        background: #dae5e8;
+        margin-top: 5px;
+        padding: 0px 10px 0px 10px;
+        border-radius: 5px;
+        align-items: center;
+    }
+
+
+}
+
+$app-dark-theme: mat-dark-theme($mat-primary-palette, $mat-accent-palette);
+
+.dark-mode {
+    @include angular-material-theme($app-dark-theme);
+    background-color: #151521;
+    color: whitesmoke;
+
+    #frame {
+        width: 100%;
+        height: 100vh;
+        background: #151521;
+        color: #CDCDDE;
+    }
+
+    #frame .message-input {
+        position: absolute;
+        bottom: 280px;
+        width: 100%;
+        z-index: 99;
+    }
+
+    #frame .message-input .wrap {
+        position: relative;
+    }
+
+    .chattapgr {
+        background: #424242;
+    }
+
+    .bodyfile {
+        border: dashed 1px #979797;
+        background: #323435;
+        height: 50px;
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .file {
+        color: black;
+        margin-left: 10px;
+        display: flex;
+        background: #8a9092;
+        margin-top: 5px;
+        padding: 0px 10px 0px 10px;
+        border-radius: 5px;
+        align-items: center;
+    }
+
+    .inpuchat {
+        display: flex;
+        background: #2b2c33;
+        border-top: 1px solid #323248;
+    }
+
+    #frame #sidepanel {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #frame #sidepanel #search input {
+        font-family: "Roboto, Verdana, Arial, Helvetica, sans-serif";
+        padding: 7px 0 7px 46px;
+        width: 100%;
+        margin-bottom: 0 !important;
+        border: none;
+        background: #151521 !important;
+        color: #fff;
+        border-radius: 25px;
+    }
+
+    .card.card-custom>.card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        flex-wrap: wrap;
+        min-height: 60px;
+        padding-top: 0;
+        padding-bottom: 0;
+        background-color: #1e1e2d;
+        border-bottom: 1px solid #323248;
+    }
+
+    .card.card-custom {
+        background-color: #1e1e2d;
+    }
+
+    .colortext {
+        color: white;
+    }
+
+
+    app-danh-sach-ho-tro .btn {
+        background-color: #1e1e2d;
+        color: green;
+        font-weight: 400;
+        text-align: center;
+        border: 3px solid green !important;
+        border-radius: 25px;
+        float: right;
+        height: 30px;
+        padding: 0 !important;
+        width: 130px;
+    }
+
+    .mat-raised-button {
+        color: #fff !important;
+        background-color: #424242;
+    }
+
+    .ql-editor.ql-blank:before {
+        color: #999 !important;
+    }
+
+    // app-chi-tiet-ho-tro .ct-title {
+    //     color: #cdcdde !important;
+    //     font-size: 12pt;
+    //     font-weight: 700;
+    // }
+
+    //=================Kích thước thanh scroll==============
+    @media only screen and (min-width: 1028px) {
+        ::-webkit-scrollbar {
+            width: 5px;
+            opacity: 0;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px #c2c2c9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px #c2c2c9;
+        }
+
+        .no-padding .mat-dialog-container {
+            padding: 0px;
+            // background-color: #1e1e2d;
+        }
+    }
+
+    /*#endregion */
+    @import "./support/dark.scss";
+    // @import "./support/dark-mode.scss";
+
+    //===========Css popup cảnh báo và thông báo dark===================
+    .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane .mat-snack-bar-container {
+        background-color: #1e1e2d;
+        display: block;
+        box-shadow: 0 0 70px #80808020;
+        border-radius: 15px;
+
+        .swal-poppup {
+            display: none;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            width: 32em;
+            max-width: 100%;
+            padding: 1.25em;
+            border-radius: .3125em;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .swal-pad {
+            display: block;
+            position: relative;
+            max-width: 100%;
+            margin: 0 0 .4em;
+            padding: 0;
+            color: #cdcdde;
+            font-size: 14pt;
+            font-weight: normal;
+            text-align: center;
+            text-transform: none;
+            word-wrap: break-word;
+        }
+
+        span {
+            color: #cdcdde;
+        }
+
+        .b-success {
+            color: #c0e48e;
+        }
+
+        .b-fail {
+            color: red;
+        }
+
+        button {
+            &.btn-snackbar {
+                border-left-color: rgb(48, 133, 214);
+                border-right-color: rgb(48, 133, 214);
+                border: 0;
+                border-radius: .25em;
+                background: initial;
+                background-color: #3085d6;
+                color: #fff;
+                font-size: 0.9em;
+                padding: 3px 38px;
+                white-space: nowrap;
+            }
+
+            span {
+                color: #F64E60;
+            }
+        }
+    }
+}

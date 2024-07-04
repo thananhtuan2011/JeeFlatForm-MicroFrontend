@@ -1,0 +1,117 @@
+<div [ngStyle]="{'height': getHeight()}">
+    <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <app-content-loading></app-content-loading>
+    </ng-template>
+    <ng-template #elseBlock>
+
+        <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+            [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+        </div>
+        <mat-menu #contextMenu="matMenu" #contextMenu2="matMenu">
+            <ng-template matMenuContent let-item="item">
+                <button mat-menu-item (click)="danhDauDaXuLy(item)"><i class="flaticon2-open-box"></i>&nbsp;&nbsp;Đánh
+                    dấu đã xử lý</button>
+
+            </ng-template>
+
+        </mat-menu>
+        <div (contextmenu)="onContextMenu($event, item)" class="hover-row paddingDiv" (click)="Detail($event, item)"
+            routerLinkActive="active" [routerLink]="['/Meet/',item.RowID]" [queryParams]="{ Type: TypeRouter}"
+            [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of _dataAll">
+            <div class="border-item-yc"></div>
+            <div class="item-yeucau">
+                <table class="table" style="margin: 15px 0 15px 0;">
+                    <thead style="visibility: collapse;">
+                        <tr>
+                            <th style="width: 40px"></th>
+                            <th style="width: 240px"></th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3">
+                                <div *ngIf="item.Status != 2" class="tinhtrang"
+                                    matTooltip="{{getTextStatus(item.Status)}}"
+                                    [ngStyle]="{'background-color':getColor2(item.Status)}"></div>
+                            </td>
+                            <td>
+                                <button *ngIf="item.IsDuyet == 2&&item.isCreated === 1" class="btn-add-plus"
+                                    type="button" style="    padding: 6px 12px 6px 12px;
+                                margin-bottom: 5px;
+                                height: 24px;
+                                font-size: 10px;
+                                font-weight: 500;
+                                line-height: normal;" matTooltip="Gửi giấy mời" mat-raised-button
+                                    (click)="XacNhanCuocHop(item.RowID); $event.stopPropagation()">Gửi giấy mời
+                                </button>
+                                <div class="HienDauBaChamv2" matTooltip="{{item.TenCuocHop}}">
+
+                                    <div
+                                        *ngIf="(item.IsDuyet===0 && item.Status != 2) || (item.IsDuyet===2 && item.Status != 2) ; then thenBlock12 else elseBlock14">
+                                    </div>
+                                    <ng-template #thenBlock12>
+                                        <span> <span *ngIf="item.SoKyHieu" class="SoKyHieu">{{item.SoKyHieu}}
+                                            </span>{{item.TenCuocHop}}</span>
+                                    </ng-template>
+                                    <ng-template #elseBlock14>
+                                        <span class="da-dong" *ngIf="item.Status == 3">Đã hoãn </span>
+                                        <span *ngIf="item.Status == 0"
+                                            [ngStyle]="{'color':getColor2(item.Status)}">{{convertDateExpired(item.FromTime,item.ThoiLuongPhut)
+                                            == 1? "Đang diễn ra" : (item.FromTime) | timeAgoCus}} - </span>
+                                        <span
+                                            [ngClass]="(item.Status == 2 || item.Status == 3) ? 'da-dong' : 'ten-ch'"><span
+                                                *ngIf="item.SoKyHieu" class="SoKyHieu">{{item.SoKyHieu}}
+                                            </span>{{item.TenCuocHop}}</span>
+                                        <span class="da-dong" *ngIf="item.Status == 2"> đã đóng</span>
+                                    </ng-template>
+
+                                </div>
+                                <span class="ten-loai-yc-v2"
+                                    matTooltip="{{item.TenPhongHop}} Địa điểm: {{item.DiaDiem}}"><span
+                                        *ngIf="item.IsDuyet == 2"
+                                        style="background-color: #DD4968; color:white;padding: 2px 6px 2px 6px;border-radius: 10px;margin-right: 5px;">Đang
+                                        chuẩn bị</span>
+                                    <span *ngIf="item.isNew"
+                                        style="background-color: #f8496f; color:white;padding: 2px 6px 2px 6px;border-radius: 10px;margin-right: 5px;">Mới</span>
+                                    <span *ngIf="item.TenPhongHop">{{item.TenPhongHop}} </span><span
+                                        *ngIf="item.DiaDiem">Địa điểm: {{item.DiaDiem}}</span></span>
+                            </td>
+                            <td rowspan="2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div *ngIf="item.NguoiTao" style="display: grid">
+                                            <div style="margin: auto;padding-left:8px">
+                                                <app-list-users-custom [item]="item.NguoiTao" MaxSize="1"
+                                                    iconSize="35"></app-list-users-custom>
+                                            </div>
+                                            <div style="text-align: center;cursor: pointer;">
+                                                <span *ngIf="item.Status != 2 &&  item.Status!=3 " class="
+                                                    mo-ta-ch "
+                                                    matTooltip=" {{item.FromTime | timeAgoCus}} ">{{convertDateExpired(item.FromTime,item.ThoiLuongPhut)
+                                                    == 1? " Đang diễn ra " : (item.FromTime) | timeAgoCus}}</span>
+                                                <span *ngIf="item.Status == 2 ||  item.Status==3 " class="
+                                                                                                        mo-ta-ch "
+                                                    matTooltip=" {{item.FromTime | timeAgoCus}} ">{{(item.FromTime) |
+                                                    timeAgoCus}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div *ngIf=" _dataAll.length==0 " style=" text-align: center; font-size: 14px; ">
+            <img width=" 100% " src=" ../../../../../../../../assets/images/nodata.jpg " /> Không có dữ liệu cuộc họp
+            vui lòng quay lại sau.
+        </div>
+    </ng-template>
+</div>

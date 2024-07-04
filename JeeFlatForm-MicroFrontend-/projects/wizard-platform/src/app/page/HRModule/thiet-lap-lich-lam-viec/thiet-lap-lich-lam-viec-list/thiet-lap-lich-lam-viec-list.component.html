@@ -1,0 +1,103 @@
+<style>
+  .m-list-search__form-wrapper {
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+  }
+
+  .border-input {
+    height: 30px;
+    border: 1px solid #ebedf2;
+    border-radius: 10px;
+    width: 400px;
+    padding-left: 10px;
+  }
+
+  ::placeholder {
+    font-style: italic;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3>{{ 'JeeHR.thietlaplichlamviec' | translate }}</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row class-text" id="height1" *ngIf="this._DanhMucChungService.textHR6 == ''">
+      <span style="padding-bottom: 10px;">
+        Thiết lập lịch làm việc là bước để bạn quy định thời gian làm việc tại doanh nghiệp của bạn. Hệ thống có hỗ trợ
+        sẵn các mẫu lịch làm việc phổ biến,
+        bạn chọn 1 mẫu phù hợp với doanh nghiệp của mình để sử dụng. Nếu cần phân lịch phức tạp hơn như có nhiều ca, có
+        ngày nghỉ khác nhau giữa
+        các nhân viên bạn có thể truy cập vào tính năng thiết lập chi tiết tại phân hệ nhân sự -> Quản lý công -> Ca làm
+        việc.
+      </span><br />
+      <span>
+        Chọn 1 mẫu lịch bên dưới để áp dụng cho doanh nghiệp của bạn:
+      </span>
+    </div>
+    <div class="row class-text" *ngIf="this._DanhMucChungService.textHR6 != ''">
+      <span [innerHTML]="this._DanhMucChungService.textHR6"></span>
+    </div>
+    <div class="example-container mat-table__wrapper" id="listScroll"
+      style="overflow: auto; height:324px;">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; box-shadow: none">
+        <!-- STT -->
+        <ng-container matColumnDef="STT">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center; width:100px">
+            Chọn
+          </th>
+          <td mat-cell *matCellDef="let element,let vi = index" style="text-align: center;width:100px;padding-left:0">
+            <!-- <div class="round">
+              <input type="checkbox" [checked]="element.isCheck" (change)="change(element)" id="checkbox{{vi}}" />
+              <label for="checkbox{{vi}}"></label>
+            </div> -->
+            <div class="status-items" (click)="change(element)" *ngIf="!element.isCheck">
+              <i class="fa fa-circle status-all" style="font-size: 20px;"></i>
+            </div>
+            <div class="status-items" (click)="change(element)" *ngIf="element.isCheck">
+              <i class="fa fa-check-circle status-complete" style="font-size: 20px; color: rgb(7, 191, 7)"></i>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Tên phân loại -->
+        <ng-container matColumnDef="Title">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'JeeHR.tenchedo' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{element.title}}</span>
+          </td>
+        </ng-container>
+
+        <!-- La phép năm -->
+        <ng-container matColumnDef="MoTa">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'JeeHR.mota' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" style="padding-left:20px">
+            <span>{{element.description}}</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (mouseover)="row.hovered = true"
+          (mouseout)="row.hovered = false"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<style>
+	.btn-download {
+		color: #FFF;
+		background-color: #0a9562;
+		border-color: #0a9562;
+	}
+
+	.btn-back {
+		color: #0a9562;
+		background-color: #fff;
+		border: solid 1px #0a9562;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header header">
+		<div class="card-title">
+			Tải dữ liệu từ camera Hanet
+		</div>
+		<div class="card-toolbar"></div>
+	</div>
+
+	<div class="card-body">
+		<form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first auto_scroll">
+				<div class="m-form__group">
+					<div class="row">
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Địa điểm chấm công" formControlName="DiaDiem">
+									<mat-option *ngFor="let tmp of lstDiaDiem" value="{{tmp.PlaceID}}">
+										{{tmp.PlaceName}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-md-12 m--margin-bottom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Ngày cần tải" 
+									[matDatepicker]="picker" formControlName="Ngay" required>
+								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+								<mat-datepicker #picker></mat-datepicker>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="dialog-footer" style="padding-top: 0;">
+		<button type="button" (click)="goBack()" mat-raised-button class="btn-back">
+			<span translate="landingpagekey.trolai"></span>
+        </button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit()" mat-raised-button class="btn-download">
+			Tải dữ liệu
+        </button>
+	</div>
+</div>

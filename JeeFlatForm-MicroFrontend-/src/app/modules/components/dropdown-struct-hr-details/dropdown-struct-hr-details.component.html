@@ -1,0 +1,101 @@
+<style>
+    .class-width {
+        width: 100%;
+    }
+
+    .btn {
+        padding: 0 !important;
+    }
+
+    m-dropdown-struct-control .show {
+        display: flex !important;
+    }
+
+    .btn.dl-drop-tree-custom-css.dropdown-toggle .mat-form-field::after {
+        right: 0px !important;
+        margin-top: -5.5px !important;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .dropdown-tree {
+        overflow: auto;
+        height: 250px;
+        overflow-y: auto;
+        width: 100%;
+        display: block;
+
+    }
+
+    .require .dl-dropdown-tree-control input {
+        color: #16A851 !important;
+    }
+
+    .text-task {
+        display: block;
+        width: 90% !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+
+    .btn.btn-outline-primary:hover:not(.btn-text):not(:disabled):not(.disabled),
+    .btn.btn-outline-primary:focus:not(.btn-text),
+    .btn.btn-outline-primary.focus:not(.btn-text) {
+        background: none !important;
+        border: none !important;
+    }
+
+    .mat-form-field-fluid {
+        width: 100%
+    }
+</style>
+<div ngbDropdown #dropdownCustom class="dl-dropdown-tree-control d-inline-block class-width dropup" autoClose="outside"
+    [placement]="Placement">
+    <div data-boundary="window" class="btn btn-outline-primary dl-drop-tree-custom-css " id="dropdownForm1"
+        ngbDropdownToggle>
+        <mat-form-field class="mat-form-field-fluid"
+            [ngClass]="{'mat-form-field-should-float ': valid,'mat-focused': focus}">
+            <input matInput class="input-tree text-task" placeholder=" {{DropdownTitle}}" [formControl]="dropdowntreeControl"
+                readonly matTooltip="{{ current_item_select }}">
+            <i class="fa fa-times drp-clear " aria-hidden="true " (click)="ClearData() "></i>
+        </mat-form-field>
+    </div>
+    <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="dl-drop-menu-tree" *ngIf="type == 1">
+        <mat-form-field class="Search-Box" style="width: 100%;" appearance="fill" *ngIf="AllowSearch">
+            <mat-label>{{SearchLabel}}</mat-label>
+            <input matInput class="input-thuong" #txtVal (input)="filterChanged(txtVal.value)" autocomplete="false" />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+        <cdk-tree [dataSource]="dataSource " [treeControl]="treeControl " class="dl-tree-dropdown dropdown-tree ">
+            <cdk-nested-tree-node *cdkTreeNodeDef="let node " class="example-tree-node ">
+                <div class="dl-cover-tree-node " (click)="SelectItemTree(node) "
+                    [ngClass]="{ 'active': selectedNode.RowID==node.RowID} ">
+                    <div class="dl-name-node ">
+                        <div class="name-txt" *ngIf="node.RowID > 0"><span
+                                style="padding-left: 5px;">{{node.Title}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </cdk-nested-tree-node>
+            <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild " class="example-tree-node ">
+                <div class="dl-cover-tree-node " (click)="SelectItemTree(node) "
+                    [ngClass]="{ 'active': selectedNode.RowID==node.RowID} ">
+                    <div class="dl-name-node ">
+                        <div class="name-txt" *ngIf="node.RowID > 0">
+                            <button mat-icon-button [attr.aria-label]=" 'toggle ' + node.Title " cdkTreeNodeToggle>
+                                <img src="/assets/images/_plus.png " *ngIf="!treeControl.isExpanded(node) ">
+                                <img src="/assets/images/_sub.png " *ngIf="treeControl.isExpanded(node) ">
+                            </button>
+                            <span style="padding-left: 5px; ">{{node.Title}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div [class.example-tree-invisible]="!treeControl.isExpanded(node) " class="dl-out-let ">
+                    <ng-container cdkTreeNodeOutlet></ng-container>
+                </div>
+            </cdk-nested-tree-node>
+        </cdk-tree>
+    </div>
+</div>

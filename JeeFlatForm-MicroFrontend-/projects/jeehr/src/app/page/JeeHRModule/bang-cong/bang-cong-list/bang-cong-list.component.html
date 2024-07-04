@@ -1,0 +1,289 @@
+<style>
+  .btn-xacnhan {
+    color: #FFF;
+    background-color: #ff540d !important;
+    border-color: #ff540d !important;
+  }
+
+  .btn-daxacnhan {
+    color: #FFF;
+    background-color: #4cbdb8 !important;
+    border-color: #4cbdb8 !important;
+    pointer-events: none;
+  }
+</style>
+<div class="bang-cong">
+  <div>
+    <div style="padding: 0 12px 12px">
+      <span class="btn btn-thangnam" *ngFor="let lst of listThangNam" (click)="ThangNamChange(lst)"
+        [ngClass]="{'thangnam-active' : filterThang === lst.Thang && filterYear === lst.Nam}"
+        style="color: #858585; margin-right: 12px; margin-top: 12px; padding: 2px 15px; font-size: 14px;">{{lst.Title}}</span>
+    </div>
+  </div>
+  <div [ngStyle]="{'height': getHeight()}" style="overflow-y: auto;">
+    <div class="mat-table__wrapper" style="padding: 0 12px 20px 12px; overflow: auto;">
+      <table mat-table style="width: 100%" [dataSource]="data" class="dl-table-custom">
+        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+          <!-- Header cho dòng đầu => cột đầu rỗng -->
+          <th mat-header-cell *matHeaderCellDef>{{ column != '0' ? column : '' }}</th>
+          <!-- element[column].Style} style của ô -->
+          <td class="headerpad" mat-cell *matCellDef="let element" [ngClass]="buildStyleBold(element[column][0])"
+            [ngStyle]="{ 'text-align' : column == '0' ? 'left' : 'center'}">
+            <!-- [ngStyle]="{'background-color': buildStyle(element[column][0])}" -->
+            <!-- Dành cho cột title -->
+            <span *ngIf="column == '0'" style="padding-left: 2px;">{{ element[column] }}</span>
+            <!-- Dành cho cột tháng -->
+            <!-- {{element[column].Data}} dữ liệu của ô -->
+            <span *ngIf="column != '0'" [matTooltip]="BindTooltipDataTimesheets(element[column])">
+              {{ element[column][0].Data || '' }}</span>
+            <!-- selected-row-gray -->
+            <!-- [ngStyle]="{'font-weight': buildStyleBold(element[column][0])}"  -->
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+
+    <div class="row" style="margin: 0; padding: 12px;">
+      <div class="col-lg-4 m--margin-bottom-20-mobile">
+        <div class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+          <div class="m-widget29">
+            <div class="m-widget_content">
+              <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                  style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                  translate="timesheets.nghiphep"></span></h5>
+              <hr style="color: #b1bacc;">
+              <div class="m-widget1" *ngFor="let nghiphep of list_thongtinnghiphep, let vi = index"
+                style="padding: 0 20px">
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            ">{{ nghiphep.Title }}</span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span style="font-size: 14px; font-family: Roboto, Helvetica Neue, sans-serif"
+                        [class]="nghiphep.Style">{{
+                        nghiphep.SoNgayNghi
+                        }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 m--margin-bottom-20-mobile">
+        <div class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+          <div class="m-widget29">
+            <div class="m-widget_content">
+              <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                  style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                  translate="timesheets.tangca"></span></h5>
+              <hr style="color: #b1bacc;">
+              <div class="m-widget1" style="padding: 0 20px">
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.tangcangaythuong"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="luong">{{ tangcangaythuong }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.tangcangaynghi"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="luong">{{ tangcangaynghi }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.tangcangayle"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="luong">{{ tangcangayle }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.tonggiotangca"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="luong">{{ TongGioTangCa }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 m--margin-bottom-20-mobile">
+        <div class="m-portlet m-portlet--rounded-force m-portlet--bordered-semi m-portlet--full-height bang-cong-info">
+          <div class="m-widget29">
+            <div class="m-widget_content">
+              <div style="display: flex;">
+                <div class="col-md-6">
+                  <h5 class="m-widget1__title" style="padding: 20px 20px 0; font-size: 1rem;"><span
+                      style="color: #32c132; text-transform: uppercase; font-weight: bold;"
+                      translate="timesheets.tonghoptrongthang"></span>
+                  </h5>
+                </div>
+                <div class="col-md-6" style="text-align: right; margin-top: 1rem;">
+                  <button type="button" mat-raised-button class="btn-xacnhan" (click)="ConfirmTimesheets()"
+                    *ngIf="showconfirm">
+                    <span translate="timesheets.xacnhanbangcong"></span>
+                  </button>
+                  <button type="button" mat-raised-button class="btn-daxacnhan" *ngIf="!showconfirm">
+                    <mat-icon style="padding-top: 2px;">check</mat-icon><span translate="timesheets.daxacnhan"></span>
+                  </button>
+                </div>
+              </div>
+              <hr style="color: #b1bacc;">
+              <div class="m-widget1" style="padding: 0 20px">
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.songaydilam"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="salary">{{ songaydilam }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.songaytrocapcadem"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="salary">{{ songaytrocapcadem }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.songayle"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="salary">{{ songayle }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-widget1__item" style="padding: 2px">
+                  <div class="row m-row--no-padding align-items-center">
+                    <div class="col-lg-10 m--align-left">
+                      <span class="m-widget_content-title" style="
+                              font-weight: normal;
+                              font-size: 14px;
+                              font-family: Roboto, Helvetica Neue, sans-serif;
+                            " translate="timesheets.tongconglam"></span>
+                    </div>
+                    <div class="col-lg-2 m--align-right">
+                      <span class="salary">{{ tongconglam }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="message" *ngFor="let comment of listcomments">
+      <div class="pic">
+        <ngx-avatar [size]="40" src="{{comment.Imagenv}}" *ngIf="comment.Imagenv;else bindText">
+        </ngx-avatar>
+        <ng-template #bindText>
+          <ngx-avatar textSizeRatio="2.5" [size]="40" [name]="comment.nv_tennv.slice(0, 1)"
+            bgColor="{{getColorNameUser(comment.nv_tennv.slice(0, 1))}}">
+          </ngx-avatar>
+        </ng-template>
+      </div>
+      <div class="message-text">
+        <div class="row" style="display: contents">
+          <b>{{ comment.tennv }}</b>
+          <p style="white-space: pre-line">{{ comment.Noidung }}</p>
+          <span>{{ comment.SendDate | date: 'HH:mm dd/MM/yyyy' }}</span>&nbsp;&nbsp;
+        </div>
+        <div class="message-child">
+          <div class="pic">
+            <ngx-avatar [size]="40" src="{{comment.Image}}" *ngIf="comment.Image;else bindText1">
+            </ngx-avatar>
+            <ng-template #bindText1>
+              <ngx-avatar textSizeRatio="2.5" [size]="40" [name]="comment.admin_ten.slice(0, 1)"
+                bgColor="{{getColorNameUser(comment.admin_ten.slice(0, 1))}}">
+              </ngx-avatar>
+            </ng-template>
+          </div>
+          <div class="message-text-child">
+            <div class="row" style="display: contents">
+              <b>{{ comment.hoten }}</b>
+              <p>{{ getItemStatusString(comment.IsProcessed) }}.&nbsp;{{ comment.Note_admin }}</p>
+              <span>{{ comment.Processeddate | date: 'HH:mm dd/MM/yyyy' }}</span>&nbsp;&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit">
+        <button mat-icon-button type="button" *ngIf="!iscomment" matTooltip="Chỉnh sửa ghi chú bảng chấm công"
+          (click)="CapNhatGhiChu(comment)">
+          <mat-icon style="color: #0bb7af;">create</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="m-form-filter" style="width: 100%; padding: 10px" *ngIf="showButton && listcomments.length == 0">
+      <div class="comment-text" style="display: flex">
+        <textarea matInput autocomplete="off" type="text" [(ngModel)]="comment" style="border: none;"
+          class="m-list-search__form-input form-control" placeholder="Ghi chú..."></textarea>
+        &nbsp;
+        <mat-icon matTooltip="{{ 'landingpagekey.luu' | translate }}" (click)="onKeydownHandler()">save</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

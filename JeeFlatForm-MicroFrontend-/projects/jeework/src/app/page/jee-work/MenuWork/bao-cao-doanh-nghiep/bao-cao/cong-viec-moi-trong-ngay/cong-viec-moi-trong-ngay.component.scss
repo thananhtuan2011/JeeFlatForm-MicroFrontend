@@ -1,0 +1,47 @@
+.box-trang-thai{ 
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    margin: auto;
+    cursor: pointer;
+}
+.padtb{
+    padding-top: 0 !important;
+    padding-bottom: 1px !important;
+}
+.mr-button{
+    margin-right: 10px;
+  }
+
+.table-container {
+    height: 300px; /* Đặt chiều cao tùy ý */
+    overflow-y: auto; /* Tạo thanh cuộn dọc khi nội dung vượt quá chiều cao */
+    position: relative; /* Vị trí tương đối để phần header cố định */
+  }
+  
+  table {
+    width: 100%; /* Chiều rộng 100% của bảng */
+    //table-layout: fixed; /* Đặt bố cục cố định cho bảng */
+  }
+  
+  thead {
+    position: sticky; /* Cố định phần tử thead */
+    top: 0; /* Dính ở phía trên cùng */
+    z-index: 1; /* Đảm bảo header hiển thị phía trên body */
+    //background-color: #c2c2c22b; /* Màu nền của header */
+  }
+  
+  tbody {
+    overflow-y: auto; /* Tạo thanh cuộn dọc khi nội dung vượt quá chiều cao */
+    height: calc(100% - 40px); /* Chiều cao tính từ phần header */
+  }
+  .user{
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin-left: -8px;
+    background: rgba(0,0,0,.1);
+    border: 2px solid #f3f3f3;
+  }

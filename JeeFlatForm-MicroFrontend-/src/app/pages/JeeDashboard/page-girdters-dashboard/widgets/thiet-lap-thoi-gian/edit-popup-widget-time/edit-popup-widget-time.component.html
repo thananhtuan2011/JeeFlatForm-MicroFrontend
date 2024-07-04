@@ -1,0 +1,86 @@
+<style>
+
+
+    :host>>>.card-body {
+        padding: 15px !important;
+    }
+
+    :host>>>.row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+</style>
+<div class="card card-custom" style="padding: 0 !important;">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;">
+            <h3 class="dialog-title">Thiết lập Widget - {{this.data.item.name}}
+            </h3>
+        </div>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body" style="overflow: auto;max-height: 500px;">
+        <div *ngIf="ListDK && ListDK.length>0;else NotData" class="table-responsive angular-bootstrap-table">
+            <table class="fancyTable table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width:30%;">
+                        <span>Mã thiết lập</span>
+
+                    </th>
+                    <th style="width:40%;">
+                        <span>Tiêu đề</span>
+                    </th>
+
+                    <th style="width:30%; text-align: right">
+                        <span>Thao tác</span>
+                    </th>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let r of ListDK">
+                        <td style="padding-left: 15px;">
+                            <div>
+                                <span class="cssusername">{{ r.RowID }}</span>
+                            </div>
+                        </td>
+                        <td style="text-align: left;">
+                            <div>
+                                <span class="cssDepartment">{{ r.Title }}</span>
+                            </div>
+                        </td>
+
+                        <td style="text-align: right;">
+                            <mat-icon placement="top" ngbTooltip="Chỉnh sửa" mat (click)="Update_SetTime(r.RowID)"
+                                style="cursor: pointer; color: #1bc5bd; font-size: 16px" aria-hidden="false">
+                                edit</mat-icon>&nbsp;&nbsp;
+                            <mat-icon placement="top" ngbTooltip="Xóa" mat (click)="delete_dk(r.RowID)"
+                                style="cursor: pointer; color: red; font-size: 16px" aria-hidden="false">
+                                delete</mat-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #NotData>
+            <div>
+                <span style="color: red;font-weight: bold;">
+                    Chưa có thiết lập nào
+                </span>
+            </div>
+        </ng-template>
+
+    </div>
+    <div class="dialog-footer">
+        <button type="button" mat-raised-button class="ja_button ja_btn-goback" cdkFocusInitial (click)="goBack()"
+            matTooltip="{{ 'landingpagekey.motatrolai' | translate }}">
+            <span translate="landingpagekey.trolai"></span>
+        </button>&nbsp;
+        <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="Update_SetTime(0)"
+            matTooltip="Thêm mới">
+            <span>Thêm mới</span>
+        </button> &nbsp; 
+    </div>
+</div>

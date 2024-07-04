@@ -1,0 +1,312 @@
+m-add-widget-dashborad {
+  .fancyTable thead tr th {
+    padding: 5px;
+    border-top: 0.5px solid #323248 !important;
+    border-bottom: 0.5px solid #323248 !important;
+    font-size: 14px !important;
+    color: white !important;
+    height: 56px;
+    background-color: #151521;
+  }
+
+  .fancyTable tbody tr td {
+    padding: 10px;
+    color: #ffffffcc !important;
+    font-size: 14px !important;
+    min-height: 48px;
+    border-bottom: 0.5px solid #323248 !important;
+  }
+
+  .card {
+    background-color: #1e1e2d;
+    border: none;
+
+    >.card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 60px;
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #1e1e2d;
+      border-bottom: 1px solid #323248;
+
+      >.card-title {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem;
+        margin-left: 0;
+      }
+
+      >.card-toolbar {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+    }
+
+    // >.card-body {}
+
+    >.dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+m-page-girdters-dashboard,
+m-template-dashboard-details {
+  .title-dash {
+    height: 60px;
+    background: #1e1e2d;
+    color: white;
+    padding-left: 15px;
+    align-items: center;
+    font-weight: bold;
+    margin: 0;
+
+    .title {
+      color: white;
+    }
+  }
+
+  .widget-pd-0 {
+    padding: 0 !important;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .text-1-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .text-2-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .user {
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin-right: 5px;
+    background: rgba(0, 0, 0, .1);
+    border: 2px solid #f3f3f3;
+  }
+
+  .box-absolute-auto {
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+  }
+
+  .box-trang-thai {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    margin: auto;
+    cursor: pointer;
+  }
+
+  gridster-item {
+    border-radius: 7px;
+    padding: 24px;
+    padding-top: 0px;
+    background: #1e1e2d;
+
+    .header-grid .mat-table {
+      height: 50px !important;
+
+      .mat-header-cell {
+        background-color: #f3f6f9 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: #525e64 !important;
+        }
+      }
+    }
+
+    .header-grid thead tr {
+      height: 50px !important;
+      vertical-align: middle;
+
+      th {
+        background-color: #151521 !important;
+
+        span {
+          font-weight: 500 !important;
+          text-transform: none !important;
+          font-size: 13px !important;
+          color: white !important;
+        }
+      }
+    }
+
+    .header-grid tbody tr {
+      td {
+        min-height: 48px;
+        border-bottom: 0.5px solid #323248 !important;
+      }
+    }
+  }
+
+  .name-title {
+    color: white;
+  }
+
+  .job-title {
+    color: #828282;
+  }
+
+  .hover-row:hover {
+    background-color: #151521;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    background-color: #1e1e2d;
+
+    .dropdown-item {
+      color: #f5f6f7;
+
+      &:hover,
+      &:focus {
+        background: #00dcff26;
+        color: #3698f9;
+      }
+    }
+  }
+
+  .btn-light {
+    background-color: #1e1e2d;
+    border: 1px;
+  }
+
+  app-task-datetime-pc {
+    position: relative;
+    text-align: center;
+  }
+}
+
+widget-tong-hop-cong-viec {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .bg-quahan {
+    background-color: rgb(58, 36, 52) !important;
+  }
+
+  .bg-toihan {
+    background-color: rgb(57, 47, 40) !important;
+  }
+
+  .bg-saptoihan {
+    background-color: rgb(47, 38, 79) !important;
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .color-quahan {
+    color: rgb(241, 65, 108) !important;
+  }
+
+  .color-toihan {
+    color: rgb(255, 199, 0) !important;
+  }
+
+  .color-saptoihan {
+    color: rgb(114, 57, 234) !important;
+  }
+
+  .color-tronghan {
+    color: rgb(80, 205, 137) !important;
+  }
+}
+
+widget-khoi-luong-cong-viec {
+  .row {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .css-icon {
+    text-align: right;
+    align-self: center;
+  }
+
+  .rounded-xl {
+    border-radius: 1.25rem !important;
+  }
+
+  .bg-quahan {
+    background-color: rgb(58, 36, 52) !important;
+  }
+
+  .bg-toihan {
+    background-color: rgb(57, 47, 40) !important;
+  }
+
+  .bg-saptoihan {
+    background-color: rgb(47, 38, 79) !important;
+  }
+
+  .bg-tronghan {
+    background-color: rgb(28, 50, 56) !important;
+  }
+
+  .color-quahan {
+    color: rgb(241, 65, 108) !important;
+  }
+
+  .color-toihan {
+    color: rgb(255, 199, 0) !important;
+  }
+
+  .color-saptoihan {
+    color: rgb(114, 57, 234) !important;
+  }
+
+  .color-tronghan {
+    color: rgb(80, 205, 137) !important;
+  }
+}
+
+list-works-draft {
+  .table tbody tr {
+    vertical-align: middle;
+    color: #ffffff;
+  }
+}

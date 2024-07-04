@@ -1,0 +1,407 @@
+<style>
+	/* ::ng-deep>>>.m-portlet.m-portlet--full-height {
+		min-height: calc(100vh - 100px);
+	} */
+	.mat-form-field {
+		width: 100%;
+	}
+
+	.m-list-search__form-wrapper {
+		position: relative;
+		padding-left: 5px;
+		border: 1px solid #ebedf2;
+		border-radius: 10px;
+	}
+
+	.m-list-search__form-icon-show {
+		position: absolute;
+		right: calc(0% + 5px);
+		background-color: white;
+		height: 30px;
+	}
+
+	.area-search {
+		display: inline-block;
+		width: calc(100% - 5px);
+	}
+
+	.area-search>span:last-child {
+		cursor: pointer;
+	}
+
+	.m-form-filter-container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 100;
+		overflow: auto;
+	}
+
+	.m-form-filter {
+		height: auto;
+		/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+	}
+
+	.m-form-filter form {
+		padding: 24px 0;
+	}
+
+	:host>>>.row {
+		display: flex;
+		margin-right: 0;
+		margin-left: 0;
+		--bs-gutter-x: 0;
+	}
+
+	.icon-add {
+		border: 1px dashed #676363;
+		border-radius: 50%;
+		height: 26px;
+		width: 26px;
+		text-align: center;
+		padding-top: 2px;
+		margin-top: 3px;
+	}
+
+	.users {
+		overflow: hidden;
+		position: relative;
+		float: left;
+		padding-left: 10px;
+	}
+
+	.user {
+		overflow: hidden;
+		float: left;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		-moz-border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border-radius: 50%;
+		margin-left: -8px;
+		background: rgba(0, 0, 0, 0.1);
+		border: 2px solid #f3f3f3;
+	}
+</style>
+<div class="m-list-search__form" style="max-height: 80vh;">
+	<form class="m-form" [formGroup]="formControls" style="margin-top: 25px;">
+		<div class="col-md-12 m--margin-bottom-10-mobile">
+			<mat-form-field class="mat-form-field-fluid ">
+				<input matInput formControlName="tenCongViec" class="input-batbuoc" id="tencongviec"
+					placeholder="{{'workprocess.tennhiemvu'  | translate}}" [required]="true" />
+			</mat-form-field>
+		</div>
+
+		<div class="col-md-12 m--margin-bottom-10-mobile">
+			<mat-form-field class="mat-form-field-fluid ">
+				<textarea matInput placeholder="{{ 'workprocess.mota' | translate }}"
+					formControlName="noiDung"></textarea>
+			</mat-form-field>
+		</div>
+
+		<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+			<div class="col-md-1 m--margin-bottom-10-mobile" style="padding: 0; align-self: center;">
+				<span translate="workprocess.tailieu"></span>
+			</div>
+			<div class="col-md-11 m--margin-bottom-10-mobile">
+				<dl-image-control [data]="itemFile" formControlName="file" nameButton="Chọn tệp" [multiple]="true">
+				</dl-image-control>
+			</div>
+		</div>
+		<br />
+		<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+			<div class="col-md-2 m--margin-bottom-10-mobile" style="padding: 0;align-self: center;">
+				<span>{{ 'workprocess.nguoiquanly' | translate }}</span>&nbsp;<span style="color: red;">(*)</span>
+			</div>
+			<div class="col-md-10 m--margin-bottom-10-mobile">
+				<div style="display: flex;">
+					<div class="users">
+						<div class="user url" *ngFor="let img of ListNguoiQuanLy,let vi = index"
+							style="justify-content: flex-end;">
+							<ngx-avatar [size]="26" src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText"
+								[matMenuTriggerFor]="menu">
+							</ngx-avatar>
+							<ng-template #bindText>
+								<ngx-avatar textSizeRatio="2.5" [size]="26" [name]="img.FirstName.slice(0, 1)"
+									bgColor="{{ dynamicFormService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+									[matMenuTriggerFor]="menu">
+								</ngx-avatar>
+							</ng-template>
+							<mat-menu #menu="matMenu">
+								<div class="row">
+									<div class="col-md-3">
+										<ngx-avatar [size]="50" src="{{img.AvartarImgURL}}"
+											*ngIf="img.AvartarImgURL; else bindText">
+										</ngx-avatar>
+										<ng-template #bindText>
+											<ngx-avatar textSizeRatio="2.5" [size]="50"
+												[name]="img.FirstName.slice(0, 1)"
+												bgColor="{{ dynamicFormService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+											</ngx-avatar>
+										</ng-template>
+									</div>
+									<div class="col-md-9 font-chu">
+										<div class="col-md-12" style="font-weight: bold;">
+											<span>{{img.ObjectName}}</span>
+										</div>
+										<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+									</div>
+								</div>
+							</mat-menu>
+						</div>
+					</div>
+					<div class="icon-add" (click)="AddNguoiQuanLy()">
+						<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="col-md-12 m--margin-bottom-10-mobile" style="display: flex;">
+			<div class="col-md-2 m--margin-bottom-10-mobile" style="padding: 0;align-self: center;">
+				<span>{{ 'workprocess.nguoitheodoi' | translate }}</span>
+			</div>
+			<div class="col-md-10 m--margin-bottom-10-mobile">
+				<div style="display: flex;">
+					<div class="users">
+						<div class="user url" *ngFor="let img of ListNguoiTheoDoi,let vi = index"
+							style="justify-content: flex-end;">
+							<ngx-avatar [size]="26" src="{{img.AvartarImgURL}}" *ngIf="img.AvartarImgURL; else bindText"
+								[matMenuTriggerFor]="menu">
+							</ngx-avatar>
+							<ng-template #bindText>
+								<ngx-avatar textSizeRatio="2.5" [size]="26" [name]="img.FirstName.slice(0, 1)"
+									bgColor="{{ dynamicFormService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+									[matMenuTriggerFor]="menu">
+								</ngx-avatar>
+							</ng-template>
+							<mat-menu #menu="matMenu">
+								<div class="row">
+									<div class="col-md-3">
+										<ngx-avatar [size]="50" src="{{img.AvartarImgURL}}"
+											*ngIf="img.AvartarImgURL; else bindText">
+										</ngx-avatar>
+										<ng-template #bindText>
+											<ngx-avatar textSizeRatio="2.5" [size]="50"
+												[name]="img.FirstName.slice(0, 1)"
+												bgColor="{{ dynamicFormService.getColorNameUser(img.Ten.slice(0, 1)) }}">
+											</ngx-avatar>
+										</ng-template>
+									</div>
+									<div class="col-md-9 font-chu">
+										<div class="col-md-12" style="font-weight: bold;">
+											<span>{{img.ObjectName}}</span>
+										</div>
+										<div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+									</div>
+								</div>
+							</mat-menu>
+						</div>
+					</div>
+					<div class="icon-add" (click)="AddNguoiTheoDoi()">
+						<i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="col-md-12 kt--margin-bottom-10-mobile" *ngIf="controls.length > 0">
+			<div class="col-md-6 m--margin-bottom-10-mobile" style="padding: 0;align-self: center;">
+				<span style="color: #0094FF; font-size: 10pt; text-transform: uppercase;">{{ 'workprocess.dulieudauvao'
+					| translate }}</span>
+			</div>
+		</div>
+		<div class="col-md-12 kt--margin-bottom-10-mobile" style="padding: 0;">
+			<div class="row" *ngFor="let item of controls; let i=index">
+				<div class="col-md-12" *ngIf="item.ControlID==0">
+					<mat-form-field class="mat-form-field-fluid ">
+						<input matInput formControlName="{{item.RowID}}" placeholder="{{ item.Title}}"
+							[required]="item.Required" [ngClass]="{'input-batbuoc': item.Required}" />
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==1">
+					<mat-form-field class="mat-form-field-fluid ">
+						<input matInput formControlName="{{item.RowID}}" placeholder="{{ item.Title}}"
+							[required]="item.Required" [ngClass]="{'input-batbuoc': item.Required}" />
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==2">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput type="number" formControlName="{{item.RowID}}" [required]="item.Required"
+							placeholder="{{ item.Title}}" [ngClass]="{'input-batbuoc': item.Required}" />
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==3">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput [matDatepicker]="dpDate" formControlName="{{item.RowID}}"
+							[required]="item.Required" placeholder="{{ item.Title}}"
+							[ngClass]="{'input-batbuoc': item.Required}">
+						<mat-datepicker-toggle matSuffix [for]="dpDate"></mat-datepicker-toggle>
+						<mat-datepicker #dpDate></mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==4">
+					<mat-form-field class="mat-form-field-fluid">
+						<textarea matInput formControlName="{{item.RowID}}" [required]="item.Required"
+							[ngClass]="{'input-batbuoc': item.Required}" placeholder="{{ item.Title}}"></textarea>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==5">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select formControlName="{{item.RowID}}" [required]="item.Required"
+							placeholder="{{ item.Title}}">
+							<mat-option value="{{list.RowID}}" *ngFor="let list of item.init;">
+								{{list.Title}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==6">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select formControlName="{{item.RowID}}" [required]="item.Required"
+							placeholder="{{ item.Title}}" multiple>
+							<mat-option value="{{list.RowID}}" *ngFor="let list of item.init;">
+								{{list.Title}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==7">
+					<div class="row">
+						<span style="font-family: Arial, Helvetica, sans-serif;">{{ item.Title}}</span>&nbsp;
+						<mat-slide-toggle formControlName="{{item.RowID}}">
+						</mat-slide-toggle>
+					</div>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==8">
+					<mat-checkbox formControlName="{{item.RowID}}">
+						<span>{{item.Title}}</span>
+					</mat-checkbox>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==9">
+					<mat-radio-group formControlName="{{item.RowID}}" class="example-radio-group">
+						<div class="row" style="width: 100%;">
+							<div class="col-md-12" style="padding-left: 0;">
+								<span style="font-family: Arial, Helvetica, sans-serif;">{{ item.Title}}</span>
+							</div>
+							<div class="col-md-12" *ngFor="let list of item.init;">
+								<mat-radio-button class="example-radio-button" value="{{list.RowID}}">{{list.Title}}
+								</mat-radio-button>
+							</div>
+						</div>
+					</mat-radio-group>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==10">
+					<dl-image-control [data]="item" formControlName="{{item.RowID}}" type="image/*"
+						[required]="item.Required" nameButton="Chọn ảnh" [multiple]="false">
+					</dl-image-control>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==11">
+					<m-dropdown-tree [data]="item.init" [DropdownTitle]="item.Title" [required]="item.Required"
+						(SelectedItemTree)="GetValueNode($event,item)" formControlName="{{item.RowID}}">
+					</m-dropdown-tree>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==12">
+					<dl-image-control [data]="item" formControlName="{{item.RowID}}" type="image/*"
+						[required]="item.Required" nameButton="Chọn ảnh" [multiple]="true">
+					</dl-image-control>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==13">
+					<dl-image-control [data]="item" formControlName="{{item.RowID}}" [required]="item.Required"
+						nameButton="Chọn tệp" [multiple]="false">
+					</dl-image-control>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==14">
+					<dl-image-control [data]="item" formControlName="{{item.RowID}}" [required]="item.Required"
+						nameButton="Chọn tệp" [multiple]="true">
+					</dl-image-control>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==15">
+					<h5>{{item.Title}}:</h5>
+					<editor formControlName="{{item.RowID}}" [init]="tinyMCE" [required]="item.Required">
+					</editor>
+				</div>
+				<div class="col-md-12" *ngIf="item.ControlID==16">
+					<span style="font-weight: bold;">{{item.Title}}:</span>
+					<table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0"
+						style="width: 100%;font-family: Arial, Helvetica, sans-serif;">
+						<thead>
+							<tr>
+								<th style="width: 50px; text-align: center;">
+									#
+								</th>
+								<th style="width: 120px; text-align: left;" *ngFor="let list of item.init;">
+									<span>{{list.Title}}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let row of item.dataTable, let vi = index">
+								<td style="width: 50px; text-align: center;" [matMenuTriggerFor]="createPlan"
+									(mouseover)="createPlanmenuTrigger.openMenu()"
+									(mouseout)="$event.stopPropagation();createPlanmenuTrigger.openMenu()"
+									#createPlanmenuTrigger="matMenuTrigger">
+									<span>{{vi + 1}}</span>
+									<mat-menu #createPlan="matMenu">
+										<span mat-menu-item style="text-align: center;" (click)="XoaRow(row,item)">
+											<mat-icon color="warn">delete</mat-icon>
+										</span>
+									</mat-menu>
+								</td>
+								<td style="width: 80px; text-align: left;" *ngFor="let list of item.init;">
+									<input matInput value="{{getValue(row,list)}}" style="border: none;"
+										(focusout)="RowChange($event,row,list)">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+					<span style="cursor: pointer;" (click)="Themdongmoi(item)"><i class="flaticon2-add"></i>&nbsp;Thêm
+						dòng mới</span>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="col-md-12 m--margin-bottom-10-mobile">
+			<span style="color: #0094FF; font-size: 10pt; text-transform: uppercase;"
+				translate="workprocess.giaidoandautien"></span>
+		</div>
+		<br />
+		<div class="col-md-12 m--margin-bottom-10-mobile" *ngFor="let tab of listData; let index = index">
+			<div class="row">
+				<div class="col-md-3 m--margin-bottom-10-mobile" style="align-self: center;">
+					<i class="fas fa-circle" style="font-size: 10px;"></i>&nbsp;<span
+						[innerHtml]="tab.GiaiDoanTiepTheo"></span>
+				</div>
+				<div class="col-md-8 m--margin-bottom-10-mobile">
+					<div class="col-md-12" *ngIf="tab.IsEdit">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select [disabled]="!tab.IsEdit"
+								(selectionChange)="nguoiThucHienChange($event.value, tab)"
+								[(value)]="tab.IsEdit ? tab.IDnguoiThucHien : tab.NguoiThucHien.length > 0 ? ''+tab.NguoiThucHien[0].ID : tab.IDnguoiThucHien"
+								placeholder="{{ 'dynamicform.nguoithuchien' | translate }}">
+								<mat-option value="{{list.ID}}" *ngFor="let list of tab.NguoiThucHien;">
+									{{list.Title}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-md-12" *ngIf="!tab.IsEdit" style="font-size: 11pt;">
+						<span translate="dynamicform.nguoithuchien"></span>
+						&nbsp;
+						<b>{{tab.NguoiThucHienList}}</b>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<hr>
+	<div class="col-md-12" style="text-align: right;">
+		<button mat-raised-button class="ja_btn-addcontinue" type="button" (click)="submit()" [disabled]="disabledBtn">
+			<span translate="landingpagekey.luu"></span>
+		</button>
+	</div>
+</div>

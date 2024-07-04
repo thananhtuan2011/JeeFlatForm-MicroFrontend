@@ -1,0 +1,53 @@
+<style>
+  :host>>>.table> :not(caption)>*>* {
+    padding: 0px !important;
+  }
+</style>
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+      <h3 class="card-label card-label-dialog">Ủy quyền người thêm tài liệu
+      </h3>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <form class="kt-form" [formGroup]="Form">
+      <div class="kt-portlet__body">
+        <div class="form-group kt-form__group row">
+          <div class="col-lg-12" style="padding-top: 10px;">
+            <mat-form-field class="example-full-width">
+
+              <mat-placeholder>[Chọn người thêm tài liệu]</mat-placeholder>
+              <mat-select formControlName="User">
+                <mat-option>
+                  <ngx-mat-select-search [placeholderLabel]="'Tìm kiếm...'" [noEntriesFoundLabel]="
+                              'Không tìm thấy kết quả phù hợp'
+                            " [(ngModel)]="search" [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="filterUsers()">
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option [ngClass]="{'custom-option': true}" *ngFor="let tmp of filteredUsers | async"
+                  [value]="tmp.idUser">
+                  {{ tmp.HoTen }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="dialog-footer">
+  <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="DongForm()" cdkFocusInitial
+    matTooltip="{{ 'COMMON.BACK' | translate }}">
+    {{'COMMON.BACK' | translate}}
+  </button>&nbsp;&nbsp;
+
+  <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="onSubmit()"
+    matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+    {{'COMMON.LUU_DONG' | translate}}
+  </button>
+</div>

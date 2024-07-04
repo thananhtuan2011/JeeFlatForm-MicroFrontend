@@ -1,0 +1,21 @@
+.btn-dp {
+    height: 37px;
+    line-height: 37px;
+    margin: 10px 0 10px 0;
+    span {
+      line-height: 0;
+      font-size: 1rem;
+    }
+  
+    &:hover {
+      color: black;
+      background: transparent;
+    }
+  
+    &:focus,
+    &:active,
+    &.active {
+      color: black;
+      background: #edebeb !important;
+    }
+  }

@@ -1,0 +1,22 @@
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title">{{getTitle()}}</h3>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" class="mat-icon-button" (click)="goBack()"
+				matTooltip="{{ 'landingpagekey.dong' | translate }}">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+	<div class="card-body" style="padding: 0 1rem;">
+		<div class="form-group kt-form__group row">
+			<div class="col-md-12 kt--margin-bottom-10-mobile">
+				<m-dynamic-form-create *ngIf="ShowType == 0" [ID]="ProcessID" (Close)="goBackCreate($event)"></m-dynamic-form-create>
+				<m-dynamic-form-move *ngIf="ShowType == 1" [ID]="ProcessID" [isNext]="IsNext" [nodeListID]="NodeListID" (Close)="goBackMove()"></m-dynamic-form-move>
+				<m-dynamic-form-copy *ngIf="ShowType == 2" [ID]="ProcessID" (Close)="goBackCreate($event)"></m-dynamic-form-copy>
+			</div>
+		</div>
+	</div>
+</div>

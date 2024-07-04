@@ -1,0 +1,235 @@
+<style>
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .card-body {
+        padding-top: 10px;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header" style="padding: 0;min-height: 40px !important;">
+        <div class="card-title">
+            <h3 class="dialog-title"><span>{{ getTitle() }}</span></h3>
+        </div>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input style="color: black;" #focus formControlName="Code" placeholder="Nhập mã loại" matInput class="require"
+                            required />
+                    </mat-form-field>
+                    <mat-error *ngIf="itemForm.controls.Code.hasError('pattern')">
+                        Mã loại <strong>không chứa ký tự đặc biệt và có dấu</strong>
+                    </mat-error>
+                </div>
+                <div class="col-md-12">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <!-- <input formControlName="Title" placeholder="Tên phân loại hỗ trợ" matInput class="require"
+                            required /> -->
+                        <input autocomplete="off" class="mat-focused" formControlName="Title" placeholder="Tiêu đề"
+                            matInput required autofocus />
+                        <mat-error *ngIf="this.itemForm.controls.Title.hasError('maxlength')">
+                            Tên phân loại hỗ trợ không vượt quá 200 ký tự
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row" style="flex-grow: 1;">
+                        <span style="padding-right: 20px; align-items: center; font-size: 14px;width: max-content; float: left;" class="d-flex">
+                            Người quản lý: </span>
+                        <ng-container *ngFor="let us of this.selected; let index = index">
+                            <div *ngIf="index < 10" class="user url scale-hover-02 position-relative"
+                                style="justify-content: flex-end;display: flex;
+                                width: 25px;">
+                                <i class="far fa-times-circle url view-hover bg-white"
+                                    style="position: absolute;top:0;right:0;border-radius: 50%;font-size: 8pt;"
+                                    (click)="ItemSelected(us)"></i>
+                                <ng-container>
+                                    <ngx-avatar size="25" matTooltip="{{us.fullname}}" src="{{us.image}}"
+                                        *ngIf="us.image;else bindText">
+                                    </ngx-avatar>
+                                    <ng-template #bindText>
+                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{us.fullname}}" size="25"
+                                            [name]="getNameUser(us.fullname)"
+                                            bgColor="{{getColorNameUser(us.fullname)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="this.selected && this.selected.length > 10">
+                            <div class="m--img-rounded m--marginless m--img-centered background"
+                                [matMenuTriggerFor]="menu1" [ngStyle]="{'width.px': 29,'height.px':29}">
+                                <div class="user w-100 h-100"
+                                    style="opacity: 1;color:white;padding-top:3px;text-align: center;background: grey;"
+                                    [ngStyle]="{'font-size.px': 16}">
+                                    +{{this.selected.length-10}}
+                                </div>
+                            </div>
+                            <mat-menu #menu1="matMenu">
+                                <div *ngFor="let user of this.listUser ;let index = index"
+                                    style="justify-content: flex-end;">
+                                    <ng-container *ngIf="index > 9">
+                                        <div class="position-relative">
+                                            <i class="fas fa-times scale-hover-01 url"
+                                                style="position: absolute;top:0;right:0"
+                                                (click)="ItemSelected(user)"></i>
+                                            <div class="row">
+                                                <ngx-avatar size="25" matTooltip="{{user.fullname}}"
+                                                    src="{{user.image}}" *ngIf="user.image;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" matTooltip="{{user.fullname}}"
+                                                        size="25" [name]="getNameUser(user.fullname)"
+                                                        bgColor="{{getColorNameUser(user.fullname)}}">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </mat-menu>
+                        </ng-container>
+                        <div matTooltip="Chọn người" matTooltipPosition="above" class="url user"
+                            [matMenuTriggerFor]="owner"
+                            style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                            <mat-icon style="font-size: 16px!important;">person_add</mat-icon>
+                        </div>
+                    </div>
+                    <mat-menu #owner="matMenu">
+                        <div class="page-work-detail"  *ngIf ="listUser">
+                            <kt-choose-users [isNewView]="true" [options]="options"
+                            (IsSearch)="stopPropagation($event)" (ItemSelected)="ItemSelected($event)">
+                        </kt-choose-users>
+                        </div>
+                    </mat-menu>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-12 row kt--margin-bottom-10-mobile">
+                        <div style="padding-right: 20px; align-items: center; font-size: 14px;width: max-content; float: left;">Thành
+                            viên hỗ trợ: </div>
+                            <ng-container *ngFor="let us of this.selected_Assign;let index = index">
+                                <div *ngIf="index < 10" class="user url scale-hover-02 position-relative"
+                                    style="justify-content: flex-end;display: flex;
+                                    width: 25px;">
+                                    <i class="far fa-times-circle url view-hover bg-white"
+                                        style="position: absolute;top:0;right:0;border-radius: 50%;font-size: 8pt;"
+                                        (click)="ItemSelected_Assign(us)"></i>
+                                    <ng-container>
+                                        <ngx-avatar size="25" matTooltip="{{us.fullname}}" src="{{us.image}}"
+                                            *ngIf="us.image;else bindText">
+                                        </ngx-avatar>
+                                        <ng-template #bindText>
+                                            <ngx-avatar textSizeRatio="2.5" matTooltip="{{us.fullname}}" size="25"
+                                                [name]="getNameUser(us.fullname)"
+                                                bgColor="{{getColorNameUser(us.fullname)}}">
+                                            </ngx-avatar>
+                                        </ng-template> </ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="this.selected_Assign && this.selected_Assign.length > 10">
+                                <div class="m--img-rounded m--marginless m--img-centered background"
+                                    [matMenuTriggerFor]="menu1" [ngStyle]="{'width.px': 29,'height.px':29}">
+                                    <div class="user w-100 h-100"
+                                        style="opacity: 1;color:white;padding-top:3px;text-align: center;background: grey;"
+                                        [ngStyle]="{'font-size.px': 16}">
+                                        +{{this.selected_Assign.length-10}}
+                                    </div>
+                                </div>
+                                <mat-menu #menu1="matMenu">
+                                    <div *ngFor="let user of this.selected_Assign;let index = index"
+                                        style="justify-content: flex-end;">
+                                        <ng-container *ngIf="index > 9">
+                                            <div class="position-relative">
+                                                <i class="fas fa-times scale-hover-01 url"
+                                                    style="position: absolute;top:0;right:0"
+                                                    (click)="ItemSelected_Assign(user)"></i>
+                                                <div class="row">
+                                                    <ngx-avatar size="25" matTooltip="{{user.fullname}}"
+                                                        src="{{user.image}}" *ngIf="user.image;else bindText">
+                                                    </ngx-avatar>
+                                                    <ng-template #bindText>
+                                                        <ngx-avatar textSizeRatio="2.5" matTooltip="{{user.fullname}}"
+                                                            size="25" [name]="getNameUser(user.fullname)"
+                                                            bgColor="{{getColorNameUser(user.fullname)}}">
+                                                        </ngx-avatar>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </mat-menu>
+                            </ng-container>
+                            <div matTooltip="Chọn người" matTooltipPosition="above" class="url user"
+                                [matMenuTriggerFor]="member"
+                                style="border: 1px dashed #676363;border-radius: 50%;padding: 5px;display: inline-block;width: 29px;height: 29px; ">
+                                <mat-icon style="font-size: 16px!important;">person_add</mat-icon>
+                            </div>
+                        <mat-menu #member="matMenu">
+                            <div class="page-work-detail" *ngIf ="listUser">
+                              
+                                <kt-choose-users [isNewView]="true" [options]="options"
+                                (IsSearch)="stopPropagation($event)"
+                                (ItemSelected)="ItemSelected_Assign($event)">
+                            </kt-choose-users>
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width ">
+                        <mat-select placeholder="Cách giao việc" required matInput formControlName="CachGiaoViec">
+                            <mat-option *ngFor="let item of cachgiaoviecCombo" [value]="item.value">
+                                {{item.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width mat-form-field-fluid">
+                        <input matInput type="number" formControlName="ThoiGianHoTro" (keyup)="check_maxtime()"
+                            placeholder="Nhập số phút hỗ trợ *"  type="text">
+                    </mat-form-field>
+                    <mat-error *ngIf="itemForm.controls.ThoiGianHoTro.hasError('pattern')">
+                        Số phút hỗ trợ <strong>không âm</strong>
+                    </mat-error>
+                </div>
+                <div class="col-md-12">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Lĩnh vực yêu cầu" required matInput formControlName="LinhVucYeuCau">
+                            <mat-option *ngFor="let item of LinhvucyeucauCombo" [value]="item.RowID">
+                                {{item.Title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="dialog-footer" style="padding:10px 0 10px 0 !important;">
+
+        <button mat-raised-button style="float: right; margin: 0; margin-right: 12px" class="ja_btn-goback"
+            (click)="goBack()">
+            {{ 'JeeTicKet.trolai' | translate }}
+        </button>&nbsp;&nbsp;
+        <button  [disabled]="isLoadingSubmit$ | async"
+            [class.spinner]="isLoadingSubmit$ | async" mat-raised-button style="float: right; margin-right: 12px"
+            class="ja_btn-addnew" (click)="onSubmit(false)">
+            {{ 'JeeTicKet.luudong' | translate }}
+        </button>&nbsp;&nbsp;
+        <button *ngIf="this.item.RowID <= 0|| this.item.RowID == undefined" [disabled]="isLoadingSubmit$ | async"
+            [class.spinner]="isLoadingSubmit$ | async" mat-raised-button style="float: right; margin: 0"
+            class="ja_btn-addcontinue" (click)="onSubmit(true)">
+            <mat-icon class="icon-repeat">repeat</mat-icon>
+            {{ 'JeeTicKet.luutieptuc' | translate }}
+        </button>&nbsp;&nbsp;
+    </div>
+</div>

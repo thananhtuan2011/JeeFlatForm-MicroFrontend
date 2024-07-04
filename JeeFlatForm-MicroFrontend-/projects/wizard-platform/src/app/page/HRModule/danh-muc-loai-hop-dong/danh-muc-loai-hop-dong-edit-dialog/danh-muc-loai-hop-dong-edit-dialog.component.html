@@ -1,0 +1,147 @@
+<style>
+	.mat-form-field {
+		width: 100%;
+	}
+
+	.card-body {
+		padding-top: 10px;
+	}
+</style>
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="dialog-title"><span>{{ getTitle() }}</span></h3>
+		</div>
+		<div class="card-toolbar">
+
+		</div>
+	</div>
+	<div class="card-body">
+		<form class="m-form" [formGroup]="itemForm" class="m-form m-form--group-seperator-dashed">
+			<div class="m-form__section m-form__section--first">
+				<div class="m-form__group">
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.MaLoai' | translate }}" #focusInput
+									class="input-batbuoc" required formControlName="MaLoai" />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.Tenloai' | translate }}"
+									formControlName="TenLoai" class="input-batbuoc" required />
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<div class="m-section__content">
+								<mat-checkbox (change)=Change($event) formControlName="KhongXacDinhThoiHan"><span
+										translate="JeeHR.KhongXacDinhThoiHan"></span></mat-checkbox>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-center" *ngIf="!IsShowExpire">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input type="number" matInput pattern="(^[1-9][0-9]*$)" class="input-batbuoc" required
+									placeholder="{{ 'JeeHR.thoihanhopdong' | translate }}"
+									formControlName="thoihanhopdong" />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="{{ 'JeeHR.theo' | translate }}" required
+									class="mat-form-field-fluid require" formControlName="dv_thoihan">
+									<mat-option value="{{dv.ID_Row}}" *ngFor="let dv of listdonvi;">
+										{{dv.Title}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<mat-select placeholder="{{ 'JeeHR.LoaiNhanVien' | translate }}" class="input-batbuoc"
+									required formControlName="LoaiNhanVien">
+									<mat-option value="{{typestaff.id_row}}" *ngFor="let typestaff of listtypestaff;">
+										{{typestaff.StaffType}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<mat-select placeholder="{{ 'JeeHR.mauin' | translate }}"
+									class="mat-form-field-fluid" formControlName="FileIn">
+									<mat-option value="">
+									</mat-option>
+									<mat-option value="{{file.ID_Row}}" *ngFor="let file of ListMauIn;">
+										{{file.PrintedForm}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile" *ngIf="!IsShowExpire">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput class="input-batbuoc" required
+									placeholder="{{ 'JeeHR.nhacnhohiethanhopdong' | translate }}"
+									formControlName="nhacnhotruocngay" />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<input matInput placeholder="{{ 'JeeHR.thoigianbaotruoc' | translate }}"
+									formControlName="ThoiHanBaoTruoc" />
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid ">
+								<mat-select placeholder="{{ 'JeeHR.maudanhgia' | translate }}"
+									class="mat-form-field-fluid" formControlName="FileDanhGia">
+									<mat-option value="">
+									</mat-option>
+									<mat-option value="{{file.RowID}}" *ngFor="let file of ListMauDanhGia;">
+										{{file.Title}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<div class="m-section__content">
+								<mat-checkbox formControlName="LaHopDongThuViec"><span
+										translate="JeeHR.LaHopDongThuViec"></span></mat-checkbox>
+							</div>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<div class="m-section__content">
+								<mat-checkbox formControlName="BatDauDongBH"><span
+										translate="JeeHR.codongbhxh"></span>
+								</mat-checkbox>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog-footer" style="padding-top:20px">
+		<button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="goBack()">
+			<span translate="landingpagekey.trolai"></span>
+		</button>&nbsp;&nbsp;
+		<button type="button" (click)="onSubmit(true)" mat-raised-button class="ja_button ja_btn-addcontinue"
+			[disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luudong' | translate }}"><span
+				translate="landingpagekey.luudong"></span></button>&nbsp;&nbsp;
+		<button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="onSubmit(false)"
+			*ngIf="!viewLoading" [disabled]="disabledBtn" matTooltip="{{ 'landingpagekey.luutieptuc' | translate }}">
+			<span translate="landingpagekey.luutieptuc"></span>
+		</button>
+	</div>
+</div>

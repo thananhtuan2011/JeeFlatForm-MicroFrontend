@@ -1,0 +1,263 @@
+// .panel-left {
+//   /* Rectangle 7070 */
+//   width: 280px;
+//   height: 63px;
+
+//   background: #ffffff;
+//   border-radius: 10px;
+// }
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+// .mat-expansion-panel-header{
+//   pointer-events: none
+// }
+.example-headers-align .mat-mdc-form-field+.mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.mat-expansion-panel-header-title {
+  margin-right: 0px;
+}
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 10px;
+  padding-left: 35px;
+}
+
+.option {
+  border-bottom: 1px solid #d3d3d3de;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 15px);
+}
+
+.option:hover {
+  background-color: floralwhite;
+}
+
+.title2 {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 23px;
+  margin-top: 30px;
+  padding: 0 15px 0px 0px;
+  color: forestgreen;
+}
+
+.choses {
+  height: 40px;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+}
+
+.icon-check {
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.menuChose {
+  font-size: 12pt;
+  padding-left: 15px;
+  border-bottom: 1px solid #e4e6ef;
+}
+
+.menuChose:hover {
+  background-color: rgba(10, 133, 255, 0.1);
+}
+
+.color-picker-box .colors .tag-color {
+  min-width: 40px;
+  line-height: 25px;
+  color: #fff;
+  position: relative;
+  margin-right: 10px;
+  opacity: .8;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.color-picker-box .colors {
+  display: flex;
+}
+
+.full-height {
+  height: 95% !important;
+}
+
+.color-picker-box .colors .tag-color .tag {
+  padding: 0 10px;
+}
+
+.color-picker-box .colors .tag-color .close-tag {
+  padding-right: 5px;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.the-header {
+  margin: 10px;
+  border-bottom: 1px solid #d3d3d3de;
+}
+
+.tag-config {
+  margin-bottom: 10px !important;
+  padding-left: 10px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+}
+
+.cu-btn.cu-btn_outline {
+  background: none;
+  text-shadow: none;
+}
+
+.cu-btn.cu-btn_sm {
+  height: 40px;
+  border-radius: 3px;
+  padding: 12px 20px 0;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 500;
+  border-width: 1px;
+  border-color: #7b68ee;
+  border-style: solid;
+  color: #7b68ee !important;
+  display: flex;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.cu-btn:hover {
+  background-color: #7b68ee;
+  color: #dfdbfb !important;
+}
+
+.status-input {
+  display: flex;
+  margin: 3px 0 5px;
+}
+
+.status-input .input {
+  flex-grow: 1;
+}
+
+.cu-custom-fields__form-dropdown-option-color {
+  width: 10px;
+  height: 42px;
+  border-radius: 3px 0 0 3px;
+  margin: -8px 0 -8px -13px;
+}
+
+.header-view {
+  display: flex;
+}
+
+.text-color {
+  width: auto;
+  height: 15px;
+  margin: auto;
+  margin-right: 5px;
+  cursor: pointer;
+  color: #7b68ee;
+  border-bottom-color: #7b68ee;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 0.8;
+  border-bottom: 1px dashed;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+.icon-xoa {
+  line-height: 0.8;
+  cursor: pointer;
+  height: 25.5px;
+}
+
+.status-input .input input {
+  width: 100%;
+  border: none;
+}
+
+.status-input .input input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+}
+
+
+.color-picker {
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.mat-menu-panel {
+  min-height: 0 !important;
+  max-width: 1000px !important;
+  background: white;
+}
+
+.mat-menu-content {
+  padding: 8px;
+  background-color: red;
+  // padding-right: 8px;
+  min-width: 200px;
+}
+
+.icon-xoa {
+  color: #f4516c;
+}
+
+.header-view-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: gray;
+}
+
+.option:hover {
+  background-color: rgba(10, 133, 255, 0.1);
+}
+
+::ng-deep .mat-tab-group {
+  height: 100% !important;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+  height: 100% !important;
+}
+::ng-deep .mat-tab-body-content{
+  overflow:hidden !important;
+}

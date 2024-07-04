@@ -1,0 +1,68 @@
+<div class="card card-custom mr-t10">
+    <div class="card-header">
+        <div class="card-title">
+            Sổ tay cuộc họp
+        </div>
+        <div class="card-toolbar">
+            <a class="btn btn-themnv" style="padding: 6px !important;" matTooltip="Thêm góp ý"
+                (click)="addSoTayGhiChu()">
+                <span>Thêm sổ tay</span>
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table-detail-meet table">
+            <thead>
+                <th class=" text-center" style="width: 10%;">
+                    <span class="fw-bold">STT</span>
+                </th>
+                <!-- <th>
+                    <span class="fw-bold">Tên cuộc họp</span>
+                </th> -->
+
+                <th>
+                    <span class="fw-bold">Nội dung ghi chú</span>
+                </th>
+                <th style=" text-align: center">
+                    <span class="fw-bold">Tác vụ</span>
+                </th>
+
+            </thead>
+            <tbody *ngIf="soTayCuocHopService.items$ | async">
+                <tr *ngFor="let item of (soTayCuocHopService.items$ | async); let i = index;">
+                    <td class="text-center" style="width: 10%;">
+                        {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                    </td>
+                    <!-- <td>
+                        <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname"
+                            (click)="xemchitietQuanLySoTayCuocHop(item)">
+                            {{item.MeetingContent}}
+                        </span>
+                    </td> -->
+
+                    <td>
+                        <span>{{item.NoiDungGhiChu}}</span>
+                    </td>
+
+
+                    <td style="text-align: center;padding: 0px !important;">
+                        <button mat-icon-button type="button" matTooltip="{{ 'MENU_STCUOCHOP.UPDATE' | translate}}"
+                            (click)="Update(item)">
+                            <mat-icon color="primary">create</mat-icon><span></span>
+                        </button>
+                        <button mat-icon-button type="button" matTooltip="{{ 'MENU_STCUOCHOP.DELETE' | translate}}"
+                            (click)="Delete(item)">
+                            <mat-icon color="warn">delete</mat-icon><span></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <div style="text-align: center;font-size: 20px" class="mat-table__message"
+            *ngIf="(soTayCuocHopService.items$ | async).length === 0">
+            <img class="icon-btn-data" src="../../../../../../assets/images/download.png"
+                style="width: 80px; margin-bottom: 15px" />
+            <br /> Không có dữ liệu
+        </div> -->
+    </div>
+</div>

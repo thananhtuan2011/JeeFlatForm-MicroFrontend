@@ -1,0 +1,208 @@
+.table-kanban {
+  display: -webkit-inline-box;
+  overflow: scroll;
+  width: 100%;
+}
+
+table th,td{
+  width: 310px;
+}
+
+.width-full{
+  width: 100%;
+}
+
+.css-sticky-header {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.css-sticky {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.header-sticky{
+  height: 60px;
+  border: none !important;
+}
+
+//==============Xử lý css header right giai đoạn==============
+
+// .header-giaidoan:hover{
+//   .icon-header{
+//     display: block;
+//   }
+//   .soluong-nhiemvu{
+//     display: none;
+//   }
+//   .soluong-quahan{
+//     display: none;
+//   }
+// }
+
+
+ //===========================Xử lý image========================
+  .side{
+    position: absolute;
+    right: 10px;
+    z-index: 999;
+  }
+
+  .users{
+    overflow: hidden;
+    position: relative;
+    float: left;
+    padding-left: 10px;
+  }
+
+  .user{
+    overflow: hidden;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    margin-left: -8px;
+    background: rgba(0,0,0,0.1);
+    border: 2px solid #f3f3f3;
+  }
+
+  .user1{
+    overflow: hidden;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-left: -8px;
+  }
+
+  .cdk-drop-list-dragging{
+    border: 2px solid green;
+    border-style: dashed;
+  }
+  
+  .cdk-drop-list-receiving{
+    border: 2px solid blue;
+    border-style: dashed;
+  }
+
+  //====================================================================
+ 
+
+  .text-task {
+    display: block;
+    width: 240px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .css-content{
+    max-height: 105px;
+    line-height: 18px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-quahan{
+    height: 20px;
+    width: 20px;
+    color: #fff;
+    border-radius: 50%;
+    background-color: #E2445C;
+  }
+  
+
+  .show-icon-menu{
+    display: none;
+    padding: 0;
+    text-align: right;
+  }
+
+  .header-task:hover{
+    .show-icon-menu{
+      display: block;
+    }
+  }
+
+  .icon-menutext{
+    padding-right: 10px;
+    color: #0A9562;
+    padding-left: 8px;
+  }
+  
+  .text-menutext
+  {
+    text-align: left; 
+     padding: 0;
+  }
+
+  .text-menutext:hover
+  {
+    text-align: left;  
+    padding: 0;
+    background-color: rgba(10, 149, 98, 0.063);
+    color: #0A9562;
+  }
+
+  .icon-menuxoa{
+    padding-right: 10px;
+    color: red;
+    padding-left: 8px;
+  }
+  
+  .text-menuxoa
+  {
+    text-align: left; 
+     padding: 0;
+  }
+
+  .text-menuxoa:hover
+  {
+    text-align: left;  
+    padding: 0;
+    background-color: rgba(10, 149, 98, 0.063);
+    color: red;
+  }
+
+  .manager2{
+    font-size: 10pt;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  .manager2:hover{
+    background-color:gray;
+    color: white;
+  }
+  
+  .icon-new{
+    width: 23px;
+    height: 23px;
+    border: 1px solid red;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+
+  .icon-new-finish{
+    width: 23px;
+    height: 23px;
+    border: 1px solid red;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
+  }

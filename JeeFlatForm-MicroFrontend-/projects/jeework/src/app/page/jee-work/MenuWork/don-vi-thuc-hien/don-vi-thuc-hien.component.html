@@ -1,0 +1,20 @@
+<div class="panel-left-v2">
+   <div style="height:25px">
+      <a class="title-left-dm"></a>{{DanhMucChungService.ts_duan_ToUpper}}
+   </div>
+   <mat-list style="margin-top: 30px;">
+      <mat-list-item *ngFor="let dv of DonViThucHien" [ngClass]="{setcolor: clickedItem === dv.id_row}" (click)="onClick(dv.id_row)" >
+         <div style="display:grid; width: 100%;">
+            <div style="display:flex;justify-content: space-between;width: 100%">
+               <div style="max-width: 80%;">
+                  <span class="dvth-font">{{dv.title}}</span>
+               </div>
+               <div *ngIf="dv.Count.quahan > 0" class="al-circle">
+                  <span class="al-number">{{dv.Count.quahan}}</span>
+               </div>
+            </div>
+            <hr style="width: calc(100% - 30px); margin-left: 30px; border-top: 1px solid #b5b5c3;">
+         </div>
+      </mat-list-item>
+   </mat-list>
+</div>   

@@ -1,0 +1,369 @@
+<div style="overflow-x: auto; width: 100%">
+  <div style="font-size: 16px; font-weight: bold; color: #16a850">
+    Giao {{DanhMucChungService.ts_congviec}} mới
+  </div>
+  <ng-template [ngIf]="ItemParentID.id_row != undefined">
+    <div style="padding-top: 2vh; padding-bottom: 2vh;display:flex">
+      <!-- giao cho -->
+      <ng-template [ngIf]="giaocho != undefined && giaocho.hoten && giaocho.hoten != ''">
+        <span style="display: inline-block" class="user click scale-hover-02 position-relative hover-to-show">
+          <i class="far fa-times-circle click view-hover text-dark bg-white" style="
+              position: absolute;
+              top: 0;
+              right: 0;
+              border-radius: 50%;
+              font-size: 10pt;
+            " (click)="RemoveAssign()">
+          </i>
+
+          <ngx-avatar *ngIf="giaocho.image; else bindText" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+            matTooltip="{{ giaocho.hoten }}" size="30" src="{{ giaocho.image }}">
+          </ngx-avatar>
+
+          <ng-template #bindText>
+            <ngx-avatar textSizeRatio="2.5" (click)="clickmenu.click()" matTooltipClass="br-tooltip"
+              matTooltip="{{ giaocho.hoten }}" size="30" bgColor="{{
+                DanhMucChungService.getColorNameUser(giaocho.hoten)
+              }}" [name]="this.DanhMucChungService.getName(giaocho.hoten)"></ngx-avatar>
+          </ng-template>
+        </span>
+      </ng-template>
+      <ng-template [ngIf]="
+          giaocho == undefined ||
+          giaocho.hoten == undefined ||
+          giaocho.hoten == ''
+        ">
+        <span class="border_icon" matTooltip="{{ItemParentID.IsAssignee == 0 ? 'Không được chọn' : ItemParentID.requireAss == 0 ? 'Thêm người' : 'Thêm người (bắt buộc)'}}" (click)="ItemParentID.IsAssignee==1?clickmenu.click():''">
+          <i  [ngClass]="ItemParentID.IsAssignee==1 ? 'fas fa-user-plus' : 'fa fa-user-times'" class="pd-0"
+            style="font-size: 15px; display: flex; justify-content: center" [ngStyle]="{ 'color': getStypeAssingeeIcon(ItemParentID) }"></i></span>
+          </ng-template>
+      <span class="date-picker" [matMenuTriggerFor]="assignee" #clickmenu></span>
+      <mat-menu #assignee="matMenu">
+        <span class="page-work-detail">
+          <kt-choose-users [idDept]="ItemParentID.id_row" (IsSearch)="stopPropagation2($event)"
+            (ItemSelected)="ItemSelected2($event)">
+          </kt-choose-users>
+        </span>
+      </mat-menu>
+      <!-- theo doi -->
+      <span class="border_icon"><i _ngcontent-aci-c286="" class="fas fa-users pd-0"
+          style="font-size: 15px; display: flex; justify-content: center" (click)="clickmenuTheoDoi.click()"></i>
+      </span>
+      <span class="date-picker" [matMenuTriggerFor]="follow" #clickmenuTheoDoi></span>
+      <mat-menu #follow="matMenu">
+        <span class="page-work-detail">
+          <kt-choose-users [idDept]="ItemParentID.id_row" (IsSearch)="stopPropagationTheoDoi($event)"
+            (ItemSelected)="ItemSelectedTheoDoi($event)">
+          </kt-choose-users>
+        </span>
+      </mat-menu>
+      <span *ngFor="let element of theodoi" style="display: inline-block" class="hover-to-show-inline-block">
+        <i class="far fa-times-circle click view-hover-inline-block text-dark bg-white" style="
+            position: absolute;
+            margin-left: 20px;
+            border-radius: 50%;
+            font-size: 10pt;
+          " (click)="RemoveFollower(element)">
+        </i>
+        <ngx-avatar *ngIf="element.image; else bindText" matTooltipClass="br-tooltip" matTooltip="{{ element.hoten }}"
+          size="30" src="{{ element.image }}">
+        </ngx-avatar>
+        <ng-template #bindText>
+          <ngx-avatar textSizeRatio="2.5" matTooltipClass="br-tooltip" matTooltip="{{ element.hoten }}" size="30"
+            bgColor="{{ DanhMucChungService.getColorNameUser(element.hoten) }}"
+            [name]="this.DanhMucChungService.getName(element.hoten)"></ngx-avatar>
+        </ng-template>
+      </span>
+      <!-- do uu tien -->
+      <span>
+        <span style="width: 30px; height: 30px">
+          <ng-template [ngIf]="clickup_prioritize == 0">
+            <span class="item-image" [matMenuTriggerFor]="menu" class="border_icon"
+              matTooltip="{{ 'jeework.gandouutien' | translate }}">
+              <i class="fa-flag far pd-0" style="font-size: 15px; display: flex; justify-content: center"></i>
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="clickup_prioritize == 1">
+            <span class="item-image" [matMenuTriggerFor]="menu" matTooltip="{{ 'jeework.gandouutien' | translate }}">
+              <img src="" alt="" class="ClickUp1" />
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="clickup_prioritize == 2">
+            <span class="item-image" [matMenuTriggerFor]="menu" matTooltip="{{ 'jeework.gandouutien' | translate }}">
+              <img src="" alt="" class="ClickUp2" />
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="clickup_prioritize == 3">
+            <span class="item-image" [matMenuTriggerFor]="menu" matTooltip="{{ 'jeework.gandouutien' | translate }}">
+              <img src="" alt="" class="ClickUp3" />
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="clickup_prioritize == 4">
+            <span class="item-image" [matMenuTriggerFor]="menu" matTooltip="{{ 'jeework.gandouutien' | translate }}">
+              <img src="" alt="" class="ClickUp4" />
+            </span>
+            &nbsp;
+          </ng-template>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeDoUuTienInTable(status)"
+              style="line-height: 30px !important; height: 100% !important" *ngFor="let status of douutienintable">
+              <span class="row">
+                <span class="cu-task-row-statusv2" style="padding-top: 10px">
+                  <i [ngClass]="status.icon" style="font-weight: 700"></i>&nbsp;&nbsp;
+                  {{ status.viewValue }}
+                </span>
+              </span>
+            </button>
+          </mat-menu>
+        </span>
+      </span>
+      <!-- nhan -->
+      <span class="border_icon" matTooltip="Chọn nhãn" [matMenuTriggerFor]="selecedtag" style="display: inline-block">
+        <i _ngcontent-aci-c286="" class="fas fa-tags pd-0"
+          style="font-size: 15px; display: flex; justify-content: center"></i></span>
+      <span style="display: inline-block">
+        <mat-menu #selecedtag="matMenu">
+          <kt-choose-milestone-and-tags (IsSearch)="stopPropagation1($event)" (ItemSelected)="ItemSelectedTag($event)"
+            [idDept]="ItemParentID.id_row" [idTag]="this.idTag" [idmenu]="this.idmenu" (RemoveTag)="RemoveTag($event)">
+            >
+          </kt-choose-milestone-and-tags>
+        </mat-menu>
+      </span>
+      <span style="display: inline-block" *ngFor="let tag of tags">
+        <kt-cu-tag [node]="" [tag]="tag" [role]="true" (RemoveTag)="RemoveTag(tag)">
+        </kt-cu-tag>
+      </span>
+      <!-- Thoi gian lam -->
+      <span style="display: inline-block;">
+        <time-estimates-view [role]="true" [time]="estimates" (submit)="UpdateEstimates($event)">
+        </time-estimates-view>
+      </span>
+      <!-- thoi gian bat dau, han chot -->
+      <span style="display: inline-block" class="border_icon" (click)="Selectdate()">
+        <!-- <img
+                  matTooltip="{{
+                    'jeework.chonthoigianbatdauhanchot' | translate
+                  }}"
+                  (click)="Selectdate()"
+                  class="calender size-flag-detail"
+                /> -->
+        <i matTooltip="{{ GetTooltip() }}" class="far fa-calendar-check pd-0"
+          style="font-size: 13px; display: flex; justify-content: center"></i>
+      </span>
+      <!--Nhóm công việc-->
+      <div class="cu-task-row-assignee" *ngIf="ItemParentID.isRole">
+          <app-tasks-group [ListGroup]="ListGroup" class="size-group" viewdetail="true"
+            [role2]="ItemParentID.isGroupwork" (valueChange)="UpdateGroup($event)"
+            [id_project_team]="ItemParentID.id_row" [role]="ItemParentID.isRole">
+          </app-tasks-group>
+      </div>
+      <!-- phong ban -->
+      <div class="cu-category-list-dropdown" [matMenuTriggerFor]="DF" #menuTrigger="matMenuTrigger">
+        <div
+          class="cu-template-center__option-input cu-template-center-use-template__select-location-input-invalid bg-dark1">
+          {{ ParentName }}
+        </div>
+      </div>
+
+      <mat-menu #DF="matMenu">
+        <div class="view-mat-menu-df" (click)="$event.stopPropagation();">
+          <ng-container *ngFor="let space of ListDepartmentFolder">
+            <div class="cu2-space-row__item cu2-space-row__item_expanded" (click)="space.expanded = !space.expanded">
+              <div class="cu-project-avatar_20 cu-project-avatar">
+                <div class="cu-project-avatar__item cu-avatar cu-project-avatar__text cu-project-avatar__text_bg"
+                  style="color: rgb(191, 74, 204);">
+                  <!-- <span style="margin-top:-1p        x"> {{space.Title}} </span> -->
+                </div>
+              </div>
+              <div tooltipdelay="300" class="cu2-space-row__item-name"> {{space.Title}} </div>
+              <div class="cu2-space-row__item-multi">
+                <div class="cu-template-center-sidebar__type pd-0"
+                  [ngClass]="{'cu-template-center-sidebar__type-active': false}" style="display: flex;"
+                  (click)="menuTrigger.closeMenu()">
+                  <!-- <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                <div icon="cu2-check-3" class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                    </svg>
+                                </div>
+                            </div> -->
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="space.expanded">
+              <ng-container *ngFor="let folder of space.folder">
+                <div class="cu2-space-row__item_1 cu2-space-row__item_expanded"
+                  (click)="folder.expanded = !folder.expanded">
+                  <div class="cu-project-avatar_20 cu-project-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                      <path
+                        d="M6.083 4c1.38 1.612 2.578 3 4.917 3h11v13h-20v-16h4.083zm.917-2h-7v20h24v-17h-13c-1.629 0-2.305-1.058-4-3z" />
+                    </svg>
+                  </div>
+                  &nbsp;
+                  <div tooltipdelay="300" class="cu2-space-row__item-name"> {{folder.title}}
+                  </div>
+                  <div class="cu2-space-row__item-multi">
+                    <div class="cu-template-center-sidebar__type pd-0"
+                      [ngClass]="{'cu-template-center-sidebar__type-active': false}" style="display: flex;"
+                      (click)="menuTrigger.closeMenu()">
+                      <!-- <div class="cu-template-center-sidebar__type-checkbox mg-0">
+                                        <div icon="cu2-check-3" class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                height="14" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
+                                            </svg>
+                                        </div>
+                                    </div> -->
+                    </div>
+                  </div>
+                </div>
+                <ng-container *ngIf="folder.expanded">
+                  <div *ngFor="let project of folder.project" class="cu2-space-row__item_2 cu2-space-row__item_expanded"
+                    (click)="project.expanded = !project.expanded">
+                    <div style="display:flex" (click)="selectedParent(project);menuTrigger.closeMenu()">
+                      <div class="cu-project-avatar_20 cu-project-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                          <path
+                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" />
+                        </svg>
+                      </div>
+                      &nbsp;
+                      <div tooltipdelay="300" class="cu2-space-row__item-name" style="display:flex;align-items: center;">
+                        {{project.title}}
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+              </ng-container>
+              <div *ngFor="let project of space.list" class="cu2-space-row__item_1 cu2-space-row__item_expanded"
+                (click)="project.expanded = !project.expanded">
+                <div style="display:flex" (click)="selectedParent(project);menuTrigger.closeMenu()">
+                  <div class="cu-project-avatar_20 cu-project-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" />
+                    </svg>
+                  </div>
+                  &nbsp;
+                  <div tooltipdelay="300" class="cu2-space-row__item-name" style="display:flex;align-items: center;"> {{project.title}}
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </ng-container>
+          </ng-container>
+        </div>
+      </mat-menu>
+      <!-- <span style="padding-left: 1vw; display: inline-block">
+        <button class="btn btn-list" style="
+            background: none;
+            border-radius: 0.42rem;
+            border: 1px solid #e4e6ef;
+          " mat-button ngbDropdownToggle (click)="clickmenu1.click()">
+          {{ minimizeText(dept != undefined ? dept.title_full : "") }}
+
+          <mat-icon style="height: 0px; width: 5px; vertical-align: sub">keyboard_arrow_down
+          </mat-icon>
+        </button>
+        <div class="date-picker" [matMenuTriggerFor]="assignee1" #clickmenu1></div>
+        <mat-menu #assignee1="matMenu">
+          <div class="page-work-detail">
+            <kt-choose-project (IsSearch)="stopPropagation1($event)" (ItemSelected)="ItemSelected1($event, dept)">
+              >
+            </kt-choose-project>
+          </div>
+        </mat-menu>
+      </span> -->
+    </div>
+  </ng-template>
+  <div>
+    <input type="text" id="txttitle" placeholder="Tên {{DanhMucChungService.ts_congviec}}"
+      class="form-input-title row w-100" />
+  </div>
+  <div style="
+      text-transform: uppercase;
+      color: #42b814;
+      font-weight: bold;
+      font-size: 1.25rem;
+      padding-top: 2vh;
+      padding-bottom: 2vh;
+    ">
+    {{DanhMucChungService.ts_description}}
+  </div>
+  <div>
+    <quill-editor id="quillCustomForCreate" name="fieldName" [modules]="quillConfig" ngDefaultControl
+      [(ngModel)]="description_tiny" [styles]="editorStyles" [placeholder]="'Nhập nội dung ...'">
+    </quill-editor>
+  </div>
+  <!-- them file -->
+  <div>
+    <table style="width: 100%">
+      <tr>
+        <td style="width: 70%">
+          <div class="row col-md-12">
+            <span style="text-transform: uppercase; font-weight: bold">{{
+              "jeework.vanbandinhkem" | translate
+              }}</span>
+          </div>
+        </td>
+        <td style="width: 30%; text-align: end">
+          <a class="action" style="cursor: pointer" (click)="selectFile()">
+            <span translate="GeneralKey.them"></span>
+            &nbsp;
+            <i style="padding-right: 10px" matTooltip="{{ 'jeework.chapnhandinhdang' | translate }}"
+              class="fas fa-info-circle"></i>
+          </a>
+
+          <input #myInput placeholder="{{ 'jeework.chonfile' | translate }}" id="imgInpdd1" type="file" name="myInput"
+            multiple style="display: none; color: inherit" (change)="UploadFileForm($event)" />
+        </td>
+      </tr>
+      <tr *ngIf="AttFile && AttFile.length > 0">
+        <td style="width: 100%; padding-top: 10px" colspan="2" class="color-tieude">
+          <div class="row comment-box">
+            <div class="col-md-12 kt-margin-bottom-10-mobile" *ngFor="let att2 of AttFile">
+              <div class="attach-item show-action">
+                <!-- <ng-template #notDraft> -->
+                <div class="attach-item-icon">
+                  <img src="{{ getIcon(att2.type) }}" />
+                </div>
+                <!-- </ng-template> -->
+
+                <div class="attach-item-name">
+                  <p>{{ att2.filename }}</p>
+                </div>
+                <div class="attach-item-del d-flex">
+                  <a class="url" matTooltip="{{ 'jeework.xoa' | translate }}" (click)="deleteFile(att2)">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div style="padding-top: 3vh; border-top: 1px solid #e9e9e9; width: 100%">
+  <div style="float: right">
+    <button mat-button mat-raised-button (click)="goBack()">
+      {{ "jeework.trolai" | translate }}
+    </button>
+    &nbsp;
+    <button mat-raised-button style="background-color: #1bc5bd; color: #f2fcfb" (click)="onSubmit(true)">
+      {{ "jeework.luuvadong" | translate }}
+    </button>
+    &nbsp;
+    <button mat-raised-button style="background-color: #3699ff; color: #f2fcfb" (click)="onSubmit(false)">
+      {{ "jeework.luuvatieptuc" | translate }}
+    </button>
+  </div>
+</div>
+<div class="nemo-process-waiting nemo-hide-wait" id="nemo-process-waiting-id"></div>
+<div class="nemo-process-waiting-loader nemo-hide-wait" id="nemo-process-waiting-loader"></div>

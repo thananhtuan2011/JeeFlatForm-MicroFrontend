@@ -1,0 +1,91 @@
+<!-- Ô Search -->
+<mat-form-field class="Search-Box" appearance="fill" *ngIf="AllowSearch">
+    <mat-label>{{SearchLabel}}</mat-label>
+    <input matInput class="input-thuong" #txtVal (keydown.enter)="filterChanged(txtVal.value)"
+        [formControl]="dataFilterCtrl" autocomplete="false" />
+    <mat-icon matSuffix (click)="filterChanged(txtVal.value)" color="primary">search</mat-icon>
+</mat-form-field>
+<mat-option disabled *ngIf="dataSource.data.length === 0" class="Empty-Noti">{{EmptyNoti}}</mat-option>
+<div style="height:53vh; overflow-y: auto;">
+    <!-- Render Tree -->
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- Child Node -->
+        <mat-nested-tree-node *matTreeNodeDef="let node">
+            <li>
+                <div class="mat-tree-node" (click)="!IsMulti ? clickNode(node) : null" [id]="node.id"
+                    [class.selected]="selectedNode === node.id">
+                    <mat-icon *ngIf="node.type === 2" matSuffix color="primary">account_box</mat-icon>
+                    <ng-container *ngIf="IsMulti">
+                        <mat-checkbox [disabled]="checkDisable(node)" class="checkbox-leaf-node"
+                            [checked]="checklistSelection.isSelected(node)"
+                            (change)="todoLeafItemSelectionToggle(node)">
+                            {{node.title}}
+                        </mat-checkbox>
+                        <!-- <mat-checkbox *ngIf="node.type === 1" style="position: absolute; right: 5px;" class="checkbox-leaf-node" (change)="selectOne(node)">
+                      Chọn đơn vị phân quyền họp
+                  </mat-checkbox> -->
+                    </ng-container>
+                    <ng-container *ngIf="!IsMulti">
+                        <mat-label class="node-label">{{node.title}}</mat-label>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="checkDisable(node)">
+                        <br/>
+                        <mat-label class="node-label" style="color: red;font-size: 12px;">(Chưa cấu hình đơn vị cuộc họp)</mat-label>
+                    </ng-container> -->
+                </div>
+            </li>
+        </mat-nested-tree-node>
+        <!-- Parrent Node -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
+            <li class="tree-container">
+                <div class="mat-tree-node mat-tree-node-active" (click)="!IsMulti ? clickNode(node) : null"
+                    [id]="node.id" [class.selected]="selectedNode === node.id">
+                    <button mat-icon-button matTreeNodeToggle [matTreeNodeToggleRecursive]="recursive"
+                        [attr.aria-label]="'toggle ' + node.title">
+                        <mat-icon>
+                            {{treeControl.isExpanded(node) ? 'expand_more' :
+                            'chevron_right'}}
+                        </mat-icon>
+                    </button>
+                    <ng-container *ngIf="IsMulti">
+                        <mat-checkbox style="color: #3601ba;position: absolute; right: 10px"
+                            class="checklist-leaf-node " color="primary" [checked]="descendantsAllSelected(node, 1)"
+                            [indeterminate]="descendantsPartiallySelected(node, 1)"
+                            (change)="todoItemSelectionToggle(node, 1)">
+                            Chọn tất cả
+                        </mat-checkbox>
+                        <mat-checkbox [disabled]="checkDisable(node)" class="checklist-leaf-node"
+                            [checked]="checklistSelection.isSelected(node)"
+                            (change)="todoLeafItemSelectionToggle(node)">
+                            {{node.title}}
+                            <mat-label *ngIf="(node.type === 1 && iddonvi === node.id)"
+                                style="color: #cb3131;padding-left:1px">( Nội bộ )</mat-label>
+                        </mat-checkbox>
+                        <!-- <mat-checkbox *ngIf="node.type === 1" style="position: absolute; right: 5px;" class="checkbox-leaf-node" (change)="selectOne(node)">
+                      Chọn đơn vị phân quyền họp
+                  </mat-checkbox> -->
+                    </ng-container>
+                    <ng-container *ngIf="!IsMulti">
+                        <mat-label class="node-label">{{node.title}}</mat-label>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="checkDisable(node)">
+                        <br/>
+                        <mat-label class="node-label" style="color: red;font-size: 12px;">(Chưa cấu hình đơn vị cuộc họp)</mat-label>
+                    </ng-container> -->
+                </div>
+                <ul *ngIf="treeControl.isExpanded(node)" class="tree-nested-node">
+                    <div>
+                        <ng-container matTreeNodeOutlet></ng-container>
+                    </div>
+                </ul>
+                <div style="border-top: 1px dotted grey;
+          margin-left: -24px;
+          top: 0;
+          width: 24px;
+      " *ngIf="!treeControl.isExpanded(node)">
+
+                </div>
+            </li>
+        </mat-nested-tree-node>
+    </mat-tree>
+</div>

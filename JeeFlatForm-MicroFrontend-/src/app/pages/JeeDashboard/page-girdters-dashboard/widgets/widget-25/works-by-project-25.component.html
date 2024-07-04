@@ -1,0 +1,188 @@
+<style>
+    ::ng-deep .sky-tooltip {
+        white-space: pre-line !important;
+    }
+
+    .homnay {
+        color: rgb(233, 163, 14);
+        font-weight: 500;
+    }
+
+    .trehan {
+        color: #ed4141;
+        font-weight: 500;
+    }
+
+    table td {
+        padding: 0;
+        vertical-align: middle;
+    }
+
+    .img-chuagiao {
+        border: 1px dashed #676363;
+        border-radius: 50%;
+        padding: 2px;
+        height: 30px;
+        width: 30px;
+        margin-right: 10px;
+        float: left;
+    }
+
+    .icon-chuagiao {
+        font-size: 13px;
+        padding: 5px;
+    }
+</style>
+
+<div *ngIf="!this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left" style="top: 0; position: sticky; z-index: 1;">
+                <th style="min-width: 200px"><span translate="widgets.tencongviec"></span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Người giao</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Người theo dõi</span>
+                </th>
+                <th style="min-width: 120px">
+                    <div class="row row-box text-center url">
+                        <span style="flex: 1;" translate="widgets.tinhtrang"></span>
+                    </div>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Ngày giao</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Thời hạn</span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Bình Luận</span>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataLazyLoad">
+                <td class="pl-3">
+
+                    <ng-container *ngIf="item.User?.length > 0;else chuagiao">
+                        <div class="url" [ngClass]="{'mr-2': last}" *ngFor="let us of item.User;let last = last"
+                            style="justify-content: flex-end; float: left; margin-right: 10px;">
+                            <ng-container>
+                                <ngx-avatar size="30" matTooltipClass="sky-tooltip"
+                                    matTooltip="{{getMoreInformation(us)}}" src="{{us.image}}"
+                                    *ngIf="us.image;else bindText">
+                                </ngx-avatar>
+                                <ng-template #bindText>
+                                    <ngx-avatar textSizeRatio="2.5" matTooltipClass="sky-tooltip"
+                                        matTooltip="{{getMoreInformation(us)}}" size="30"
+                                        [name]="_WorkGeneralService.getNameUser(us.hoten)"
+                                        bgColor="{{_WorkGeneralService.getColorNameUser(us.hoten)}}">
+                                    </ngx-avatar>
+                                </ng-template>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-template #chuagiao>
+                        <div class="bg-white mr-2 img-chuagiao">
+                            <i class="fas fa-user-plus icon-chuagiao"></i>
+                        </div>
+                    </ng-template>
+                    <a class="name-title mb-1 font-size-lg url">
+                        <span class="text-hover-primary d-block" matTooltip="Xem chi tiết" (click)="Xemchitiet(item)"
+                            style="cursor: pointer;">
+                            <i class="fas fa-lock" *ngIf="item.closed"
+                                style="font-size: 16px; color:#f84545; padding-top: 5px;"></i>
+                            {{item.title}}
+                        </span>
+                        <span class="text-muted font-weight-bold text-muted">{{item.project_team}}</span>
+                    </a>
+                </td>
+                <td class="pl-2">
+                    <span class="name-title" style="font-weight: bold;">{{item.GiaoViecGOV.length > 0 ?
+                        item.GiaoViecGOV[0].Jobtitle :
+                        ''}}</span><br />
+                    <span class="name-title" style="font-weight: bold;">{{item.GiaoViecGOV.length > 0 ?
+                        item.GiaoViecGOV[0].FullName :
+                        ''}}</span>
+                </td>
+                <td class="pl-2">
+                    <span style="font-weight: bold;"> {{item.Follower.length > 0 ? item.Follower[0].jobtitle :
+                        ''}}</span>
+                    <br />
+                    <span style="font-weight: bold;">{{item.Follower.length > 0 ? item.Follower[0].hoten :
+                        ''}}</span>
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <ng-container *ngIf="_WorkGeneralService.CheckClosedTask(item); else norolestatus">
+                        <div class="box-trang-thai box-absolute-auto" [matMenuTriggerFor]="status"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}" (click)="statusChange(item)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #norolestatus>
+                        <div class="box-trang-thai box-absolute-auto"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <mat-menu #status="matMenu">
+                        <button mat-menu-item *ngFor="let status of listDataStatus" (click)="UpdateStatus(item,status)"
+                            [ngStyle]="{color: status.color}">
+                            <div class="row">
+                                <div class="sky-task-row-status" style="width:20px;padding-right:5px">
+                                    <div class="sky-point" [ngStyle]="{'backgroundColor': status.color}">
+                                    </div>
+                                </div>
+                                {{status.statusname}}
+                            </div>
+                        </button>
+                    </mat-menu>
+                </td>
+                <td class="pl-2">
+                    <span class="name-title" *ngIf="item.GiaoViecGOV.length > 0">{{item.GiaoViecGOV[0].ngaygiao
+                        | time:'DD/MM/YYYY'}}</span>
+                </td>
+                <td class="pl-2">
+                    <span [ngClass]="getClassdate(item.deadline)">{{item.deadline|time:'DD/MM/yyyy'}}</span>
+                </td>
+                <td class="pl-2">
+                    <div class="min-h-50px pl-4"
+                        *ngIf="_WorkGeneralService.CheckRule(item.Rule,'17') || _WorkGeneralService.CheckRule(item.Rule,'18')">
+                        <app-task-comment (submit)="submit($event,item);" [id_row]="item.id_row" [value]="item.comments"
+                            [task]="item" [isviewcomment]="_WorkGeneralService.CheckRule(item.Rule,'17')"
+                            [iscomment]="_WorkGeneralService.CheckRule(item.Rule,'18')">
+                        </app-task-comment>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="7" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}"
+    [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <ref-app-widget-nhiem-vu-v2 [dataLazyLoad]="this.dataLazyLoad" [crr_page]="this.crr_page"
+        [total_page]="this.total_page" [isLoading]="this.isLoading" [isgov]="this.isgov"
+        (LoadDataLazy)='reloadData($event)'></ref-app-widget-nhiem-vu-v2>
+</div>

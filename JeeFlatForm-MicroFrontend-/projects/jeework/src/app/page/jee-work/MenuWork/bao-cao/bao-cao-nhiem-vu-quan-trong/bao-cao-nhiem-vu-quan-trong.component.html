@@ -1,0 +1,74 @@
+<div [ngStyle]="{'height': getHeight()}">
+  <table style="width:100% !important" class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0"
+    cellspacing="0">
+    <thead>
+      <tr>
+        <th class="css-stickyheader-col0"
+          style="min-width: 50px; text-align: center;height: 80px;color: white !important; width: 584px">
+          Tên
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important; width: 438px">
+          Thời hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;width: 438px">
+          Tình trạng
+        </th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr class="mat-row-baocao" *ngFor="let item of this.listData" [ngClass]="{hovered: item.hovered, highlighted: item.highlighted}" (mouseover)="item.hovered = true"
+      (mouseout)="item.hovered = false">
+          <td class="css-sticky-col0" style="text-align: left; height: 22px;">
+            <ng-container *ngIf="item.UsersInfo?.length > 0; else chuagiao">
+                <div class="user url"  [ngClass]="{'mr-2': last}"
+                    *ngFor="let us of item.UsersInfo; let last = last" style="justify-content: flex-end; margin-left: 10px">
+                    <kt-avatar-user [image]="us.image" [size]="26" [name]="us.hoten" [chucvu]="us.jobtitle">
+                    </kt-avatar-user>
+                </div>
+            </ng-container>
+            <ng-template #chuagiao>
+                <div class="user bg-white mr-2"
+                    style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;width: 26px;display: inline-block; margin-left: 10px; margin-top: 5px">
+                    <i class="fas fa-user-plus ml-1 pd-0" style="font-size: 13px; "></i>
+                </div>
+            </ng-template>
+            <a class="name-title mb-1 font-size-lg url">
+                <span class="text-hover-primary d-block" matTooltip="Xem chi tiết công việc"
+                    (click)="Xemchitiet(item)">
+                    <i class="fas fa-lock" *ngIf="item.closed"
+                        style="font-size: 16px; color:#f84545; padding-top: 5px;"></i>
+                    {{item.title}}
+                </span>
+                <span class="text-muted font-weight-bold text-muted">{{item.project_team}}</span>
+            </a>
+        </td>
+        <td class="css-sticky-col1" style="text-align: center; height: 22px;">
+          <app-task-datetime [fieldname]="'deadline'" [value]="item.deadline">
+          </app-task-datetime>
+        </td>
+        <td class="css-sticky-col-htdh" style="text-align: center; height: 22px;">
+          <ng-container>
+              <div class="box-trang-thai box-absolute-auto"
+                  [ngStyle]="getStyleSTT(item.id_project_team,item.status)" (click)="statusChange(item)">
+                  <div class="w-100 text-white hide-more-text">
+                      <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                  </div>
+              </div>
+          </ng-container>
+          <ng-template #norolestatus>
+              <div class="box-trang-thai box-absolute-auto"
+                  [ngStyle]="getStyleSTT(item.id_project_team,item.status)">
+                  <div class="w-100 text-white hide-more-text">
+                      <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                  </div>
+              </div>
+          </ng-template>
+          
+      </td>
+
+      </tr>
+     
+    </tbody>
+  </table>
+</div>

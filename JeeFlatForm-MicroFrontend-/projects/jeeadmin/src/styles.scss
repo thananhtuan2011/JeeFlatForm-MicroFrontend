@@ -1,0 +1,11 @@
+@import "./assets/style-css/css-general.scss";
+// @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "./assets/sass/style.scss";
+
+.sky-padding-0 .mat-dialog-container {
+    padding: 0 !important;
+}
+
+.sky-padding-0.width600 {
+    width: 600px !important;
+}

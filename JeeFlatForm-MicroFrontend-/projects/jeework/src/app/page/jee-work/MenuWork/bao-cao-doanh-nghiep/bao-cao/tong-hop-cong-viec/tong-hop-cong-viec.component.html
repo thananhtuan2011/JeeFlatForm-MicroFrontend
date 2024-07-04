@@ -1,0 +1,63 @@
+<div class="card-body pd-0 overflow-auto" [ngStyle]="{ 'height': getHeight() }">
+    <div class="list-thanhvien">
+        <div class="list-header navbar navbar-expand-lg navbar-light bg-light bg-dark1" style="position: sticky;top: 0;z-index: 1; display: flex;align-items: center;height: 50px;background: #c2c2c22b;text-align: center;padding-left: 10px;padding-top: 5px;">
+            <div class="float-left" style="text-align:initial; width: 30%;">
+                <span translate="jeework.thanhvien"></span>
+            </div>
+            <div class="item float-right" style="max-width: none;display:flex;width: 70%;justify-content: space-evenly;align-items: center; ">
+                <div class="it item-text" style="width: 15%;"> <span translate="filter.tongsocongviec"
+                        matTooltip="{{ 'filter.tongsocongviec' | translate}}"></span>
+                </div>
+                <div class="it item-text" style="width: 15%;"> <span translate="filter.sum_estimates"
+                        matTooltip="{{ 'filter.sum_estimates' | translate}}"></span>
+                </div>
+                <div class="it item-text" style="width: 15%;"> <span translate="filter.sum_estimates_ht"
+                        matTooltip="{{ 'filter.sum_estimates_ht' | translate}}"></span>
+                </div>
+                <div class="it item-text" style="width: 15%;">
+                    <span matTooltip="SL hoàn thành">SL hoàn thành</span>
+                </div>
+                <div class="it item-text" style="width: 15%;">
+                    <span matTooltip="SL hoàn thành muộn">SL hoàn thành muộn</span>
+                </div>
+                <div class="it item-text" style="width: 10%;">
+                    <span matTooltip="SL quá hạn">SL quá hạn</span>
+                </div>
+                <div class="it item-text" style="width: 15%;">
+                    <span matTooltip="SL đang thực hiện">SL đang thực hiện</span>
+                </div>
+            </div>
+        </div>
+        <div class="list-body">
+            <div class="item border-bottom" *ngFor="let item of Staff" style="display: -webkit-inline-box;width: 100%;">
+                <div style="width: 30%; padding-left: 20px">
+                    <kt-custom-user [image]="item.image" [name]="item.hoten" [info]="item.tenchucdanh">
+                    </kt-custom-user>
+
+                </div>
+                <div class="side float-right"
+                style="max-width: none;display:flex;width: 70%;justify-content: space-evenly; align-items: center; text-align:center" >
+                    <div class="it item-text"
+                        style="color: rgb(247, 26, 26); font-weight: bold;width: 15%;overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;cursor: pointer;" (click)="view(0,item)">
+                        {{item.num_work}} </div>
+                    <div class="it item-text"
+                        style="color: rgb(230, 141, 8); font-weight: bold;width: 15%;">
+                        {{item.sum_estimates}}</div>
+                    <div class="it item-text"
+                        style="color: rgb(10, 151, 29); font-weight: bold;width: 15%;">
+                        {{item.sum_estimates_done}}</div>
+                    <div class="it item-text" (click)="view(2,item)" style="width: 15%;cursor: pointer;" [ngStyle]="{'color': colorCrossbar[0]}" >
+                        {{item.hoanthanh}} </div>
+                    <div class="it item-text" (click)="view(1,item)" style="width: 15%;cursor: pointer;" [ngStyle]="{'color': colorCrossbar[1]}">
+                        {{item.ht_quahan}} </div>
+                    <div class="it item-text" (click)="view(4,item)" style="width: 10%;cursor: pointer;" [ngStyle]="{'color': colorCrossbar[2]}">
+                        {{item.quahan}} </div>
+                    <div class="it item-text" (click)="view(3,item)" style="width: 13%;cursor: pointer;" [ngStyle]="{'color': colorCrossbar[3]}">
+                        {{item.danglam}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

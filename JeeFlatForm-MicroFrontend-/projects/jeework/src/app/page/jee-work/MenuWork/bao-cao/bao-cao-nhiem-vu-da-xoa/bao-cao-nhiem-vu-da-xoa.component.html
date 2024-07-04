@@ -1,0 +1,71 @@
+<div>
+
+  <table class="fancyTable fht-table fht-table-init" id="myTable04" style="width: 100%;" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr style="height: 56px;">
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          STT
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Số, ký hiệu văn bản
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Ngày văn bản
+        </th>
+        <th class="css-stickyheader-col2" style="min-width: 115px; text-align: center;color: white !important;">
+          Trích yếu văn bản
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 120px; text-align: center;color: white !important;">
+          Nội dung {{BaoCaoService.ts_congviec}} được giao
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 40px; text-align: center;color: white !important;">
+          {{BaoCaoService.ts_duan_ToUpper}}
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 40px; text-align: center;color: white !important;">
+          Ngày xóa
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 40px; text-align: center;color: white !important;">
+          Người xóa
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 40px; text-align: center;color: white !important;">
+          Lý do
+        </th>
+      </tr>
+
+
+    </thead>
+    <tbody>
+      <tr class="mat-row-baocao" *ngFor="let data of listData; let i = index"
+        [ngClass]="{hovered: data.hovered, highlighted: data.highlighted}" (mouseover)="data.hovered = true"
+        (mouseout)="data.hovered = false">
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          {{i+1}}</td>
+        <td class="css-sticky-col1" style="text-align: left; height: 22px;">
+          {{data.so_hieu_vb}}</td>
+        <td class="css-sticky-col2" style="text-align: left; height: 22px;">
+          {{formatdate(data.ngay_vb)}}</td>
+        <td style="height: 22px;">
+          {{data.trich_yeu_vb}}
+        </td>
+        <td style="height: 22px;">
+          {{data.noi_dung}}
+        </td>
+        <td style="height: 22px;">
+          {{data.don_vi_thuc_hien}}
+        </td>
+
+        <td style="height: 22px;">
+          {{data.DeletedDate}}
+        </td>
+
+        <td style="height: 22px;">
+          {{data.DeletedBy.FullName}}
+        </td>
+
+        <td style="height: 22px;">
+          {{data.DeletedReason}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

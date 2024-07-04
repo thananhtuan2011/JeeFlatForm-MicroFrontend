@@ -1,0 +1,11 @@
+<ng-container>
+  <!--begin::User-->
+  <a class="nav-link btn btn-icon btn-clean btn-lg" id="kt_drawer_profile_toggle">
+    <span>
+      <ngx-avatar *ngIf="Avatar" [size]="50" src="{{Avatar}}">
+      </ngx-avatar>
+      <ngx-avatar [size]="50" [name]="name.slice(0, 1)" bgColor="{{BgColor}}" *ngIf="!Avatar"></ngx-avatar>
+    </span>
+  </a>
+  <!--end::User-->
+</ng-container>

@@ -1,0 +1,183 @@
+import { BaseModel } from "../../../models/_base.model";
+
+export class PersonalInfoModel extends BaseModel {
+	ID_NV: number;
+	//--------------------
+	MaNV: string;
+	MaChamCong: string;
+	HoLot: string;
+	Ten: string;
+	HoTen: string;
+	GioiTinh: string;
+	NgaySinh: string;
+	TenThuongGoi: string;
+	ID_NoiSinh: number;
+	NguyenQuan: string;
+	SoThe: string;
+	//--------------------
+	CMND: string;
+	NgayCapCMND: string;
+	ID_NoiCapCMND: string;
+	SoHoChieu: string;
+	NgayCapSoHoChieu: string;
+	NgayHetHan: string;
+	ID_DanToc: number;
+	ID_TonGiao: number;
+	NoiCapHoChieu: string;
+	DiDong: string;
+	EmailCaNhan: string;
+	EmailCongTy: string;
+	ID_Tinh: number;
+	ID_Quan: number;
+	ID_Phuong: Number;
+	QuocTich: string;
+	DiaChiTamTru: string;
+	DiaChiThuongTru: string;
+	ID_TinhTrangHonNhan: number;
+	MaSoThue: string;
+	NgayCapMST: string;
+	ChuTaiKhoan: string;
+	SoTaiKhoan: string;
+	MaTaiKhoan: string;
+	ID_NganHang: number;
+	ChiNhanhNganHang: string;
+	NguoiLienHe: string;
+	QuanHeNguoiLienHe: string;
+	SoDienThoaiNguoiLienHe: string;
+	ID_LoaiNhanVien: number;
+	NgayBatDau: string;
+	NgayHetHanTV: string;
+	NgayVaoChinhThuc: string;
+	CoKyCamKetThue: boolean;
+	LaLaoDongNuocNgoai: boolean;
+	CuTruTaiVietNam: boolean;
+	ID_DonVi: number;
+	ID_PhongBan: number;
+	ID_BoPhan: number;
+	ID_ChucDanh: number;
+	ID_ChucVu: number;
+	ID_DiaDiemLamViec: number;
+	DiaDiemLamViec: string;
+	listHD: any[] = [];
+	EnableChucVu: boolean;
+	Visible: boolean;
+	QuyenHopDong: boolean;
+	StructureID: number;
+	Structure: string = '';
+	//======================================
+	NoiSinh: string = '';
+	NoiCapCMND: string = '';
+	DanToc: string = '';
+	TonGiao: string = '';
+	TinhHuyenXa: string = '';
+	TinhTrangHonNhan: string = '';
+	NganHang: string = '';
+	PhongBan: string = '';
+	ChucDanh: string = '';
+	ChucVu: string = '';
+	TenDiaDiemLamViec: string = '';
+	LoaiNhanVien: string = '';
+	DataThuViec: any[] = [];
+	DataChinhThuc: any[] = [];
+	LuongThuViec: any[] = [];
+	LuongChinhThuc: any[] = [];
+	ChucVuID: string = '';
+	TenQuanLyTT: string = '';
+	Type: string = '';
+	//====Model dùng để lưu cập nhật============
+	staffId: number = 0;
+	departmemtId: number = 0;
+	jobtitleId: number = 0;
+	startDate: string = '';
+	startDateBienChe: string = '';
+	staffTypeId: number = 0;
+	_jobtitleId: number = 0;
+	clear() {
+		this.ID_NV = 0;
+		//-------------------
+		this.MaNV = '';
+		this.MaChamCong = '';
+		this.HoLot = ''
+		this.Ten = '';
+		this.HoTen = '';
+		this.GioiTinh = "";
+		this.NgaySinh = "";
+		this.TenThuongGoi = '';
+		this.ID_NoiSinh = 0;
+		this.NguyenQuan = '';
+		this.SoThe = '';
+		//------------------
+		this.CMND = "";
+		this.NgayCapCMND = "";
+		this.ID_NoiCapCMND = '';
+		this.SoHoChieu = '';
+		this.NgayCapSoHoChieu = '';
+		this.NgayHetHan = '';
+		this.ID_DanToc = 0;
+		this.ID_TonGiao = 0;
+		this.NoiCapHoChieu = '';
+		this.DiDong = '';
+		this.EmailCaNhan = '';
+		this.EmailCongTy = '';
+		this.ID_Tinh = 0;
+		this.ID_Quan = 0;
+		this.ID_Phuong = 0;
+		this.QuocTich = '';
+		this.DiaChiTamTru = '';
+		this.DiaChiThuongTru = '';
+		this.ID_TinhTrangHonNhan = 0;
+		this.MaSoThue = '';
+		this.NgayCapMST = '';
+		this.ChuTaiKhoan = '';
+		this.SoTaiKhoan = '';
+		this.MaTaiKhoan = ''
+		this.ID_NganHang = 0;
+		this.ChiNhanhNganHang = '';
+		this.NguoiLienHe = '';
+		this.QuanHeNguoiLienHe = '';
+		this.SoDienThoaiNguoiLienHe = '';
+		this.ID_LoaiNhanVien = 0;
+		this.NgayBatDau = '';
+		this.NgayHetHanTV = '';
+		this.NgayVaoChinhThuc = '';
+		this.CoKyCamKetThue = false;
+		this.LaLaoDongNuocNgoai = false;
+		this.CuTruTaiVietNam = false;
+		this.ID_DonVi = 0;
+		this.ID_PhongBan = 0;
+		this.ID_BoPhan = 0;
+		this.ID_ChucDanh = 0;
+		this.ID_ChucVu = 0;
+		this.ID_DiaDiemLamViec = 0;
+		this.DiaDiemLamViec = '';
+		this.listHD = [];
+		this.EnableChucVu = false;
+		this.Visible = false;
+		this.QuyenHopDong = false;
+		this.StructureID = 0;
+		this.Structure = '';
+		//------------------
+		this.NoiSinh = '';
+		this.NoiCapCMND = '';
+		this.DanToc = '';
+		this.TonGiao = '';
+		this.TinhHuyenXa = '';
+		this.TinhTrangHonNhan = '';
+		this.NganHang = '';
+		this.PhongBan = '';
+		this.ChucDanh = '';
+		this.ChucVu = '';
+		this.TenDiaDiemLamViec = '';
+		this.LoaiNhanVien = '';
+		this.ChucVuID = '';
+	}
+}
+
+export interface JobtitleManagementDTO {
+	Title: string;
+	IsActive: boolean;
+	Note: string;
+	RowID: number;
+	tenchucdanh: string;
+	id_row: number;
+}

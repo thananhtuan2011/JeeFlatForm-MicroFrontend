@@ -1,0 +1,50 @@
+.item-status {
+    height: 45px;
+    align-items: cente;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.box-color {
+    width: 10px;
+    height: 10px;
+}
+
+.row-box {
+    align-items: center;
+    display: flex;
+}
+
+.row {
+    margin: 0;
+}
+
+table td {
+    padding: 0;
+    vertical-align: middle;
+}
+
+.homnay {
+    color: rgb(233, 163, 14);
+    font-weight: 500;
+}
+
+.trehan {
+    color: #ed4141;
+    font-weight: 500;
+}
+
+.img-chuagiao {
+    border: 1px dashed #676363;
+    border-radius: 50%;
+    padding: 2px;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    float: left;
+    .icon-chuagiao {
+        font-size: 13px;
+        padding: 5px;
+    }
+}

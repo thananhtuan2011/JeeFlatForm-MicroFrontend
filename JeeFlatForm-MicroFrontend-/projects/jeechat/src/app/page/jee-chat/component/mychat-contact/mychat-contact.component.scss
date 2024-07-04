@@ -1,0 +1,330 @@
+
+
+#filter-icon {
+    background-image: url(https://cdn.jee.vn/jee-comment/icons/facebook-comment-header/filter.png);
+    background-position: -17px -467px;
+    background-size: auto;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.my-button {
+    width: 50px!important;
+    min-width: unset!important;
+    height: 50px!important;
+    min-height: unset!important;
+}
+
+.col-xl,
+.col-xl-auto,
+.col-xl-12,
+.col-xl-11,
+.col-xl-10,
+.col-xl-9,
+.col-xl-8,
+.col-xl-7,
+.col-xl-6,
+.col-xl-5,
+.col-xl-4,
+.col-xl-3,
+.col-xl-2,
+.col-xl-1,
+.col-lg,
+.col-lg-auto,
+.col-lg-12,
+.col-lg-11,
+.col-lg-10,
+.col-lg-9,
+.col-lg-8,
+.col-lg-7,
+.col-lg-6,
+.col-lg-5,
+.col-lg-4,
+.col-lg-3,
+.col-lg-2,
+.col-lg-1,
+.col-md,
+.col-md-auto,
+.col-md-12,
+.col-md-11,
+.col-md-10,
+.col-md-9,
+.col-md-8,
+.col-md-7,
+.col-md-6,
+.col-md-5,
+.col-md-4,
+.col-md-3,
+.col-md-2,
+.col-md-1,
+.col-sm,
+.col-sm-auto,
+.col-sm-12,
+.col-sm-11,
+.col-sm-10,
+.col-sm-9,
+.col-sm-8,
+.col-sm-7,
+.col-sm-6,
+.col-sm-5,
+.col-sm-4,
+.col-sm-3,
+.col-sm-2,
+.col-sm-1,
+.col,
+.col-auto,
+.col-12,
+.col-11,
+.col-10,
+.col-9,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2,
+.col-1 {
+    position: relative;
+    width: 100%;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+#search {
+    border-bottom: 1px solid #d1d6dc;
+    font-weight: 300;
+}
+
+#search label {
+    position: absolute;
+    margin: 7px 0 0 20px;
+}
+
+#search input {
+    padding: 5px 0 5px 46px;
+    width: 100%;
+    border: none;
+    margin-bottom: 0px !important;
+    background: #F0F2F5;
+    color: #65676B;
+    border-radius: 25px;
+}
+
+#search input:focus {
+    outline: none;
+    // background: #435f7a;
+    // click vào thì sẽ đổi bg search
+}
+
+#search input::-webkit-input-placeholder {
+    color: #65676B;
+}
+
+#search input::-moz-placeholder {
+    color: #65676B;
+}
+
+#search input:-ms-input-placeholder {
+    color: #65676B;
+}
+
+#search input:-moz-placeholder {
+    color: #65676B;
+}
+
+.chieucao {
+    height: auto !important;
+}
+
+.col-4 {
+    max-width: 28.3333% !important;
+    flex: 0 0 28.3333% !important;
+}
+
+.col-8 {
+    max-width: 71.6667% !important;
+    flex: 0 0 71.6667% !important;
+}
+
+
+.onlineuser:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 35px;
+    background-color: #63b814;
+    z-index: 100;
+    left: 50px;
+  }
+  .online:after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border: 1px solid #fff;
+      border-radius: 6px;
+      position: absolute;
+      top: 35px;
+      background-color: #63b814;
+      z-index: 100;
+      left: 35px;
+  }
+  :host {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    // :host ::ng-deep .mat-tab-labels {
+    //   // flex-direction: column;
+    //   width: 70px;
+    //   flex-direction: column;
+    //   align-items: center;
+    // }
+    
+    mat-tab-group {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+    }
+    
+    :host ::ng-deep .mat-tab-body-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    mat-tab-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    :host ::ng-deep mat-ink-bar {
+      display: none;
+    }
+  
+    :host ::ng-deep.mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+      display: none !important;
+  }
+  // :host ::ng-deep .mat-tab-header
+  // {
+  //     background: #00975D;
+  // }
+  :host ::ng-deep .mat-tab-body-content
+  {
+    width: 100% !important;
+  }
+  
+  
+  
+   
+    /* Styles for the active tab label */
+    // :host ::ng-deep.mat-tab-label.mat-tab-label-active {
+    //     background-color: transparent;
+    //     color: #FFFF;
+    //     background-color: #26bd85;
+    //   //   border-right: 2px solid red;
+    // }
+    // /* Styles for the active tab label */
+    // :host ::ng-deep.mat-tab-label {
+    //     background-color: transparent;
+    //     opacity: inherit;
+    //     margin: 20px 0 20px 0;
+    //     height: 60px !important;
+    //     /* background-color: lightgray; */
+    // }
+  
+  
+  
+  .allread
+  {
+    padding: 5px;
+    float: right;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .allread:hover
+  {
+    color: rgb(0, 47, 255)
+  }
+  
+  .textlast {
+    height: 22px;
+    margin-top: 10px;
+    display: flex;
+    width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .name
+  
+  {
+    font-size: 15px;
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .txtfullname
+  {
+   
+    margin-right: 10px;
+    margin-top: 10px;
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  ::-webkit-scrollbar {
+    width: 2px;
+    opacity: 0;
+    height: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.4);
+  }
+  
+  .iconsearch {
+    padding-left: 40px !important;
+    background: url("../../../../../assets/media/icon/search.png") no-repeat  scroll 10px 7px !important;
+    background-size: 20px !important;
+  }
+  
+  .repon {
+   
+   display: none;
+  }
+  @media screen and (max-width: 985px) {
+   .repon {
+    text-align: end;
+      display: block;
+      position: absolute;
+      width: 290px;
+      // background: red;
+    }
+  }
+  ::ng-deep .mention {
+    width: 100% !important;
+    height: 24px;
+    border-radius: 6px;
+    background-color: #d3e1eb;
+    padding: 3px 0;
+    margin-right: 2px;
+    user-select: all;
+    
+  }

@@ -1,0 +1,309 @@
+::ng-deep m-dang-ky-phong-hop {
+	width: 100%;
+	mat-checkbox .mat-checkbox-frame {
+		border-color: #3788d8;
+	}
+
+	.fc-unthemed .fc-toolbar{
+		display: none;
+	}
+
+	.mat-checkbox-checked .mat-checkbox-background {
+		background-color: #3788d8;
+	}
+
+	.mat-form-field-flex{
+		border-bottom: solid 1px #e8eaed;
+	}
+
+	.flex-section {
+		display: flex;
+		padding: 10px;
+		border-bottom: solid 1px #e8eaed;
+
+		.flex-section-content {
+			padding-left: 5px;
+			flex-grow: 1;
+			word-break: break-word;
+
+			.mat-form-field .mat-form-field-underline {
+				display: none;
+			}
+
+			.mat-form-field-wrapper {
+				padding-bottom: 0;
+
+				.mat-form-field-infix {
+					border-top: 0;
+				}
+			}
+
+			.task-detail {
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				max-height: 40px;
+				-webkit-box-orient: vertical;
+			}
+
+			.task-time {
+				border: solid 1px #e8eaed;
+				padding: 2px 5px;
+				width: fit-content;
+				border-radius: 5px;
+				background-color: #f8f9fa;
+
+				&:hover {
+					background-color: #fff;
+					webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+					box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+				}
+			}
+		}
+
+		&:hover {
+			webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+			box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+			outline: 0;
+			z-index: 2000;
+		}
+
+		&:hover .mat-icon-button {
+			display: block !important;
+		}
+	}
+
+	.mat-form-field:not(.mat-focused) .mat-form-field-underline {
+		display: none;
+	}
+
+	.mat-sidenav {
+		webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 2px 6px 2px rgba(60, 64, 67, 0.149);
+		box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 2px 6px 2px rgba(60, 64, 67, 0.149);
+		outline: 0;
+		z-index: 2000;
+
+		.m-portlet__body {
+			padding-left: 0;
+			padding-right: 0;
+
+			.col-lg-12 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+	}
+}
+
+.app-top {
+	margin: 0 0 3em;
+}
+
+.app-calendar {
+	margin: 0 auto;
+}
+
+::ng-deep .app-calendar .fc-unthemed .fc-toolbar .fc-button {
+	background: #5867DD;
+	&.fc-task-button {
+		margin-right: 10px;
+	}
+}
+
+::ng-deep .app-calendar .fc-unthemed .fc-toolbar > * > :not(:first-child) {
+    margin-left: 0;
+}
+
+::ng-deep .app-calendar .fc-unthemed .fc-toolbar .fc-button.fc-button-active {
+	background: #1a252f;
+}
+
+::ng-deep .fc-ltr .fc-dayGrid-view .fc-day-top .fc-day-number {
+	float: none;
+	font-weight: 500;
+
+	&:hover {
+		background-color: #f1f3f4;
+		border-radius: 50%;
+		letter-spacing: .3px;
+		display: inline-block;
+		text-align: center;
+		white-space: nowrap;
+		width: max-content;
+		min-width: 20px;
+		margin-top: -2px;
+		margin-bottom: -2px;
+	}
+}
+
+::ng-deep .fc-unthemed {
+	.fc-day-grid td:not(.fc-axis) {
+		text-align: center;
+	}
+
+	.fc-event {
+		background-color: #3788d8;
+		border-color: #fff !important;
+
+
+		.fc-time {
+			color: #fff;
+		}
+
+		.fc-title {
+			color: #fff;
+		}
+	}
+
+	.fc-event.loaikhac {
+		background-color: red;
+	}
+
+	.fc-event.loai0 {
+		background-color: #9699a2;
+
+		&.task-success .fc-title {
+			text-decoration: line-through;
+		}
+	}
+}
+
+::ng-deep .fc-unthemed .fc-event.hideEvent {
+	display: none;
+}
+
+::ng-deep .hideEvent{
+	display: none;
+}
+
+::ng-deep .fc-center{
+	display: flex;
+}
+
+::ng-deep .loai-1.fc-timegrid-event-short .fc-event-main-frame {
+	color: #666666;
+}
+
+::ng-deep .loai-1.fc-v-event .fc-event-main-frame { 
+	color: #666666;
+}
+
+::ng-deep .mat-expansion-panel.mat-expansion-panel-flat {
+	box-shadow: none !important;
+}
+
+::ng-deep .fc-scroller.fc-time-grid-container::-webkit-scrollbar-thumb {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	background: #dadce0;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	min-height: 40px;
+	border-bottom: 4px solid white;
+	border-left: 4px solid white;
+	border-right: 4px solid white;
+	border-top: 4px solid white;
+}
+
+::ng-deep .fc-scroller.fc-time-grid-container::-webkit-scrollbar {
+	background: transparent;
+	height: 8px;
+	width: 8px;
+	width: 16px;
+	height: 16px;
+}
+
+::ng-deep .loaikhac .mat-checkbox-frame {
+	border-color: red;
+}
+
+::ng-deep .mat-checkbox-checked.loaikhac .mat-checkbox-background {
+	background-color: red;
+}
+
+::ng-deep .loai1 .mat-checkbox-frame {
+	border-color: #329bc8;
+}
+
+::ng-deep .mat-checkbox-checked.loai1 .mat-checkbox-background {
+	background-color: #329bc8;
+}
+
+::ng-deep .loai-1 .mat-checkbox-frame {
+	border-color: #e8c374;
+}
+
+::ng-deep .mat-checkbox-checked.loai-1 .mat-checkbox-background {
+	background-color: #e8c374;
+}
+
+::ng-deep .loai3 .mat-checkbox-frame {
+	border-color: orange;
+}
+
+
+::ng-deep .mat-checkbox-checked.loai3 .mat-checkbox-background {
+	background-color: orange;
+}
+
+::ng-deep .loai0 .mat-checkbox-frame {
+	border-color: #9699a2;
+}
+
+::ng-deep .mat-checkbox-checked.loai0 .mat-checkbox-background {
+	background-color: #9699a2;
+}
+
+::ng-deep .fc-bgevent {
+	cursor: no-drop;
+	background: #ddd;
+}
+
+::ng-deep m-calendar {
+	.mat-drawer {
+		&.mat-drawer-end {
+			width: 300px;
+		}
+
+		.m-portlet .m-portlet__head {
+			display: flex;
+		}
+	}
+
+	.mat-drawer-content {
+		overflow: hidden;
+		background-color: #fff
+	}
+}
+
+// NOTE: the fullcalendar stylesheets are included in the app's global styles.scss
+/* in-flight clone */
+.gu-mirror {
+	position: fixed !important;
+	margin: 0 !important;
+	z-index: 9999 !important;
+	opacity: 0.8;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+	left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+	-webkit-user-select: none !important;
+	-moz-user-select: none !important;
+	-ms-user-select: none !important;
+	user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+	opacity: 0.2;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+	filter: alpha(opacity=20);
+}
+

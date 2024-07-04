@@ -1,0 +1,147 @@
+<div [ngStyle]="{'height': getHeight()}">
+
+  <!-- <div class="row">
+    <div class = "col-md-2">
+      <div class="filter" [matMenuTriggerFor]="menu">
+        <em>{{column_sort.title}}</em>
+        &nbsp;
+        <i class="fas fa-chevron-down"></i>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngFor="let item of sortField" [ngStyle]="{'font-weight': 'bold'}"
+            (click)="SelectedField(item)">{{item.title}}</button>
+        </mat-menu>
+      </div>
+    </div>
+    <div class = "coll-md-3">
+      <div (click)="SelectFilterDate()" class="filter ">{{'filter.tu'|translate}}:
+        <em>{{ filterDay.startDate | date:'dd/MM/yyyy'}} -
+          {{ filterDay.endDate | date:'dd/MM/yyyy'}}</em>
+        &nbsp;
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+  </div> -->
+
+  <table style="width:100% !important" class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0"
+    cellspacing="0">
+    <thead>
+      <tr>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;height: 80px;color: white !important;">
+          Được tạo bởi
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Tổng số nhiệm vụ
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Hoàn thành đúng hạn
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 50px; text-align: center;color: white !important;">
+          Hoàn thành quá hạn
+        </th>
+        <th class="css-stickyheader-col2" style="min-width: 50px; text-align: center;color: white !important;">
+          Còn hạn
+        </th>
+        <th class="css-stickyheader-col1" style="min-width: 50px; text-align: center;color: white !important;">
+          Sắp tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Tới hạn
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Quá hạn
+        </th>
+
+
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of this.listData">
+        <td class="css-sticky-col0" style="text-align: left; height: 22px;">
+          <span style="padding-left: 10px;">
+            {{data.tenchucdanh}} - {{data.hoten}}
+          </span>
+          
+        </td>
+        <td class="css-sticky-col1" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(0,data)">
+              {{data.num_work}}
+          </span>
+          
+        </td>
+        <td class="css-sticky-col-htdh" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(6,data)">
+            {{data.hoanthanh}}
+          </span>
+        </td>
+
+
+        <td class="css-sticky-col-htqh" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(7,data)">
+            {{data.ht_quahan}}
+          </span>
+        </td>
+        <td class="css-sticky-col-ch" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(2,data)">
+            {{data.conhan}}
+          </span>
+        </td>
+        <td class="css-sticky-col-sth" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(3,data)">
+            {{data.saptoihan}}
+          </span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(4,data)">
+            {{data.toihan}}
+          </span>
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px;">
+          <span class="pointer" (click)="view(5,data)">
+            {{data.quahan}}
+          </span>
+        </td>
+
+
+      </tr>
+      <tr *ngFor="let item of listData_Tong">
+        <td class="css-sticky-col-red" style="text-align: left; height: 22px;">
+          <div class="it item-text-title">
+            <span class="url -hover name-title" style="font-weight: bold !important; font-size: 13pt !important; padding-left: 10px;">
+              Tổng
+              cộng
+            </span>
+          </div>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_num_work}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_hoanthanh_dunghan}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_hoanthanh_quahan}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_conhan}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_saptoihan}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text">
+            {{item.s_toihan}} </span>
+        </td>
+        <td class="css-sticky-col-red" style="text-align: center; height: 22px;">
+          <span class="it item-text" >
+            {{item.s_quahan}} </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

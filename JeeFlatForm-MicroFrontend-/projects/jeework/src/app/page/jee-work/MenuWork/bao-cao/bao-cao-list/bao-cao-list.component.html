@@ -1,0 +1,307 @@
+<style>
+    #filter-icon {
+        background-image: url(https://cdn.jee.vn/jee-comment/icons/facebook-comment-header/filter.png);
+        background-position: -17px -467px;
+        background-size: auto;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .dropdown-item {
+        width: 100%;
+    }
+
+    .dropdown-text {
+        display: flex;
+    }
+
+    .dropdown-active {
+        background-color: #e5e5e5;
+        font-weight: bold;
+    }
+</style>
+<div class="card card-custom" style="margin: 10px">
+    <div class="card-header" id="height-header" style="padding: 5px">
+        <div style="display: flex; align-self: center;flex-wrap: wrap;">
+            <!-- <div style="padding-right: 10px;padding-top:5px" ngbDropdown class="d-inline-block">
+                <button class="btn" id="test" mat-button ngbDropdownToggle style="padding-left: 0;padding-top: unset">
+                    {{labelReport}}
+                </button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" *ngFor="let dt of listReport" (click)="changeReport(dt)"
+                        style="padding:10px" [ngClass]="{'dropdown-active': dt.LinkRoute == linkrouter_default}">
+                        {{dt.LangKey}}
+                    </button>
+                </div>
+            </div> -->
+            <div style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <mat-form-field style="width: 240px">
+                    <mat-select (selectionChange)="changeReport($event.value)" [(value)]="selectedReport">
+                        <mat-option *ngFor="let dt of listReport" [value]="dt.id_row">
+                            {{dt.LangKey}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isShowDepartment" style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <mat-form-field style="width: 240px">
+                    <mat-label>{{this.BaoCaoService.ts_phongban_ToUpper}}</mat-label>
+                    <mat-select (selectionChange)="changeDepartment2($event.value)" [(value)]="selectedDepartment">
+                        <mat-option *ngFor="let dt of listDepartment" [value]="dt.id_row">
+                            {{dt.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isShowNhanVien" style="padding-right: 10px">
+                <mat-form-field style="width: 200px">
+                    <mat-select placeholder="Người giao {{BaoCaoService.ts_congviec}}" [(value)]="id_nv"
+                        (selectionChange)="changeNhanVien($event.value)">
+                        <mat-option [value]="0">
+                            Tất cả
+                        </mat-option>
+                        <mat-option *ngFor="let item of listNhanVien" [value]="item.userid">
+                            {{item.hoten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isShowNhanVienTheoDoi" style="padding-right: 10px">
+                <mat-form-field style="width: 200px">
+                    <mat-select placeholder="Người theo dõi {{BaoCaoService.ts_congviec}}" [(value)]="id_follower"
+                        (selectionChange)="changeNhanVienTheoDoi($event.value)">
+                        <mat-option [value]="0">
+                            Tất cả
+                        </mat-option>
+                        <mat-option *ngFor="let item of listNhanVien" [value]="item.id_nv">
+                            {{item.hoten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isShowProject" style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <mat-form-field style="width: 240px">
+                    <mat-label>{{this.BaoCaoService.ts_duan_ToUpper}}</mat-label>
+                    <mat-select (selectionChange)="changeProject2($event.value)" [(value)]="selectedProject">
+                        <mat-option [value]="0">
+                            Tất cả
+                        </mat-option>
+                        <mat-option *ngFor="let dt of listProject" [value]="dt.id_row">
+                            {{dt.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isShowAllDVTrucThuoc" style="padding-right: 10px; padding-top: 11px;" ngbDropdown
+                class="d-inline-block">
+                <mat-checkbox [(ngModel)]="IsAllDonVi" color="primary">Bao gồm tất cả đơn vị trực thuộc</mat-checkbox>
+            </div>
+            <div *ngIf="isShowDay" style="padding-right: 10px; cursor: pointer" ngbDropdown class="d-inline-block">
+                <div class="filter-workv2" [matMenuTriggerFor]="menu">
+                    <em>{{column_sort.title |translate}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let item of sortField"
+                            [ngClass]="{'dropdown-active': item.value == type_sort}"
+                            (click)="SelectedField(item)">{{item.title |translate}}</button>
+                    </mat-menu>
+                </div>
+            </div>
+            <div *ngIf="isShowDay" style="padding-right: 10px; cursor: pointer" ngbDropdown class="d-inline-block">
+                <div (click)="SelectFilterDate()" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ filterDay.startDate | date:'dd/MM/yyyy'}} -
+                        {{ filterDay.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div *ngIf="isShowDayDelete" style="padding-right: 10px; cursor: pointer" ngbDropdown
+                class="d-inline-block">
+                <div (click)="SelectFilterDate()" class="filter-workv2">{{'filter.tu'|translate}}:
+                    <em>{{ filterDay.startDate | date:'dd/MM/yyyy'}} -
+                        {{ filterDay.endDate | date:'dd/MM/yyyy'}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div *ngIf="isShowRole" style="padding-right: 10px; cursor: pointer" ngbDropdown class="d-inline-block">
+                <div class="filter-workv2" [matMenuTriggerFor]="menu">
+                    <em>{{labelRole}}</em>
+                    &nbsp;
+                    <i class="fas fa-chevron-down"></i>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let item of listRole"
+                            [ngClass]="{'dropdown-active': item.id == id_role}"
+                            (click)="SelectedRole(item)">{{item.title}}</button>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <div *ngIf="isShowType" style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <mat-form-field style="width: 120px">
+                    <mat-select (selectionChange)="changeTypeChart($event.value)" [(value)]="selectedType">
+                        <mat-option *ngFor="let t of listType" [value]="t.id">
+                            {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="isShowPriority" style="padding-right: 10px" ngbDropdown class="d-inline-block">
+                <mat-form-field style="width: 120px">
+                    <mat-select placeholder="Độ ưu tiên" (selectionChange)="changePriority($event.value)"
+                        [(value)]="selectedPriority">
+                        <mat-option *ngFor="let priority of listPriority" [value]="priority.id">
+                            {{priority.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="isShowImportant" style="padding-right: 10px">
+                <mat-form-field style="width: 120px">
+                    <mat-select placeholder="Độ quan trọng" (selectionChange)="changeImportant($event.value)"
+                        [(value)]="selectedImportant">
+                        <mat-option [value]="0">
+                            Tất cả
+                        </mat-option>
+                        <mat-option *ngFor="let item of listCustomerTag" [value]="item.id_row">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="isShowLoaiCV" style="padding-right: 10px">
+                <mat-form-field style="width: 150px">
+                    <mat-select placeholder="Loại {{BaoCaoService.ts_congviec}}" (selectionChange)="changeLoaiCongViec($event.value)">
+                        <mat-option *ngFor="let item of listLoaiCV" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div *ngIf="isShowExcel">
+            <button type="button" class="btn btn-primary" style="background-color: #3699ff !important;"
+                (click)="ExportExcel()">Xuất Excel</button>
+        </div>
+    </div>
+    <div [ngStyle]="{'height': getHeight()}" style="overflow: auto;" (scroll)="onScroll($event)">
+
+        <div [ngSwitch]="this.linkrouter_default">
+            <div *ngSwitchCase="'CongViec'">
+                <app-bao-cao-cong-viec #baoCaoCongViec [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_department]="this.id_department" [id_role]="this.id_role"
+                    [id_follower]="this.id_follower">
+                </app-bao-cao-cong-viec>
+
+            </div>
+            <div *ngSwitchCase="'Theodoinhiemvuduocgiao'">
+                <bao-cao-theo-doi-nhiem-vu-duoc-giao #baoCaoTDNVDuocGiao [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_role]="this.id_role">
+                </bao-cao-theo-doi-nhiem-vu-duoc-giao>
+
+            </div>
+            <div *ngSwitchCase="'DuAn'">
+                <app-bao-cao-du-an #baoCaoDuAn [startDate]="this.filterDay.startDate" [endDate]="this.filterDay.endDate"
+                    [id_project_team]="this.id_project_team" [collect_by]="this.filter.collect_by"
+                    [id_department]="this.id_department" [id_role]="this.id_role">
+                </app-bao-cao-du-an>
+
+            </div>
+            <div *ngSwitchCase="'TongHopNhiemVuTheoNguoiGiao'">
+                <app-bao-cao-nhiem-vu-duoc-giao #baoCaoNVDG [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.type_sort" [id_department]="this.id_department" [id_role]="this.id_role">
+                </app-bao-cao-nhiem-vu-duoc-giao>
+
+            </div>
+            <div *ngSwitchCase="'CongViecDuocTao'">
+                <app-bao-cao-nhiem-vu-duoc-tao #baoCaoNVDT [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.type_sort" [id_department]="this.id_department" [id_role]="this.id_role">
+                </app-bao-cao-nhiem-vu-duoc-tao>
+
+            </div>
+            <div *ngSwitchCase="'ThanhVien'">
+                <app-bao-cao-chi-tiet-theo-thanh-vien #baoCaoCTTTV [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_department]="this.id_department">
+                </app-bao-cao-chi-tiet-theo-thanh-vien>
+
+            </div>
+            <div *ngSwitchCase="'ThoiHanNhiemVu'">
+                <bao-cao-thoi-han-nhiem-vu [startDate]="this.filterDay.startDate" [endDate]="this.filterDay.endDate"
+                    [typeChart]="this.type" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_department]="this.id_department" [id_role]="this.id_role">
+                </bao-cao-thoi-han-nhiem-vu>
+
+            </div>
+            <div *ngSwitchCase="'TheoDoiNhiemVu'">
+                <bieu-do-theo-doi-tinh-hinh-thuc-hien-nhiem-vu [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [typeChart]="this.type" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_department]="this.id_department" [id_role]="this.id_role">
+                </bieu-do-theo-doi-tinh-hinh-thuc-hien-nhiem-vu>
+            </div>
+            <div *ngSwitchCase="'TrangThaiNhiemVu'">
+                <bieu-do-trang-thai-nhiem-vu [startDate]="this.filterDay.startDate" [endDate]="this.filterDay.endDate"
+                    [typeChart]="this.type" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.filter.collect_by" [id_department]="this.id_department"
+                    [priority]="this.priority" [important]="this.important" [id_role]="this.id_role">
+
+                </bieu-do-trang-thai-nhiem-vu>
+            </div>
+            <div *ngSwitchCase="'CongViecQuanTrong'">
+                <app-bao-cao-nhiem-vu-quan-trong #baoCaoNVQT [loai_cv]="this.loai_cv" [startDate]="this.filterDay.startDate"
+                [endDate]="this.filterDay.endDate" [collect_by]="this.filter.collect_by">
+                </app-bao-cao-nhiem-vu-quan-trong>
+            </div>
+            <div *ngSwitchCase="'TheoDoiNhiemVuDaGiao'">
+                <app-bao-cao-theo-doi-nhiem-vu-da-giao #baoCaoTDNVDG [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [collect_by]="this.filter.collect_by"
+                    [id_department]="this.id_department">
+
+                </app-bao-cao-theo-doi-nhiem-vu-da-giao>
+            </div>
+            <div *ngSwitchCase="'ChiTietNhiemVuTheoNguoiGiao'">
+                <app-bao-cao-nhiem-vu-theo-nguoi-giao #baoCaoNVTNG [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [collect_by]="this.filter.collect_by"
+                    [id_department]="this.id_department" [id_nv]="this.id_nv">
+                </app-bao-cao-nhiem-vu-theo-nguoi-giao>
+            </div>
+            <div *ngSwitchCase="'TongGioLam'">
+                <app-bao-cao-tong-gio-lam #baoCaoTGL [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.type_sort" [id_department]="this.id_department">
+                </app-bao-cao-tong-gio-lam>
+            </div>
+            <div *ngSwitchCase="'TongHopNhiemVuCanBo'">
+                <app-bao-cao-nhiem-vu-can-bo #baoCaoCB [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_project_team]="this.id_project_team"
+                    [collect_by]="this.type_sort" [id_department]="this.id_department" [id_role]="this.id_role"
+                    [IsAllDonVi]="this.IsAllDonVi">
+                </app-bao-cao-nhiem-vu-can-bo>
+            </div>
+
+            <!-- <div *ngSwitchDefault>
+                <router-outlet></router-outlet>
+            </div> -->
+            <div *ngSwitchCase="'nhiemvudaxoa'">
+                <app-bao-cao-nhiem-vu-da-xoa #baoCaoNhiemVuDaXoa [startDate]="this.filterDay.startDate"
+                    [endDate]="this.filterDay.endDate" [id_department]="this.id_department">
+                </app-bao-cao-nhiem-vu-da-xoa>
+
+            </div>
+
+        </div>
+    </div>
+</div>

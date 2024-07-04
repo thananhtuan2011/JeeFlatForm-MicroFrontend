@@ -1,0 +1,184 @@
+<style>
+    ::ng-deep .sky-tooltip {
+        white-space: pre-line !important;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    table td {
+        padding: 0;
+        vertical-align: middle;
+    }
+
+    .img-chuagiao {
+        border: 1px dashed #676363;
+        border-radius: 50%;
+        padding: 2px;
+        height: 30px;
+        width: 30px;
+        margin-right: 10px;
+        float: left;
+    }
+
+    .icon-chuagiao {
+        font-size: 13px;
+        padding: 5px;
+    }
+</style>
+<div *ngIf="!this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left" style="top: 0; position: sticky; z-index: 1;">
+                <th style="min-width: 250px;padding-left: 10px;"><span>Tên</span>
+                </th>
+                <th style="min-width: 150px">
+                    <div class="row row-box text-center url">
+                        <span style="flex: 1;" translate="widgets.tinhtrang"></span>
+                    </div>
+                </th>
+                <th>
+                    <span translate="widgets.thoihan"></span>
+                </th>
+                <th style="min-width: 120px">
+                    <span>Bình Luận</span>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataLazyLoad">
+                <td class="pl-3">
+                    <ng-container>
+                        <ng-container *ngIf="item.User?.length > 0;else chuagiao">
+                            <div class="url" [ngClass]="{'mr-2': last}" *ngFor="let us of item.User;let last = last"
+                                style="justify-content: flex-end; float: left; margin-right: 10px;">
+                                <ng-container>
+                                    <ngx-avatar size="30" matTooltipClass="sky-tooltip"
+                                        matTooltip="{{getMoreInformation(us)}}" src="{{us.image}}"
+                                        *ngIf="us.image;else bindText">
+                                    </ngx-avatar>
+                                    <ng-template #bindText>
+                                        <ngx-avatar textSizeRatio="2.5" matTooltipClass="sky-tooltip"
+                                            matTooltip="{{getMoreInformation(us)}}" size="30"
+                                            [name]="_WorkGeneralService.getNameUser(us.hoten)"
+                                            bgColor="{{_WorkGeneralService.getColorNameUser(us.hoten)}}">
+                                        </ngx-avatar>
+                                    </ng-template>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-template #chuagiao>
+                            <div class="user-add-widget bg-white mr-2 img-chuagiao">
+                                <i class="fas fa-user-plus ml-1 pd-0 icon-chuagiao"></i>
+                            </div>
+                        </ng-template>
+                        <a class="name-title mb-1 font-size-lg url">
+                            <span class="text-hover-primary d-block" matTooltip="Xem chi tiết"
+                                (click)="Xemchitiet(item)" style="cursor: pointer;">
+                                {{item.title}}
+                            </span>
+                            <span class="text-muted font-weight-bold text-muted">{{item.project_team}}</span>
+                        </a>
+                        <!-- <span class="url" matTooltip="Xem chi tiết" style="cursor: pointer;"
+                            (click)="Xemchitiet(item)">{{item.title}}</span> -->
+                        <!-- <span class="border-tag url pd-5" [matMenuTriggerFor]="tag"
+                                                    *ngIf="_WorkGeneralService.CheckRules(20,item)"
+                                                    (menuOpened)="item.loadTags = true"
+                                                    (menuClosed)="item.loadTags = false" (click)="mark_tag(item)"
+                                                    matTooltip="{{ 'work.chinhsuatag' | translate}}">
+                                                    <i class="fas fa-tags"></i>
+                                                </span> -->
+                        <!-- <span class="border-tag url pd-5"
+                                                    *ngIf="!_WorkGeneralService.CheckRules(20,item)"
+                                                    matTooltip="{{ 'work.chinhsuatag' | translate}}">
+                                                    <i class="fas fa-tags"></i>
+                                                </span> -->
+
+                        <!-- <ng-container *ngFor="let tag of item.Tags">
+                                                    <kt-cu-tag class="url" [node]="item" [tag]="tag" [detail]="true"
+                                                        [role]="_WorkGeneralService.CheckRules(20,item)"
+                                                        (loadData)="loadList()" (RemoveTag)="RemoveTag(tag,item)">
+                                                    </kt-cu-tag>
+                                                </ng-container> -->
+                    </ng-container>
+                    <!-- <mat-menu #tag="matMenu" class="sky-tags-mat-menu">
+                            <ng-container *ngIf="item.loadTags">
+                                <kt-choose-milestone-and-tags (click)="$event.stopPropagation()" [options]="list_Tag"
+                                    [project_team]="item.id_project_team" [id_project_Team]="item.id_project_team"
+                                    [Id]="item.id_row" [Id_key]="9" [Loai]="'Tags'" (ItemSelected)="loadList()">
+                                </kt-choose-milestone-and-tags>
+                            </ng-container>
+                        </mat-menu> -->
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <ng-container *ngIf="_WorkGeneralService.CheckClosedTask(item); else norolestatus">
+                        <div class="box-trang-thai box-absolute-auto" [matMenuTriggerFor]="status"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}" (click)="statusChange(item)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #norolestatus>
+                        <div class="box-trang-thai box-absolute-auto"
+                            [ngStyle]="{'backgroundColor': getTinhtrangCV(item,'color')}">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ getTinhtrangCV(item)}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <mat-menu #status="matMenu">
+                        <button mat-menu-item *ngFor="let status of listDataStatus" (click)="UpdateStatus(item,status)"
+                            [ngStyle]="{color: status.color}">
+                            <div class="row">
+                                <div class="sky-task-row-status" style="width:20px;padding-right:5px">
+                                    <div class="sky-point" [ngStyle]="{'backgroundColor': status.color}">
+                                    </div>
+                                </div>
+                                {{status.statusname}}
+                            </div>
+                        </button>
+                    </mat-menu>
+                </td>
+                <td>
+                    <app-task-datetime-pc (valueChange)="updateDate(item,$event,'deadline')" [fieldname]="'deadline'"
+                        [value]="item.deadline"
+                        [role]="_WorkGeneralService.CheckRules(10,item) && _WorkGeneralService.CheckClosedTask(item)">
+                    </app-task-datetime-pc>
+                </td>
+                <td>
+                    <div
+                        *ngIf="_WorkGeneralService.CheckRule(item.Rule,'17') || _WorkGeneralService.CheckRule(item.Rule,'18')">
+                        <app-task-comment (submit)="this.loadList()" [id_row]="item.id_row" [value]="item.comments"
+                            [isviewcomment]="_WorkGeneralService.CheckRule(item.Rule,'17')"
+                            [iscomment]="_WorkGeneralService.CheckRule(item.Rule,'18')">
+                        </app-task-comment>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadDataList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="this.isgov && this.dataLazyLoad.length > 0" class="table-responsive" [ngStyle]="{'height': getHeight()}"
+    [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <ref-app-widget-nhiem-vu-v2 [dataLazyLoad]="this.dataLazyLoad" [crr_page]="this.crr_page"
+        [total_page]="this.total_page" [isLoading]="this.isLoading" [isgov]="this.isgov"
+        (LoadDataLazy)='reloadData($event)'></ref-app-widget-nhiem-vu-v2>
+</div>

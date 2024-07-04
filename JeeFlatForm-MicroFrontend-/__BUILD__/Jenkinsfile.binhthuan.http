@@ -1,0 +1,122 @@
+pipeline {
+    environment {
+        REGISTRY_HOST = "registry.jee.vn"
+        REGISTRY_PUBLISHER = "bt"
+        REGISTRY_CRED = "registry"
+        PROJECT_NAME = "platform-backend-http"
+        STACK_NAME = "mfe"
+
+        NODE_ENV = "binhthuanhttp"
+        API_DOMAIN = ".egov.binhthuan.gov.vn"
+        REMOTE_URL = "https://jenkins.vts-demo.com/job/landing%20page%20mfe%20http/build"
+        REMOTE_BUILD_TOKEN = "qIYYzYMuDDLPQBB11rYPCvEPdVD7Cvj4RfaSrS387umZekU4bWg2mewf3wVRFL3e"
+        PROJECT_BUILD = 'demo1'
+
+        service = ""
+    }
+    agent any
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+        stage('Replace env file') {
+            steps {
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: '\\.jee\\.vn',
+                          replace: "${env.API_DOMAIN}",
+                          verbose: false,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'src/environments/environment.binhthuan.ts'
+                    )
+                  ]
+                )
+
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: 'https:\\/\\/jee(\\w+)',
+                          replace: "https://\$1",
+                          verbose: true,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'src/environments/environment.binhthuan.ts'
+                    )
+                  ]
+                )
+
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: 'http:\\/\\/jee(\\w+)',
+                          replace: "http://\$1",
+                          verbose: true,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'src/environments/environment.binhthuan.ts'
+                    )
+                  ]
+                )
+                
+                contentReplace(
+                  configs: [
+                    fileContentReplaceConfig(
+                      configs: [
+                        fileContentReplaceItemConfig(
+                          search: '\\.jee\\.vn',
+                          replace: "${env.API_DOMAIN}",
+                          verbose: true,
+                        )
+                      ],
+                      fileEncoding: 'UTF-8',
+                      filePath: 'webpack.binhthuanhttp.config.js'
+                    )
+                  ]
+                )
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    service = docker.build("${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest", "--build-arg NODE_ENV=${NODE_ENV} --build-arg PROJECT_BUILD=${PROJECT_BUILD} -f Dockerfile .")
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        service.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Call Remote') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_bt', usernameVariable: "USERNAME", passwordVariable: "PASSWORD")]) {
+                        sh """
+                            curl -u ${USERNAME}:${PASSWORD} -X GET \
+                            ${REMOTE_URL}?token=${REMOTE_BUILD_TOKEN}
+                        """
+                    }
+                }
+            }
+        }
+    }
+}

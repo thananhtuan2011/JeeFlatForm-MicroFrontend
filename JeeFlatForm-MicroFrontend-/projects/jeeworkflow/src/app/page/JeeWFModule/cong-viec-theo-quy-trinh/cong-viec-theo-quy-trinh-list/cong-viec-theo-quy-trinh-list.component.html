@@ -1,0 +1,259 @@
+<div style="margin: 0; width: 100%; position: absolute; display: flex;">
+    <div class="list-cong-viec-quy-trinh" style="width: 350px;">
+        <div style="padding: 0 10px">
+            <mat-select class="mat-form-field mat-form-field-fluid"
+                style="width: 80%; padding: 15px 0; text-transform: uppercase; font-weight: bold;" [(ngModel)]="IDDrop"
+                (selectionChange)="changeDropDown($event.value)">
+                <mat-option value="">Tất cả quy trình</mat-option>
+                <mat-option value="{{list.rowid}}" *ngFor="let list of ListProcess;">
+                    {{list.title}}
+                </mat-option>
+            </mat-select>
+        </div>
+
+        <div class="row" style="border: none; justify-content: center;">
+            <m-dynamic-search-form style="width: 345px; padding: 5px;"></m-dynamic-search-form>&nbsp;
+        </div>
+
+        <div class="row" style="padding: 0 5px;">
+            <div class="col-md-5">
+                <mat-select [(value)]="filterViecToiLam" (selectionChange)="changedViecToiLam($event)" style="border: none;
+          outline: none;margin-top: 5px;font-size: 13px;cursor: pointer;">
+                    <mat-option value="1">Việc tôi làm</mat-option>
+                    <mat-option value="2">Việc tôi theo dõi</mat-option>
+                </mat-select>
+            </div>
+            <div class="col-md-5">
+                <mat-select [(value)]="filtertinhtrang" (selectionChange)="changedTinhTrang($event)" style="border: none;
+          outline: none;margin-top: 5px;font-size: 13px;cursor: pointer;">
+                    <!-- typeid: 0 - Chờ xử lý/Chưa bắt đầu/Mới, 1- Đang xử lý/Đang làm, 5 - tạm dừng , 2 - quá hạn, 3 - hoàn thành/Hoàn tất, -1 - Chưa hoàn thành -->
+                    <mat-option value="0">Mới</mat-option>
+                    <mat-option value="1">Đang làm</mat-option>
+                    <mat-option value="5">Tạm dừng</mat-option>
+                    <mat-option value="2">Quá hạn</mat-option>
+                    <mat-option value="3">Hoàn thành</mat-option>
+                    <mat-option value="">Tất cả</mat-option>
+                </mat-select>
+            </div>
+            <div class="col-md-2" style="text-align: right;">
+                <span class="svg-icon svg-icon-primary svg-icon-2x" [matMenuTriggerFor]="menu">
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Other2.svg--><svg
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" cx="5" cy="12" r="2" />
+                            <circle fill="#000000" cx="12" cy="12" r="2" />
+                            <circle fill="#000000" cx="19" cy="12" r="2" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+                <mat-menu #menu="matMenu">
+                    <div class="row" (click)="$event.stopPropagation();" style="width: 250px; margin: 0;">
+                        <div class="col-md-8">Hiển thị công việc con</div>
+                        <div class="col-4">
+                            <mat-slide-toggle (click)="changedCongViecCon()"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </mat-menu>
+            </div>
+        </div>
+
+        <hr>
+
+        <div [ngStyle]="{'height': getHeight()}"
+            style="width: 100%; overflow-y: auto; margin-top: 20px; padding-left: 5px;" (scroll)="onScroll($event)">
+            <ng-container *ngFor="let item of dataLazyLoad">
+                <div class="row-item">
+                    <div class="item-detail border-bottom"
+                        [ngClass]="{ selected : item.stageid == StageID && item.type == 1}">
+                        <div class="item-status mr-0" [ngClass]="BgStatus(item.stage_statusid)">
+                        </div>
+                        <div class="item-detail-info">
+                            <div class="item-left col-9 url pl-0" (click)="changeRoute(item, 1)"
+                                matTooltip="Xem chi tiết">
+                                <div class="row h-100 ">
+                                    <div class="item-title-nhiemvu" [ngClass]="ColorTitle(item.stage_statusid)">
+                                        <span style="margin-left: 5px;" *ngIf="item.IsNew && isnew"
+                                            class="label label-danger label-inline">new</span>
+                                        {{item.task}}
+                                    </div>
+                                    <div class="item-detail-giaidoan">
+                                        <span>{{item.stage}}</span>&nbsp;<span
+                                            *ngIf="item.IsGiaiDoan && item.todo_count > 0"
+                                            class="svg-icon svg-icon-primary svg-icon-2x">
+                                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Git4.svg--><svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                                viewBox="0 0 24 24" version="1.1"
+                                                style="height: 1.2rem !important; width: 1.2 rem !important;">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path
+                                                        d="M6,7 C7.1045695,7 8,6.1045695 8,5 C8,3.8954305 7.1045695,3 6,3 C4.8954305,3 4,3.8954305 4,5 C4,6.1045695 4.8954305,7 6,7 Z M6,9 C3.790861,9 2,7.209139 2,5 C2,2.790861 3.790861,1 6,1 C8.209139,1 10,2.790861 10,5 C10,7.209139 8.209139,9 6,9 Z"
+                                                        fill="#000000" fill-rule="nonzero" />
+                                                    <path
+                                                        d="M7,11.4648712 L7,17 C7,18.1045695 7.8954305,19 9,19 L15,19 L15,21 L9,21 C6.790861,21 5,19.209139 5,17 L5,8 L5,7 L7,7 L7,8 C7,9.1045695 7.8954305,10 9,10 L15,10 L15,12 L9,12 C8.27142571,12 7.58834673,11.8052114 7,11.4648712 Z"
+                                                        fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                    <path
+                                                        d="M18,22 C19.1045695,22 20,21.1045695 20,20 C20,18.8954305 19.1045695,18 18,18 C16.8954305,18 16,18.8954305 16,20 C16,21.1045695 16.8954305,22 18,22 Z M18,24 C15.790861,24 14,22.209139 14,20 C14,17.790861 15.790861,16 18,16 C20.209139,16 22,17.790861 22,20 C22,22.209139 20.209139,24 18,24 Z"
+                                                        fill="#000000" fill-rule="nonzero" />
+                                                    <path
+                                                        d="M18,13 C19.1045695,13 20,12.1045695 20,11 C20,9.8954305 19.1045695,9 18,9 C16.8954305,9 16,9.8954305 16,11 C16,12.1045695 16.8954305,13 18,13 Z M18,15 C15.790861,15 14,13.209139 14,11 C14,8.790861 15.790861,7 18,7 C20.209139,7 22,8.790861 22,11 C22,13.209139 20.209139,15 18,15 Z"
+                                                        fill="#000000" fill-rule="nonzero" />
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                        </span><span style="font-size: 9pt;"
+                                            *ngIf="item.IsGiaiDoan && item.todo_count > 0">{{item.todo_count}}</span>
+                                    </div>
+                                    <div class="item-detail-content">
+                                        <div class="item-detail-comment min-item-content">
+                                            <span [innerHTML]="item.task_description"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-right col-3 text-right pd-0">
+                                <div class="item-avatar" *ngIf="item.stage_implementer != null"
+                                    style="display: flex; justify-content: flex-end;">
+                                    <mat-icon *ngIf="item.IsQuaHan && item.stage_statusid != 2"
+                                        style="text-align: right; padding-top: 3px; color: #af0f0f;">error
+                                    </mat-icon>
+                                    <div class="row" *ngIf="item.stage_implementer.length == 1">
+                                        <ngx-avatar size="40" src="{{item.stage_implementer[0].AvartarImgURL}}"
+                                            matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+                                            *ngIf="item.stage_implementer[0].AvartarImgURL;else bindText"></ngx-avatar>
+                                        <ng-template #bindText>
+                                            <ngx-avatar textSizeRatio="2.5" size="40"
+                                                matTooltip="{{item.stage_implementer[0].FullName}} - {{item.stage_implementer[0].Jobtitle}}"
+                                                bgColor="{{congViecTheoQuyTrinhService.getColorNameUser(item.stage_implementer[0].FirstName)}}"
+                                                [name]="congViecTheoQuyTrinhService.getNameUser(item.stage_implementer[0].FirstName.slice(0, 1))">
+                                            </ngx-avatar>
+                                        </ng-template>
+                                    </div>
+                                    <div class="row" *ngIf="item.stage_implementer.length > 1">
+                                        <div class="users">
+                                            <div class="user url" *ngFor="let img of item.Manager1,let vi = index"
+                                                style="justify-content: flex-end;">
+                                                <ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+                                                    *ngIf="img.AvartarImgURL; else bindText" [matMenuTriggerFor]="menu">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" [size]="40"
+                                                        [name]="img.FirstName.slice(0, 1)"
+                                                        bgColor="{{ congViecTheoQuyTrinhService.getColorNameUser(img.FirstName.slice(0, 1)) }}"
+                                                        [matMenuTriggerFor]="menu">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                                <mat-menu #menu="matMenu">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <ngx-avatar [size]="50" src="{{img.AvartarImgURL}}"
+                                                                *ngIf="img.AvartarImgURL; else bindText">
+                                                            </ngx-avatar>
+                                                            <ng-template #bindText>
+                                                                <ngx-avatar textSizeRatio="2.5" [size]="50"
+                                                                    [name]="img.FirstName.slice(0, 1)"
+                                                                    bgColor="{{ congViecTheoQuyTrinhService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+                                                                </ngx-avatar>
+                                                            </ng-template>
+                                                        </div>
+                                                        <div class="col-md-9 font-chu">
+                                                            <div class="col-md-12" style="font-weight: bold;">
+                                                                <span>{{img.FullName}}</span>
+                                                            </div>
+                                                            <div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                            <div class="user url"
+                                                [ngStyle]="{'display' : item.Manager2_count > 0 ? '' : 'none'}"
+                                                style="text-align: center; width: 45px; height: 45px;">
+                                                <span class="manager2"
+                                                    style="border-radius: 50%; font-size: 20px; cursor: pointer;text-align: center;"
+                                                    alt="" [matMenuTriggerFor]="menu">{{item.Manager2_count}}</span>
+                                                <mat-menu #menu="matMenu">
+                                                    <div class="row" *ngFor="let img of item.Manager2">
+                                                        <div class="col-md-2" style="padding: 5px;">
+                                                            <ngx-avatar [size]="40" src="{{img.AvartarImgURL}}"
+                                                                *ngIf="img.AvartarImgURL; else bindText">
+                                                            </ngx-avatar>
+                                                            <ng-template #bindText>
+                                                                <ngx-avatar textSizeRatio="2.5" [size]="40"
+                                                                    [name]="img.FirstName.slice(0, 1)"
+                                                                    bgColor="{{ congViecTheoQuyTrinhService.getColorNameUser(img.FirstName.slice(0, 1)) }}">
+                                                                </ngx-avatar>
+                                                            </ng-template>
+                                                        </div>
+                                                        <div class="col-md-10 font-chu">
+                                                            <div class="col-md-12" style="font-weight: bold;">
+                                                                <span>{{img.FullName}}</span>
+                                                            </div>
+                                                            <div class="col-md-12"><span>{{img.Jobtitle}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-detail-deadline" style="text-align: right; font-size: 8pt;"
+                                    *ngIf="item.stage_statusid != 2 && item.stage_statusid != -1">
+                                    {{this._FormatTimeService.format_convertDate(item.stage_deadline,1,true)}}
+                                </div>
+                                <div class="item-detail-giaidoan" style="align-self: end;">
+                                    <div class="item-detail-comment min-item-content"
+                                        style="text-align: right; padding-bottom: 2px;">
+                                        {{this._FormatTimeService.format_convertDate(item.stage_assigndate,1,true)}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="item.todo?.length > 0">
+                        <ng-container *ngFor="let child of item.todo">
+                            <div class="item-detail-child"
+                                [ngClass]="{ selected : child.stageid == StageID && child.type == 3}">
+                                <div class="item-detail-nhiemvu-congviec" (click)="changeRoute(child, 3)">
+                                    <div class="d-flex p-0">
+                                        <div class="pie" [ngClass]="DrawPie(child)"></div>
+                                    </div>
+                                    <div class="item-left col-8 pl-0">
+                                        <div class="row h-100 " style="padding-top: 5px; padding-left: 5px;">
+                                            <div class="item-detail-title">
+                                                {{child.stage}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="users" style="justify-content: flex-end; display: flex;">
+                                            <div class="user url"
+                                                *ngFor="let img of child.stage_implementer,let vi = index">
+                                                <ngx-avatar size="26" src="{{img.AvartarImgURL}}"
+                                                    matTooltip="{{img.FullName}} - {{img.Jobtitle}}"
+                                                    *ngIf="img.AvartarImgURL;else bindText">
+                                                </ngx-avatar>
+                                                <ng-template #bindText>
+                                                    <ngx-avatar textSizeRatio="2.5" size="26"
+                                                        matTooltip="{{img.FullName}} - {{img.Jobtitle}}"
+                                                        bgColor="{{congViecTheoQuyTrinhService.getColorNameUser(img.FirstName)}}"
+                                                        [name]="congViecTheoQuyTrinhService.getNameUser(img.FirstName.slice(0, 1))">
+                                                    </ngx-avatar>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+    <router-outlet></router-outlet>
+</div>

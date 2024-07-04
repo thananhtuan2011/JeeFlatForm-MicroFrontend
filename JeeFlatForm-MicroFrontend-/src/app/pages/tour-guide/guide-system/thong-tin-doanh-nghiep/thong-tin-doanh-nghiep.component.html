@@ -1,0 +1,69 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
+
+  .mat-expanded mat-panel-title {
+    display: none;
+  }
+
+  .class-text {
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+</style>
+<div class="card card-custom" [ngStyle]="{ height: getHeightFull() }">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 style="font-weight: bold">Thông tin doanh nghiệp</h3>
+    </div>
+    <div class="card-toolbar">
+
+    </div>
+  </div>
+  <div class="card-body" style="display: flex; justify-content: center;">
+    <div style="width:700px; padding:20px 0">
+      <div class="row" style="margin: 10px 0">
+        <span style="padding-bottom: 10px">Tên doanh nghiệp &nbsp;<span style="color:red">(*)</span></span><br />
+        <span style="padding-bottom: 10px">
+          <input style="font-weight: normal" class="border-input form-control" matInput autocomplete="off" type="text"
+            [(ngModel)]="textDoanhNghiep">
+        </span>
+      </div>
+      <div class="row" style="margin: 10px 0">
+        <span style="padding-bottom: 10px">Địa chỉ</span><br />
+        <span style="padding-bottom: 10px">
+          <input style="font-weight: normal" class="border-input form-control" matInput autocomplete="off" type="text"
+            [(ngModel)]="textDiaChi">
+        </span>
+      </div>
+      <div class="row" style="margin: 10px 0">
+        <span style="padding-bottom: 10px">Số điện thoại &nbsp;<span style="color:red">(*)</span></span><br />
+        <span style="padding-bottom: 10px">
+          <input style="font-weight: normal" class="border-input form-control" matInput autocomplete="off" type="text"
+            [(ngModel)]="textSoDienThoai">
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" mat-raised-button class="ja_button ja_btn-goback" (click)="TroLai()">
+      <span translate="landingpagekey.trolai"></span>
+    </button>&nbsp;
+    <button type="button" mat-raised-button class="ja_button ja_btn-addnew" (click)="TiepTuc()">
+      <span>Tiếp tục</span>
+    </button>
+  </div>
+</div>

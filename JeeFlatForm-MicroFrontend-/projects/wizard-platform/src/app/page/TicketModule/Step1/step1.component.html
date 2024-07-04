@@ -1,0 +1,21 @@
+<div *ngIf="isloadding" class="card card-custom ">
+  <div class="card-header" style="    padding: 1px 1.25rem;">
+    <div class="card-title">
+      <h3 class="title">{{wizard.title}}</h3>
+    </div>
+    <div class="card-toolbar">
+      <button (click)="ClickDataDefault()" mat-raised-button class="ja_button ja_btn-addnew" type="button">
+        <span>Sử dụng dữ liệu mặc định</span>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div style="padding: 20px 15px;">
+      <span class="class-text" [innerHTML]="wizard.description">
+
+      </span>
+
+    </div>
+  </div>
+
+</div>

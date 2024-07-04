@@ -1,0 +1,9 @@
+<ng-container>
+  <div *ngIf="nodes?.length">
+    <ng-container *ngFor="let node of nodes;first as isFirst; last as isLast">
+      <div class="ngx-org-self-{{direction}}">
+        <ngx-chart-designer [ngStyle]="{'height': isFirst? '400px' : ''}" [node]="node" [direction]="direction" (itemClick)="itemClick.emit($event)"></ngx-chart-designer>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

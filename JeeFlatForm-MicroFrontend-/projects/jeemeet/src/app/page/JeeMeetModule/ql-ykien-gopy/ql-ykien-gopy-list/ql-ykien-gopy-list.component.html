@@ -1,0 +1,129 @@
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+<!-- <div class="card card-custom card-sticky gutter-b">
+  <div class="card-header">
+      <div class="card-title text-black">
+        <app-breadcrumb></app-breadcrumb>
+       </div>
+  </div>
+</div> -->
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Quản lý ý kiến/góp ý</span>
+        </div>
+
+        <div class="card-toolbar">
+            <!-- <button class="jee-btn-addnew" (click)="Add()" mat-raised-button matTooltip="Thêm Mới" type="button">
+                Thêm Mới
+            </button> -->
+            <button mat-icon-button [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (menuOpened)="menuChange($event, 0)" (menuClosed)="menuChange($event, 1)" matTooltip="Hiển thị cột">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="$event.stopPropagation()">
+						<mat-checkbox
+							#ckAll (change)="$event ? CheckAllColumns() : null"
+							[checked]=" selectedColumns.hasValue() && IsAllColumnsChecked()"
+							[indeterminate]="	selectedColumns.hasValue() && !IsAllColumnsChecked()"
+							>{{ "COMMON.ALL" | translate }}</mat-checkbox
+						>
+					</button>
+                <button mat-menu-item *ngFor="let col of availableColumns" (click)="$event.stopPropagation()">
+						<mat-checkbox
+							[disabled]="col.alwaysChecked"
+							(click)="$event.stopPropagation()"
+              (change)="
+              $event ? selectedColumns.toggle(col) : null
+            "
+            [checked]="selectedColumns.isSelected(col)"
+						>
+							{{ col.displayname }}
+						</mat-checkbox>
+					</button>
+                <button mat-menu-item (click)="applySelectedColumns()">
+						<mat-icon>autorenew</mat-icon>
+						<span>{{ "COMMON.APDUNG" | translate }}</span>
+					</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- start::FILTERS & GROUP ACTIONS -->
+        <div class="kt-form kt-margin-b-30">
+            <!-- start::FILTERS -->
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md-12 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="tim-kiem mat-form-field mat-form-field-fluid">
+                            <input matInput #searchInput (input)="changeSelection()" placeholder="{{
+								'MENU_YKIENGOPY.TIMKIEM'| translate}}" class="tim-kiem" matTooltip="{{'MENU_YKIENGOPY.TIMKIEM'| translate}}" [(ngModel)]="keyword" />
+                            <!-- <mat-hint align="start">
+							<strong>{{
+								"ComMon.timkiem" | translate}}</strong>
+						</mat-hint> -->
+                        </mat-form-field>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end::FILTERS & GROUP ACTIONS -->
+    </div>
+</div>
+
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Danh sách ý kiến/góp ý</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- start::FILTERS & GROUP ACTIONS -->
+        <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th class=" text-center" style=" text-align: center">
+                            <span>STT</span>
+                        </th>
+                        <th style=" text-align: center">
+                            <span>Tên cuộc họp</span>
+                        </th>
+
+                        <th style=" text-align: center">
+                            <span>Tác vụ</span>
+                        </th>
+
+                    </thead>
+                    <tbody *ngIf="quanLyYKienGopYService.items$ | async">
+                        <tr *ngFor="let item of (quanLyYKienGopYService.items$ | async); let i = index;">
+                            <td class="text-center">
+                                {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                            </td>
+                            <td style="text-align: center">
+
+                                <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname" style="color:rgba(239,142,24,0.79)" (click)="xemchitietQuanLyYKienGopY(item)">
+                          {{item.MeetingContent}}</span>
+                            </td>
+                            <td style="text-align: center">
+                                <button mat-icon-button type="button" matTooltip="{{'COMMON.VIEWDETAIL' | translate}}" (click)="editAcTive(item)" color="primary">
+                                <mat-icon>visibility</mat-icon><span></span>
+                            </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(quanLyYKienGopYService.items$ | async).length === 0">
+                    <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</div>
+            </div>
+            <!-- <div style="text-align: center;  padding-top: 50px;" class="mat-table__message" *ngIf="(quanLyYKienGopYService.items$ | async).length === 0">Không có dữ liệu hiển thị</div> -->
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

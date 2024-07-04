@@ -1,0 +1,244 @@
+<style>
+    .tinhtrang {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+
+    :host>>>.mat-raised-button {
+        min-width: 36px !important;
+    }
+
+    :host>>>mat-row {
+        min-height: 35px;
+    }
+
+    .mota {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    /* :host>>>.mat-icon {
+       background-repeat: no-repeat;
+       display: inline-block;
+       fill: currentColor;
+       height: auto !important;
+       width: auto !important;
+
+   } */
+
+    mat-cell:nth-child(1),
+    mat-header-cell:nth-child(1) {
+        flex: 0 0 65%;
+    }
+
+    mat-cell:nth-child(5),
+    mat-header-cell:nth-child(5) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    mat-cell:nth-child(4),
+    mat-header-cell:nth-child(4) {
+        flex: 0 0 10%;
+        display: flex !important;
+        justify-content: center !important;
+        /* nằm giữa*/
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .hover-row:hover {
+        background-color: #F8F8F9;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    .active:hover {
+        background-color: #E6F4EF;
+        cursor: pointer;
+    }
+
+    .navigate-active {
+        color: #E6F4EF;
+    }
+
+    .paddingDiv:focus {
+        outline: 0;
+    }
+
+    .danhDauQuanTrong {
+        color: #FFCD07;
+    }
+
+    .tatDanhDauQuanTrong {
+        color: #DDDDDD;
+    }
+
+    .active {
+        background-color: #E6F4EF;
+    }
+
+    :host>>>.card {
+        border-radius: 0 !important;
+    }
+
+    :host>>>.mat-tab-body-content {
+        padding-top: 0px !important;
+    }
+
+    :host>>>.card-body {
+        padding: 0px !important;
+    }
+
+    :host>>>.card-header {
+        padding: 8px !important;
+    }
+
+    .HienDauBaCham {
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        width: 170px;
+    }
+
+    .active {
+        background-color: #ffffff;
+    }
+
+    .active:hover {
+        background-color: #ffffff;
+    }
+
+    .anMenu {
+        display: none;
+    }
+</style>
+<div id="frame" class="header-menu" style="max-height: 60px;">
+    <div style="padding: 12px 20px 0 12px;">
+        <span class="btn btn-menu" *ngFor="let lst of listMenu" id="menu-{{lst.RowID}}" (click)="RouterLink(lst)"
+            [ngClass]="{'menu-active' : getSelectNode() === lst.ALink}" style="color: #858585">{{lst.Title}}&nbsp;
+        </span>
+    </div>
+</div>
+<div id="frame" class="body-menu">
+    <div id="sidepanel">
+        <div style="margin: 0; width: 100%; position: absolute; display: flex;">
+            <div class="list-yeucau" style="height: 100vh;">
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title" style="width: 100%;">
+                            <div id="search" style="border: none;width: 100%;">
+                                <label for="">
+                                    <mat-icon style="color: #bdbbb9;">search</mat-icon>
+                                </label>
+                                <input style="--ck-color-engine-placeholder-text: #bdbbb9;font-size: 15px;"
+                                    name="search" [(ngModel)]="keyword" type="text" placeholder="Tìm kiếm"
+                                    (keydown.enter)="loadDataList()" />
+                            </div>
+                        </div>
+                        <div class="card-toolbar">
+                            <button class="btn-add-plus" (click)="taoMoiCuocHop()" mat-raised-button type="button"
+                                style="color:#FFFFFF;margin-right: 5px;;margin-left: 5px;">
+                                <i style="color: #FFFFFF;" class="fa fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" style="justify-content: flex-end;">
+                    <div style=" position: relative; z-index: 100;">
+                        <div style="position: absolute; padding-top: 2px; right: 0;" class="btn-group" ngbDropdown>
+                            <button style="padding: 5px;" class="btn" mat-button ngbDropdownToggle>
+                                {{labelFilter}}
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </button>
+                            <div class="dropdown-menu" ngbDropdownMenu>
+                                <button (click)="onLinkClickFilter(0,0)" class="dropdown-item">
+                                    <span>Tất cả</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(4,3)" class="dropdown-item">
+                                    <span>Sắp/đang diễn ra</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(1,1)" class="dropdown-item">
+                                    <span>Sắp diễn ra</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(1,2)" class="dropdown-item">
+                                    <span>Đang diễn ra</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(2,0)" class="dropdown-item">
+                                    <span>Đã diễn ra</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(3,0)" class="dropdown-item">
+                                    <span>Đã đóng</span>
+                                </button>
+                                <button (click)="onLinkClickFilter(5,0)" class="dropdown-item">
+                                    <span>Đã hoãn</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="align-items: center; padding-top: 45px; margin-right: 0;">
+                    <mat-tab-group [selectedIndex]="selectedTab" class="dl-tabs-yeu-cau"
+                        (selectedTabChange)="onLinkClick($event)">
+
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>Được mời</span>&nbsp;
+                                <span *ngIf="soluongtoithamgia > 0"
+                                    style="background: red; border-radius: 50%; height: 20px; width: 20px; font-size: 10pt; color: white;">
+                                    {{soluongtoithamgia}}</span>
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-danh-sach-cuoc-hop [keyword]="keyword" [isLoad]="isLoad" [Type]="'2'"
+                                    [tinhTrang]="tinhTrang" [sapDang]="sapDang"></app-danh-sach-cuoc-hop>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>Tôi tạo</span>&nbsp;
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-danh-sach-cuoc-hop [keyword]="keyword" [isLoad]="isLoad" [Type]="'1'"
+                                    [tinhTrang]="tinhTrang" [sapDang]="sapDang"></app-danh-sach-cuoc-hop>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>Lịch sử ủy quyền</span>&nbsp;
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-danh-sach-cuoc-hop [keyword]="keyword" [isLoad]="isLoad" [Type]="'3'"
+                                    [tinhTrang]="tinhTrang" [sapDang]="sapDang"></app-danh-sach-cuoc-hop>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+            <div [ngStyle]="{'width': getWidth(), 'height': getHeight()}" style="overflow: auto;">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>

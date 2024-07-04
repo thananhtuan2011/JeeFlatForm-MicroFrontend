@@ -1,0 +1,192 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+
+
+::ng-deep .tour-guide-backdrop {
+	background: rgba(26, 26, 26, 0.6);
+}
+
+::ng-deep .tour-guide-elevate#onboarding-active {
+	@include mat-elevation-transition;
+	@include mat-elevation(8);
+	z-index: 9999;
+}
+
+::ng-deep .tour-guide-elevate {
+	border-color: white;
+	position: relative;
+}
+
+::ng-deep .tour-guide-elevate {
+	.color-setting {
+		color: black !important;
+	}
+}
+
+::ng-deep .tour-guide-elevate-no-background {
+	position: relative;
+}
+
+.tour-guide-mat-card {
+	min-width: 392px;
+	max-width: 492px;
+}
+
+.tour-guide-content {
+	font-size: 1.2rem;
+	padding: 1.2rem;
+}
+
+.tour-guide-button {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.tour-guide-button button {
+	font-style: bold;
+	font-size: 1rem;
+	text-align: center;
+	color: rgb(22, 167, 81);
+}
+
+.arrow-right {
+	position: absolute;
+	top: 42%;
+	left: 95%;
+}
+
+.right {
+	position: relative;
+	color: white;
+	animation-name: right;
+	animation-duration: 0.7s;
+	animation-delay: -0.5s;
+	animation-iteration-count: infinite;
+}
+
+.arrow-left {
+	position: absolute;
+	top: 42%;
+	right: 95%;
+}
+
+.left {
+	position: relative;
+	color: white;
+	animation-name: left;
+	animation-duration: 0.7s;
+	animation-delay: -0.5s;
+	animation-iteration-count: infinite;
+}
+
+.arrow-bottom {
+	position: absolute;
+	left: 47%;
+	top: 107%;
+}
+
+.bottom {
+	position: relative;
+	color: white;
+	animation-name: bottom;
+	animation-duration: 0.7s;
+	animation-delay: -0.5s;
+	animation-iteration-count: infinite;
+}
+
+.arrow-top {
+	position: absolute;
+	left: 47%;
+	top: -15%;
+}
+
+.top {
+	position: relative;
+	color: white;
+	animation-name: top;
+	animation-duration: 0.7s;
+	animation-delay: -0.5s;
+	animation-iteration-count: infinite;
+}
+
+.size {
+	width: 2.2rem !important;
+	height: 2.2rem !important;
+	font-size: 2.2rem !important;
+}
+
+
+mat-card {
+	border-radius: 2.5%;
+	background-color: white;
+	border: 1px solid rgb(22, 167, 81);
+}
+
+@keyframes right {
+	0% {
+		top: 42%;
+		left: 95%;
+	}
+
+	50% {
+		top: 42%;
+		left: 112%;
+	}
+
+
+	100% {
+		top: 42%;
+		left: 95%;
+	}
+}
+
+@keyframes left {
+	0% {
+		top: 42%;
+		right: 95%;
+	}
+
+	50% {
+		top: 42%;
+		right: 112%;
+	}
+
+
+	100% {
+		top: 42%;
+		right: 95%;
+	}
+}
+
+@keyframes bottom {
+	0% {
+		transform: translateY(0);
+
+	}
+
+	50% {
+		transform: translateY(-13%);
+
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes top {
+	0% {
+		transform: translateY(0);
+
+	}
+
+	50% {
+		transform: translateY(-13%);
+
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}

@@ -1,0 +1,36 @@
+.header-title {
+    height: 87px;
+    border: 1px solid #EDF0F1;
+    border-radius: 10px;
+    margin: 20px;
+
+    .title-header {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .description-header {
+        font-size: 12px;
+    }
+}
+
+.table.table-vertical-center td, .table.table-vertical-center th {
+    vertical-align: middle;
+}
+
+.card.card-custom>.card-body th {
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 6px;
+    font-weight: 600;
+    color: grey !important;
+    background-color: #f3f6f9 !important;
+    letter-spacing: 0 !important;
+}
+
+.card.card-custom>.card-body td {
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 6px;
+    border-bottom: 1px solid #f2f3f8;
+}

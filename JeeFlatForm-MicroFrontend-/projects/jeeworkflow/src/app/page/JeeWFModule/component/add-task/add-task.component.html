@@ -1,0 +1,140 @@
+<div class="cu-task-row-new ng-tns-c79-35 cu-task-row-new_subtask ng-star-inserted cu-task-row-new_active">
+    <div class="cu-add-new-task pd-0">
+        <div class="cu-task-row-new__container" [ngStyle]="{'border-color': isError?'red':''}">
+            <div class="cu-task-row-new__left">
+                <div class="cu-task-row-status_dot cu-task-row-status">
+                    <div cudropdown="" class="cu-dropdown ng-star-inserted">
+                        <div class="cu-task-row-status__item cu-task-row-status__item_light cu-dropdown__toggle"
+                            cudropdowntoggle="" cupreventdefault="" tooltipmargin="10"
+                            style="color: rgb(211, 211, 211);">
+                        </div>
+                    </div>
+                </div>
+                <div class="cu-task-row-new__close ng-star-inserted" *ngIf="showIconclose">
+                    <div icon="cu2-plus" class="icon" (click)="CloseAddnewTask()">
+                        <i class="fas fa-plus text-muted" matTooltip="Close"></i>
+                    </div>
+                </div>
+
+                <div class="cu-task-row-new__main">
+                    <div class="input-text">
+                        <input [(ngModel)]="title" (keyup)="isError=false" (keyup.enter)="AddTask()" autocomplete="off"
+                            id="addnewtask" class="cu-task-row-new__input" container="body" cuslashcommandinput=""
+                            placement="top" triggers="" type="text" placeholder=" {{ 'work.taskname' | translate}}">
+                    </div>
+                </div>
+            </div>
+            <div class="cu-task-row-new__options ng-star-inserted">
+                <ng-container [ngTemplateOutlet]="Assignee"></ng-container>
+
+                <ng-container [ngTemplateOutlet]="Follower"></ng-container>
+
+                <ng-container [ngTemplateOutlet]="setPriority" *ngIf="roleprioritize"></ng-container>
+
+                <ng-container [ngTemplateOutlet]="setTime" *ngIf="showtime"></ng-container>
+
+
+                <div class="cu-task-row-new__button ng-star-inserted" (click)="AddTask()">
+                    Lưu
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #Assignee>
+    <div class="cu-task-row-assignee">
+        <div class="cu-user-group url scale-hover-02 position-relative" *ngFor="let img of ListNguoiThucHien">
+            <kt-avatar-wf [image]="img.AvartarImgURL" [fullname]="img.ObjectName" [name]="img.FirstName"></kt-avatar-wf>
+        </div>
+        <div class="cu-user-group" [hidden]="!roleassign">
+            <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print">
+                <div
+                    class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                    <div class="cu-user-group__icon-mono">
+                        <button class="btn -hover text-muted" style="padding: 3px 7px;" (click)="AddNguoiThucHien()"
+                            matTooltip="Thêm người thực hiện">
+                            <i class="fas fa-user-plus pd-0" style="font-size: 13px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #Follower>
+    <div class="cu-task-row-assignee">
+        <div class="cu-user-group url scale-hover-02 position-relative" *ngFor="let img of ListNguoiTheoDoi">
+            <kt-avatar-wf [image]="img.AvartarImgURL" [fullname]="img.ObjectName" [name]="img.FirstName"></kt-avatar-wf>
+        </div>
+        <div class="cu-user-group">
+            <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print">
+                <div
+                    class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                    <div class="cu-user-group__icon-mono">
+                        <button class="btn -hover text-muted" style="padding: 3px 7px;" (click)="AddNguoiTheoDoi()"
+                            matTooltip="Thêm người theo dõi">
+                            <i class="fas fa-users pd-0" style="font-size: 13px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #setPriority>
+    <div class="cu-task-row-assignee">
+        <div class="cu-user-group">
+            <div class="cu-user-group__item cu-user-group__item_assign-mono cu-hidden-print" matTooltipPosition="above"
+                matTooltip="{{ 'work.gandouutien' | translate }}">
+                <div
+                    class="cu-avatar cu-avatar-border cu-avatar_lg cu-avatar_transparent cu-avatar__assign-mono cu-avatar_30">
+                    <div class="cu-user-group__icon-mono">
+                        <button class="btn -hover text-muted" [matMenuTriggerFor]="priority1">
+                            <i class="{{getPriority(priority)}} pd-0" style="font-size: 13px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-menu #priority1="matMenu">
+            <button mat-menu-item *ngFor="let prio of list_priority" (click)="priority=prio.value">
+                <i class="{{prio.icon}} pd-r-10"></i>
+                {{ 'priority.'+prio.name | translate }}
+            </button>
+        </mat-menu>
+    </div>
+</ng-template>
+
+<ng-template #setTime>
+    <div class="cu-task-row-assignee">
+        <div class="time-estimates-view" [matMenuTriggerFor]="estimates" #menuTrigger="matMenuTrigger">
+            <div class="time-estimates-view__toogle">
+                <ng-container *ngIf="+this.time > 0;else settime">
+                    <i style="font-size: 13px;" class="fa fa-hourglass-o pd-0"></i>
+                    {{time}} giờ
+                </ng-container>
+                <ng-template #settime>
+                    <div class="icon time-estimates-view__icon ng-star-inserted">
+                        <i style="font-size: 13px;" class="fa fa-hourglass-o pd-0"></i>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <mat-menu #estimates="matMenu">
+            <div class="page-work-detail" (click)="$event.stopPropagation();">
+                <div class="row">
+                    <div class="col-4" style="display: flex;
+                    align-items: center;
+                    font: 500 15px/1 Gotham Pro,Proxima Nova,arial,serif;">Thời gian hoàn thành</div>
+                    <div class="col-8">
+                        <input type="number" [value]="time" #times (keyup.enter)="submitOut();menuTrigger.closeMenu()"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+        </mat-menu>
+    </div>
+</ng-template>

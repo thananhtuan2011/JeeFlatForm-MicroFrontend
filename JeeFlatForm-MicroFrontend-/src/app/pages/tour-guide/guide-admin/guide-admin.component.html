@@ -1,0 +1,77 @@
+<style>
+  .scrollVirtual {
+    height: 87vh;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  @media only screen and (max-width: 1566px) {
+    .scrollVirtual {
+      height: 82vh;
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
+
+  .mat-expanded mat-panel-title {
+    display: none;
+  }
+</style>
+
+<div class="card card-custom card-sticky">
+  <div class="header-title">
+    <div style="margin: 10px;">
+      <div style="float: left;">
+        <img src="{{ img }}" style="width: 50px;" />
+      </div>
+      <div style="line-height: 1.7;">
+        <div class="row">
+          <span class="title-header">Hướng dẫn cấu hình thiết lập ban đầu</span>
+        </div>
+        <div class="row">
+          <span class="description-header">Hướng dẫn thiết lập phần mềm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" [ngStyle]="{ height: getHeightFull() }">
+    <div class="row" style="margin: 10px">
+      <!-- <div class="col-md-4" *ngFor="let lst of listData" style="padding-bottom:20px">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header collapsedHeight="80px" expandedHeight="30px">
+              <mat-panel-title>
+                <div style="max-height: 53px; text-overflow: ellipsis">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <img src="{{lst.IconApp}}">
+                    </div>
+                    <div class="col-md-11">
+                      <span><b>{{lst.AppName}}</b>&nbsp;<span></span></span><br/>
+                      <span>{{lst.Description}}</span>
+                    </div>
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            {{lst.Description}}
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div> -->
+      <div class="col-md-3" *ngFor="let lst of listData" style="padding-bottom:20px; padding-right: 30px;">
+        <div class="border-app" (click)="openLink(lst)">
+          <div class="css-image">
+            <img style="width: 50px;" src="{{lst.IconApp}}">
+          </div>
+          <div style="padding:0px;line-height:2">
+            <span  [ngStyle]="{ color: getColor(lst) }" style="font-size: 1.2rem"><b>{{lst.AppName}}</b>&nbsp;<span>
+                <i *ngIf="lst.Init_StatusID == 2" class="fa fa-check-circle"
+                  style="font-size: 20px; color: #0846AD"></i>
+              </span></span><br />
+            <span class="css-mota" matTooltip="{{lst.Description}}">{{lst.Description}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

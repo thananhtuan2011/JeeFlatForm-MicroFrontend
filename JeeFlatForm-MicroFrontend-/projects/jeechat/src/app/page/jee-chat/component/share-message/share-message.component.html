@@ -1,0 +1,383 @@
+<style> 
+  input[type=text] {
+      margin-top: 10px;
+    width: 280px;
+    box-sizing: border-box;
+    border: 1px solid #3e44f9b5;
+    border-radius: 15px;
+    font-size: 12px;
+    /* background-color: white; */
+    /* background-image: url('./assets/search_icon.png'); */
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  input[type=text]:focus {
+    width: 100%;
+    outline: none;
+    border: 1px solid #3e44f9b5;
+  }
+  .title
+  {
+      font-weight: bold;
+  }
+  .post {
+      text-align: center;
+    
+      height: 35px;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      border-radius: 5px;
+      /* background-color:lightgreen;
+          color:#FFf; */
+          color: white;
+      background-color:green;
+      border: none;
+
+
+  }
+  ::placeholder {
+      color: black;
+      padding: 10px;
+  }
+  .mat-form-field-wrapper
+  {
+          padding-bottom: none !important;
+  }
+  .avatar {
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        width: 42px;
+        height: 40px;
+        background-size: cover;
+      }
+ 
+  </style>
+<div appJpDraggableDialogShare>
+
+
+<div style="    padding-bottom: 16px;">
+  <div>
+
+      <span  class="title">  Chia sẻ</span>
+
+
+  <button (click)="goBack()" style="float: right;margin-top: -5px;"  mat-button
+  mat-icon-button>
+  <mat-icon style="font-size: 15px;">clear</mat-icon>
+
+</button>
+</div>
+</div>
+
+<div style="height:auto;overflow-y:auto ;overflow-x: hidden;">
+
+
+<div>
+  <div >
+<!--         
+          <div style="border: 1px solid lightblue;border-radius: 5px;     border-radius: 10px;
+          padding: 0 10px;" class="example-form">
+              <mat-form-field appearance="none" style="width: 100%;">
+                  <input  name="noidung" [(ngModel)]="dulieu"  #noidungInput="ngModel" matInput >
+                </mat-form-field>
+            
+            
+            </div> -->
+            <div style="border: 1px solid lightblue;border-radius: 5px;     border-radius: 10px;
+            padding: 0 10px;">
+
+          
+            <quill-editor   [(ngModel)]="dulieu"    class="colortext"  placeholder="Nhập tin nhắn..." name="messageContent"  [modules]="modules"
+   name="messageContent"
+                
+           >
+           </quill-editor>
+          </div>
+  
+      <!-- <ckeditor   [editor]="editor"  [formControl]="dulieu" ></ckeditor> -->
+      
+<div *ngIf="Attachment.length>0" style="height: 170px;overflow-y:auto ;overflow-x: hidden;display: flex;flex-wrap:wrap ;">
+
+      <div *ngFor="let img of Attachment " >
+        <img style="    width: 100px;
+        height: 100px; margin: 10px;" src="{{img.hinhanh}}">
+      </div>
+    </div>
+    <div *ngIf="Attachment_File.length>0" style="height: 300px;overflow-y:auto ;overflow-x: hidden;display: flex;flex-wrap:wrap ;">
+      <div class="sharessfile"  *ngIf="Attachment_File">
+        <div *ngFor="let file of Attachment_File">
+          <div (click)="RouterLink(file.Link)" style="
+          flex-direction: column;
+          display: flex;
+          cursor: pointer;">
+            <img style="width:50px ;" src=" {{ file.icon }}" />
+            <span style="    font-weight: bold;
+            padding-left: 5px;" >{{ file.filename }}</span>
+
+          </div>
+
+        </div>
+      </div>
+      </div>
+      <div *ngIf="AttacVideoChat.length>0">
+        <div *ngFor="let video of AttacVideoChat">
+          <video [src]="video.path"  width="400" height="200" controls></video>
+
+        </div>
+      </div>
+  </div>
+
+  <div>
+      <form style="display: flex;">
+          <span style="    display: flex;
+          align-items: center;
+          position: relative;
+          margin-top: 22px;
+          margin-left: 10px;">
+              <mat-icon class="shareiconchat">search</mat-icon>
+          </span>
+          <input class="inputshare" [(ngModel)]="searchText" type="text" name="search" placeholder="Tìm kiếm hội thoại chia sẻ...">
+        </form>
+        
+  </div>
+
+</div>
+
+
+
+<div style="height: 250px;">
+  <div class="__dialogwrapper-inner">
+      <div class="__dialogmain">
+       
+          <div class="__dialogcontent simple-form">
+              <div id="post-status" class="__apdialog" title="">
+                
+                 
+              </div>
+              <hr>
+
+              <div class="row">
+                      <div class="col-6">
+                        
+                          <div>
+
+                          
+                          <perfect-scrollbar style="max-height:300px;height:250px">
+                        
+                          <div  >
+
+                              <div  class="list home-links" style="outline: none;"  *ngFor="let item of list_contact | filter: searchText; let i = index">
+
+         
+                                  <ul *ngIf="!item.isGroup" >
+                                    <li  >
+                                      <div class="wrap li"  (click)="ChooseMember(item.IdGroup)">
+                                        <span *ngIf="item.Active" class="contact-status online"></span>
+                                        <ngx-avatar [size]="45" src="{{ item.Avatar }}" *ngIf="item.Avatar"></ngx-avatar>
+                                        <ngx-avatar [size]="45" [name]="item.Fullname.slice(0, 1)" bgColor="{{ item.BgColor }}" *ngIf="!item.Avatar"></ngx-avatar>
+                                      
+                                         
+                                          <p style="    padding-left: 12px;" class="name">{{item.Fullname}}
+                                             
+                                          </p>
+                                         
+                                        
+                                        <!-- </div> -->
+                      
+                                      </div>
+                                   
+                                    </li>
+                                   
+                                 
+                                  </ul>
+                      
+                                  <ul *ngIf="item.isGroup" >
+                                    <li  style="outline: none;"  class="contact" >
+                                      <div class="wrap li" (click)="ChooseMember(item.IdGroup)">
+                                        <span *ngIf="item.Active" class="contact-status online"></span>
+                                              
+                                        <div class="avatar-group" >
+                                          <div *ngFor="let mb of item.ListMember | slice:0:4;let i=index">
+                                        
+                                          <div >
+                                            <div  *ngIf="i>=0&&i<3" >
+                                              <ngx-avatar [size]="25" [name]="mb.Fullname.slice(0, 1)" bgColor="{{ mb.BgColor }}" *ngIf="!mb.Avatar"></ngx-avatar>
+                                              <ngx-avatar [size]="25" src="{{ mb.Avatar }}" *ngIf="mb.Avatar"></ngx-avatar>
+                                             
+                                            </div>
+                                            <ngx-avatar *ngIf="i==3&&item.ListMember.length>=4" [size]="25" value="{{item.ListMember.length-3}}" bgColor="#ad3838" ></ngx-avatar>
+                                           
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <p *ngIf="item.GroupName.length<=15" style=" padding-left: 8px;padding-top: 5px;" class="name">{{item.GroupName}}</p>
+                                    <p *ngIf="item.GroupName.length>15" style=" padding-left: 8px;padding-top: 5px;" class="name">{{item.GroupName  | slice: 0:15}}...</p>
+                                       
+                      
+                                      </div>
+                      
+                                        
+                                    </li>
+                                  
+                                  </ul>
+                                  
+                                  
+                                </div>
+                              <!-- <div (click)="ChooseMember(members.UserId)" class="li" style="    display: flex;
+                          align-items: center; padding-bottom: 15px;">
+                              <div style="padding-left:10px;">
+                                  <ngx-avatar [size]="35" src="{{ members.Avatar }}" *ngIf="members.Avatar"></ngx-avatar>
+                                  <ngx-avatar [size]="35" [name]="members.Fullname.slice(0, 1)" bgColor="{{ members.BgColor }}" *ngIf="!members.Avatar"></ngx-avatar>
+                                  
+                              </div>
+                              <div style="width: 100%;padding-left: 10px;">
+                                      <span>
+                                          {{members.Fullname}}
+                                      </span>
+                                      <br>
+                                   
+                              </div>
+                              
+                          
+                            
+                          </div> -->
+                          </div>
+                      </perfect-scrollbar>
+                  </div>
+                      </div>
+                 
+<!--  phần  choseuer -->
+                      <div class="col-6">
+                          <div style="height:250px;">
+                              <perfect-scrollbar>
+                                  <div  class="list home-links" style="outline: none;"  *ngFor="let item of list_choose;let ch=index ">
+
+         <!--  user với nhau -->
+                                      <ul *ngIf="!item.isGroup"   >
+                                        <li  >
+                                          <div class="wrap"  >
+                                            <span *ngIf="item.Active" class="contact-status online"></span>
+                                            <ngx-avatar [size]="45" src="{{ item.Avatar }}" *ngIf="item.Avatar"></ngx-avatar>
+                                            <ngx-avatar [size]="45" [name]="item.Fullname.slice(0, 1)" bgColor="{{ item.BgColor }}" *ngIf="!item.Avatar"></ngx-avatar>
+                                          
+                                             
+                                              <p style="    padding-left: 12px;margin: 0;" class="name">{{item.Fullname}}
+                                                 
+                                              </p>
+                                             
+                                            
+                                            <!-- </div> -->
+                                            <div style="padding-left: 10px;" >
+                                              <button style="float: right;margin-top: -5px;"(click)="RemoveChooseMemeber(ch)" mat-button
+                                              mat-icon-button>
+                                              <mat-icon style="font-size: 15px;">clear</mat-icon>
+                                             
+                                          </button>
+                                            
+                                            </div>
+                                          </div>
+                                        
+                                       
+                                        </li>
+                                       
+                                     
+                                      </ul>
+                          <!-- Group -->
+                                      <ul *ngIf="item.isGroup"  >
+                                        <li  style="outline: none;"  class="contact">
+                                          <div class="wrap "  >
+                                            <span *ngIf="item.Active" class="contact-status online"></span>
+                                                  
+                                            <div class="avatar-group" style="padding-left: 0;">
+                                              <div *ngFor="let mb of item.ListMember | slice:0:4;let i=index">
+                                            
+                                              <div>
+                                                <div  *ngIf="i>=0&&i<3" >
+                                                  <ngx-avatar [size]="25" [name]="mb.Fullname.slice(0, 1)" bgColor="{{ mb.BgColor }}" *ngIf="!mb.Avatar"></ngx-avatar>
+                                                  <ngx-avatar [size]="25" src="{{ mb.Avatar }}" *ngIf="mb.Avatar"></ngx-avatar>
+                                                 
+                                                </div>
+                                                <ngx-avatar *ngIf="i==3&&item.ListMember.length>=4" [size]="25" value="{{item.ListMember.length-3}}" bgColor="#ad3838" ></ngx-avatar>
+                                               
+                                            </div>
+                                          </div>
+                                        </div>
+                                     
+                                              <p *ngIf="item.GroupName.length<=10" style=" padding-left: 8px;padding-top: 5px;" class="name">{{item.GroupName}}</p>
+                                              <p *ngIf="item.GroupName.length>10" style=" padding-left: 8px;padding-top: 5px;" class="name">{{item.GroupName  | slice: 0:10}}...</p>
+                                              <div  style="
+                                            padding-left: 10px;">
+                                                <button style="float: right;margin-top: -5px;"(click)="RemoveChooseMemeber(ch)" mat-button
+                                                mat-icon-button>
+                                                <mat-icon style="font-size: 15px;">clear</mat-icon>
+                                               
+                                            </button>
+                                              
+                                              </div>
+                                          </div>
+                          
+                                         
+                                        </li>
+                                      
+                                      </ul>
+                                      
+                                      
+                                    </div>
+                              <!-- <div *ngFor="let members of list_choose;let ch=index">
+  
+  
+                                  <div  style="    display: flex;
+                              align-items: center; padding-bottom: 15px;">
+                                  <div>
+                                      <ngx-avatar [size]="35" src="{{ members.Avatar }}" *ngIf="members.Avatar"></ngx-avatar>
+                                      <ngx-avatar [size]="35" [name]="members.Fullname.slice(0, 1)" bgColor="{{ members.BgColor }}" *ngIf="!members.Avatar"></ngx-avatar>
+                                  </div>
+                                  <div style="width: 100%;padding-left: 10px;">
+                                          <span>
+                                              {{members.Fullname}}
+                                          </span>
+                                          <br>
+                                       
+                                  </div>
+                                  
+                              
+ <div  style="
+ display: flex;
+ flex-direction: row-reverse;">
+   <button style="float: right;margin-top: -5px;"(click)="RemoveChooseMemeber(ch)" mat-button
+   mat-icon-button>
+   <mat-icon style="font-size: 15px;">clear</mat-icon>
+  
+</button>
+ 
+ </div>
+                                
+                              </div>
+                              </div> -->
+                              </perfect-scrollbar>
+                          </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+<hr>
+<div  style="display: flex;flex-direction: row-reverse;">
+
+
+<button (click)="CloseDia()" style="width: 100px;    height: 40px;"  mat-stroked-button color="primary">Hủy</button>
+<button  (click)="submit()" style=" width: 100px;    height: 40px;
+margin-right: 15px;"  [disabled]="list_choose.length===0" mat-raised-button color="primary">Chuyển tiếp</button>
+</div>
+</div>
+</div>

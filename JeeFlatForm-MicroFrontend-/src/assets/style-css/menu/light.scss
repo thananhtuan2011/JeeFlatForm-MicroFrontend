@@ -1,0 +1,250 @@
+aside-menu-left {
+  .aside-primary {
+    background-color: var(--menu-left);
+    height: 100%;
+  }
+
+  .btn.btn-clean:hover {
+    background-color: transparent;
+    background-color: var(--menu-left-hover);
+  }
+
+  .btn.btn-icon.btn-lg {
+    width: 69px;
+    border-radius: 0;
+
+    &.active {
+      background-color: transparent;
+      color: #ffff;
+      background-color: var(--menu-left-active);
+    }
+  }
+
+  .pulse {
+    position: relative;
+
+    .pulse-ring {
+      margin-top: -40px;
+      display: block;
+      border-radius: 40px;
+      height: 40px;
+      width: 40px;
+      position: absolute;
+      animation: animation-pulse 3.5s ease-out;
+      animation-iteration-count: infinite;
+      opacity: 0;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #efe7e7;
+    }
+  }
+}
+
+app-profile-drawer {
+  .offcanvas {
+    background: #fff;
+    visibility: visible;
+    height: 100%;
+  }
+
+  .container {
+    border-right: 1px solid #d3d3d338;
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .hoten {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .chucvu {
+    font-size: 13px;
+  }
+
+  .separator {
+    border: 1px solid #d1d1d1;
+  }
+
+  .quanlytaikhoan {
+    color: #ffffff;
+    background-color: #3699ff;
+    border-color: transparent;
+    height: 32px;
+    width: 128px;
+    margin-right: 10px;
+  }
+
+  .dangxuat {
+    color: #ffffff;
+    background-color: #f64e60;
+    border-color: transparent;
+    height: 32px;
+    width: 96px;
+  }
+
+  .nhacnho {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+
+  .nhacnho-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+  }
+
+  .caidat {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+
+  .caidat-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+  }
+
+  .soluong {
+    position: absolute;
+    border-radius: 50%;
+    background: #ee9d01;
+    color: #fff;
+    text-align: center;
+    font-size: 14pxpx;
+    font-size: 14px;
+    height: 24px;
+    width: 24px;
+  }
+
+  .icon-color {
+    color: #444444;
+  }
+
+  .link {
+    cursor: pointer;
+    height: 48px;
+    align-items: center;
+  }
+
+  .link:hover {
+    background-color: #e1f0ff;
+  }
+
+  .taiungdung{
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 5px;
+  }
+
+  .taiungdung-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+  }
+}
+
+app-notify-drawer {
+  .offcanvas {
+    background: #fff;
+    visibility: visible;
+    height: 100%;
+  }
+
+  .container {
+    border-right: 1px solid #d3d3d338;
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .header {
+    padding: 15px;
+    border-bottom: 1px solid #d3d3d3de;
+    align-items: center;
+  }
+
+  .list.home-links .noti:hover {
+    background-color: #e4e6e9;
+    color: #5488f0;
+  }
+
+  .list.home-links .noti {
+    outline: none;
+    padding-top: 20px;
+    position: relative;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    // border-bottom: 1px solid #d3d3d3de;
+  }
+
+  .unread-noti {
+    color: #000000;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .read-noti {
+    color: #808080;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+app-application-drawer {
+  .offcanvas {
+    background: #fff;
+    visibility: visible;
+    height: 100%;
+  }
+
+  .container {
+    border-right: 1px solid #d3d3d338;
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .item.hovered {
+    background: #f7f7f7;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+}
+
+m-setting-menu {
+  .fancyTable thead tr th {
+    padding: 5px;
+    border-top: 0.5px solid rgb(222, 222, 222) !important;
+    border-bottom: 0.5px solid rgb(222, 222, 222) !important;
+    font-size: 14px !important;
+    color: #525e64 !important;
+    height: 56px;
+    background-color: #f0f0f0;
+  }
+
+  .fancyTable tbody tr td {
+    padding: 10px;
+    color: rgb(50, 50, 50) !important;
+    font-size: 14px !important;
+    min-height: 48px;
+    border-bottom: 0.5px solid rgb(222, 222, 222) !important;
+  }
+}

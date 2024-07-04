@@ -1,0 +1,156 @@
+<div class="table-responsive" [ngStyle]="{'height': getHeight()}" [ngClass]="{'overflow-x-hiden': getWidth()}">
+    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center header-grid">
+        <thead>
+            <tr class="text-left">
+                <th style="min-width: 200px"><span translate="widgets.tencongviec"></span>
+                </th>
+                <th style="min-width: 120px; text-align: center;">
+                    <div class="url">
+                        <span translate="widgets.thoihan"></span>
+                        <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
+                    </div>
+                    <!-- [matMenuTriggerFor]="menu"
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="LoadTatca()">Xem tất cả</button>
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{'landingpagekey.khoangthoigian' | translate}}</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate [(ngModel)]="startdate" (ngModelChange)="modelChanged($event)"
+                                    placeholder="Start date">
+                                <input matEndDate [(ngModel)]="enddate" (ngModelChange)="modelChanged($event)"
+                                    placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </mat-menu> -->
+                </th>
+                <th style="min-width: 120px">
+                    <span>Bình Luận</span>
+                </th>
+                <th style="min-width: 120px">
+                    <div class="row row-box text-center url">
+                        <span style="flex: 1;" translate="widgets.tinhtrang" ></span>
+                        <!-- <div class="box-color border" [ngStyle]="{'backgroundColor': getColorStatus('df')}"></div> -->
+                    </div>
+                    <!-- <mat-menu #status="matMenu"> [matMenuTriggerFor]="status"
+                        <button mat-menu-item (click)="LoadStatus()">
+                            <div class="row row-box">
+                                <span style="flex: 1;" translate="widgets.tatca"></span>
+                                <div class="box-color border" [ngStyle]="{'backgroundColor': getColorStatus('')}"></div>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="LoadStatus('todo')">
+                            <div class="row row-box">
+                                <span style="flex: 1;" translate="widgets.danglam"></span>
+                                <div class="box-color border" [ngStyle]="{'backgroundColor': getColorStatus('todo')}">
+                                </div>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="LoadStatus('complete')">
+                            <div class="row row-box">
+                                <span style="flex: 1;" translate="widgets.hoanthanh"></span>
+                                <div class="box-color border"
+                                    [ngStyle]="{'backgroundColor': getColorStatus('complete')}"></div>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="LoadStatus('deadline')">
+                            <div class="row row-box">
+                                <span style="flex: 1;" translate="widgets.trehan"></span>
+                                <div class="box-color border"
+                                    [ngStyle]="{'backgroundColor': getColorStatus('deadline')}"></div>
+                            </div>
+                        </button>
+                    </mat-menu> -->
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataLazyLoad">
+                <td class="pl-3">
+                    <ng-container *ngIf="item.NguoiGiao?.length > 0;else chuagiao">
+                        <div class="user url" [ngClass]="{'mr-2': last}"
+                            *ngFor="let us of item.NguoiGiao;let last = last"
+                            style="justify-content: flex-end; margin-right: 10px; float: left;">
+                            <kt-avatar-user [image]="us.image" [size]="26" [name]="us.hoten" [chucvu]="us.jobtitle">
+                            </kt-avatar-user>
+                        </div>
+                    </ng-container>
+                    <ng-template #chuagiao>
+                        <div class="user bg-white mr-2" style="border: 1px dashed #676363;border-radius: 50%;padding: 2px;height: 26px;
+                            width: 26px;display: inline-block; margin-right: 5px;">
+                            <i class="fas fa-user-plus ml-1 pd-0" style="font-size: 13px; "></i>
+                        </div>
+                    </ng-template>
+                    <a class="name-title mb-1 font-size-lg url">
+                        <span class="text-hover-primary d-block" matTooltip="Xem chi tiết công việc"
+                            (click)="Xemchitiet(item)">
+                            <i class="fas fa-lock" *ngIf="item.closed"
+                                style="font-size: 16px; color:#f84545; padding-top: 5px;"></i>
+                            {{item.title}}
+                        </span>
+                        <span class="text-muted font-weight-bold text-muted">{{item.project_team}}</span>
+                    </a>
+                </td>
+                <td class="pl-2">
+                    <app-task-datetime-pc (valueChange)="updateDate(item,$event,'deadline')" [fieldname]="'deadline'"
+                        [value]="item.deadline" [role]="_WorkGeneralService.CheckRules(10,item) && _WorkGeneralService.CheckClosedTask(item)">
+                    </app-task-datetime-pc>
+                </td>
+                <td class="pl-2">
+                    <div class="min-h-50px pl-4">
+                        <app-task-comment (submit)="submit($event,item);" [id_row]="item.id_row"
+                            [value]="item.comments" [task]="item">
+                        </app-task-comment>
+                    </div>
+                </td>
+                <td class="text-center position-relative" style="justify-content: center">
+                    <ng-container
+                        *ngIf="_WorkGeneralService.CheckRules(11,item) && _WorkGeneralService.CheckClosedTask(item); else norolestatus">
+                        <div class="box-trang-thai box-absolute-auto" [matMenuTriggerFor]="status"
+                            [ngStyle]="getStyleSTT(item.id_project_team,item.status)" (click)="statusChange(item)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #norolestatus>
+                        <div class="box-trang-thai box-absolute-auto"
+                            [ngStyle]="getStyleSTT(item.id_project_team,item.status)">
+                            <div class="w-100 text-white hide-more-text">
+                                <span style="font-size: 10pt">{{ FindStatus(item.id_project_team,item.status)}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <mat-menu #status="matMenu">
+                        <button mat-menu-item *ngFor="let status of listDataStatus" (click)="UpdateStatus(item,status)"
+                            [ngStyle]="{color: status.color}">
+                            <div class="row">
+                                <div class="sky-task-row-status" style="width:20px;padding-right:5px">
+                                    <div class="sky-point" [ngStyle]="{'backgroundColor': status.color}">
+                                    </div>
+                                </div>
+                                {{status.statusname}}
+                            </div>
+                        </button>
+                    </mat-menu>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="isLoading">
+                    <div class="d-flex align-items-center" style="justify-content: center;">
+                        <div class="mr-2 text-muted">Đang tải...</div>
+                        <div class="spinner spinner-primary mr-10"></div>
+                    </div>
+                </td>
+                <td colspan="4" style="padding: 10px 0;" *ngIf="!isLoading && (this.crr_page + 1 < this.total_page)">
+                    <div class="d-flex align-items-center" style="justify-content: end;">
+                        <div class="mr-2" style="cursor: pointer; color: blue;" (click)="loadDataList_Lazy()">Xem thêm
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

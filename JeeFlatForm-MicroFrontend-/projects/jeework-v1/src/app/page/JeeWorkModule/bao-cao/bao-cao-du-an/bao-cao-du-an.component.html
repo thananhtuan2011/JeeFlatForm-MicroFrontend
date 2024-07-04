@@ -1,0 +1,106 @@
+<div [ngStyle]="{'height': getHeight()}">
+  <table class="fancyTable fht-table fht-table-init" id="myTable04" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          STT
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 200px; text-align: center;color: white !important;">
+          Đơn vị
+        </th>
+        <th rowspan="3" class="css-stickyheader-col0" style="min-width: 50px; text-align: center;color: white !important;">
+          Tổng số nhiệm vụ được giao
+        </th>
+
+        <th class="css-stickyheader-col0" colspan="6" style="min-width: 200px; text-align: center;color: white !important;">
+          Tình hình thực hiện
+        </th>
+        <th class="css-stickyheader-col0" style="min-width: 100px; text-align: center;color: white !important;" rowspan="3">
+          Chất lượng tham mưu
+        </th>
+        <th rowspan="3" class="css-stickyheader-col1" style="min-width: 200px; text-align: center;color: white !important;">
+          Ghi chú
+        </th>
+        <th rowspan="3" class="css-stickyheader-col2" style="min-width: 200px; text-align: center;color: white !important;">
+          Tổng văn bản giao việc bao gồm cả không có hạn
+        </th>
+      </tr>
+      <tr class="css-stickyheader-col0">
+        <th class="css-sticky-row2-cus" style="min-width: 70px; text-align: center;color: white !important;" rowspan="2">
+          Số nhiệm vụ đã hoàn thành
+        </th>
+        <th class="css-sticky-row2-cus" style="min-width: 50px; text-align: center;color: white !important;" rowspan="1" colspan="2">
+          Trong đó
+        </th>
+        <th class="css-sticky-row2-cus" style="min-width: 70px; text-align: center;color: white !important;" rowspan="2">
+          Số nhiệm vụ chưa hoàn thành
+        </th>
+        <th class="css-sticky-row2-cus" style="min-width: 50px; text-align: center;color: white !important;" rowspan="1" colspan="2">
+          Trong đó
+        </th>
+      </tr>
+      <tr class="css-stickyheader-col0">
+        <td class="css-sticky-row3" style="text-align: center; min-width: 80px;color: white !important;">
+          Đúng hạn
+        </td>
+        <td class="css-sticky-row3" style="text-align: center; min-width: 80px;color: white !important;">
+          Chậm
+        </td>
+        <td class="css-sticky-row3" style="text-align: center; min-width: 80px;color: white !important;">
+          So tiến độ yêu cầu (Quá hạn)
+        </td>
+        <td class="css-sticky-row3" style="text-align: center; min-width: 80px;color: white !important;">
+          Đang thực hiện theo tiến độ
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of listData; let i = index">
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{i+1}}
+        </td>
+        <td class="css-sticky-col1" style="text-align: left; height: 22px">
+          {{data.title}}
+        </td>
+        <td class="css-sticky-col2" style="text-align: center; height: 22px">
+          {{data.num_work}}
+        </td>
+        <!-- <td class="{{dt.Style}}" style=" text-align: center" *ngFor="let dt of data.Data" [attr.colspan]="dt.ColSpan">
+      <input class="{{dt.Style}}" [disabled]="!dt.IsEdit || disabledBtn " value="{{dt.GiaTri}}"
+        matTooltip="{{dt.GiaTri}}" id="txt{{data.ID_NV}}{{dt.FullNgay}}"
+        style="width:90%; border-color:Red; border-style:none" type="text">
+      <span matTooltip="{{dt.GiaTri}}">{{dt.trich_yeu_vb}}</span>
+    </td> -->
+
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.hoanthanh}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.hoanthanh_dunghan}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.hoanthanh_cham}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.chuahoanthanh}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.chuahoanthanh_quahan}}
+        </td>
+
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.chuahoanthanh_conhan}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.chatluong}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.ghichu}}
+        </td>
+        <td class="css-sticky-col0" style="text-align: center; height: 22px">
+          {{data.tongvanban}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

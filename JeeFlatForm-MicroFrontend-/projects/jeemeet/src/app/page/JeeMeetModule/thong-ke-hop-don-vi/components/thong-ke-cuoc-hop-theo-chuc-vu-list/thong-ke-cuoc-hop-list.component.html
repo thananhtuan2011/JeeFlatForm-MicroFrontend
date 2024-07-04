@@ -1,0 +1,232 @@
+<style>
+    .card.card-custom {
+        height: auto !important;
+
+        .card-label {
+            font-weight: 600 !important;
+        }
+    }
+
+    .SoKyHieu {
+        font-weight: 500 !important;
+        color: #b23047;
+        font-size: 12px !important;
+    }
+
+    table {
+        thead {
+            th {
+                padding: 15px 0 15px 0 !important;
+
+                span {
+                    font-weight: 600 !important;
+                    font-size: 16px !important;
+                }
+            }
+        }
+
+        tbody {
+            td {
+                span {
+                    font-size: 16px !important;
+                }
+            }
+        }
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b" id="cardbodyhead">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Danh sách báo cáo theo cuộc họp</span>
+        </div>
+        <div class="card-toolbar">
+            <div>
+                <a class="btn-add-plus btn" matTooltip="Bộ lọc và tìm kiếm" (click)="togglegroupfilter()">
+                    <i class="fa fa-sharp fa-light fa-filter" style="color:#ffffff"></i>&nbsp;<span>Bộ lọc và tìm
+                        kiếm</span>
+                </a>&nbsp;
+                <a href="javascript:void(0)" style="background-color: #E9F5EE !important;color: #219653 !important;"
+                    class="btn btn-add-plus" matTooltip="Xuất excel" (click)="xuatExcel()">
+                    <i class="fa fa-download " style="color:#219653"></i>&nbsp; <span>Xuất excel</span>
+                </a>&nbsp;
+                <a href="" id="downloadFile" style="display: none;"></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" *ngIf="filterTurn" style="padding: 20px 0 30px 0 !important;">
+            <div class="col-md-6">
+                <mat-form-field class="tim-kiem mat-form-field mat-form-field-fluid">
+                    <input matInput #searchInput (input)="changeSelection()" placeholder="{{
+                                								'MENU_YKIENGOPY.TIMKIEM' | translate}}" class="tim-kiem"
+                        matTooltip="{{'MENU_YKIENGOPY.TIMKIEM'| translate}}" [(ngModel)]="keyword" />
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput [matDatepicker]="tungay" placeholder="Từ ngày" [(ngModel)]="startDate"
+                        [readonly]="true" (dateChange)="changeEvent()">
+                    <mat-datepicker-toggle matSuffix [for]="tungay" [disabled]="false">
+
+                        <mat-icon>calendar_today</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #tungay [startAt]="startDate" [disabled]="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput [matDatepicker]="denngay" placeholder="Đến ngày" [readonly]="true"
+                        [(ngModel)]="nowDate" (dateChange)="changeEvent()">
+                    <mat-datepicker-toggle matSuffix [for]="denngay" [disabled]="false">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #denngay [startAt]="nowDate" [disabled]="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="tim-kiem mat-form-field mat-form-field-fluid">
+                    <input matInput #searchInputSoKyHieu (input)="changeSelection()" placeholder="Số ký hiệu"
+                        class="tim-kiem" matTooltip="Số Ký hiệu" [(ngModel)]="keywordSoKyHieu" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="tim-kiem mat-form-field mat-form-field-fluid">
+                    <input matInput #searchInput (input)="changeSelection()" placeholder="Tên người tham gia"
+                        class="tim-kiem" matTooltip="Tên người tham gia" [(ngModel)]="keywordChuyenVien" />
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-label>Chức vụ</mat-label>
+                    <mat-select (selectionChange)="changeSelection()" [(ngModel)]="idsDV" multiple>
+                        <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Tìm kiếm chức vụ...'" [noEntriesFoundLabel]="
+                													'Không tìm thấy kết quả phù hợp'
+                												" [(ngModel)]="searchDV" [ngModelOptions]="{ standalone: true }"
+                                (ngModelChange)="filterSEARCH()">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option [ngClass]="{'custom-option': true}" *ngFor="let tmp of filteredDV | async"
+                            [value]="tmp.RowID">
+                            {{ tmp.Title }}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-label>Trạng thái</mat-label>
+                    <mat-select [(ngModel)]="trangthai" (selectionChange)="changeSelection()">
+                        <mat-option [value]="'0'">Tất cả</mat-option>
+                        <mat-option [value]="'1'">Sắp/đang diễn ra</mat-option>
+                        <mat-option [value]="'2'">Đã diễn ra</mat-option>
+                        <mat-option [value]="'3'">Đã đóng</mat-option>
+                        <mat-option [value]="'6'">Đã hoãn</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-body">
+        <table *ngIf="(thongKeCuocHopService.items$ | async).length>0" class="ea_table">
+            <thead>
+                <tr>
+                    <th style=" text-align: center; max-width: 5%;">
+                        <span>STT</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 10%;">
+                        <span>Số ký hiệu</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 24%;">
+                        <span>Tiêu đề cuộc họp</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 10%;">
+                        <span>Ngày bắt đầu</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 10%;">
+                        <span>Ngày kết thúc</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 20%;">
+                        <span>Địa điểm</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 7%;">
+                        <span>Thành phần họp</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 7%;">
+                        <span>File giấy mời</span>
+                    </th>
+                    <th style=" text-align: center; max-width: 7%;">
+                        <span>File tài liệu</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody [ngStyle]="{ height: getHeight() }" id="cardbody">
+                <tr *ngFor="let item of (thongKeCuocHopService.items$ | async); let i = index;">
+                    <td style="text-align: center; max-width: 5%;font-size:16px">
+                        {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                    </td>
+
+                    <td style="text-align: center; max-width: 10%;">
+
+                        <span style="font-weight: 500;">
+                            {{item.SoKyHieu}}</span>
+                    </td>
+
+                    <td style="text-align: justify;display: block;max-width: 24%;">
+
+                        <span style="cursor: pointer;" [routerLink]="['/Meet/',item.RowID]" [queryParams]="{ Type: 3}">
+                            {{item.MeetingContent}}</span>
+                    </td>
+                    <td style="text-align: center; max-width: 10%;">
+
+                        <span>
+                            {{item.FromTime}}</span>
+                    </td>
+                    <td style="text-align: center; max-width: 10%;">
+
+                        <span>
+                            {{item.ToDate}}</span>
+                    </td>
+                    <td style="text-align: justify;display: block; max-width: 20%;">
+
+                        <span>
+                            {{item.DiaDiem }}</span>
+
+                    </td>
+                    <td style="text-align: center;max-width: 7%;">
+
+                        <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname"
+                            (click)="viewDetail2(item)">
+                            {{item.TongUserThamGia}}</span>
+                    </td>
+                    <td style="text-align: center;max-width: 7%;">
+                        <button style="width: 25px; height: 25px; line-height: inherit;color:#000000 !important"
+                            matTooltip="Xem giấy mời" mat-button mat-icon-button
+                            (click)="viewDetailFile(item,'Chi tiết file thư mời', 1)"><mat-icon>visibility</mat-icon></button>
+                    </td>
+                    <td style="text-align: center;max-width: 7%;">
+                        <button style="width: 25px; height: 25px; line-height: inherit;color:#000000 !important"
+                            matTooltip="Xem file tài liệu" mat-button mat-icon-button
+                            (click)="viewDetailFile(item ,'Chi tiết file đính kèm', 2)"><mat-icon>visibility</mat-icon></button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div [ngStyle]="{ height: getHeightEmty() }" id="cardbody" style="text-align: center;font-size: 20px"
+            class="mat-table__message" *ngIf="(thongKeCuocHopService.items$ | async).length === 0">
+            <img class="icon-btn-data" src="assets/images/download.png"
+                style="width: 80px;    padding-top: 200px; margin-bottom: 15px" />
+            <br /> Không có dữ liệu
+        </div>
+    </div>
+    <app-paginator style="padding-left: 24px;padding-right: 24px;"
+        class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+        [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+</div>

@@ -1,0 +1,69 @@
+<style>
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .card-body {
+        padding-top: 10px;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="dialog-title"><span>{{getTitle()}}</span></h3>
+        </div>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="m-form__section m-form__section--first">
+            <div class="m-form__group">
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" [(ngModel)]="title" class="form-control"
+                            placeholder="{{ 'nhomtrangthai.tentrangthai' | translate }}">
+                    </div>
+                    <div class="col-2 row">
+                        <div matTooltip="Chọn màu" [ngStyle]="{backgroundColor: color_status}"
+                            [matMenuTriggerFor]="colorpicker" class="box-color">
+                        </div>
+                        <mat-menu #colorpicker>
+                            <kt-color-picker2 [selected]="color_status" (ItemSelected)="ColorPickerStatus($event)">
+                            </kt-color-picker2>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="m-form__group">
+                <div class="row">
+                    <div class="col-10">
+
+                    </div>
+                </div>
+            </div>
+            <div class="m-form__group" style="padding-top:10px">
+                <div class="row">
+                    <div class="col-12">
+                        <textarea rows="3" [(ngModel)]="description" class="form-control"
+                            placeholder="{{ 'JeeWork.mota' | translate }}"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog-footer" style="padding-top:20px">
+        <button type="button" mat-raised-button (click)="goBack()" class="ja_button ja_btn-goback"
+            [disabled]="disabledBtn"><span class="kt-hidden-mobile" translate="JeeWork.trolai"></span>
+            <div *ngIf="disabledBtn" class="spinner-button-pad"></div>
+        </button>&nbsp;&nbsp;
+        <button type="button" (click)="onSubmit(true)" [disabled]="disabledBtn" mat-raised-button
+            class="{{ ShowButton? 'ja_button ja_btn-addnew':'ja_button ja_btn-addnew' }}"
+            matTooltip="{{ 'JeeWork.luudong' | translate }}"><span translate="JeeWork.luudong"></span></button>&nbsp;
+        <button type="button" class="ja_button ja_btn-addcontinue" (click)="onSubmit(false)" [disabled]="disabledBtn"
+            mat-raised-button *ngIf="ShowButton" matTooltip="{{ 'JeeWork.luutieptuc' | translate }}">
+            <mat-icon class="icon-repeat">repeat</mat-icon><span translate="JeeWork.luutieptuc"></span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+gridster {
+  margin: 0;
+  padding: 0;
+  background-color: inherit;
+}
+
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.gridster-container {
+  margin: 0;
+}
+
+.top-btn-left {
+  width: 150px;
+  margin: 5px;
+}
+
+.top-btn-right {
+  width: 350px;
+  margin: 5px;
+}
+
+.widget-header {
+  display: flex;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  white-space: nowrap;
+  height: 76px;
+  padding: 5px 5px;
+  // border-bottom: 1px solid #e9ebf0;// Thiên đóng code này
+
+  .widget-header-title {
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    font-size: 1.275rem;
+    // color: #181c32;
+    font-weight: 600;
+    // background-color: #fff;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    cursor: move;
+  }
+
+  .widget-header-right {
+    flex: 0 0 2;
+
+    .btn {
+      border-radius: 0.4rem;
+      height: 35px;
+      width: 35px;
+    }
+  }
+}
+
+.widget-header-btn {
+  cursor: default;
+}
+
+.header-margin-left {
+  margin-left: 5px;
+}
+
+.header-margin-right {
+  margin-right: 5px;
+}
+
+.widget-header-buttons {
+  display: inline-block;
+}
+
+app-nomination-widget {
+  height: 100%;
+}
+
+#button-edit-widget {
+  position: fixed;
+  bottom: 21px;
+  right: 20px;
+  z-index: 999;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+// Begin - Jee-request
+.redBall {
+  background-color: #fb9696;
+}
+
+.redBall2 {
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff5c5c;
+  color: #ffff;
+  font-size: 12px;
+}
+
+.pulse-ring {
+  background-color: #ff5c5c;
+  border-color: #ff5c5c;
+  display: block;
+  border-radius: 40px;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  -webkit-animation: animation-pulse 1.5s ease-out;
+  animation: animation-pulse 1.5s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  opacity: 0;
+  border: 3px solid #e4e6ef;
+}
+
+.card-project-for-me {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #008636 !important;
+}
+
+.card-project {
+  font-size: 13px !important;
+  font-weight: 100 !important;
+}
+
+// End - Jee-request
+//====================================================
+::ng-deep .sky-tooltip {
+  white-space: pre-line !important;
+}
+
+.ellipse-button {
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #62A4FF;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+
+.mat-menu-panel {
+  max-width: max-content;
+}
+
+.mat-menu-content {
+  background-color: 'red' !important;
+}
+
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-button-add {
+  background-color: var(--btn-add-plus) !important;
+}

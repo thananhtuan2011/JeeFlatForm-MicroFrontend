@@ -1,0 +1,228 @@
+<style>
+    input {
+      position: relative;
+      width: 150px;
+      height: 20px;
+      color: white;
+    }
+  
+    input:before {
+      position: absolute;
+      top: 10px;
+      left: 3px;
+      content: attr(data-date);
+      display: inline-block;
+      color: black;
+    }
+  
+    input::-webkit-datetime-edit,
+    input::-webkit-inner-spin-button,
+    input::-webkit-clear-button {
+      display: none;
+    }
+  
+    input::-webkit-calendar-picker-indicator {
+      position: absolute;
+      top: 10px;
+      right: 0;
+      color: black;
+      opacity: 1;
+    }
+  </style>
+<div class="card card-custom">
+    <div class="card-header" style="padding:0; min-height: 50px;padding:15px; border-bottom: 1px solid #ccc;">
+        <div class="card-title">
+            <span style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;"
+                translate="work.ketquacongviec" *ngIf="!is_tiendo && !is_status">
+            </span>
+            <span style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;"
+                *ngIf="is_tiendo">Cập nhật tiến độ thực hiện</span>
+            <span style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;"
+                *ngIf="is_status">Nhập lý do {{this.statusname}}</span>
+        </div>
+        <div>
+            <button type="button" mat-icon-button (click)="Close()"><mat-icon
+                    class="icon-close">close</mat-icon></button>
+        </div>
+    </div>
+    <div style="height: auto;padding: 15px 15px 0 15px">
+        <ng-container *ngIf="!is_tiendo && !is_status">
+            <quill-editor [modules]="quillConfig" [styles]="editorStyles" [(ngModel)]="_data"
+                (ngModelChange)="onChangeNote()" [placeholder]="'Nhập nội dung ...'">
+            </quill-editor>
+        </ng-container>
+        <ng-container *ngIf="is_tiendo">
+            <ng-container *ngIf="data.isProgress || checkhtstatus">
+                <div style="display:flex;padding: 10px 0 5px 0;">
+                    <section style="padding-bottom: 10px;font-weight: 400;
+            font-size: 11pt;padding-top:1%">
+                        <mat-checkbox [(ngModel)]="checked" (ngModelChange)="isCheckProgess($event)"
+                            [disabled]="checkht||checkhtstatus ">Hoàn thành</mat-checkbox>
+                    </section>
+                    <div style="width: inherit;margin-left: 30px;display: flex;padding-top:1%">
+                        <span style="padding: 2px 1% 1% 0%;font-size: 11pt;font-weight: 400;width: 90px;">Đính kèm
+                            file</span>
+                        <a class="action" style="padding-top: 2px;cursor: pointer;width: 70px;" (click)="selectFile()">
+                            <span translate="GeneralKey.them"></span>
+                            &nbsp;
+                            <i style="padding-right: 10px" matTooltip="{{ 'jeework.chapnhandinhdang' | translate }}"
+                                class="fas fa-info-circle"></i>
+                        </a>
+
+                        <input #myInput placeholder="{{ 'jeework.chonfile' | translate }}" id="imgInpdd1" type="file"
+                            name="myInput" multiple style="display: none; color: inherit"
+                            (change)="UploadFileForm($event)" />
+                    </div>
+                    <div class="row comment-box">
+                        <div class="col-md-12 kt-margin-bottom-10-mobile" *ngFor="let att2 of AttFile">
+                            <div class="attach-item show-action">
+                                <!-- <ng-template #notDraft> -->
+                                <div class="attach-item-icon">
+                                    <img src="{{ getIcon(att2.type) }}" />
+                                </div>
+                                <!-- </ng-template> -->
+
+                                <div class="attach-item-name">
+                                    <p>{{ att2.filename }}</p>
+                                </div>
+                                <div class="attach-item-del d-flex">
+                                    <a class="url" matTooltip="{{ 'jeework.xoa' | translate }}"
+                                        (click)="deleteFile(att2)">
+                                        <i class="fas fa-trash-alt" style="color:red"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div [hidden]="(!checked || checkDocument) || !isUseVanBan">
+                    <div class="row" style="padding-bottom: 10px; padding-top: 10px; align-items: center;">
+                        <div class="col-md-3">
+                            <span style="align-self: center; width: 8vw">
+                                <div>
+                                    {{ "jeework.sokyhieuvanban" | translate }} &nbsp;<span style="color: red">(*)</span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span style="width: 8vw">
+                                <input style="margin: 0; color: inherit" id="txtsokyhieu" type="text"
+                                    class="form-input-title2 row w-100" />
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span style="align-self: center; text-align: right; width: 8vw">
+                                <div>
+                                    {{ "jeework.ngaybanhanh" | translate }}&nbsp;<span style="color: red">(*)</span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span style="width: 11vw">
+                                <input style="margin: 0; color: inherit" id="txtngayvanban" type="date"
+                                    class="form-input-title2 row w-100" data-date-format="DD/MM/YYYY" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 10px; align-items: center;">
+                        <div class="col-md-3">
+                            <span style="align-self: center; width: 8vw">
+                                <div>
+                                    {{ "jeework.nguoiky" | translate }}&nbsp;<span style="color: red">(*)</span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-md-9">
+                            <span style="width: 27vw">
+                                <input style="margin: 0; color: inherit" id="txtnguoiky" type="text"
+                                    class="form-input-title2 row w-100" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 10px; align-items: center;">
+                        <div class="col-md-3">
+                            <span style="align-self: center; width: 8vw">
+                                <div>
+                                    {{ "jeework.trichyeuvanban" | translate }}&nbsp;<span style="color: red">(*)</span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-md-9">
+                            <span style="width: 27vw">
+                                <input style="margin: 0; color: inherit" id="txttrichyeu" type="text"
+                                    class="form-input-title2 row w-100" />
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <textarea [(ngModel)]="_data" (ngModelChange)="onChangeNote()" row="3" [disabled]="ProcessFinal ||checkhtstatus"
+                    style="width: 100%; font-size: 12pt; resize: none" class="form-input-title tiendo"
+                    placeholder="Nhập nội dung tiến độ"></textarea>
+
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="is_status">
+            <textarea [(ngModel)]="_data" (ngModelChange)="onChangeNote()" row="3"
+                style="width: 100%; font-size: 12pt; resize: none"></textarea>
+        </ng-container>
+    </div>
+    <div *ngIf="!is_tiendo" class="dialog-footer" style="padding: 20px 12px 15px;border:none">
+        <div class="kt-form__actions kt-form__actions--solid">
+            <div class="row text-right">
+                <div class="col-lg-12" style="display: flex;">
+                    <!-- <button style="height:40px;margin-right: 10px;align-items: center;display: flex;" mat-button
+                        mat-raised-button (click)="Close()">{{ "jeework.trolai" | translate }}</button>&nbsp;&nbsp; -->
+                    <button mat-raised-button style="background-color: #1bc5bd; color: #f2fcfb" (click)="Save()"> {{
+                        "jeework.luuvadong" | translate
+                        }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="is_tiendo" class="dialog-footer" style="border:none;justify-content: center;">
+        <div class="kt-form__actions kt-form__actions--solid">
+            <div class="row text-right">
+                <div class="col-lg-12" style="display: flex;">
+                    <!-- <button style="height:40px;margin-right: 10px;align-items: center;display: flex;" mat-button
+                        mat-raised-button (click)="Close()">{{ "jeework.trolai" | translate }}</button>&nbsp;&nbsp; -->
+                    <button mat-raised-button style="background-color: #3699ff; color: #f2fcfb"
+                        *ngIf="( data.isProgress && this.data.type!=undefined&& this.data.type!=4)||checkhtstatus"
+                        (click)="Save()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="is_tiendo">
+        <div style="padding: 10px 0px 0px 15px;">
+            <span
+                style="text-transform: uppercase;color: #42b814; font-weight: bold;display: flex;align-items: center;">Lịch
+                sử cập nhật tiến độ</span>
+        </div>
+        <div style="padding:15px">
+            <table class="mat-elevation-z8" style="width:100%">
+                <tr>
+                    <th>Tiến độ</th>
+                    <th>Ngày cập nhật</th>
+                    <th>File đính kèm</th>
+                </tr>
+                <tr *ngFor="let att of datanodes">
+                    <td>{{att?.progressText}}</td>
+                    <td>{{att ? this._FormatTimeService.f_date_thuso2(att.deadline + 'Z') : ''}}</td>
+                    <td><span *ngFor="let att1 of att.Attachments"
+                            style="font-size: 11px; padding-left: 5px; color: #3E97FF;">{{att1.filename}}&nbsp;
+                            <a class="span-click" (click)="preview(att1)" *ngIf="ShowXemTruoc(att1)"
+                                matTooltip="Xem trước">
+                                <i class="far fa-eye"></i>
+                            </a>&nbsp;
+                            <a class="span-click" (click)="DownloadFile(att1.path)" matTooltip="Tải xuống">
+                                <i class="flaticon-download"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,15 @@
+<div class="choose-users-box" *ngIf="!isNewView" >
+    <mat-form-field class="mat-form-field-fluid "  style="padding-left: 10px;" (click)="stopPropagation($event)">
+        <input matInput [formControl]="userFilterCtrl" placeholder="{{ 'GeneralKey.nhapdetimkiem' | translate}}"
+            autocomplete="off" (keyup)="keyup($event.target.value)"/>
+        <mat-icon matPrefix> search</mat-icon>
+    </mat-form-field>
+    <div class="users-container">
+        <div class="user-item" (click)="select(user)"
+            *ngFor="let user of listPhongBan ">
+            <div style="padding-left: 10px;">
+                <span>{{ user.title }}</span>
+            </div>
+        </div>
+    </div>
+</div>

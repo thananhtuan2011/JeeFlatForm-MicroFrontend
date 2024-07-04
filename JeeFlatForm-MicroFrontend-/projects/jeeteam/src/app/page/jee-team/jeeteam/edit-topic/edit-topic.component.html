@@ -1,0 +1,23 @@
+
+<div style="    text-align: end;
+margin-top: -15px;">
+  <button  (click)="closeDilog()" mat-button mat-icon-button>
+    <i style="font-size: 15px;" class="flaticon2-cancel-music"></i>
+</button>
+</div>
+
+<div style="margin-top: 10px;">
+
+    <div>
+      <quill-editor placeholder="Nhập nội dung" id="quillCustomForCreateTeam"   [modules]="quillConfig" [styles]="editorStyles1" [(ngModel)]="content">
+      </quill-editor>
+ 
+    <div *ngIf="content!=''" style="float: right; margin-right: 20px; margin-top: 10px;">
+      <button (click)="Submit()"  style="margin-right: 10px;" type="button" class="btn btn-success">{{'JEETEAM.UPDATE' | translate}}</button>
+      <button (click)="DeleteText()" type="button" class="btn btn-secondary"> {{'JEETEAM.DELETE' | translate}}</button>
+     
+    </div>
+
+    </div>
+
+  </div>

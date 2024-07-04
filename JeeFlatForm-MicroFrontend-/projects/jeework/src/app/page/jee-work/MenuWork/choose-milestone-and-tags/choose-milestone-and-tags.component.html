@@ -1,0 +1,155 @@
+<style>
+  .status-input {
+    display: flex;
+    margin: 3px 0 5px 0;
+  }
+
+  .status-input .box-color {
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    margin: auto;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  .status-input input {
+    width: 100%;
+    border: none;
+  }
+
+  .status-input .input input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .status-input .input {
+    flex-grow: 1;
+  }
+
+  .status-input .action-input {
+    min-width: 20px;
+  }
+
+  .delete-tag {
+    position: absolute;
+    right: 0;
+    top: 5px;
+  }
+  .point {
+    width: 10px;
+    height: 10px;
+  }
+</style>
+
+<div class="choose-users-box" >
+  <div
+    class="border-bottom"
+    style="padding: 10px 0; font-size: 15px; font-weight: 500; color: #42b814;padding-left: 10px;"
+  >
+    Chọn nhãn
+  </div>
+  <span>
+    <mat-menu #color="matMenu" yPosition="above" xPosition="after">
+      <kt-color-picker2
+        [selected]="'red'"
+        (click)="$event.stopPropagation()"
+        (ItemSelected)="colorNew = $event"
+      >
+      </kt-color-picker2>
+    </mat-menu>
+    <button
+      style="
+        margin-left: 10px;
+        margin-right: 0px;
+        padding: 10px 10px;
+        border: none;
+      "
+      class="box-color"
+      #changeColor
+      [ngStyle]="{ backgroundColor: colorNew }"
+      [matMenuTriggerFor]="color"
+      (click)="stopPropagation($event)"
+    ></button>
+    <mat-form-field
+      class="mat-form-field-fluid"
+      style="padding-left: 10px; width: 16vw;display: inline-block !important;"
+      (click)="stopPropagation($event)"
+      (keyup.enter)="createTag($event)"
+    >
+      <!-- <div class="box-color" style="margin-left: 1vw;" (click)="changeColor.click();" [ngStyle]="{'backgroundColor': colorNew } ">
+			</div> -->
+      <input
+        #input
+        matInput
+        [formControl]="userFilterCtrl"
+        placeholder="{{
+          'jeework.nhapdetimkiemhoacnhanenterdeluu' | translate
+        }}"
+        id="searchfield"
+        autocomplete="off"
+        (keyup)="keyup($event.target.value)"
+      />
+
+      <!-- <mat-icon matPrefix> search</mat-icon> -->
+    </mat-form-field>
+  </span>
+
+  <div class="users-container" style="overflow: hidden;max-height: fit-content;">
+    <div style="padding-top: 10px;"
+      class="user-item"
+      *ngFor="let item of list_Tag"
+      (click)="stopPropagation($event)"
+    >
+      <!-- <span class="point" [ngStyle]="{ backgroundColor: item.color,color: item.color }">
+      </span>
+      <span> {{ item.title }}</span>
+      <span><mat-icon style="float: right;">close</mat-icon></span> -->
+
+      <button
+        class="d-block border-bottom bt-tag-item"
+        mat-menu-item
+        type="button"
+        [ngStyle]="{ color: item.color }"
+        style="height: 30px"
+      >
+        <!-- <mat-icon *ngIf="item.checked" class="text-success mg-0">check</mat-icon> -->
+        <div style="margin-top: -15px" (click)="select(item)">
+          <mat-menu #color2="matMenu" yPosition="above" xPosition="after">
+            <kt-color-picker2
+              [selected]="'red'"
+              (click)="stopPropagation($event)"
+              (ItemSelected)="UpdateTag($event, item)"
+            >
+            </kt-color-picker2>
+          </mat-menu>
+          <!-- <div class="cu-task-row-status1" [matMenuTriggerFor]="color2"
+						style="width:20px;padding-right:5px">
+						<div class="point" [ngStyle]="{'backgroundColor': item.color}">
+						</div>
+					</div> -->
+          <span
+            style="display: inline-block"
+            class="point"
+            [ngStyle]="{ backgroundColor: item.color }"
+            [matMenuTriggerFor]="color2" (click)="$event.stopPropagation()"
+          ></span>
+          <span
+            
+            style="display: inline-block; margin-left: 1vw"
+            >{{ item.title }}</span
+          >
+          <mat-icon *ngIf="item.CategoryType==2"
+            (click)="stopPropagation($event)"
+            matTooltip="Xóa thẻ khỏi dự án"
+            class="delete-tag"
+            (click)="DeleteTag(item)"
+            style="margin-top: -7px"
+            >close</mat-icon
+          >
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

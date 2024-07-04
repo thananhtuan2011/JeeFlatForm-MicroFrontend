@@ -1,0 +1,85 @@
+<!-- <style>
+     :host>>>.row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+     :host>>>.tox-tinymce {
+        height: 100% !important;
+    }
+</style>
+
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Diễn biến cuộc họp</h3>
+        </div>
+    </div>
+    <form class="kt-form" [formGroup]="CuocHopForm">
+        <div class="kt-portlet__body" style="height: calc(100vh - 137px); max-height: unset;" #scrollMe>
+            <div class="kt-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                {{'QL_CUOCHOP.NOTI_REQUIRE_VALID' | translate}}
+            </kt-alert>
+            <div class="form-group kt-form__group row" style="height: 100%;">
+                <editor apiKey="test" formControlName="noiDung" [(ngModel)]="NoiDungDienBien" [init]="setupTinyMce()">
+                </editor>
+            </div>
+        </div>
+        <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+            <div class="kt-form__actions ">
+                <div class="row text-center">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="{{'ComMon.BTN_CANCEL' | translate}}">
+                        {{'ComMon.BTN_CANCEL' | translate}}
+                    </button>&nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="CapNhatNoiDungKetLuan()" matTooltip="{{'ComMon.BTN_SAVE' | translate}}">
+                        Lưu
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div> -->
+
+
+<style>
+    .card .card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom">
+    <div class="card-header">
+        <div class="card-title" style="cursor: all-scroll;" mat-dialog-draggable-title>
+            <h3 class="card-label card-label-dialog">Diễn biến cuộc họp
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <form class="kt-form" [formGroup]="CuocHopForm">
+            <div class="kt-portlet__body">
+                <div class="form-group kt-form__group row" style="height: 100%;">
+                    <!-- <editor apiKey="test" formControlName="noiDung" [(ngModel)]="NoiDungDienBien" [init]="setupTinyMce()">
+                    </editor> -->
+                    <quill-editor id="quillCustomForCreate" [modules]="quillConfig" name="noiDung" formControlName="noiDung" ngDefaultControl [(ngModel)]="NoiDungDienBien" [styles]="editorStyles">
+                    </quill-editor>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="dialog-footer">
+    <button class="jee_button jee_btn-goback" type="button" class="mat-raised-button" (click)="close()" cdkFocusInitial matTooltip="{{ 'COMMON.BACK' | translate }}">
+{{'COMMON.BACK' | translate}}
+</button>&nbsp;&nbsp;
+
+    <button class="jee_btn-addcontinue" type="button" mat-raised-button (click)="CapNhatNoiDungKetLuan()" matTooltip="{{ 'COMMON.LUU_DONG' | translate }}">
+{{'COMMON.LUU_DONG' | translate}}
+</button>
+</div>

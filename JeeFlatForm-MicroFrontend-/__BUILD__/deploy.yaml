@@ -1,0 +1,174 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${PROJECT_NAME}
+  namespace: ${STACK_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${PROJECT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${PROJECT_NAME}
+    spec:
+      imagePullSecrets:
+      - name: docker-registry-secret
+      containers:
+      - name: ${PROJECT_NAME}
+        image: ${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest
+        ports:
+        - containerPort: 80
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: secure-${PROJECT_NAME}
+  namespace: ${STACK_NAME}
+spec:
+  secretName: "secure-${PROJECT_NAME}-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+#  commonName: ${SUBDOMAIN}.${DOMAIN}
+  dnsNames:
+  - ${SUBDOMAIN}.${DOMAIN}
+  - ${SUBDOMAIN}.${DOMAIN_CSS}
+  - ${SUBDOMAIN}.${DOMAIN_VTS}
+  - ${SUBDOMAIN}.${DOMAIN_DP247}
+  - ${SUBDOMAIN}.beta.${DOMAIN_DP247}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${PROJECT_NAME}-service
+  namespace: ${STACK_NAME}
+spec:
+  selector:
+    app: ${PROJECT_NAME}
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-ingress
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`${SUBDOMAIN}.${DOMAIN}`) || Host(`${SUBDOMAIN}.${DOMAIN_CSS}`) || Host(`${SUBDOMAIN}.${DOMAIN_VTS}`) || Host(`${SUBDOMAIN}.${DOMAIN_DP247}`)
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service
+          port: 80
+  tls:
+    secretName: secure-${PROJECT_NAME}-tls
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
+  namespace: ${STACK_NAME}
+spec:
+  redirectScheme:
+    scheme: https
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-ingress-http
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`${SUBDOMAIN}.${DOMAIN}`) || Host(`${SUBDOMAIN}.${DOMAIN_CSS}`) || Host(`${SUBDOMAIN}.${DOMAIN_VTS}`) || Host(`${SUBDOMAIN}.${DOMAIN_DP247}`)
+      middlewares:
+        - name: https-only
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service
+          port: 80
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: secure-${PROJECT_NAME}-2
+  namespace: ${STACK_NAME}
+spec:
+  secretName: "secure-${PROJECT_NAME}-2-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+#  commonName: ${SUBDOMAIN}.${DOMAIN}
+  dnsNames:
+  - ${SUBDOMAIN}.beta.${DOMAIN_DP247}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${PROJECT_NAME}-service-2
+  namespace: ${STACK_NAME}
+spec:
+  selector:
+    app: ${PROJECT_NAME}
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-2-ingress
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`${SUBDOMAIN}.beta.${DOMAIN_DP247}`)
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service-2
+          port: 80
+  tls:
+    secretName: secure-${PROJECT_NAME}-2-tls
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${PROJECT_NAME}-2-ingress-http
+  namespace: ${STACK_NAME}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`${SUBDOMAIN}.beta.${DOMAIN_DP247}`)
+      middlewares:
+        - name: https-only
+      kind: Rule
+      services:
+        - name: ${PROJECT_NAME}-service-2
+          port: 80

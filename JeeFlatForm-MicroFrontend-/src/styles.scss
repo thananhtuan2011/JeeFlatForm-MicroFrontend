@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700");
+// Global vendors
+@import "~bootstrap/dist/css/bootstrap.css";
+// => Material
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+// Global fonts
+@import "~socicon/css/socicon.css";
+@import "./assets/plugins/flaticon/flaticon.css";
+@import "./assets/plugins/flaticon2/flaticon.css";
+@import "./assets/plugins/keenthemes-icons/font/ki.css";
+//=================================================
+@import "./assets/sass/style.scss";
+@import "./assets/style-css/css-general.scss";
+@import '~font-awesome/css/font-awesome.css';
+@import '~@ctrl/ngx-emoji-mart/picker';
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
+@import '~quill-emoji/dist/quill-emoji.css';
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+//===================================================
+//============CSS đặc thù JeeWork - V1===============
+app-cong-viec-theo-du-an-v1-popup quill-editor.quilljeework .ql-container.ql-snow {
+    border: 1px solid #ccc !important;
+}
+
+app-cong-viec-theo-du-an-popup quill-editor.quilljeework .ql-container.ql-snow {
+    // font-size: 17px;
+    border: 1px solid #ccc !important;
+}
+
+app-cong-viec-theo-du-an-details-popup quill-editor.quilljeework .ql-container.ql-snow {
+    // font-size: 17px;
+    border: 1px solid #ccc !important;
+}
+
+app-cong-viec-theo-du-an-details quill-editor.quilljeework .ql-container.ql-snow {
+    // font-size: 17px;
+    border: 1px solid #ccc !important;
+}
+
+app-detail-chat quill-editor.colortextchat .ql-container.ql-snow {
+    border: none !important
+}
+
+app-detail-chat quill-editor.colortextchat .ql-snow .ql-editor img {
+    display: none;
+}
+
+app-detail-chat quill-editor.colortextchat .ql-mention-list {
+    overflow: auto;
+    max-height: 200px;
+    padding: 0 !important;
+}
+
+
+//   ::ng-deep .ql-snow * {
+
+
+// }
+
+
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-editor {
+    padding: 2px !important;
+}
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-editor p {
+    max-width: 100% !important;
+    margin: 0px !important;
+}
+
+jeecomment-enter-comment-content quill-editor.textarea-input .ql-container.ql-snow {
+    position: inherit;
+    border: none;
+}
+
+//==============================================================
+.mat-row.hovered {
+    //sky code
+    background: rgba(10, 133, 255, 0.15);
+}
+
+.mat-row-widget.hovered {
+    //sky code
+    td {
+        background: rgba(10, 133, 255, 0.15);
+    }
+}
+
+.padding-0 .mat-dialog-container {
+    padding: 0 !important;
+}

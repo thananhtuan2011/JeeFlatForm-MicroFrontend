@@ -1,0 +1,354 @@
+<div style="
+    width: 100%;
+    height: 100vh;
+    background: #EBEBEB;
+    overflow: hidden;
+  ">
+   <div class="panel-left-v2" style="height: 100%;">
+      <!-- #region header -->
+      <div class="header title1"
+         style="display: flex;justify-content: space-between;border-bottom: 1px solid #d3d3d3de;font-size: 18pt;font-weight: 500;">
+         <span>Thiết lập {{DanhMucChungService.ts_congviec}}</span>
+         <div class="fle">
+            <button mat-button mat-raised-button style="background-color: #3699ff; color: #f2fcfb;margin-right:10px"
+               (click)="subMit()">Lưu</button>
+            <button mat-button mat-raised-button (click)="close()">Trở lại</button>
+         </div>
+      </div>
+      <!-- #endregion -->
+
+      <div style="height:90%;display: flex;" class="pn-left-right">
+         <div style="overflow: auto;width: 25%;height: 60%;" class="pn-left">
+            <div class="pn-leftv1">
+               <div class="title2" style="display: flex;justify-content: space-between;padding: 10px 0px 15px 15px;">
+                  <span>Thiết lập menu chức năng</span>
+               </div>
+               <div cdkDropList (cdkDropListDropped)="dropList($event)">
+                  <ng-container *ngFor="let dt of _data">
+                     <div class="fle menuChose" cdkDrag
+                        [ngStyle]="{'background-color': dt.id_priority == _task.id_priority ? 'rgba(10, 133, 255, 0.25)':''}">
+                        <div class="choses click" (click)="selectNhiemVu(dt)" style="width: 90%; text-align: left;">
+                           {{dt.loainhiemvu}}
+                        </div>
+                        <div class="w-10 drag-icon">
+                           <i class="material-icons" cdkDragHandle>reorder</i>
+                        </div>
+                     </div>
+                  </ng-container>
+               </div>
+            </div>
+         </div>
+         <div style="width: 75%;height: 60%;overflow: auto;" class="pn-right">
+            <div style="padding: 15px;justify-content: space-between;display: flex;align-items: center;">
+               <span style="font-size: 15pt;">
+                  {{ 'jeework.thietlapmenuchucnang' | translate}}
+               </span>
+               <div class="fle" style="display:flex">
+                  <div *ngIf="_task.langkey == 'tags' && !_isThietLapTrangChu && !_task.isHidden">
+                     <img (click)="SettingTag()" style="cursor: pointer;
+                     padding: 8px 14px 0px 0px;
+                     width: 40px;" matTooltip="Cấu hình thẻ" class="tag_setting"/>
+                  </div>
+                  <div (click)="_task.isHidden = !_task.isHidden">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="!_task.isHidden" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+            </div>
+            <!-- #region list option -->
+            <div *ngIf="_task.langkey != 'donvithuchiennhiemvu' && _task.langkey != 'tags' && !_isThietLapTrangChu && _task.langkey != 'nhiemvulaplai' && _task.langkey != 'choduyetketqua' && _task.langkey != 'nhiemvucuatoi'" >
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.tatca' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID0"
+                           [value]="listType(_task.Filter_StatusTypeID0)"
+                           (selectionChange)="selectTrangThai($event.value,0)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(0)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID0" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses click">
+                     <span style="margin-left:20px">{{ 'jeework.khonggandouutien' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID1"
+                           [value]="listType(_task.Filter_StatusTypeID1)"
+                           (selectionChange)="selectTrangThai($event.value,1)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(1)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID1" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.khancap' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID2"
+                           [value]="listType(_task.Filter_StatusTypeID2)"
+                           (selectionChange)="selectTrangThai($event.value,2)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(2)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID2" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.cao' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID3"
+                           [value]="listType(_task.Filter_StatusTypeID3)"
+                           (selectionChange)="selectTrangThai($event.value,3)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(3)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID3" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.binhthuong' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID4"
+                           [value]="listType(_task.Filter_StatusTypeID4)"
+                           (selectionChange)="selectTrangThai($event.value,4)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(4)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID4" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.thap' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID5"
+                           [value]="listType(_task.Filter_StatusTypeID5)"
+                           (selectionChange)="selectTrangThai($event.value,5)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(5)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID5" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.quahan' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID6"
+                           [value]="listType(_task.Filter_StatusTypeID6)"
+                           (selectionChange)="selectTrangThai($event.value,6)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(6)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID6" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.toihan' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID7"
+                           [value]="listType(_task.Filter_StatusTypeID7)"
+                           (selectionChange)="selectTrangThai($event.value,7)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(7)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID7" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{ 'jeework.saptoihan' | translate}}</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID8"
+                           [value]="listType(_task.Filter_StatusTypeID8)"
+                           (selectionChange)="selectTrangThai($event.value,8)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(8)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID8" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+            </div>
+                        <!-- #region nhiệm vụ của tôi -->
+            <div  *ngIf="_task.langkey == 'nhiemvucuatoi' && !_isThietLapTrangChu" >
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{DanhMucChungService.ts_congviec_ToUpper}} đã giao</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID0"
+                           [value]="listType(_task.Filter_StatusTypeID0)"
+                           (selectionChange)="selectTrangThai($event.value,0)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(0)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID0" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses click">
+                     <span style="margin-left:20px">{{DanhMucChungService.ts_congviec_ToUpper}} được giao</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID1"
+                           [value]="listType(_task.Filter_StatusTypeID1)"
+                           (selectionChange)="selectTrangThai($event.value,1)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(1)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID1" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+               <div class="option">
+                  <div class="choses">
+                     <span style="margin-left:20px">{{DanhMucChungService.ts_congviec_ToUpper}} đang theo dõi</span>
+                  </div>
+                  <div class="choses" *ngIf="showType()">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [disabled]="disabled || !_task.FilterID2"
+                           [value]="listType(_task.Filter_StatusTypeID2)"
+                           (selectionChange)="selectTrangThai($event.value,2)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+                  <div class="fle" (click)="chageOption(2)">
+                     <mat-slide-toggle class="example-margin" style="pointer-events: none;" [color]="color_primary"
+                        [(ngModel)]="_task.FilterID2" [disabled]="disabled">
+                     </mat-slide-toggle>
+                  </div>
+               </div>
+
+            </div>
+            <!-- Thiết lập loại trạng thái tags -->
+            <div *ngIf="_task.langkey == 'tags' && !_isThietLapTrangChu">
+               <div class="option" *ngFor="let tagg of lstTagConfigByUser">
+                  <div class="choses">
+                     <div style="width: 10px; height: 38px; border-radius: 3px 0 0 3px; margin: 5px"
+                        [ngStyle]="{ backgroundColor: tagg.color }"></div>
+                     <span style="margin-left:20px">{{tagg.title}}</span>
+                  </div>
+                  <div class="choses">
+                     <mat-form-field style="width: calc(100% - 50px)">
+                        <mat-select multiple [value]="listType2(tagg.rowid)" [disabled]="disabled || _task.isHidden"
+                           (selectionChange)="selectTrangThai2($event.value,tagg.rowid)">
+                           <mat-option *ngFor="let tt of lstLoaiTrangThai" value="{{tt.RowID}}"
+                              matTooltip="{{getstatusname(tt.RowID)}}">
+                              {{tt.Title}}
+                           </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+               </div>
+            </div>
+            <!-- #endregion -->
+         </div>
+      </div>
+   </div>

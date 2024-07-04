@@ -1,0 +1,124 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<style>
+    .card.card-custom>.card-body {
+        padding: 0 !important;
+    }
+</style>
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label card-label-dialog">Quản lý bảng khảo sát
+            </h3>
+        </div>
+
+        <div class="card-toolbar">
+            <button class="jee-btn-addnew" (click)="Add()" mat-raised-button matTooltip="Thêm Mới" *ngIf="check!==true" type="button">
+                Thêm Mới
+            </button> &nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom card-sticky gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-label">Danh sách bảng khảo sát</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- start::FILTERS & GROUP ACTIONS -->
+        <div class="kt-form kt-margin-b-30">
+            <div class="table-responsive angular-bootstrap-table" [ngStyle]="{ height: getHeight() }">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th class=" text-center" style="min-width: 30px">
+                            <span>STT</span>
+                        </th>
+                        <th style="min-width: 50px">
+                            <span>Tiêu đề</span>
+                        </th>
+
+                        <th style="min-width: 50px;">
+                            <span>Người tạo</span>
+                        </th>
+
+                        <th style="min-width: 100px">
+                            <span>Ngày tạo</span>
+                        </th>
+                        <th style="min-width: 50px">
+                            <span>Hoạt động</span>
+                        </th>
+
+                        <th style="min-width: 50px;">
+                            <span>Bắt buộc</span>
+                        </th>
+
+                        <th style="min-width: 100px; text-align: center" *ngIf="check!==true">
+                            <span>Tác vụ</span>
+                        </th>
+
+                    </thead>
+                    <tbody *ngIf="bangkhaosatService.items$ | async">
+                        <tr *ngFor="let item of (bangkhaosatService.items$ | async); let i = index;">
+                            <td class="text-center">
+                                {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                            </td>
+                            <td>
+                                <span matTooltip="{{ 'COMMON.VIEWDETAIL' | translate }}" class="text-colorname" (click)="xemchitietBangKhaoSat(item)">
+                        {{item.TieuDe}}</span>
+                            </td>
+
+                            <td>
+                                <span>{{item.FullName}}</span>
+                            </td>
+
+                            <td>
+                                <span>{{item.CreatedDate}}</span>
+                            </td>
+
+                            <td>
+                                <mat-checkbox [checked]="item.IsActive" [disabled]="true" color="primary" style="margin-left:40px"></mat-checkbox>
+                            </td>
+
+                            <td>
+                                <mat-checkbox [checked]="item.IsBatBuoc" [disabled]="true" style="margin-left:40px"></mat-checkbox>
+                            </td>
+                            <td style="text-align: center">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" *ngIf="check!==true">
+                          <mat-icon color="primary">more_horiz</mat-icon>
+                        </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item type="butt  on" (click)="ACTIVE(item)" mat-menu-item color="primary" matTooltip="{{'MENU_QUANLYCHUYENMUC.DM_CM_HOATDONG' | translate}}" *ngIf="(item.IdCuocHop==0 && !item.IsActive)|| (!item.IsActive && item.IdCuocHop>0 && !item.IsAction)">
+                            <mat-icon color="accent">visibility</mat-icon>{{'MENU_QUANLYCHUYENMUC.DM_CM_HOATDONG' |
+                            translate}}
+                          </button>
+                                    <button mat-menu-item type="button" (click)="ACTIVE(item)" mat-menu-item color="primary" matTooltip="{{'MENU_QUANLYCHUYENMUC.DM_CM_HOATDONG_' | translate}}" *ngIf="(item.IdCuocHop==0 && item.IsActive)|| (item.IsActive && item.IdCuocHop>0 && !item.IsAction)">
+                          <mat-icon color="primary">visibility_off</mat-icon>{{'MENU_QUANLYCHUYENMUC.DM_CM_HOATDONG_' |
+                          translate}}
+                        </button>
+                                    <button mat-menu-item type="button" (click)="Update(item)" mat-menu-item color="primary" matTooltip="{{ 'MENU_KHAOSAT.UPDATE' | translate }}" *ngIf="!item.IsActive && (item.IdCuocHop==0&& item.NgayGiaHan==0||(item.IdCuocHop>0&&!item.IsAction)) ">
+                            <mat-icon color="primary">create</mat-icon> {{ 'MENU_KHAOSAT.UPDATE' | translate }}
+                          </button>
+                                    <button mat-menu-item type="button" (click)="Update(item)" mat-menu-item color="primary" matTooltip="{{ 'MENU_KHAOSAT.GIAHAN' | translate }}" *ngIf="!item.IsActive && (item.IdCuocHop==0&& item.NgayGiaHan==1) ">
+                            <mat-icon color="primary">create</mat-icon> {{ 'MENU_KHAOSAT.GIAHAN' | translate }}
+                          </button>
+                                    <!-- <button type="button" (click)="sendNotifySurvey(item)" mat-menu-item color="primary"
+                            matTooltip="{{ 'MODULE.MENU_KHAOSAT.SENDNOTIFYSURVEY' | translate }}"
+                            *ngIf="item.IsActive && item.IdCuocHop>0 && !item.IsAction">
+                            <mat-icon>send</mat-icon> {{ 'MODULE.MENU_KHAOSAT.SENDNOTIFYSURVEY' | translate }}
+                          </button>&nbsp; -->
+                                    <button mat-menu-item color="warn" type="button" (click)="Delete(item)" matTooltip="{{ 'MENU_KHAOSAT.DELETE' | translate }}" *ngIf="!item.IsActive && (item.IdCuocHop==0||(item.IdCuocHop>0&&!item.IsAction))">
+                            <mat-icon color="warn">delete</mat-icon> {{ 'MENU_KHAOSAT.DELETE' | translate }}
+                          </button>
+                                </mat-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center;font-size: 20px" class="mat-table__message" *ngIf="(bangkhaosatService.items$ | async).length == 0">
+                    <img class="icon-btn-data" src="../../../../../../assets/images/download.png" style="width: 80px; margin-bottom: 15px" />
+                    <br /> Không có dữ liệu</div>
+            </div>
+            <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+        </div>
+    </div>

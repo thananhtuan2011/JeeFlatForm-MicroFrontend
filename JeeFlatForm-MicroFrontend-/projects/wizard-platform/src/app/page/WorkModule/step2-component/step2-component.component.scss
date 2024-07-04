@@ -1,0 +1,108 @@
+.header-st{
+    height: 12%;
+    padding: 30px 15px;
+    border-bottom: 1px solid #0000001a;
+}
+.body-st{
+    padding: 0px 15px;
+    height:85%;
+    border-bottom: 1px solid #0000001a;
+}
+.title{
+    font-size: 1.5rem;
+    line-height: 25px;
+    font-weight: 500;
+  }
+  .class-text {
+    font-size: 1.2rem;
+    //text-align: center;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+  .h5 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    font-family: Roboto
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 1.25em;
+    padding-top: 10px
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 1.25em;
+    padding-top: 10px
+}
+
+.kt-buttons--list {
+    text-align: center;
+    width: 100px;
+    height: 40px;
+    margin-top: 10px;
+}
+
+:host>>>.inp-error {
+    color: red;
+}
+
+.mat-table__wrapper .mat-table {
+    min-width: 100%;
+}
+
+.view {
+    padding-bottom: 15px;
+}
+
+.css-button-green {
+    background-color: green;
+    color: #fff;
+}
+
+.css-button-blue {
+    background-color: darkblue;
+    color: #fff;
+}
+
+.icon {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+.mat-header-cell-stt {
+    max-width: 100px;
+}
+
+.mat-cell-stt {
+    max-width: 100px;
+}
+
+.obligate-center {
+    justify-content: center;
+}
+.mat-header-row{
+    background-color: #f0f0f0;
+    font-weight: 700;
+    min-height: 50px;
+    border-bottom-style: none;
+}
+.cu-btn.cu-btn_outline {
+    background: none;
+    text-shadow: none;
+  }
+  
+  .cu-btn.cu-btn_sm {
+    height: 35px;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 500;
+    border-width: 1px;
+    border-color: #7b68ee;
+    border-style: solid;
+    color: #7b68ee !important;
+    display: flex;
+    box-shadow: none;
+    cursor: pointer;
+  }

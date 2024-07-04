@@ -1,0 +1,48 @@
+
+<ng-container *ngIf="(fieldname == 'createddate' || fieldname == 'end_date');else selectedDate">
+    <div class="item-field">
+        <span class="hide-more-text text-muted" matTooltip="{{value | time}}">
+            <span style="font-size: 110%;">{{ value | time:'HH:mm' }}</span>
+            <br>
+            {{ value | time:'DD/MM/YYYY' }}
+        </span>
+    </div>
+</ng-container>
+
+<ng-template #selectedDate>
+    <div (click)="dt1.open()" class="item-field item-datetime url" *ngIf="role">
+        <div class="remove-date url" (click)="RemoveKey()" [hidden]="!value">
+            <i class="fas fa-times-circle" style="color: #28a745 ;"></i>
+        </div>
+        <span class=" hide-more-text text-muted" [ngClass]="getClassdate()"
+            matTooltip="{{value | time}}" *ngIf="value;else setDate">
+            <ng-container *ngIf="showall">
+                <span style="font-size: 110%;">{{ value | time:'HH:mm' }}</span>
+                <br>
+            </ng-container>
+            {{ GetDatetime(value) }}
+        </span>
+        <ng-template #setDate>
+            <i class="{{ getIconCalendar() }}" style="font-size: 1.5rem"></i>
+        </ng-template>
+    </div>
+    <div class="item-field " *ngIf="!role">
+        <span class=" hide-more-text text-muted" [ngClass]="getClassdate()"
+              matTooltip="{{value | time }}" *ngIf="value;else setDate">
+            <ng-container *ngIf="showall">
+                <span style="font-size: 110%;">{{ value | time:'HH:mm' }}</span>
+                <br>
+            </ng-container>
+            {{ GetDatetime(value) }}
+        </span>
+        <ng-template #setDate>
+             <i class="{{ getIconCalendar() }}" style="font-size: 1.5rem"></i>
+        </ng-template>
+    </div>
+</ng-template>
+<input matInput readonly [(ngModel)]="date"
+    (ngModelChange)="updateDate(date)" style="opacity: 0; float: right;"
+    class="date-picker position-picker" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+<owl-date-time #dt1></owl-date-time>
+
+

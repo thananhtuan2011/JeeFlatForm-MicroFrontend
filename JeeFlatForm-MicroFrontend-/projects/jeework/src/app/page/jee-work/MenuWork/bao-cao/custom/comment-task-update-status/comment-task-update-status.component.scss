@@ -1,0 +1,50 @@
+:host {
+	::ng-deep {
+		// override default version style
+		.kt-header__topbar {
+			> :last-child:not([role="tooltip"]) {
+				.kt-header__topbar-item {
+					margin-right: 0 !important;
+				}
+			}
+			.kt-header__topbar-item {
+				margin-right: 0.36rem !important;
+			}
+		}
+	}
+}
+
+.badge {
+    position: absolute;
+    top: -4.3px;
+    right: -4.3px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 9.3px;
+}
+
+.width {
+    width: 383px;
+}
+.row{
+    margin: 0!important;
+  }
+
+
+  .btn-close-container {
+	text-align: right;
+	padding-right: 20px;
+}
+
+.btn-close-container .btn-close {
+	position: absolute;
+	margin-top: -20px;
+	z-index: 2;
+}
+
+.btn-close-container .btn-close .mat-icon {
+	height: auto;
+	width: auto;
+}
+
